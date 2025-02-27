@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "numind"
+version = "0.0.0.dev0"
+description = "SDK to interact with the NuMind models API."
+# readme = {file = "README.md", content-type = "text/markdown"}
+# license = {file = "LICENSE"}
+requires-python = ">=3.9"
+authors = [
+    { name = "Nathan Fradet" },
+]
+keywords = [
+    "artificial intelligence",
+    "deep learning",
+    "structured",
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/numind/numind"
+Repository = "https://github.com/numind/numind.git"
+# sDocumentation = "https://numind.readthedocs.io"
+Issues = "https://github.com/numind/numind/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/numind"]

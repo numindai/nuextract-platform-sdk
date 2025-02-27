@@ -40,7 +40,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     environment:
-      name: PyPI
+      name: pypi-release
       url: https://pypi.org/p/numind
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing

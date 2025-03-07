@@ -6,8 +6,8 @@ build-backend = "hatchling.build"
 name = "numind"
 version = "0.0.0.dev0"
 description = "SDK to interact with the NuMind models API."
-# readme = {file = "README.md", content-type = "text/markdown"}
-# license = {file = "LICENSE"}
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE"}
 requires-python = ">=3.9"
 authors = [
     { name = "Nathan Fradet" },
@@ -33,10 +33,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/numind/numind"
-Repository = "https://github.com/numind/numind.git"
-# sDocumentation = "https://numind.readthedocs.io"
-Issues = "https://github.com/numind/numind/issues"
+Homepage = "https://github.com/numindai/numind"
+Repository = "https://github.com/numindai/numind.git"
+# Documentation = "https://numind.readthedocs.io"
+Issues = "https://github.com/numindai/numind/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/numind"]

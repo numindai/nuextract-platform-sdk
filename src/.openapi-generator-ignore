@@ -4,7 +4,6 @@ setup.py
 *requirements.txt
 tox.ini
 .gitignore
-.gitignore
 .gitlab-ci.yml
 .github/
 .travis.yml

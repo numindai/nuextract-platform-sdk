@@ -19,7 +19,6 @@ pip install numind
 ```python
 import numind
 from numind.rest import ApiException
-from pprint import pprint
 
 # Defining the host is optional and defaults to https://api.nuextract.ai/v1
 # See configuration.py for a list of all supported configuration parameters.

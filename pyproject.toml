@@ -1,3 +1,4 @@
+# TODO switch to uv
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -8,7 +9,7 @@ version = "0.0.0.dev0"
 description = "SDK to interact with the NuMind models API."
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 authors = [
     { name = "Nathan Fradet" },
 ]
@@ -31,6 +32,19 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "urllib3",
+    "python-dateutil",
+    "pydantic",
+    "typing-extensions",
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest-cov",
+    "pytest-xdist[psutil]",
+    "pytest-rerunfailures",
+]
 
 [project.urls]
 Homepage = "https://github.com/numindai/numind"
@@ -40,3 +54,22 @@ Issues = "https://github.com/numindai/numind/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/numind"]
+
+[tool.hatch.envs.test]
+features = ["tests"]  # references to "tests" optional dependencies
+
+[tool.hatch.envs.test.scripts]
+test = "pytest"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.coverage.report]
+exclude_also = [
+    "def __repr__",
+]
+
+# TODO include mypy configuration from generated pyproject

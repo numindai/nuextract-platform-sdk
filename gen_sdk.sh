@@ -3,16 +3,23 @@
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
 # TODO fetch OpenAPI specs file from API itself and save as tmp file
-# TODO custom `NuMind` base class for API client --> subclass ApiClient
+# https://nuextract.ai/docs/docs.yaml
+openapi_specs_file_path="../data/numind_api.yaml"
+
 # TODO basic usage example in readme
-# TODO `NUMIND_API_KEY` env variable
+
+# Delete the current api client package
+rm -r src/numind/openapi_client
+# Create a copy of the base numind __init__.py file as it'll be overwritten by the
+# `openapi-generator generate` command
+mv src/numind/__init__.py src/numind/__init__save.py
 
 # Generate the sdk.
 # Support files (gitlab, travis, git_push.sh, README, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
 openapi-generator generate \
-  -i ../data/numind_api.yaml \
+  -i $openapi_specs_file_path \
   -g python \
   --config config.json \
   -o src
@@ -20,6 +27,8 @@ openapi-generator generate \
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
+rm src/numind/__init__.py  # copy back base __init__.py file
+mv src/numind/__init__save.py src/numind/__init__.py
 
 # Copying the tests, docs and pyproject.toml files.
 if [ -d tests ]; then

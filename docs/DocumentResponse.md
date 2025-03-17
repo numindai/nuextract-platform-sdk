@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **content_type** | **str** |  | 
 **created_at** | **str** |  | 
 **updated_at** | **str** |  | 
+**shared** | **bool** |  | 
 
 ## Example
 

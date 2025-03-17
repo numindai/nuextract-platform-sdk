@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **owner_organization** | **str** |  | [optional] 
 **document_id** | **str** |  | 
-**result** | **str** |  | 
+**result** | [**Obj1**](Obj1.md) |  | 
 
 ## Example
 

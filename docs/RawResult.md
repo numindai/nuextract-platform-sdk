@@ -1,0 +1,30 @@
+# RawResult
+
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**result** | **str** |  | 
+**error** | **str** |  | 
+
+## Example
+
+```python
+from numind.openapi_client.models.raw_result import RawResult
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of RawResult from a JSON string
+raw_result_instance = RawResult.from_json(json)
+# print the JSON string representation of the object
+print(RawResult.to_json())
+
+# convert the object into a dict
+raw_result_dict = raw_result_instance.to_dict()
+# create an instance of RawResult from a dict
+raw_result_from_dict = RawResult.from_dict(raw_result_dict)
+```
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

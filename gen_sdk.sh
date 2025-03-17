@@ -32,9 +32,9 @@ mv src/numind/__init__save.py src/numind/__init__.py
 
 # Copying the tests, docs and pyproject.toml files.
 if [ -d tests ]; then
-  rm -r tests
+  rm -r tests/openapi_client
 fi
-mv src/test tests
+mv src/test tests/openapi_client
 if [ -d docs ]; then
   rm -r docs
 fi

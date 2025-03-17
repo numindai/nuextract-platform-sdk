@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **project_id** | **str** |  | 
 **owner_user** | **str** |  | 
 **document_info** | [**DocumentInfo**](DocumentInfo.md) |  | 
-**result** | **str** |  | 
+**result** | [**InformationResponse**](InformationResponse.md) |  | 
 **created_at** | **str** |  | 
 **updated_at** | **str** |  | 
 

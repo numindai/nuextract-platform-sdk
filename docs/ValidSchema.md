@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**var_schema** | **str** |  | 
+**var_schema** | [**Obj**](Obj.md) |  | 
 **type** | **str** |  | 
 
 ## Example

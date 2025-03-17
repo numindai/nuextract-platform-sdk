@@ -1,6 +1,6 @@
 # numind.openapi_client.AuthenticationApi
 
-All URIs are relative to *https://api.nuextract.ai/v1*
+All URIs are relative to *https://nuextract.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -26,10 +26,10 @@ import numind.openapi_client
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -93,10 +93,10 @@ import numind.openapi_client
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 
@@ -159,10 +159,10 @@ from numind.openapi_client.models.user import User
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -226,10 +226,10 @@ from numind.openapi_client.models.user_token_response import UserTokenResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -292,10 +292,10 @@ import numind.openapi_client
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -364,10 +364,10 @@ from numind.openapi_client.models.token_response import TokenResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 
@@ -431,10 +431,10 @@ from numind.openapi_client.models.user_token_response import UserTokenResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -504,10 +504,10 @@ from numind.openapi_client.models.user_token_response import UserTokenResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.nuextract.ai/v1
+# Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
 configuration = numind.openapi_client.Configuration(
-    host = "https://api.nuextract.ai/v1"
+    host = "https://nuextract.ai"
 )
 
 # The client must configure the authentication and authorization parameters

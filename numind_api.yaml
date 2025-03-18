@@ -1,0 +1,2688 @@
+openapi: 3.1.0
+servers:
+  - url: 'https://nuextract.ai'
+info:
+  title: NuMind extraction platform
+  version: '1.0'
+paths:
+  /api/ping:
+    get:
+      operationId: getApiPing
+      responses:
+        '200':
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/health:
+    get:
+      operationId: getApiHealth
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/version:
+    get:
+      operationId: getApiVersion
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/auth:
+    get:
+      tags:
+      - authentication
+      operationId: getApiAuth
+      parameters:
+      - name: redirectUri
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: query parameter redirectUri'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/auth/me:
+    get:
+      tags:
+      - authentication
+      operationId: getApiAuthMe
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/auth/token:
+    post:
+      tags:
+      - authentication
+      operationId: postApiAuthToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+            examples:
+              Example0:
+                value:
+                  type: ai.numind.extract.shared.TokenCodeRequest
+                  code: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SbXT6e7R0N1hVeJHtTh2uFd7y8Rg-Vu0oiL4T1jbAY0
+                  redirectUri: http://localhost:5173
+              Example1:
+                value:
+                  type: ai.numind.extract.shared.TokenRefreshRequest
+                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SbXT6e7R0N1hVeJHtTh2uFd7y8Rg-Vu0oiL4T1jbAY0
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/auth/logout:
+    post:
+      tags:
+      - authentication
+      operationId: postApiAuthLogout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/auth/user-tokens:
+    get:
+      tags:
+      - authentication
+      operationId: getApiAuthUser-tokens
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserTokenResponse'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    post:
+      tags:
+      - authentication
+      operationId: postApiAuthUser-tokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateUserToken'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTokenResponse'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/auth/user-tokens/{userTokenId}:
+    put:
+      tags:
+      - authentication
+      operationId: putApiAuthUser-tokensUsertokenid
+      parameters:
+      - name: userTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateUserToken'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTokenResponse'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    delete:
+      tags:
+      - authentication
+      operationId: deleteApiAuthUser-tokensUsertokenid
+      parameters:
+      - name: userTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceProjects
+      parameters:
+      - name: organizationId
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: shared
+        in: query
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectResponse'
+              example:
+              - id: bcbc3862-c66c-448d-9600-5b4e915fa989
+                name: Order Delivery Information Extraction
+                description: Automated extraction of order delivery details from scanned
+                  documents
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
+                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
+                createdAt: '2025-03-17T13:14:19.877594365Z'
+                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                lockState: false
+        '400':
+          description: 'Invalid value for: query parameter shared'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateProjectRequest'
+            example:
+              name: Order Delivery Information Extraction
+              description: Automated extraction of order delivery details from scanned
+                documents
+              template:
+                orderId: verbatim-string
+                customerId: verbatim-string
+                orderDate: date-time
+                status:
+                - pending
+                - processed
+                - shipped
+                - delivered
+                - cancelled
+                totalAmount: number
+                currency: string
+                items:
+                - productId: string
+                  quantity: number
+                  unitPrice: number
+                shippingAddress:
+                  street: string
+                  city: string
+                  state: string
+                  country: string
+                  zip: string
+                comments: string
+                deliveryPreferences:
+                - - contactless_delivery
+                  - signature_required
+                  - leave_at_door
+                  - pickup_from_store
+                  - deliver_to_neighbor
+                  - schedule_delivery
+                estimatedDelivery: date-time
+              ownerOrganization: cd5cd82a-cc30-42be-ab39-f29fd7db279e
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: bcbc3862-c66c-448d-9600-5b4e915fa989
+                name: Order Delivery Information Extraction
+                description: Automated extraction of order delivery details from scanned
+                  documents
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
+                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
+                createdAt: '2025-03-17T13:14:19.877594365Z'
+                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                lockState: false
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceProjectsProjectid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: bcbc3862-c66c-448d-9600-5b4e915fa989
+                name: Order Delivery Information Extraction
+                description: Automated extraction of order delivery details from scanned
+                  documents
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
+                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
+                createdAt: '2025-03-17T13:14:19.877594365Z'
+                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                lockState: false
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    put:
+      tags:
+      - reference
+      operationId: putApiReferenceProjectsProjectid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateProjectRequest'
+            example:
+              name: Order Delivery Information Extraction
+              description: Automated extraction of order delivery details from scanned
+                documents
+              template:
+                orderId: verbatim-string
+                customerId: verbatim-string
+                orderDate: date-time
+                status:
+                - pending
+                - processed
+                - shipped
+                - delivered
+                - cancelled
+                totalAmount: number
+                currency: string
+                items:
+                - productId: string
+                  quantity: number
+                  unitPrice: number
+                shippingAddress:
+                  street: string
+                  city: string
+                  state: string
+                  country: string
+                  zip: string
+                comments: string
+                deliveryPreferences:
+                - - contactless_delivery
+                  - signature_required
+                  - leave_at_door
+                  - pickup_from_store
+                  - deliver_to_neighbor
+                  - schedule_delivery
+                estimatedDelivery: date-time
+              ownerOrganization: cd5cd82a-cc30-42be-ab39-f29fd7db279e
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: bcbc3862-c66c-448d-9600-5b4e915fa989
+                name: Order Delivery Information Extraction
+                description: Automated extraction of order delivery details from scanned
+                  documents
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
+                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
+                createdAt: '2025-03-17T13:14:19.877594365Z'
+                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                lockState: false
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    delete:
+      tags:
+      - reference
+      operationId: deleteApiReferenceProjectsProjectid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/duplicate:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidDuplicate
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: bcbc3862-c66c-448d-9600-5b4e915fa989
+                name: Order Delivery Information Extraction
+                description: Automated extraction of order delivery details from scanned
+                  documents
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
+                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
+                createdAt: '2025-03-17T13:14:19.877594365Z'
+                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                lockState: false
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/share:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidShare
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/unshare:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidUnshare
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/lock:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidLock
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/unlock:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidUnlock
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/examples:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceProjectsProjectidExamples
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExampleResponse'
+              example:
+              - id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
+                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
+                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:19.969838306Z'
+                updatedAt: '2025-03-17T13:14:19.969860026Z'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidExamples
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateExampleRequest'
+            example:
+              documentId: eb0f0c2f-b01b-4f63-8356-95efb3d4f755
+              result:
+                orderId: o-56789
+                customerId: c-10293
+                orderDate: '2024-02-28T14:30:00.000Z'
+                status: shipped
+                totalAmount: 199.98
+                currency: USD
+                items:
+                - productId: p-00123
+                  quantity: 2
+                  unitPrice: 99.99
+                - productId: p-00456
+                  quantity: 1
+                  unitPrice: 49.99
+                shippingAddress:
+                  street: 456 Oak Ave
+                  city: Seattle
+                  state: WA
+                  country: USA
+                  zip: '98101'
+                comments: Please call before delivery
+                deliveryPreferences:
+                - signature_required
+                - schedule_delivery
+                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleResponse'
+              example:
+                id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
+                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
+                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:19.969838306Z'
+                updatedAt: '2025-03-17T13:14:19.969860026Z'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/examples/{exampleId}:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceProjectsProjectidExamplesExampleid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: exampleId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleResponse'
+              example:
+                id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
+                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
+                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:19.969838306Z'
+                updatedAt: '2025-03-17T13:14:19.969860026Z'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    put:
+      tags:
+      - reference
+      operationId: putApiReferenceProjectsProjectidExamplesExampleid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: exampleId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateExampleRequest'
+            example:
+              documentId: eb0f0c2f-b01b-4f63-8356-95efb3d4f755
+              result:
+                orderId: o-56789
+                customerId: c-10293
+                orderDate: '2024-02-28T14:30:00.000Z'
+                status: shipped
+                totalAmount: 199.98
+                currency: USD
+                items:
+                - productId: p-00123
+                  quantity: 2
+                  unitPrice: 99.99
+                - productId: p-00456
+                  quantity: 1
+                  unitPrice: 49.99
+                shippingAddress:
+                  street: 456 Oak Ave
+                  city: Seattle
+                  state: WA
+                  country: USA
+                  zip: '98101'
+                comments: Please call before delivery
+                deliveryPreferences:
+                - signature_required
+                - schedule_delivery
+                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleResponse'
+              example:
+                id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
+                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
+                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:19.969838306Z'
+                updatedAt: '2025-03-17T13:14:19.969860026Z'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    delete:
+      tags:
+      - reference
+      operationId: deleteApiReferenceProjectsProjectidExamplesExampleid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: exampleId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/results:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceProjectsProjectidResults
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistoryResponse'
+              example:
+              - id: 70f23aa3-d360-4802-8841-bc86d198e59c
+                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
+                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:20.070273298Z'
+                updatedAt: '2025-03-17T13:14:20.070294718Z'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidResults
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateHistoryRequest'
+            example:
+              ownerOrganization: a0e8d543-877a-4ed7-a37b-55c181a39ad3
+              documentId: a799cb81-9f92-4587-af28-fe57ae43607b
+              result:
+                orderId: o-56789
+                customerId: c-10293
+                orderDate: '2024-02-28T14:30:00.000Z'
+                status: shipped
+                totalAmount: 199.98
+                currency: USD
+                items:
+                - productId: p-00123
+                  quantity: 2
+                  unitPrice: 99.99
+                - productId: p-00456
+                  quantity: 1
+                  unitPrice: 49.99
+                shippingAddress:
+                  street: 456 Oak Ave
+                  city: Seattle
+                  state: WA
+                  country: USA
+                  zip: '98101'
+                comments: Please call before delivery
+                deliveryPreferences:
+                - signature_required
+                - schedule_delivery
+                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                id: 70f23aa3-d360-4802-8841-bc86d198e59c
+                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
+                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:20.070273298Z'
+                updatedAt: '2025-03-17T13:14:20.070294718Z'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/results/{historyId}:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceProjectsProjectidResultsHistoryid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: historyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                id: 70f23aa3-d360-4802-8841-bc86d198e59c
+                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
+                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:20.070273298Z'
+                updatedAt: '2025-03-17T13:14:20.070294718Z'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    put:
+      tags:
+      - reference
+      operationId: putApiReferenceProjectsProjectidResultsHistoryid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: historyId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateHistoryRequest'
+            example:
+              ownerOrganization: a0e8d543-877a-4ed7-a37b-55c181a39ad3
+              documentId: a799cb81-9f92-4587-af28-fe57ae43607b
+              result:
+                orderId: o-56789
+                customerId: c-10293
+                orderDate: '2024-02-28T14:30:00.000Z'
+                status: shipped
+                totalAmount: 199.98
+                currency: USD
+                items:
+                - productId: p-00123
+                  quantity: 2
+                  unitPrice: 99.99
+                - productId: p-00456
+                  quantity: 1
+                  unitPrice: 49.99
+                shippingAddress:
+                  street: 456 Oak Ave
+                  city: Seattle
+                  state: WA
+                  country: USA
+                  zip: '98101'
+                comments: Please call before delivery
+                deliveryPreferences:
+                - signature_required
+                - schedule_delivery
+                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                id: 70f23aa3-d360-4802-8841-bc86d198e59c
+                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
+                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                result:
+                  type: information
+                  information:
+                    orderId: o-56789
+                    customerId: c-10293
+                    orderDate: '2024-02-28T14:30:00.000Z'
+                    status: shipped
+                    totalAmount: 199.98
+                    currency: USD
+                    items:
+                    - productId: p-00123
+                      quantity: 2
+                      unitPrice: 99.99
+                    - productId: p-00456
+                      quantity: 1
+                      unitPrice: 49.99
+                    shippingAddress:
+                      street: 456 Oak Ave
+                      city: Seattle
+                      state: WA
+                      country: USA
+                      zip: '98101'
+                    comments: Please call before delivery
+                    deliveryPreferences:
+                    - signature_required
+                    - schedule_delivery
+                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                createdAt: '2025-03-17T13:14:20.070273298Z'
+                updatedAt: '2025-03-17T13:14:20.070294718Z'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+    delete:
+      tags:
+      - reference
+      operationId: deleteApiReferenceProjectsProjectidResultsHistoryid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: historyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/documents/{documentId}:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceDocumentsDocumentid
+      parameters:
+      - name: documentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/documents/{documentId}/content:
+    get:
+      tags:
+      - reference
+      operationId: getApiReferenceDocumentsDocumentidContent
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: documentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers:
+            Content-Type:
+              required: true
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: 'Invalid value for: query parameter token'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/reference/documents/text:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceDocumentsText
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/documents/file:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceDocumentsFile
+      parameters:
+      - name: x-file-name
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        '400':
+          description: 'Invalid value for: header x-file-name, Invalid value for:
+            body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/infer-text:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidInfer-text
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InferenceResponse'
+              example:
+                result:
+                  orderId: o-56789
+                  customerId: c-10293
+                  orderDate: '2024-02-28T14:30:00.000Z'
+                  status: shipped
+                  totalAmount: 199.98
+                  currency: USD
+                  items:
+                  - productId: p-00123
+                    quantity: 2
+                    unitPrice: 99.99
+                  - productId: p-00456
+                    quantity: 1
+                    unitPrice: 49.99
+                  shippingAddress:
+                    street: 456 Oak Ave
+                    city: Seattle
+                    state: WA
+                    country: USA
+                    zip: '98101'
+                  comments: Please call before delivery
+                  deliveryPreferences:
+                  - signature_required
+                  - schedule_delivery
+                  estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                documentInfo:
+                  type: text
+                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                  fileName: text_file.txt
+                  text: This is an example text.
+                tokens: 0
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/infer-file:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidInfer-file
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: x-file-name
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InferenceResponse'
+              example:
+                result:
+                  orderId: o-56789
+                  customerId: c-10293
+                  orderDate: '2024-02-28T14:30:00.000Z'
+                  status: shipped
+                  totalAmount: 199.98
+                  currency: USD
+                  items:
+                  - productId: p-00123
+                    quantity: 2
+                    unitPrice: 99.99
+                  - productId: p-00456
+                    quantity: 1
+                    unitPrice: 49.99
+                  shippingAddress:
+                    street: 456 Oak Ave
+                    city: Seattle
+                    state: WA
+                    country: USA
+                    zip: '98101'
+                  comments: Please call before delivery
+                  deliveryPreferences:
+                  - signature_required
+                  - schedule_delivery
+                  estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                documentInfo:
+                  type: image
+                  documentId: 6ca04d5d-b3ac-415b-bf6e-68605181b93f
+                  fileName: image_file.jpg
+                tokens: 0
+        '400':
+          description: 'Invalid value for: header x-file-name, Invalid value for:
+            body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/projects/{projectId}/infer-document/{documentId}:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceProjectsProjectidInfer-documentDocumentid
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: documentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InferenceResponse'
+              examples:
+                Example0:
+                  value:
+                    result:
+                      orderId: o-56789
+                      customerId: c-10293
+                      orderDate: '2024-02-28T14:30:00.000Z'
+                      status: shipped
+                      totalAmount: 199.98
+                      currency: USD
+                      items:
+                      - productId: p-00123
+                        quantity: 2
+                        unitPrice: 99.99
+                      - productId: p-00456
+                        quantity: 1
+                        unitPrice: 49.99
+                      shippingAddress:
+                        street: 456 Oak Ave
+                        city: Seattle
+                        state: WA
+                        country: USA
+                        zip: '98101'
+                      comments: Please call before delivery
+                      deliveryPreferences:
+                      - signature_required
+                      - schedule_delivery
+                      estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                    documentInfo:
+                      type: text
+                      documentId: ead13c80-6a52-4318-8bae-f66ac2886558
+                      fileName: text_file.txt
+                      text: This is an example text.
+                    tokens: 0
+                Example1:
+                  value:
+                    result:
+                      orderId: o-56789
+                      customerId: c-10293
+                      orderDate: '2024-02-28T14:30:00.000Z'
+                      status: shipped
+                      totalAmount: 199.98
+                      currency: USD
+                      items:
+                      - productId: p-00123
+                        quantity: 2
+                        unitPrice: 99.99
+                      - productId: p-00456
+                        quantity: 1
+                        unitPrice: 49.99
+                      shippingAddress:
+                        street: 456 Oak Ave
+                        city: Seattle
+                        state: WA
+                        country: USA
+                        zip: '98101'
+                      comments: Please call before delivery
+                      deliveryPreferences:
+                      - signature_required
+                      - schedule_delivery
+                      estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                    documentInfo:
+                      type: image
+                      documentId: 6ca04d5d-b3ac-415b-bf6e-68605181b93f
+                      fileName: image_file.jpg
+                    tokens: 0
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/reference/infer-template:
+    post:
+      tags:
+      - reference
+      operationId: postApiReferenceInfer-template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Obj'
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+components:
+  schemas:
+    Arr:
+      title: Arr
+      type: object
+      required:
+      - schema
+      properties:
+        schema:
+          $ref: '#/components/schemas/SchemaNode'
+    Arr1:
+      title: Arr
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/InfoNode'
+    Bool:
+      title: Bool
+      type: object
+    Bool1:
+      title: Bool
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          type: boolean
+    CreateOrUpdateExampleRequest:
+      title: CreateOrUpdateExampleRequest
+      type: object
+      required:
+      - documentId
+      - result
+      properties:
+        documentId:
+          type: string
+        result:
+          type: object
+    CreateOrUpdateHistoryRequest:
+      title: CreateOrUpdateHistoryRequest
+      type: object
+      required:
+      - documentId
+      - result
+      properties:
+        ownerOrganization:
+          type: string
+        documentId:
+          type: string
+        result:
+          type: object
+    CreateOrUpdateProjectRequest:
+      title: CreateOrUpdateProjectRequest
+      type: object
+      required:
+      - name
+      - description
+      - template
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        template:
+          type: object
+        ownerOrganization:
+          type: string
+    CreateOrUpdateUserToken:
+      title: CreateOrUpdateUserToken
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    Datetime:
+      title: Datetime
+      type: object
+    DocumentInfo:
+      title: DocumentInfo
+      oneOf:
+      - $ref: '#/components/schemas/ImageInfo'
+      - $ref: '#/components/schemas/TextInfo'
+      discriminator:
+        propertyName: type
+        mapping:
+          image: '#/components/schemas/ImageInfo'
+          text: '#/components/schemas/TextInfo'
+    DocumentResponse:
+      title: DocumentResponse
+      type: object
+      required:
+      - docInfo
+      - ownerUser
+      - originalContentType
+      - contentType
+      - createdAt
+      - updatedAt
+      - shared
+      properties:
+        docInfo:
+          $ref: '#/components/schemas/DocumentInfo'
+        ownerUser:
+          type: string
+        ownerOrganization:
+          type: string
+        originalContentType:
+          type: string
+        contentType:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        shared:
+          type: boolean
+    Enum:
+      title: Enum
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+    Error:
+      title: Error
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ExampleResponse:
+      title: ExampleResponse
+      type: object
+      required:
+      - id
+      - projectId
+      - ownerUser
+      - documentInfo
+      - result
+      - createdAt
+      - updatedAt
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        ownerUser:
+          type: string
+        documentInfo:
+          $ref: '#/components/schemas/DocumentInfo'
+        result:
+          $ref: '#/components/schemas/InformationResponse'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    HealthResponse:
+      title: HealthResponse
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStatus'
+    HistoryResponse:
+      title: HistoryResponse
+      type: object
+      required:
+      - id
+      - projectId
+      - ownerUser
+      - documentInfo
+      - result
+      - createdAt
+      - updatedAt
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        ownerUser:
+          type: string
+        documentInfo:
+          $ref: '#/components/schemas/DocumentInfo'
+        result:
+          $ref: '#/components/schemas/InformationResponse'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    ImageInfo:
+      title: ImageInfo
+      type: object
+      required:
+      - documentId
+      - fileName
+      - type
+      properties:
+        documentId:
+          type: string
+        fileName:
+          type: string
+        type:
+          type: string
+          const: image
+    InferenceResponse:
+      title: InferenceResponse
+      type: object
+      required:
+      - result
+      - documentInfo
+      - tokens
+      properties:
+        result:
+          type: object
+        rawResult:
+          $ref: '#/components/schemas/RawResult'
+        documentInfo:
+          $ref: '#/components/schemas/DocumentInfo'
+        tokens:
+          type: integer
+          format: int64
+    InfoNode:
+      title: InfoNode
+      oneOf:
+      - $ref: '#/components/schemas/Arr1'
+      - $ref: '#/components/schemas/Bool1'
+      - $ref: '#/components/schemas/Null'
+      - $ref: '#/components/schemas/Num1'
+      - $ref: '#/components/schemas/Obj1'
+      - $ref: '#/components/schemas/Str1'
+    InformationResponse:
+      title: InformationResponse
+      oneOf:
+      - $ref: '#/components/schemas/InvalidInformation'
+      - $ref: '#/components/schemas/ValidInformation'
+      discriminator:
+        propertyName: type
+        mapping:
+          information: '#/components/schemas/ValidInformation'
+          string: '#/components/schemas/InvalidInformation'
+    Integer:
+      title: Integer
+      type: object
+    InvalidInformation:
+      title: InvalidInformation
+      type: object
+      required:
+      - information
+      - error
+      - type
+      properties:
+        information:
+          type: string
+        error:
+          type: string
+        type:
+          type: string
+          const: string
+    InvalidSchema:
+      title: InvalidSchema
+      type: object
+      required:
+      - schema
+      - error
+      - type
+      properties:
+        schema:
+          type: string
+        error:
+          type: string
+        type:
+          type: string
+          const: string
+    Map_V:
+      title: Map_V
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/SchemaNode'
+    MultiEnum:
+      title: MultiEnum
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+    'Null':
+      title: 'Null'
+      type: object
+    Num:
+      title: Num
+      type: object
+    Num1:
+      title: Num
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          type: number
+          format: double
+    Obj:
+      title: Obj
+      type: object
+      required:
+      - schemas
+      properties:
+        schemas:
+          $ref: '#/components/schemas/Map_V'
+    Obj1:
+      title: Obj
+      type: object
+      required:
+      - schemas
+      properties:
+        schemas:
+          $ref: '#/components/schemas/Map_V'
+    ProjectResponse:
+      title: ProjectResponse
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - template
+      - ownerUser
+      - createdAt
+      - updatedAt
+      - lockState
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        template:
+          type: object
+        ownerUser:
+          type: string
+        ownerOrganization:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lockState:
+          type: boolean
+    RawResult:
+      title: RawResult
+      type: object
+      required:
+      - result
+      - error
+      properties:
+        result:
+          type: string
+        error:
+          type: string
+    SchemaNode:
+      title: SchemaNode
+      oneOf:
+      - $ref: '#/components/schemas/Arr'
+      - $ref: '#/components/schemas/Bool'
+      - $ref: '#/components/schemas/Datetime'
+      - $ref: '#/components/schemas/Enum'
+      - $ref: '#/components/schemas/Integer'
+      - $ref: '#/components/schemas/MultiEnum'
+      - $ref: '#/components/schemas/Num'
+      - $ref: '#/components/schemas/Obj'
+      - $ref: '#/components/schemas/Str'
+      - $ref: '#/components/schemas/VerbatimStr'
+    SchemaResponse:
+      title: SchemaResponse
+      oneOf:
+      - $ref: '#/components/schemas/ValidSchema'
+      - $ref: '#/components/schemas/InvalidSchema'
+      discriminator:
+        propertyName: type
+        mapping:
+          schema: '#/components/schemas/ValidSchema'
+          string: '#/components/schemas/InvalidSchema'
+    ServiceStatus:
+      title: ServiceStatus
+      type: object
+      required:
+      - name
+      - status
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        count:
+          type: integer
+          format: int32
+    Str:
+      title: Str
+      type: object
+    Str1:
+      title: Str
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          type: string
+    TemplateRequest:
+      title: TemplateRequest
+      type: object
+      required:
+      - description
+      properties:
+        description:
+          type: string
+    TextInfo:
+      title: TextInfo
+      type: object
+      required:
+      - documentId
+      - text
+      - type
+      properties:
+        documentId:
+          type: string
+        fileName:
+          type: string
+        text:
+          type: string
+        type:
+          type: string
+          const: text
+    TextRequest:
+      title: TextRequest
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+    TokenCodeRequest:
+      title: TokenCodeRequest
+      type: object
+      required:
+      - code
+      - redirectUri
+      - type
+      properties:
+        code:
+          type: string
+        redirectUri:
+          type: string
+        type:
+          type: string
+          const: ai.numind.extract.shared.TokenCodeRequest
+    TokenRefreshRequest:
+      title: TokenRefreshRequest
+      type: object
+      required:
+      - token
+      - type
+      properties:
+        token:
+          type: string
+        type:
+          type: string
+          const: ai.numind.extract.shared.TokenRefreshRequest
+    TokenRequest:
+      title: TokenRequest
+      oneOf:
+      - $ref: '#/components/schemas/TokenCodeRequest'
+      - $ref: '#/components/schemas/TokenRefreshRequest'
+      discriminator:
+        propertyName: type
+        mapping:
+          ai.numind.extract.shared.TokenCodeRequest: '#/components/schemas/TokenCodeRequest'
+          ai.numind.extract.shared.TokenRefreshRequest: '#/components/schemas/TokenRefreshRequest'
+    TokenResponse:
+      title: TokenResponse
+      type: object
+      required:
+      - token
+      - expiresIn
+      properties:
+        token:
+          type: string
+        expiresIn:
+          type: integer
+          format: int32
+        refreshToken:
+          type: string
+        refreshExpiresIn:
+          type: integer
+          format: int32
+    User:
+      title: User
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+    UserTokenResponse:
+      title: UserTokenResponse
+      type: object
+      required:
+      - id
+      - name
+      - token
+      - userId
+      - createdAt
+      - expiresAt
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        token:
+          type: string
+        userId:
+          type: string
+        createdAt:
+          type: string
+        expiresAt:
+          type: string
+    ValidInformation:
+      title: ValidInformation
+      type: object
+      required:
+      - information
+      - type
+      properties:
+        information:
+          $ref: '#/components/schemas/Obj1'
+        type:
+          type: string
+          const: information
+    ValidSchema:
+      title: ValidSchema
+      type: object
+      required:
+      - schema
+      - type
+      properties:
+        schema:
+          $ref: '#/components/schemas/Obj'
+        type:
+          type: string
+          const: schema
+    VerbatimStr:
+      title: VerbatimStr
+      type: object
+    VersionResponse:
+      title: VersionResponse
+      type: object
+      required:
+      - name
+      - buildVersion
+      - buildBranch
+      - buildTime
+      properties:
+        name:
+          type: string
+        buildVersion:
+          type: string
+        buildBranch:
+          type: string
+        buildTime:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://users.numind.ai/realms/extract-platform/protocol/openid-connect/auth
+          tokenUrl: https://users.numind.ai/realms/extract-platform/protocol/openid-connect/token
+          refreshUrl: https://users.numind.ai/realms/extract-platform/protocol/openid-connect/token
+          scopes:
+            openid: OpenID connect
+            profile: view profile
+            email: view email

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**result** | [**Obj1**](Obj1.md) |  | 
+**result** | **object** |  | 
 **raw_result** | [**RawResult**](RawResult.md) |  | [optional] 
 **document_info** | [**DocumentInfo**](DocumentInfo.md) |  | 
 **tokens** | **int** |  | 

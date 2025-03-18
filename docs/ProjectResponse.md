@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **id** | **str** |  | 
 **name** | **str** |  | 
 **description** | **str** |  | 
-**template** | [**SchemaResponse**](SchemaResponse.md) |  | 
+**template** | **object** |  | 
 **owner_user** | **str** |  | 
 **owner_organization** | **str** |  | [optional] 
 **created_at** | **str** |  | 

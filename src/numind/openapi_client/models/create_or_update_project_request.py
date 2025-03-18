@@ -19,7 +19,6 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from numind.openapi_client.models.obj import Obj
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,7 +28,7 @@ class CreateOrUpdateProjectRequest(BaseModel):
     """ # noqa: E501
     name: StrictStr
     description: StrictStr
-    template: Obj
+    template: Dict[str, Any]
     owner_organization: Optional[StrictStr] = Field(default=None, alias="ownerOrganization")
     __properties: ClassVar[List[str]] = ["name", "description", "template", "ownerOrganization"]
 
@@ -72,9 +71,6 @@ class CreateOrUpdateProjectRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of template
-        if self.template:
-            _dict['template'] = self.template.to_dict()
         return _dict
 
     @classmethod
@@ -89,7 +85,7 @@ class CreateOrUpdateProjectRequest(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "description": obj.get("description"),
-            "template": Obj.from_dict(obj["template"]) if obj.get("template") is not None else None,
+            "template": obj.get("template"),
             "ownerOrganization": obj.get("ownerOrganization")
         })
         return _obj

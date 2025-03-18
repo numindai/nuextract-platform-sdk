@@ -35,10 +35,7 @@ class TestInferenceResponse(unittest.TestCase):
         model = InferenceResponse()
         if include_optional:
             return InferenceResponse(
-                result = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                result = None,
                 raw_result = numind.openapi_client.models.raw_result.RawResult(
                     result = '', 
                     error = '', ),
@@ -47,10 +44,7 @@ class TestInferenceResponse(unittest.TestCase):
             )
         else:
             return InferenceResponse(
-                result = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                result = None,
                 document_info = None,
                 tokens = 56,
         )

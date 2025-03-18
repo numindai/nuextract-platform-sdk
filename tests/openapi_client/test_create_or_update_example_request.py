@@ -36,18 +36,12 @@ class TestCreateOrUpdateExampleRequest(unittest.TestCase):
         if include_optional:
             return CreateOrUpdateExampleRequest(
                 document_id = '',
-                result = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, )
+                result = None
             )
         else:
             return CreateOrUpdateExampleRequest(
                 document_id = '',
-                result = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                result = None,
         )
         """
 

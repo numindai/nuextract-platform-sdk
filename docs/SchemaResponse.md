@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**var_schema** | [**Obj**](Obj.md) |  | 
-**error** | **str** |  | 
+**var_schema** | **str** |  | 
 **type** | **str** |  | 
+**error** | **str** |  | 
 
 ## Example
 

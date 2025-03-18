@@ -35,21 +35,15 @@ class TestSchemaResponse(unittest.TestCase):
         model = SchemaResponse()
         if include_optional:
             return SchemaResponse(
-                var_schema = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
-                error = '',
-                type = 'string'
+                var_schema = '',
+                type = 'schema',
+                error = ''
             )
         else:
             return SchemaResponse(
-                var_schema = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                var_schema = '',
+                type = 'schema',
                 error = '',
-                type = 'string',
         )
         """
 

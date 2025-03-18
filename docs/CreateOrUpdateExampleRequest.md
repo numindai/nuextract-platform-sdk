@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **document_id** | **str** |  | 
-**result** | [**Obj1**](Obj1.md) |  | 
+**result** | **object** |  | 
 
 ## Example
 

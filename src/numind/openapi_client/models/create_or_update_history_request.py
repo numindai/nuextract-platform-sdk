@@ -19,7 +19,6 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from numind.openapi_client.models.obj1 import Obj1
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,7 +28,7 @@ class CreateOrUpdateHistoryRequest(BaseModel):
     """ # noqa: E501
     owner_organization: Optional[StrictStr] = Field(default=None, alias="ownerOrganization")
     document_id: StrictStr = Field(alias="documentId")
-    result: Obj1
+    result: Dict[str, Any]
     __properties: ClassVar[List[str]] = ["ownerOrganization", "documentId", "result"]
 
     model_config = ConfigDict(
@@ -71,9 +70,6 @@ class CreateOrUpdateHistoryRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of result
-        if self.result:
-            _dict['result'] = self.result.to_dict()
         return _dict
 
     @classmethod
@@ -88,7 +84,7 @@ class CreateOrUpdateHistoryRequest(BaseModel):
         _obj = cls.model_validate({
             "ownerOrganization": obj.get("ownerOrganization"),
             "documentId": obj.get("documentId"),
-            "result": Obj1.from_dict(obj["result"]) if obj.get("result") is not None else None
+            "result": obj.get("result")
         })
         return _obj
 

@@ -37,18 +37,12 @@ class TestCreateOrUpdateHistoryRequest(unittest.TestCase):
             return CreateOrUpdateHistoryRequest(
                 owner_organization = '',
                 document_id = '',
-                result = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, )
+                result = None
             )
         else:
             return CreateOrUpdateHistoryRequest(
                 document_id = '',
-                result = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                result = None,
         )
         """
 

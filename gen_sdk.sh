@@ -3,10 +3,17 @@
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
 # TODO fetch OpenAPI specs file from API itself and save as tmp file
-# https://nuextract.ai/docs/docs.yaml
-openapi_specs_file_path="../data/numind_api.yaml"
+# TODO edit schema types --> object
+# ProjectResponse - template, CreateOrUpdateProjectRequest - template, CreateOrUpdateHistoryRequest, CreateOrUpdateExampleRequest,
+# InferenceResponse
+# edit properties that are references to /Obj and /Obj1, except for ValidInformation/ValidSchema/InfoNode/SchemaNode ?
 
-# TODO basic usage example in readme
+# Constants
+#openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
+openapi_specs_file_path="numind_api.yaml"
+
+# Fetch OpenAPI specs file from the API and save as a temporary file
+#curl --output $openapi_specs_file_path "$openapi_specs_file_url"
 
 # Delete the current api client package
 rm -r src/numind/openapi_client
@@ -24,6 +31,7 @@ openapi-generator generate \
   --config config.json \
   -o src
   # --template-dir openapi-generator-template \
+# TODO run ruff to clean as much as possible
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
@@ -50,3 +58,6 @@ rm src/pyproject.toml
 #  the base pyproject.toml file seems a good alternative to handle this problem.
 # TODO rewrite the package version in the pyproject as in the config.json, or find an
 #  other way to fetch the define and fetch the package version in one place
+
+# Delete OpenAPI specs file
+# rm $openapi_specs_file_path

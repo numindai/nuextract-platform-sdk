@@ -20,7 +20,6 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from numind.openapi_client.models.document_info import DocumentInfo
-from numind.openapi_client.models.obj1 import Obj1
 from numind.openapi_client.models.raw_result import RawResult
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +28,7 @@ class InferenceResponse(BaseModel):
     """
     InferenceResponse
     """ # noqa: E501
-    result: Obj1
+    result: Dict[str, Any]
     raw_result: Optional[RawResult] = Field(default=None, alias="rawResult")
     document_info: DocumentInfo = Field(alias="documentInfo")
     tokens: StrictInt
@@ -74,9 +73,6 @@ class InferenceResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of result
-        if self.result:
-            _dict['result'] = self.result.to_dict()
         # override the default output from pydantic by calling `to_dict()` of raw_result
         if self.raw_result:
             _dict['rawResult'] = self.raw_result.to_dict()
@@ -95,7 +91,7 @@ class InferenceResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "result": Obj1.from_dict(obj["result"]) if obj.get("result") is not None else None,
+            "result": obj.get("result"),
             "rawResult": RawResult.from_dict(obj["rawResult"]) if obj.get("rawResult") is not None else None,
             "documentInfo": DocumentInfo.from_dict(obj["documentInfo"]) if obj.get("documentInfo") is not None else None,
             "tokens": obj.get("tokens")

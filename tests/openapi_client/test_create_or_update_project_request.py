@@ -37,20 +37,14 @@ class TestCreateOrUpdateProjectRequest(unittest.TestCase):
             return CreateOrUpdateProjectRequest(
                 name = '',
                 description = '',
-                template = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                template = None,
                 owner_organization = ''
             )
         else:
             return CreateOrUpdateProjectRequest(
                 name = '',
                 description = '',
-                template = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                template = None,
         )
         """
 

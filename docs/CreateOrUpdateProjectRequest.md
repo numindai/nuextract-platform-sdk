@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | 
 **description** | **str** |  | 
-**template** | [**Obj**](Obj.md) |  | 
+**template** | **object** |  | 
 **owner_organization** | **str** |  | [optional] 
 
 ## Example

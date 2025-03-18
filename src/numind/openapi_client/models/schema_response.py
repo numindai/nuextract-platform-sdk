@@ -29,10 +29,10 @@ class SchemaResponse(BaseModel):
     """
     SchemaResponse
     """
-    # data type: InvalidSchema
-    oneof_schema_1_validator: Optional[InvalidSchema] = None
     # data type: ValidSchema
-    oneof_schema_2_validator: Optional[ValidSchema] = None
+    oneof_schema_1_validator: Optional[ValidSchema] = None
+    # data type: InvalidSchema
+    oneof_schema_2_validator: Optional[InvalidSchema] = None
     actual_instance: Optional[Union[InvalidSchema, ValidSchema]] = None
     one_of_schemas: Set[str] = { "InvalidSchema", "ValidSchema" }
 
@@ -60,14 +60,14 @@ class SchemaResponse(BaseModel):
         instance = SchemaResponse.model_construct()
         error_messages = []
         match = 0
-        # validate data type: InvalidSchema
-        if not isinstance(v, InvalidSchema):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `InvalidSchema`")
-        else:
-            match += 1
         # validate data type: ValidSchema
         if not isinstance(v, ValidSchema):
             error_messages.append(f"Error! Input type `{type(v)}` is not `ValidSchema`")
+        else:
+            match += 1
+        # validate data type: InvalidSchema
+        if not isinstance(v, InvalidSchema):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `InvalidSchema`")
         else:
             match += 1
         if match > 1:
@@ -90,15 +90,15 @@ class SchemaResponse(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into InvalidSchema
-        try:
-            instance.actual_instance = InvalidSchema.from_json(json_str)
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
         # deserialize data into ValidSchema
         try:
             instance.actual_instance = ValidSchema.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # deserialize data into InvalidSchema
+        try:
+            instance.actual_instance = InvalidSchema.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))

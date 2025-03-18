@@ -19,7 +19,6 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from numind.openapi_client.models.schema_response import SchemaResponse
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,7 +29,7 @@ class ProjectResponse(BaseModel):
     id: StrictStr
     name: StrictStr
     description: StrictStr
-    template: SchemaResponse
+    template: Dict[str, Any]
     owner_user: StrictStr = Field(alias="ownerUser")
     owner_organization: Optional[StrictStr] = Field(default=None, alias="ownerOrganization")
     created_at: StrictStr = Field(alias="createdAt")
@@ -77,9 +76,6 @@ class ProjectResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of template
-        if self.template:
-            _dict['template'] = self.template.to_dict()
         return _dict
 
     @classmethod
@@ -95,7 +91,7 @@ class ProjectResponse(BaseModel):
             "id": obj.get("id"),
             "name": obj.get("name"),
             "description": obj.get("description"),
-            "template": SchemaResponse.from_dict(obj["template"]) if obj.get("template") is not None else None,
+            "template": obj.get("template"),
             "ownerUser": obj.get("ownerUser"),
             "ownerOrganization": obj.get("ownerOrganization"),
             "createdAt": obj.get("createdAt"),

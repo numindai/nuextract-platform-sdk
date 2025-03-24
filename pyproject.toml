@@ -44,6 +44,7 @@ tests = [
     "pytest-cov",
     "pytest-xdist[psutil]",
     "pytest-rerunfailures",
+    "pytest-dependency",
 ]
 
 [project.urls]

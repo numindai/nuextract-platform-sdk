@@ -32,7 +32,7 @@ for dir_path in Path("tests", "test_cases").iterdir():
     TEST_CASES.append((dir_path.name, schema, texts, file_paths))
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def api_key() -> str:
     """
     Get the NuMind api_key from the environment variable.
@@ -50,7 +50,7 @@ def api_key() -> str:
     return api_key
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def numind_client(api_key: str) -> NuMind:
     """
     Get the NuMind api_key from the environment variable.

@@ -63,12 +63,13 @@ class NuMind(ReferenceApi):
             )
             raise ValueError(msg)
 
+        # Infer with text input
         if input_text is not None:
             return self.post_api_reference_projects_projectid_infer_text(
-                project_id, TextRequest(input_text)
+                project_id, TextRequest(text=input_text)
             )
 
-        # Infer file
+        # Infer with file input
         if not isinstance(input_file_path, Path):
             input_file_path = Path(input_file_path)
         with input_file_path.open("rb") as file:

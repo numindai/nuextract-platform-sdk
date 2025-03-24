@@ -1,0 +1,13 @@
+{
+    "destination": {
+        "name": "verbatim-string",
+        "zip_code": "string",
+        "country": "string"
+    },
+    "accommodation": "verbatim-string",
+    "activities": ["verbatim-string"],
+    "duration": {
+        "time_unit": ["day", "week", "month", "year"],
+        "time_quantity": "integer"
+    }
+}

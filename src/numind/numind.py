@@ -32,4 +32,4 @@ class NuMind(ReferenceApi):
 
         super().__init__(client)
 
-    # TODO easy method to auto-route text/image/document to the write method
+    # TODO easy method to auto-route text/image/document to the right method

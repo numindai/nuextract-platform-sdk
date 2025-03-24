@@ -15,9 +15,7 @@ def test_create_project(
 ) -> tuple[str, list[str], list[Path]]:
     project_name, schema, string_list, file_paths_list = request.param
     project_id = numind_client.post_api_reference_projects(
-        CreateOrUpdateProjectRequest(
-            name=project_name, description="", template=schema
-        )
+        CreateOrUpdateProjectRequest(name=project_name, description="", template=schema)
     ).id
     return project_id, string_list, file_paths_list
 
@@ -44,9 +42,7 @@ def test_infer_file(numind_client: NuMind, test_create_project) -> None:
 
 
 @pytest.fixture()
-def test_delete_project(
-    numind_client: NuMind, test_create_project
-) -> str:
+def test_delete_project(numind_client: NuMind, test_create_project) -> str:
     numind_client.delete_api_reference_projects_projectid(test_create_project[0])
     return test_create_project[0]
 

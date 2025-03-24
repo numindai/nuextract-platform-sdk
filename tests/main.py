@@ -1,6 +1,5 @@
 """Test the NuMind client programmatically"""
 
-
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from pathlib import Path
@@ -20,14 +19,14 @@ if __name__ == "__main__":
         "destination": {
             "name": "verbatim-string",
             "zip_code": "string",
-            "country": "string"
+            "country": "string",
         },
         "accommodation": "verbatim-string",
         "activities": ["verbatim-string"],
         "duration": {
             "time_unit": ["day", "week", "month", "year"],
-            "time_quantity": "integer"
-        }
+            "time_quantity": "integer",
+        },
     }
     project_creation_response = client.post_api_reference_projects(
         CreateOrUpdateProjectRequest(
@@ -45,11 +44,15 @@ if __name__ == "__main__":
     Evenings would be filled with romantic beachside dinners under the stars, with the soothing sound of waves as the perfect backdrop."""
     text_request = TextRequest(text=input_text)
     # TODO make it usable without using TextRequest/FileRequest
-    output_response = client.post_api_reference_projects_projectid_infer_text(project_id, text_request=text_request)
+    output_response = client.post_api_reference_projects_projectid_infer_text(
+        project_id, text_request=text_request
+    )
 
     # Infer with file
     input_file_path = Path("tests/test_cases/vacation/files/vacation.docx")
     with input_file_path.open("rb") as file:
         intput_file = file.read()
-    o = client.post_api_reference_projects_projectid_infer_file(project_id, input_file_path.name, intput_file)
+    o = client.post_api_reference_projects_projectid_infer_file(
+        project_id, input_file_path.name, intput_file
+    )
     t = 0

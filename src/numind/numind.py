@@ -1,19 +1,27 @@
-"""NuMind client object"""
+"""NuMind API client."""
 
 import os
+from pathlib import Path
 
 from .constants import NUMIND_API_KEY_ENV_VAR_NAME
-from .openapi_client import ApiClient, Configuration, ReferenceApi
+from .openapi_client import (
+    ApiClient,
+    Configuration,
+    InferenceResponse,
+    ReferenceApi,
+    TextRequest,
+)
 
 
 class NuMind(ReferenceApi):
+    """NuMind API client."""
+
     def __init__(
         self,
         api_key: str | None = None,
         configuration: Configuration | None = None,
         client: ApiClient | None = None,
     ) -> None:
-
         if client is None:
             if configuration is None:
                 if api_key is None:
@@ -32,4 +40,39 @@ class NuMind(ReferenceApi):
 
         super().__init__(client)
 
-    # TODO easy method to auto-route text/image/document to the right method
+    def infer(
+        self,
+        project_id: str,
+        input_text: str | None = None,
+        input_file_path: Path | str | None = None,
+    ) -> InferenceResponse:
+        """
+        Send an inference request to the API for either a text or a file input.
+
+        :param project_id: id of the associated project.
+        :param input_text: text input as a string.
+        :param input_file_path: path to the file to send to the API.
+        :return: the API response.
+        """
+        if (input_text is None and input_file_path is None) or (
+            input_text is not None and input_file_path is not None
+        ):
+            msg = (
+                "An input has to be provided with either the `input_text` or"
+                "`input_file_path` argument."
+            )
+            raise ValueError(msg)
+
+        if input_text is not None:
+            return self.post_api_reference_projects_projectid_infer_text(
+                project_id, TextRequest(input_text)
+            )
+
+        # Infer file
+        if not isinstance(input_file_path, Path):
+            input_file_path = Path(input_file_path)
+        with input_file_path.open("rb") as file:
+            intput_file = file.read()
+        return self.post_api_reference_projects_projectid_infer_file(
+            project_id, input_file_path.name, intput_file
+        )

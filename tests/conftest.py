@@ -25,7 +25,8 @@ for dir_path in Path("tests", "test_cases").iterdir():
         reader = csv.reader(file)
         texts = [line[0] for line in reader]
     file_paths = [
-        file_path for file_path in (dir_path / "files").iterdir()
+        file_path
+        for file_path in (dir_path / "files").iterdir()
         if not file_path.name.startswith(".")
     ]
     TEST_CASES.append((dir_path.name, schema, texts, file_paths))

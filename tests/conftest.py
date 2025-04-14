@@ -46,7 +46,7 @@ def api_key() -> str:
             f" It has to be set in order for the tests to be run to interact with the "
             f"API."
         )
-        raise EnvironmentError(msg)
+        raise OSError(msg)
     return api_key
 
 

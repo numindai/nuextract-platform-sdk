@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**information** | [**Obj1**](Obj1.md) |  | 
-**error** | **str** |  | 
+**information** | [**Obj1**](Obj1.md) | Inference result conforming to the template. | 
+**error** | **str** | Error message explaining why the inference result is invalid. | 
 **type** | **str** |  | 
 
 ## Example

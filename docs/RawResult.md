@@ -1,12 +1,13 @@
 # RawResult
 
+Inference result if not conforming to the template.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**result** | **str** |  | 
-**error** | **str** |  | 
+**result** | **str** | Inference result not conforming to the template. | 
+**error** | **str** | Error message explaining why the inference result is invalid. | 
 
 ## Example
 

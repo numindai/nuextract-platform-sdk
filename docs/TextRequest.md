@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**text** | **str** |  | 
+**text** | **str** | The text to extract from. | 
 
 ## Example
 

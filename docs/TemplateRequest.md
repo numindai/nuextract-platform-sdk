@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **str** |  | 
+**description** | **str** | Free-format template description. | 
 
 ## Example
 

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **str** |  | 
-**file_name** | **str** |  | 
+**document_id** | **str** | Unique document identifier. | 
+**file_name** | **str** | Filename of the initial file. | 
 **type** | **str** |  | 
 
 ## Example

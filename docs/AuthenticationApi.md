@@ -4,18 +4,18 @@ All URIs are relative to *https://nuextract.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete_api_auth_user_tokens_usertokenid**](AuthenticationApi.md#delete_api_auth_user_tokens_usertokenid) | **DELETE** /api/auth/user-tokens/{userTokenId} | 
+[**delete_api_auth_api_keys_apikeyid**](AuthenticationApi.md#delete_api_auth_api_keys_apikeyid) | **DELETE** /api/auth/api-keys/{apiKeyId} | 
 [**get_api_auth**](AuthenticationApi.md#get_api_auth) | **GET** /api/auth | 
+[**get_api_auth_api_keys**](AuthenticationApi.md#get_api_auth_api_keys) | **GET** /api/auth/api-keys | 
 [**get_api_auth_me**](AuthenticationApi.md#get_api_auth_me) | **GET** /api/auth/me | 
-[**get_api_auth_user_tokens**](AuthenticationApi.md#get_api_auth_user_tokens) | **GET** /api/auth/user-tokens | 
+[**post_api_auth_api_keys**](AuthenticationApi.md#post_api_auth_api_keys) | **POST** /api/auth/api-keys | 
 [**post_api_auth_logout**](AuthenticationApi.md#post_api_auth_logout) | **POST** /api/auth/logout | 
 [**post_api_auth_token**](AuthenticationApi.md#post_api_auth_token) | **POST** /api/auth/token | 
-[**post_api_auth_user_tokens**](AuthenticationApi.md#post_api_auth_user_tokens) | **POST** /api/auth/user-tokens | 
-[**put_api_auth_user_tokens_usertokenid**](AuthenticationApi.md#put_api_auth_user_tokens_usertokenid) | **PUT** /api/auth/user-tokens/{userTokenId} | 
+[**put_api_auth_api_keys_apikeyid**](AuthenticationApi.md#put_api_auth_api_keys_apikeyid) | **PUT** /api/auth/api-keys/{apiKeyId} | 
 
 
-# **delete_api_auth_user_tokens_usertokenid**
-> delete_api_auth_user_tokens_usertokenid(user_token_id)
+# **delete_api_auth_api_keys_apikeyid**
+> delete_api_auth_api_keys_apikeyid(api_key_id)
 
 ### Example
 
@@ -43,12 +43,12 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.AuthenticationApi(api_client)
-    user_token_id = 'user_token_id_example' # str | 
+    api_key_id = 'api_key_id_example' # str | Unique api key identifier.
 
     try:
-        api_instance.delete_api_auth_user_tokens_usertokenid(user_token_id)
+        api_instance.delete_api_auth_api_keys_apikeyid(api_key_id)
     except Exception as e:
-        print("Exception when calling AuthenticationApi->delete_api_auth_user_tokens_usertokenid: %s\n" % e)
+        print("Exception when calling AuthenticationApi->delete_api_auth_api_keys_apikeyid: %s\n" % e)
 ```
 
 
@@ -58,7 +58,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_token_id** | **str**|  | 
+ **api_key_id** | **str**| Unique api key identifier. | 
 
 ### Return type
 
@@ -146,6 +146,73 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_api_auth_api_keys**
+> List[ApiKeyResponse] get_api_auth_api_keys()
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.models.api_key_response import ApiKeyResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.AuthenticationApi(api_client)
+
+    try:
+        api_response = api_instance.get_api_auth_api_keys()
+        print("The response of AuthenticationApi->get_api_auth_api_keys:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->get_api_auth_api_keys: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[ApiKeyResponse]**](ApiKeyResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_api_auth_me**
 > User get_api_auth_me()
 
@@ -213,8 +280,8 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_api_auth_user_tokens**
-> List[UserTokenResponse] get_api_auth_user_tokens()
+# **post_api_auth_api_keys**
+> ApiKeyResponse post_api_auth_api_keys(create_or_update_api_key)
 
 ### Example
 
@@ -222,7 +289,8 @@ This endpoint does not need any parameter.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.user_token_response import UserTokenResponse
+from numind.openapi_client.models.api_key_response import ApiKeyResponse
+from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -243,24 +311,28 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.AuthenticationApi(api_client)
+    create_or_update_api_key = numind.openapi_client.CreateOrUpdateApiKey() # CreateOrUpdateApiKey | 
 
     try:
-        api_response = api_instance.get_api_auth_user_tokens()
-        print("The response of AuthenticationApi->get_api_auth_user_tokens:\n")
+        api_response = api_instance.post_api_auth_api_keys(create_or_update_api_key)
+        print("The response of AuthenticationApi->post_api_auth_api_keys:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling AuthenticationApi->get_api_auth_user_tokens: %s\n" % e)
+        print("Exception when calling AuthenticationApi->post_api_auth_api_keys: %s\n" % e)
 ```
 
 
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **create_or_update_api_key** | [**CreateOrUpdateApiKey**](CreateOrUpdateApiKey.md)|  | 
 
 ### Return type
 
-[**List[UserTokenResponse]**](UserTokenResponse.md)
+[**ApiKeyResponse**](ApiKeyResponse.md)
 
 ### Authorization
 
@@ -268,14 +340,15 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json, text/plain
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
+**400** | Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -417,8 +490,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_api_auth_user_tokens**
-> UserTokenResponse post_api_auth_user_tokens(create_or_update_user_token)
+# **put_api_auth_api_keys_apikeyid**
+> ApiKeyResponse put_api_auth_api_keys_apikeyid(api_key_id, create_or_update_api_key)
 
 ### Example
 
@@ -426,8 +499,8 @@ No authorization required
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_or_update_user_token import CreateOrUpdateUserToken
-from numind.openapi_client.models.user_token_response import UserTokenResponse
+from numind.openapi_client.models.api_key_response import ApiKeyResponse
+from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -448,14 +521,15 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.AuthenticationApi(api_client)
-    create_or_update_user_token = numind.openapi_client.CreateOrUpdateUserToken() # CreateOrUpdateUserToken | 
+    api_key_id = 'api_key_id_example' # str | Unique api key identifier.
+    create_or_update_api_key = numind.openapi_client.CreateOrUpdateApiKey() # CreateOrUpdateApiKey | 
 
     try:
-        api_response = api_instance.post_api_auth_user_tokens(create_or_update_user_token)
-        print("The response of AuthenticationApi->post_api_auth_user_tokens:\n")
+        api_response = api_instance.put_api_auth_api_keys_apikeyid(api_key_id, create_or_update_api_key)
+        print("The response of AuthenticationApi->put_api_auth_api_keys_apikeyid:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling AuthenticationApi->post_api_auth_user_tokens: %s\n" % e)
+        print("Exception when calling AuthenticationApi->put_api_auth_api_keys_apikeyid: %s\n" % e)
 ```
 
 
@@ -465,86 +539,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_or_update_user_token** | [**CreateOrUpdateUserToken**](CreateOrUpdateUserToken.md)|  | 
+ **api_key_id** | **str**| Unique api key identifier. | 
+ **create_or_update_api_key** | [**CreateOrUpdateApiKey**](CreateOrUpdateApiKey.md)|  | 
 
 ### Return type
 
-[**UserTokenResponse**](UserTokenResponse.md)
-
-### Authorization
-
-[oauth2Auth](../README.md#oauth2Auth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json, text/plain
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** |  |  -  |
-**400** | Invalid value for: body |  -  |
-**0** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **put_api_auth_user_tokens_usertokenid**
-> UserTokenResponse put_api_auth_user_tokens_usertokenid(user_token_id, create_or_update_user_token)
-
-### Example
-
-* OAuth Authentication (oauth2Auth):
-
-```python
-import numind.openapi_client
-from numind.openapi_client.models.create_or_update_user_token import CreateOrUpdateUserToken
-from numind.openapi_client.models.user_token_response import UserTokenResponse
-from numind.openapi_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://nuextract.ai
-# See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-configuration.access_token = os.environ["ACCESS_TOKEN"]
-
-# Enter a context with an instance of the API client
-with numind.openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = numind.openapi_client.AuthenticationApi(api_client)
-    user_token_id = 'user_token_id_example' # str | 
-    create_or_update_user_token = numind.openapi_client.CreateOrUpdateUserToken() # CreateOrUpdateUserToken | 
-
-    try:
-        api_response = api_instance.put_api_auth_user_tokens_usertokenid(user_token_id, create_or_update_user_token)
-        print("The response of AuthenticationApi->put_api_auth_user_tokens_usertokenid:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling AuthenticationApi->put_api_auth_user_tokens_usertokenid: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user_token_id** | **str**|  | 
- **create_or_update_user_token** | [**CreateOrUpdateUserToken**](CreateOrUpdateUserToken.md)|  | 
-
-### Return type
-
-[**UserTokenResponse**](UserTokenResponse.md)
+[**ApiKeyResponse**](ApiKeyResponse.md)
 
 ### Authorization
 

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **str** |  | 
-**result** | **object** |  | 
+**document_id** | **str** | Unique document identifier. | 
+**result** | **object** | Expected inference result. | 
 
 ## Example
 

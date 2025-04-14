@@ -1,13 +1,14 @@
 # SchemaResponse
 
+Extraction template (NuExtract format).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**var_schema** | **str** |  | 
-**type** | **str** |  | 
+**var_schema** | [**Obj**](Obj.md) |  | 
 **error** | **str** |  | 
+**type** | **str** |  | 
 
 ## Example
 

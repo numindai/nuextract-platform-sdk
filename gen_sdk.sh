@@ -3,7 +3,8 @@
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
 # TODO fetch OpenAPI specs file from API itself and save as tmp file
-# TODO edit schema types --> object
+# TODO "ref: #.../Obj" and "ref: #.../Obj1" to "type: object"
+#  and $ref: '#/components/schemas/SchemaResponse' to "type: object"
 # ProjectResponse - template, CreateOrUpdateProjectRequest - template, CreateOrUpdateHistoryRequest, CreateOrUpdateExampleRequest,
 # InferenceResponse
 # edit properties that are references to /Obj and /Obj1, except for ValidInformation/ValidSchema/InfoNode/SchemaNode ?

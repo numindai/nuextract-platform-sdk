@@ -1,9 +1,57 @@
 openapi: 3.1.0
-servers:
-  - url: 'https://nuextract.ai'
 info:
-  title: NuMind extraction platform
+  title: NuMind Extraction Platform
   version: '1.0'
+  description: "\n# Workflow for Using NuExtract API for Information Extraction\n\n\
+    ## Creating and Managing Projects\n\nA **Project** in NuExtract 2.0 serves as\
+    \ the **main entity** for organizing and managing an **information extraction\
+    \ task**.\nIt provides a structured approach to processing and extracting data\
+    \ from multiple documents using a **shared template**.\n\n1. **Create a Project**:\
+    \ A project stores the template for information extraction and can optionally\
+    \ include extraction examples to improve model performance.\n2. **Define a Template**:\
+    \ The template specifies what information should be extracted from documents within\
+    \ this project. If needed, a template can be derived from a free-form description\
+    \ using the `/api/infer-template` endpoint.\n3. **Managing Project Examples**:\n\
+    \   - Project examples (optional) help refine model accuracy and consistency.\n\
+    \   - They serve as **ICL (In-Context Learning) examples** during inference and\
+    \ represent tuples of (input, output).\n   - Only examples that match the current\
+    \ project template are used in inference calls.\n   - Examples are managed via\
+    \ the ***examples*** endpoints (CRUD operations), requiring a project ID.\n4.\
+    \ **Storing Inference Playground Items**:\n   - Inference results can be stored\
+    \ within the **project playground** without adding them as ICL examples.\n   -\
+    \ This ensures that outputs are retained without affecting inference behavior\
+    \ or increasing token usage.\n\n## Performing Inference\n\nInference can be conducted\
+    \ on both **text and images**. If a file is in another format, it is **automatically\
+    \ converted to an image** in the background when possible. The inference response\
+    \ includes a `docId`, which should be used when managing project examples. For\
+    \ non-text/image files, only their converted image equivalents are accessible\
+    \ via `docId`.\n\nInference **temperature** can be set in the project settings.\
+    \ It controls variability in extraction inference responses.\n**RasterizationDpi**\
+    \ sets the dots per inch resolution when converting non-text files to images.\
+    \ Allowed range is (0, 300]\n\n## Locking a Project\n\nThe **locking mechanism**\
+    \ allows you to prevent accidental modifications while still permitting inference.\
+    \ When locked:\n- The **template and project examples** cannot be modified.\n\
+    - Project settings such as **temperature** and **rasterizationDpi** are also restricted.\n\
+    - Users can still perform inference and work with project playground.\n- This\
+    \ feature is useful in **production environments** to maintain consistency.\n\n\
+    ## Project Ownership and Permissions\n\nA project is owned by either a **user**\
+    \ (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves\
+    \ an organization, they lose access to its resources, even if they originally\
+    \ created them.\n\n## Additional Features\n\n- **Duplication**: Projects can be\
+    \ **copied**, including examples but **excluding playground**.\n- **Deletion**:\
+    \ Removing a project **deletes all associated examples and playground items**.\n\
+    - **Sharing**: Projects can be shared with the community — in other words, they\
+    \ can be designated as **reference projects**. Sharing and unsharing require **Numind\
+    \ administrator access rights**.\n- **Reference Projects**: These are **static,\
+    \ predefined projects** created by the Numind team to serve as examples of extraction\
+    \ tasks. The inference is allowed for all users. However, reference projects cannot\
+    \ be modified but can be **copied**, allowing users to make changes to their duplicates.\n\
+    \nBy structuring projects efficiently, leveraging examples, and using locking\
+    \ mechanisms, users can ensure **accurate, reproducible, and well-managed** information\
+    \ extraction workflows in NuExtract 2.0.\n  "
+servers:
+- url: https://nuextract.ai
+- url: http://localhost:9000
 paths:
   /api/ping:
     get:
@@ -181,11 +229,11 @@ paths:
         - openid
         - profile
         - email
-  /api/auth/user-tokens:
+  /api/auth/api-keys:
     get:
       tags:
       - authentication
-      operationId: getApiAuthUser-tokens
+      operationId: getApiAuthApi-keys
       responses:
         '200':
           description: ''
@@ -194,7 +242,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserTokenResponse'
+                  $ref: '#/components/schemas/ApiKeyResponse'
         default:
           description: ''
           content:
@@ -209,12 +257,12 @@ paths:
     post:
       tags:
       - authentication
-      operationId: postApiAuthUser-tokens
+      operationId: postApiAuthApi-keys
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrUpdateUserToken'
+              $ref: '#/components/schemas/CreateOrUpdateApiKey'
         required: true
       responses:
         '200':
@@ -222,7 +270,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserTokenResponse'
+                $ref: '#/components/schemas/ApiKeyResponse'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -240,14 +288,15 @@ paths:
         - openid
         - profile
         - email
-  /api/auth/user-tokens/{userTokenId}:
+  /api/auth/api-keys/{apiKeyId}:
     put:
       tags:
       - authentication
-      operationId: putApiAuthUser-tokensUsertokenid
+      operationId: putApiAuthApi-keysApikeyid
       parameters:
-      - name: userTokenId
+      - name: apiKeyId
         in: path
+        description: Unique api key identifier.
         required: true
         schema:
           type: string
@@ -255,7 +304,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrUpdateUserToken'
+              $ref: '#/components/schemas/CreateOrUpdateApiKey'
         required: true
       responses:
         '200':
@@ -263,7 +312,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserTokenResponse'
+                $ref: '#/components/schemas/ApiKeyResponse'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -284,10 +333,11 @@ paths:
     delete:
       tags:
       - authentication
-      operationId: deleteApiAuthUser-tokensUsertokenid
+      operationId: deleteApiAuthApi-keysApikeyid
       parameters:
-      - name: userTokenId
+      - name: apiKeyId
         in: path
+        description: Unique api key identifier.
         required: true
         schema:
           type: string
@@ -305,20 +355,28 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects:
+  /api/projects:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceProjects
+      - projects
+      description: "\nRetrieves a list of projects accessible to the authenticated\
+        \ user.\n\n#### Error Responses:\n`403 Forbidden` - If the user attempts to\
+        \ access an unauthorized organization.\n  "
+      operationId: getApiProjects
       parameters:
       - name: organizationId
         in: query
+        description: "Optional organization identifier.  \n  If provided, only projects\
+          \ owned by this organization are returned.  \n  This parameter is ignored\
+          \ if ***shared=true***."
         required: false
         schema:
           type: string
       - name: shared
         in: query
-        required: true
+        description: "If **true**, only reference projects (shared projects) are returned.\
+          \  \n  If **false**, only non-reference projects are returned."
+        required: false
         schema:
           type: boolean
       responses:
@@ -331,10 +389,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProjectResponse'
               example:
-              - id: bcbc3862-c66c-448d-9600-5b4e915fa989
-                name: Order Delivery Information Extraction
-                description: Automated extraction of order delivery details from scanned
-                  documents
+              - id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
                 template:
                   type: schema
                   schema:
@@ -368,11 +426,14 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
-                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
-                createdAt: '2025-03-17T13:14:19.877594365Z'
-                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
                 lockState: false
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
         '400':
           description: 'Invalid value for: query parameter shared'
           content:
@@ -392,17 +453,27 @@ paths:
         - email
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjects
+      - projects
+      description: "\nCreates a new project to organize an information extraction\
+        \ task.\n\n#### Effect:\nA project is created with default settings:\n\n Parameter\
+        \ | Default |\n-----------|---------|\n `temperature` | 0.0 |\n `rasterizationDpi`\
+        \ | 115 |\n\n\nIf *ownerOrganization* is not provided, the project will be\
+        \ owned by the authenticated user.\nWhen created, a project is not locked\
+        \ and is owned by the authenticated user and the organization (if specified\
+        \ in the request).\n\n#### Response:\n The response contains `projectId`,\
+        \ which\n is required to modify the project, perform CRUD operations on project\
+        \ examples and\n project playground items, and run inference for this project.\
+        \ \n  "
+      operationId: postApiProjects
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrUpdateProjectRequest'
+              $ref: '#/components/schemas/CreateProjectRequest'
             example:
-              name: Order Delivery Information Extraction
-              description: Automated extraction of order delivery details from scanned
-                documents
+              name: 'Example: Order Delivery Information Extraction'
+              description: 'Example: Automated extraction of order delivery details
+                from emails and scanned documents'
               template:
                 orderId: verbatim-string
                 customerId: verbatim-string
@@ -434,7 +505,6 @@ paths:
                   - deliver_to_neighbor
                   - schedule_delivery
                 estimatedDelivery: date-time
-              ownerOrganization: cd5cd82a-cc30-42be-ab39-f29fd7db279e
         required: true
       responses:
         '200':
@@ -444,10 +514,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: bcbc3862-c66c-448d-9600-5b4e915fa989
-                name: Order Delivery Information Extraction
-                description: Automated extraction of order delivery details from scanned
-                  documents
+                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
                 template:
                   type: schema
                   schema:
@@ -481,11 +551,14 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
-                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
-                createdAt: '2025-03-17T13:14:19.877594365Z'
-                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
                 lockState: false
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
         '400':
           description: 'Invalid value for: body'
           content:
@@ -503,14 +576,19 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}:
+  /api/projects/{projectId}:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceProjectsProjectid
+      - projects
+      description: "\nFetches the details of a specific project.\n\n\n#### Error Responses:\n\
+        `404 Not Found` - If a project with the specified projectId does not exist.\n\
+        \n`403 Forbidden` - If the user does not have permission to view this project.\n\
+        \  "
+      operationId: getApiProjectsProjectid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -522,10 +600,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: bcbc3862-c66c-448d-9600-5b4e915fa989
-                name: Order Delivery Information Extraction
-                description: Automated extraction of order delivery details from scanned
-                  documents
+                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
                 template:
                   type: schema
                   schema:
@@ -559,130 +637,14 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
-                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
-                createdAt: '2025-03-17T13:14:19.877594365Z'
-                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
                 lockState: false
-        default:
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      security:
-      - oauth2Auth:
-        - openid
-        - profile
-        - email
-    put:
-      tags:
-      - reference
-      operationId: putApiReferenceProjectsProjectid
-      parameters:
-      - name: projectId
-        in: path
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateOrUpdateProjectRequest'
-            example:
-              name: Order Delivery Information Extraction
-              description: Automated extraction of order delivery details from scanned
-                documents
-              template:
-                orderId: verbatim-string
-                customerId: verbatim-string
-                orderDate: date-time
-                status:
-                - pending
-                - processed
-                - shipped
-                - delivered
-                - cancelled
-                totalAmount: number
-                currency: string
-                items:
-                - productId: string
-                  quantity: number
-                  unitPrice: number
-                shippingAddress:
-                  street: string
-                  city: string
-                  state: string
-                  country: string
-                  zip: string
-                comments: string
-                deliveryPreferences:
-                - - contactless_delivery
-                  - signature_required
-                  - leave_at_door
-                  - pickup_from_store
-                  - deliver_to_neighbor
-                  - schedule_delivery
-                estimatedDelivery: date-time
-              ownerOrganization: cd5cd82a-cc30-42be-ab39-f29fd7db279e
-        required: true
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProjectResponse'
-              example:
-                id: bcbc3862-c66c-448d-9600-5b4e915fa989
-                name: Order Delivery Information Extraction
-                description: Automated extraction of order delivery details from scanned
-                  documents
-                template:
-                  type: schema
-                  schema:
-                    orderId: verbatim-string
-                    customerId: verbatim-string
-                    orderDate: date-time
-                    status:
-                    - pending
-                    - processed
-                    - shipped
-                    - delivered
-                    - cancelled
-                    totalAmount: number
-                    currency: string
-                    items:
-                    - productId: string
-                      quantity: number
-                      unitPrice: number
-                    shippingAddress:
-                      street: string
-                      city: string
-                      state: string
-                      country: string
-                      zip: string
-                    comments: string
-                    deliveryPreferences:
-                    - - contactless_delivery
-                      - signature_required
-                      - leave_at_door
-                      - pickup_from_store
-                      - deliver_to_neighbor
-                      - schedule_delivery
-                    estimatedDelivery: date-time
-                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
-                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
-                createdAt: '2025-03-17T13:14:19.877594365Z'
-                updatedAt: '2025-03-17T13:14:19.877625585Z'
-                lockState: false
-        '400':
-          description: 'Invalid value for: body'
-          content:
-            text/plain:
-              schema:
-                type: string
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
         default:
           description: ''
           content:
@@ -696,11 +658,18 @@ paths:
         - email
     delete:
       tags:
-      - reference
-      operationId: deleteApiReferenceProjectsProjectid
+      - projects
+      description: "\nPermanently removes a project and all related data.\n\n\n####\
+        \ Effect:\nDeletes the project together with the associated examples and playground\
+        \ items.\n\n\n#### Error Responses:\n`404 Not Found` - If a project with the\
+        \ specified projectId does not exist.\n\n`403 Forbidden` - If the user does\
+        \ not have permission to delete this project.\n\n`403 Locked` - If the project\
+        \ is locked.\n  "
+      operationId: deleteApiProjectsProjectid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -718,17 +687,67 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/duplicate:
-    post:
+    patch:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidDuplicate
+      - projects
+      description: "\nUpdates the details of an existing unlocked project.\n\n\nNote\
+        \ that you cannot change the lock or shared status via this endpoint.\nTo\
+        \ modify these states, use the lock/unlock and share/unshare project endpoints.\n\
+        \n#### Error Responses:\n`404 Not Found` - If a project with the specified\
+        \ projectId does not exist.\n\n`403 Forbidden` - If the user does not have\
+        \ permission to update this project.\n\n`403 Locked` - If the project is locked.\n\
+        \  "
+      operationId: patchApiProjectsProjectid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+            examples:
+              Update Template:
+                value:
+                  template:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+              Update Project Name:
+                value:
+                  name: 'Example: Order Delivery Information Extraction'
+        required: true
       responses:
         '200':
           description: ''
@@ -737,10 +756,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: bcbc3862-c66c-448d-9600-5b4e915fa989
-                name: Order Delivery Information Extraction
-                description: Automated extraction of order delivery details from scanned
-                  documents
+                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
                 template:
                   type: schema
                   schema:
@@ -774,11 +793,20 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: d341ce51-d0e0-4af5-a1fa-3a20d338da91
-                ownerOrganization: 54df99e6-47eb-4d98-976b-d188a1512cf9
-                createdAt: '2025-03-17T13:14:19.877594365Z'
-                updatedAt: '2025-03-17T13:14:19.877625585Z'
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
                 lockState: false
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
         default:
           description: ''
           content:
@@ -790,14 +818,308 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/share:
-    post:
+  /api/projects/{projectId}/settings:
+    patch:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidShare
+      - projects
+      description: "\nUpdates the settings of an existing unlocked project.\n\n\n\
+        #### Error Responses:\n`404 Not Found` - If a project with the specified projectId\
+        \ does not exist.\n\n`403 Forbidden` - If the user does not have permission\
+        \ to update this project.\n\n`403 Locked` - If the project is locked.\n  "
+      operationId: patchApiProjectsProjectidSettings
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectSettingsRequest'
+            example:
+              temperature: 0
+              rasterizationDpi: 115
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                lockState: false
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/projects/{projectId}/reset-settings:
+    post:
+      tags:
+      - projects
+      description: "\nResets the settings of an existing unlocked project to their\
+        \ default values.\n\nDefault values are:\n\n Parameter | Default |\n-----------|---------|\n\
+        \ `temperature` | 0.0 |\n `rasterizationDpi` | 115 |\n\n#### Error Responses:\n\
+        `404 Not Found` - If a project with the specified projectId does not exist.\n\
+        \n`403 Forbidden` - If the user does not have permission to update this project.\n\
+        \n`403 Locked` - If the project is locked.\n  "
+      operationId: postApiProjectsProjectidReset-settings
+      parameters:
+      - name: projectId
+        in: path
+        description: Unique project identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                lockState: false
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/projects/{projectId}/duplicate:
+    post:
+      tags:
+      - projects
+      description: |
+        Creates a copy of an existing project.
+
+        It is allowed to duplicate locked projects and reference projects.
+
+
+        #### Effect:
+        - The duplicated project retains the **same template, settings and examples**.
+        - A new name is assigned ("Original Name (copy)").
+        - Project playground is not duplicated.
+
+        #### Response:
+         The response contains a newly generated
+         `projectId`. When duplicated, a new project is always unlocked. The duplicated reference projects
+         are private and owned by the authenticated user.
+
+        #### Error Responses:
+        `404 Not Found` - If a project with the specified projectId does not exist.
+
+        `403 Forbidden` - If the user does not have permission to duplicate this project.
+      operationId: postApiProjectsProjectidDuplicate
+      parameters:
+      - name: projectId
+        in: path
+        description: Unique project identifier.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+              example:
+                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                name: 'Example: Order Delivery Information Extraction'
+                description: 'Example: Automated extraction of order delivery details
+                  from emails and scanned documents'
+                template:
+                  type: schema
+                  schema:
+                    orderId: verbatim-string
+                    customerId: verbatim-string
+                    orderDate: date-time
+                    status:
+                    - pending
+                    - processed
+                    - shipped
+                    - delivered
+                    - cancelled
+                    totalAmount: number
+                    currency: string
+                    items:
+                    - productId: string
+                      quantity: number
+                      unitPrice: number
+                    shippingAddress:
+                      street: string
+                      city: string
+                      state: string
+                      country: string
+                      zip: string
+                    comments: string
+                    deliveryPreferences:
+                    - - contactless_delivery
+                      - signature_required
+                      - leave_at_door
+                      - pickup_from_store
+                      - deliver_to_neighbor
+                      - schedule_delivery
+                    estimatedDelivery: date-time
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                lockState: false
+                shared: false
+                settings:
+                  temperature: 0
+                  rasterizationDpi: 115
+        default:
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - oauth2Auth:
+        - openid
+        - profile
+        - email
+  /api/projects/{projectId}/share:
+    post:
+      tags:
+      - projects
+      description: |
+        Shares a project with other users.
+
+         This endpoint turns an existing project into a reference project.
+         Only NuMind administrators can share a project with other users.
+         Lock state does not prevent sharing. Likewise, sharing does not change the lock state.
+
+        #### Effect:
+
+        - Reference projects are shared with the community (read access is granted to all users).
+        - Project examples and playground items are shared as well.
+        - Only NuMind administrators can update or delete reference projects.
+        - Only NuMind administrators can create, update, or delete reference project examples and playground items.
+        - The inference is allowed for all users.
+
+        #### Error Responses:
+
+        `404 Not Found` - If a project with the specified projectId does not exist.
+
+        `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+      operationId: postApiProjectsProjectidShare
+      parameters:
+      - name: projectId
+        in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -815,14 +1137,34 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/unshare:
+  /api/projects/{projectId}/unshare:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidUnshare
+      - projects
+      description: |2
+
+        Unshares a reference project (makes it private).
+
+         Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.
+         The project owner is the initial owner, not the authenicated user.
+
+
+        #### Effect:
+        - The project is no longer a reference project and is no longer shared with the community.
+        - Read access is revoked for all users except the project owner.
+        - Project examples and playground are no longer publicly accessible.
+        - Only the project owner can manage or delete the project after unsharing.
+        - Inference is restricted to the project owner.
+
+        #### Error Responses:
+        `404 Not Found` - If a project with the specified projectId does not exist.
+
+        `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+      operationId: postApiProjectsProjectidUnshare
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -840,14 +1182,29 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/lock:
+  /api/projects/{projectId}/lock:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidLock
+      - projects
+      description: |
+        Locks a project to prevent modifications.
+
+
+        #### Effect:
+        - While locked, the project **cannot be updated or deleted**. Read access is still available.
+        - CRUD operations on project examples are not allowed.
+        - Inference is still allowed.
+        - CRUD access to project playground items is still available.
+
+        #### Error Responses:
+         `404 Not Found` - If a project with the specified projectId does not exist.
+
+         `403 Forbidden` - If the user does not have permission to lock this project.
+      operationId: postApiProjectsProjectidLock
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -865,14 +1222,26 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/unlock:
+  /api/projects/{projectId}/unlock:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidUnlock
+      - projects
+      description: |
+        Unlocks a previously locked project.
+
+        #### Effect:
+        - Once unlocked, the project **can be updated or deleted**.
+        - Full CRUD access to project examples is restored.
+
+        #### Error Responses:
+        `404 Not Found` - If a project with the specified projectId does not exist.
+
+        `403 Forbidden` - If the user does not have permission to unlock this project.
+      operationId: postApiProjectsProjectidUnlock
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -890,14 +1259,19 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/examples:
+  /api/projects/{projectId}/examples:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceProjectsProjectidExamples
+      - examples
+      description: "\nRetrieves a list of examples associated to the specified project.\n\
+        \n#### Error Responses:\n`404 Not Found` - If a project with the specified\
+        \ projectId does not exist.\n\n`403 Forbidden` - If the user does not have\
+        \ permission to view this project.\n  "
+      operationId: getApiProjectsProjectidExamples
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -911,43 +1285,49 @@ paths:
                 items:
                   $ref: '#/components/schemas/ExampleResponse'
               example:
-              - id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
-                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
-                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+              - id: 5b9367b3-574a-40e3-9773-e1026340d6e0
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  fileName: dummy_example_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
+                    processed. The customer ID for this order is c-76549. It was placed
+                    on April 5, 2024, at 8:20 AM UTC and is now marked as pending.
+                    The total amount charged is $89.75 USD. The items in this order
+                    include: Product ID p-00567 with a quantity of 1 at a unit price
+                    of $89.75. The shipping address is 123 Elm St, Boston, MA, 02108,
+                    USA. The customer has requested: "Hold at pickup location". Additional
+                    delivery preferences include scheduled delivery and contactless
+                    delivery. The estimated delivery date is April 10, 2024, by 7:00
+                    PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
-                    status: shipped
-                    totalAmount: 199.98
+                    orderId: 'Example: o-67214'
+                    customerId: 'Example: c-76549'
+                    orderDate: '2024-04-05T08:20:00.000Z'
+                    status: pending
+                    totalAmount: 89.75
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00567
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 89.75
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 123 Elm St
+                      city: Boston
+                      state: MA
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '02108'
+                    comments: Hold at pickup location.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:19.969838306Z'
-                updatedAt: '2025-03-17T13:14:19.969860026Z'
+                    - scheduled_delivery
+                    - contactless_delivery
+                    estimatedDelivery: '2024-04-10T19:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         default:
           description: ''
           content:
@@ -961,11 +1341,27 @@ paths:
         - email
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidExamples
+      - examples
+      description: "\nCreates a new project example associated with a specific project.\n\
+        An example consists of an (input, output) pair, where the input is identified\
+        \ by a `documentId`, and the output represents the expected inference result.\n\
+        To obtain a documentId, use the endpoints under the ***documents*** tag.\n\
+        Once created, this example will be automatically applied to subsequent inference\
+        \ calls as ICL (In-Context Learning) example—unless the output no longer aligns\
+        \ with the current template.\nIn such cases, the example will be skipped.\n\
+        \n\n\n#### Effect:\n If the project is shared, the document used to create\
+        \ this example will be automatically shared for read access to all users.\n\
+        \n#### Response:\n The response contains `exampleId`, which\n is required\
+        \ to update or delete this example.\n\n#### Error Responses:\n`404 Not Found`\
+        \ - If a project with the specified projectId does not exist or a document\
+        \ with the specified documentId does not exist.\n\n`403 Forbidden` - If the\
+        \ user does not have permission to update this project or use the specified\
+        \ document.\n\n`403 Locked` - If the project is locked.\n  "
+      operationId: postApiProjectsProjectidExamples
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -975,32 +1371,29 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOrUpdateExampleRequest'
             example:
-              documentId: eb0f0c2f-b01b-4f63-8356-95efb3d4f755
+              documentId: c944341c-dcde-42b7-a815-503fdc28cd57
               result:
-                orderId: o-56789
-                customerId: c-10293
-                orderDate: '2024-02-28T14:30:00.000Z'
-                status: shipped
-                totalAmount: 199.98
+                orderId: 'Example: o-67214'
+                customerId: 'Example: c-76549'
+                orderDate: '2024-04-05T08:20:00.000Z'
+                status: pending
+                totalAmount: 89.75
                 currency: USD
                 items:
-                - productId: p-00123
-                  quantity: 2
-                  unitPrice: 99.99
-                - productId: p-00456
+                - productId: p-00567
                   quantity: 1
-                  unitPrice: 49.99
+                  unitPrice: 89.75
                 shippingAddress:
-                  street: 456 Oak Ave
-                  city: Seattle
-                  state: WA
+                  street: 123 Elm St
+                  city: Boston
+                  state: MA
                   country: USA
-                  zip: '98101'
-                comments: Please call before delivery
+                  zip: '02108'
+                comments: Hold at pickup location.
                 deliveryPreferences:
-                - signature_required
-                - schedule_delivery
-                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                - scheduled_delivery
+                - contactless_delivery
+                estimatedDelivery: '2024-04-10T19:00:00.000Z'
         required: true
       responses:
         '200':
@@ -1010,43 +1403,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExampleResponse'
               example:
-                id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
-                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
-                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                id: 5b9367b3-574a-40e3-9773-e1026340d6e0
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  fileName: dummy_example_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
+                    processed. The customer ID for this order is c-76549. It was placed
+                    on April 5, 2024, at 8:20 AM UTC and is now marked as pending.
+                    The total amount charged is $89.75 USD. The items in this order
+                    include: Product ID p-00567 with a quantity of 1 at a unit price
+                    of $89.75. The shipping address is 123 Elm St, Boston, MA, 02108,
+                    USA. The customer has requested: "Hold at pickup location". Additional
+                    delivery preferences include scheduled delivery and contactless
+                    delivery. The estimated delivery date is April 10, 2024, by 7:00
+                    PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
-                    status: shipped
-                    totalAmount: 199.98
+                    orderId: 'Example: o-67214'
+                    customerId: 'Example: c-76549'
+                    orderDate: '2024-04-05T08:20:00.000Z'
+                    status: pending
+                    totalAmount: 89.75
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00567
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 89.75
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 123 Elm St
+                      city: Boston
+                      state: MA
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '02108'
+                    comments: Hold at pickup location.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:19.969838306Z'
-                updatedAt: '2025-03-17T13:14:19.969860026Z'
+                    - scheduled_delivery
+                    - contactless_delivery
+                    estimatedDelivery: '2024-04-10T19:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1064,19 +1463,25 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/examples/{exampleId}:
+  /api/projects/{projectId}/examples/{exampleId}:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceProjectsProjectidExamplesExampleid
+      - examples
+      description: "\nRetrieves a specific project example.\n\n#### Error Responses:\n\
+        `404 Not Found` - If an example with the specified exampleId associated with\
+        \ the given projectId does not exist.\n\n`403 Forbidden` - If the user does\
+        \ not have permission to view this project.\n  "
+      operationId: getApiProjectsProjectidExamplesExampleid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
       - name: exampleId
         in: path
+        description: Unique example identifier.
         required: true
         schema:
           type: string
@@ -1088,43 +1493,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExampleResponse'
               example:
-                id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
-                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
-                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                id: 5b9367b3-574a-40e3-9773-e1026340d6e0
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  fileName: dummy_example_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
+                    processed. The customer ID for this order is c-76549. It was placed
+                    on April 5, 2024, at 8:20 AM UTC and is now marked as pending.
+                    The total amount charged is $89.75 USD. The items in this order
+                    include: Product ID p-00567 with a quantity of 1 at a unit price
+                    of $89.75. The shipping address is 123 Elm St, Boston, MA, 02108,
+                    USA. The customer has requested: "Hold at pickup location". Additional
+                    delivery preferences include scheduled delivery and contactless
+                    delivery. The estimated delivery date is April 10, 2024, by 7:00
+                    PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
-                    status: shipped
-                    totalAmount: 199.98
+                    orderId: 'Example: o-67214'
+                    customerId: 'Example: c-76549'
+                    orderDate: '2024-04-05T08:20:00.000Z'
+                    status: pending
+                    totalAmount: 89.75
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00567
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 89.75
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 123 Elm St
+                      city: Boston
+                      state: MA
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '02108'
+                    comments: Hold at pickup location.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:19.969838306Z'
-                updatedAt: '2025-03-17T13:14:19.969860026Z'
+                    - scheduled_delivery
+                    - contactless_delivery
+                    estimatedDelivery: '2024-04-10T19:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         default:
           description: ''
           content:
@@ -1138,16 +1549,24 @@ paths:
         - email
     put:
       tags:
-      - reference
-      operationId: putApiReferenceProjectsProjectidExamplesExampleid
+      - examples
+      description: "\nUpdates a specific project example.\n\n#### Error Responses:\n\
+        `404 Not Found` - If an example with the specified exampleId associated with\
+        \ the given projectId does not exist, or if a document with the specified\
+        \ documentId cannot be found.\n\n`403 Forbidden` - If the user does not have\
+        \ permission to update this project or use the specified document.\n\n`403\
+        \ Locked` - If the project is locked.\n  "
+      operationId: putApiProjectsProjectidExamplesExampleid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
       - name: exampleId
         in: path
+        description: Unique example identifier.
         required: true
         schema:
           type: string
@@ -1157,32 +1576,29 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOrUpdateExampleRequest'
             example:
-              documentId: eb0f0c2f-b01b-4f63-8356-95efb3d4f755
+              documentId: c944341c-dcde-42b7-a815-503fdc28cd57
               result:
-                orderId: o-56789
-                customerId: c-10293
-                orderDate: '2024-02-28T14:30:00.000Z'
-                status: shipped
-                totalAmount: 199.98
+                orderId: 'Example: o-67214'
+                customerId: 'Example: c-76549'
+                orderDate: '2024-04-05T08:20:00.000Z'
+                status: pending
+                totalAmount: 89.75
                 currency: USD
                 items:
-                - productId: p-00123
-                  quantity: 2
-                  unitPrice: 99.99
-                - productId: p-00456
+                - productId: p-00567
                   quantity: 1
-                  unitPrice: 49.99
+                  unitPrice: 89.75
                 shippingAddress:
-                  street: 456 Oak Ave
-                  city: Seattle
-                  state: WA
+                  street: 123 Elm St
+                  city: Boston
+                  state: MA
                   country: USA
-                  zip: '98101'
-                comments: Please call before delivery
+                  zip: '02108'
+                comments: Hold at pickup location.
                 deliveryPreferences:
-                - signature_required
-                - schedule_delivery
-                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                - scheduled_delivery
+                - contactless_delivery
+                estimatedDelivery: '2024-04-10T19:00:00.000Z'
         required: true
       responses:
         '200':
@@ -1192,43 +1608,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExampleResponse'
               example:
-                id: b152f9ff-7e82-4500-9f3e-64bbbbb2d04e
-                projectId: 071182e6-45c9-45c9-8228-f6e9a4b3ea48
-                ownerUser: b46018ec-5cd2-4692-8450-fa6553022a42
+                id: 5b9367b3-574a-40e3-9773-e1026340d6e0
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  fileName: dummy_example_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
+                    processed. The customer ID for this order is c-76549. It was placed
+                    on April 5, 2024, at 8:20 AM UTC and is now marked as pending.
+                    The total amount charged is $89.75 USD. The items in this order
+                    include: Product ID p-00567 with a quantity of 1 at a unit price
+                    of $89.75. The shipping address is 123 Elm St, Boston, MA, 02108,
+                    USA. The customer has requested: "Hold at pickup location". Additional
+                    delivery preferences include scheduled delivery and contactless
+                    delivery. The estimated delivery date is April 10, 2024, by 7:00
+                    PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
-                    status: shipped
-                    totalAmount: 199.98
+                    orderId: 'Example: o-67214'
+                    customerId: 'Example: c-76549'
+                    orderDate: '2024-04-05T08:20:00.000Z'
+                    status: pending
+                    totalAmount: 89.75
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00567
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 89.75
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 123 Elm St
+                      city: Boston
+                      state: MA
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '02108'
+                    comments: Hold at pickup location.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:19.969838306Z'
-                updatedAt: '2025-03-17T13:14:19.969860026Z'
+                    - scheduled_delivery
+                    - contactless_delivery
+                    estimatedDelivery: '2024-04-10T19:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1248,16 +1670,23 @@ paths:
         - email
     delete:
       tags:
-      - reference
-      operationId: deleteApiReferenceProjectsProjectidExamplesExampleid
+      - examples
+      description: "\nDeletes a specific project example.\n\n#### Error Responses:\n\
+        `404 Not Found` - If an example with the specified exampleId associated with\
+        \ the given projectId does not exist.\n\n`403 Forbidden` - If the user does\
+        \ not have permission to update this project.\n\n`403 Locked` - If the project\
+        \ is locked.\n  "
+      operationId: deleteApiProjectsProjectidExamplesExampleid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
       - name: exampleId
         in: path
+        description: Unique example identifier.
         required: true
         schema:
           type: string
@@ -1275,14 +1704,19 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/results:
+  /api/projects/{projectId}/playground:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceProjectsProjectidResults
+      - playground
+      description: "\nRetrieves a list of playground items associated to the specified\
+        \ project.\n\n#### Error Responses:\n`404 Not Found` - If a project with the\
+        \ specified projectId does not exist.\n\n`403 Forbidden` - If the user does\
+        \ not have permission to view this project.\n  "
+      operationId: getApiProjectsProjectidPlayground
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -1294,45 +1728,55 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/HistoryResponse'
+                  $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-              - id: 70f23aa3-d360-4802-8841-bc86d198e59c
-                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
-                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+              - id: 60232dca-afa2-43c5-95bc-d02730d6a94d
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
+                    orderId: 'Example: o-89123'
+                    customerId: 'Example: c-20485'
+                    orderDate: '2024-03-10T11:15:00.000Z'
                     status: shipped
-                    totalAmount: 199.98
+                    totalAmount: 149.99
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00876
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 79.99
+                    - productId: p-00321
+                      quantity: 2
+                      unitPrice: 35
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 782 Pine St
+                      city: Austin
+                      state: TX
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '73301'
+                    comments: Leave package at the front door.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:20.070273298Z'
-                updatedAt: '2025-03-17T13:14:20.070294718Z'
+                    - no_signature_required
+                    - standard_delivery
+                    estimatedDelivery: '2024-03-15T17:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         default:
           description: ''
           content:
@@ -1346,11 +1790,17 @@ paths:
         - email
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidResults
+      - playground
+      description: "\nCreates a new playground item associated to the specified project.\n\
+        \n#### Error Responses:\n`404 Not Found` - If a project with the specified\
+        \ projectId does not exist or a document with the specified documentId does\
+        \ not exist.\n\n`403 Forbidden` - If the user does not have permission to\
+        \ update this project or use the specified document.\n  "
+      operationId: postApiProjectsProjectidPlayground
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -1358,35 +1808,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrUpdateHistoryRequest'
+              $ref: '#/components/schemas/CreateOrUpdatePlaygroundItemRequest'
             example:
-              ownerOrganization: a0e8d543-877a-4ed7-a37b-55c181a39ad3
-              documentId: a799cb81-9f92-4587-af28-fe57ae43607b
+              documentId: 7285756f-3cb1-4986-a501-229744fd24d1
               result:
-                orderId: o-56789
-                customerId: c-10293
-                orderDate: '2024-02-28T14:30:00.000Z'
+                orderId: 'Example: o-89123'
+                customerId: 'Example: c-20485'
+                orderDate: '2024-03-10T11:15:00.000Z'
                 status: shipped
-                totalAmount: 199.98
+                totalAmount: 149.99
                 currency: USD
                 items:
-                - productId: p-00123
-                  quantity: 2
-                  unitPrice: 99.99
-                - productId: p-00456
+                - productId: p-00876
                   quantity: 1
-                  unitPrice: 49.99
+                  unitPrice: 79.99
+                - productId: p-00321
+                  quantity: 2
+                  unitPrice: 35
                 shippingAddress:
-                  street: 456 Oak Ave
-                  city: Seattle
-                  state: WA
+                  street: 782 Pine St
+                  city: Austin
+                  state: TX
                   country: USA
-                  zip: '98101'
-                comments: Please call before delivery
+                  zip: '73301'
+                comments: Leave package at the front door.
                 deliveryPreferences:
-                - signature_required
-                - schedule_delivery
-                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                - no_signature_required
+                - standard_delivery
+                estimatedDelivery: '2024-03-15T17:00:00.000Z'
         required: true
       responses:
         '200':
@@ -1394,45 +1843,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HistoryResponse'
+                $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-                id: 70f23aa3-d360-4802-8841-bc86d198e59c
-                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
-                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                id: 60232dca-afa2-43c5-95bc-d02730d6a94d
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
+                    orderId: 'Example: o-89123'
+                    customerId: 'Example: c-20485'
+                    orderDate: '2024-03-10T11:15:00.000Z'
                     status: shipped
-                    totalAmount: 199.98
+                    totalAmount: 149.99
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00876
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 79.99
+                    - productId: p-00321
+                      quantity: 2
+                      unitPrice: 35
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 782 Pine St
+                      city: Austin
+                      state: TX
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '73301'
+                    comments: Leave package at the front door.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:20.070273298Z'
-                updatedAt: '2025-03-17T13:14:20.070294718Z'
+                    - no_signature_required
+                    - standard_delivery
+                    estimatedDelivery: '2024-03-15T17:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1450,19 +1909,25 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/results/{historyId}:
+  /api/projects/{projectId}/playground/{playgroundItemId}:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceProjectsProjectidResultsHistoryid
+      - playground
+      description: "\nRetrieves a specific playground item.\n\n#### Error Responses:\n\
+        `404 Not Found` - If a playground item with the specified playgroundItemId\
+        \ associated with the given projectId does not exist.\n\n`403 Forbidden` -\
+        \ If the user does not have permission to view this project.\n  "
+      operationId: getApiProjectsProjectidPlaygroundPlaygrounditemid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
-      - name: historyId
+      - name: playgroundItemId
         in: path
+        description: Unique playground item identifier.
         required: true
         schema:
           type: string
@@ -1472,45 +1937,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HistoryResponse'
+                $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-                id: 70f23aa3-d360-4802-8841-bc86d198e59c
-                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
-                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                id: 60232dca-afa2-43c5-95bc-d02730d6a94d
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
+                    orderId: 'Example: o-89123'
+                    customerId: 'Example: c-20485'
+                    orderDate: '2024-03-10T11:15:00.000Z'
                     status: shipped
-                    totalAmount: 199.98
+                    totalAmount: 149.99
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00876
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 79.99
+                    - productId: p-00321
+                      quantity: 2
+                      unitPrice: 35
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 782 Pine St
+                      city: Austin
+                      state: TX
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '73301'
+                    comments: Leave package at the front door.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:20.070273298Z'
-                updatedAt: '2025-03-17T13:14:20.070294718Z'
+                    - no_signature_required
+                    - standard_delivery
+                    estimatedDelivery: '2024-03-15T17:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         default:
           description: ''
           content:
@@ -1524,16 +1999,24 @@ paths:
         - email
     put:
       tags:
-      - reference
-      operationId: putApiReferenceProjectsProjectidResultsHistoryid
+      - playground
+      description: "\nUpdates a specific playground item.\n\n#### Error Responses:\n\
+        `404 Not Found` - If a playground item with the specified playgroundItemId\
+        \ associated with the given projectId does not exist, or if a document with\
+        \ the specified documentId cannot be found.\n\n`403 Forbidden` - If the user\
+        \ does not have permission to update this project or use the specified document.\n\
+        \  "
+      operationId: putApiProjectsProjectidPlaygroundPlaygrounditemid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
-      - name: historyId
+      - name: playgroundItemId
         in: path
+        description: Unique playground item identifier.
         required: true
         schema:
           type: string
@@ -1541,35 +2024,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrUpdateHistoryRequest'
+              $ref: '#/components/schemas/CreateOrUpdatePlaygroundItemRequest'
             example:
-              ownerOrganization: a0e8d543-877a-4ed7-a37b-55c181a39ad3
-              documentId: a799cb81-9f92-4587-af28-fe57ae43607b
+              documentId: 7285756f-3cb1-4986-a501-229744fd24d1
               result:
-                orderId: o-56789
-                customerId: c-10293
-                orderDate: '2024-02-28T14:30:00.000Z'
+                orderId: 'Example: o-89123'
+                customerId: 'Example: c-20485'
+                orderDate: '2024-03-10T11:15:00.000Z'
                 status: shipped
-                totalAmount: 199.98
+                totalAmount: 149.99
                 currency: USD
                 items:
-                - productId: p-00123
-                  quantity: 2
-                  unitPrice: 99.99
-                - productId: p-00456
+                - productId: p-00876
                   quantity: 1
-                  unitPrice: 49.99
+                  unitPrice: 79.99
+                - productId: p-00321
+                  quantity: 2
+                  unitPrice: 35
                 shippingAddress:
-                  street: 456 Oak Ave
-                  city: Seattle
-                  state: WA
+                  street: 782 Pine St
+                  city: Austin
+                  state: TX
                   country: USA
-                  zip: '98101'
-                comments: Please call before delivery
+                  zip: '73301'
+                comments: Leave package at the front door.
                 deliveryPreferences:
-                - signature_required
-                - schedule_delivery
-                estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                - no_signature_required
+                - standard_delivery
+                estimatedDelivery: '2024-03-15T17:00:00.000Z'
         required: true
       responses:
         '200':
@@ -1577,45 +2059,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HistoryResponse'
+                $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-                id: 70f23aa3-d360-4802-8841-bc86d198e59c
-                projectId: 87b865f7-1c63-4986-88cd-35783793bf90
-                ownerUser: 5aefec64-d9a0-4d2c-9375-96ab48e9fbbb
+                id: 60232dca-afa2-43c5-95bc-d02730d6a94d
+                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
                 result:
                   type: information
                   information:
-                    orderId: o-56789
-                    customerId: c-10293
-                    orderDate: '2024-02-28T14:30:00.000Z'
+                    orderId: 'Example: o-89123'
+                    customerId: 'Example: c-20485'
+                    orderDate: '2024-03-10T11:15:00.000Z'
                     status: shipped
-                    totalAmount: 199.98
+                    totalAmount: 149.99
                     currency: USD
                     items:
-                    - productId: p-00123
-                      quantity: 2
-                      unitPrice: 99.99
-                    - productId: p-00456
+                    - productId: p-00876
                       quantity: 1
-                      unitPrice: 49.99
+                      unitPrice: 79.99
+                    - productId: p-00321
+                      quantity: 2
+                      unitPrice: 35
                     shippingAddress:
-                      street: 456 Oak Ave
-                      city: Seattle
-                      state: WA
+                      street: 782 Pine St
+                      city: Austin
+                      state: TX
                       country: USA
-                      zip: '98101'
-                    comments: Please call before delivery
+                      zip: '73301'
+                    comments: Leave package at the front door.
                     deliveryPreferences:
-                    - signature_required
-                    - schedule_delivery
-                    estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                createdAt: '2025-03-17T13:14:20.070273298Z'
-                updatedAt: '2025-03-17T13:14:20.070294718Z'
+                    - no_signature_required
+                    - standard_delivery
+                    estimatedDelivery: '2024-03-15T17:00:00.000Z'
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1635,16 +2127,22 @@ paths:
         - email
     delete:
       tags:
-      - reference
-      operationId: deleteApiReferenceProjectsProjectidResultsHistoryid
+      - playground
+      description: "\nDeletes a specific playground item.\n\n#### Error Responses:\n\
+        `404 Not Found` - If a playground item with the specified playgroundItemId\
+        \ associated with the given projectId does not exist.\n\n`403 Forbidden` -\
+        \ If the user does not have permission to update this project.\n  "
+      operationId: deleteApiProjectsProjectidPlaygroundPlaygrounditemid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
-      - name: historyId
+      - name: playgroundItemId
         in: path
+        description: Unique playground item identifier.
         required: true
         schema:
           type: string
@@ -1662,14 +2160,21 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/documents/{documentId}:
+  /api/documents/{documentId}:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceDocumentsDocumentid
+      - documents
+      description: "\n Retrieves meta information about a specific document. \n For\
+        \ text documents, this includes the text content.\n In order to access the\
+        \ non-text document content, uset the endpoint `/api/documents/{documentId}/content`\n\
+        \n#### Error Responses:\n`404 Not Found` - If a document with the specified\
+        \ documentId does not exist.\n\n`403 Forbidden` - If the user does not have\
+        \ permission to view this document.\n   "
+      operationId: getApiDocumentsDocumentid
       parameters:
       - name: documentId
         in: path
+        description: Unique document identifier.
         required: true
         schema:
           type: string
@@ -1680,6 +2185,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DocumentResponse'
+              examples:
+                Text Document:
+                  value:
+                    docInfo:
+                      type: text
+                      documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                      fileName: dummy_confirmation_email.txt
+                      text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                        processed. The customer ID for this order is c-20485. It was
+                        placed on March 10, 2024, at 11:15 AM UTC and is now marked
+                        as shipped. The total amount charged is $149.99 USD. The items
+                        in this order include: Product ID p-00876 with a quantity
+                        of 1 at a unit price of $79.99, and Product ID p-00321 with
+                        a quantity of 2 at a unit price of $35.00. The shipping address
+                        is 782 Pine St, Austin, TX, 73301, USA. The customer has requested:
+                        "Leave package at the front door." Additional delivery preferences
+                        include no signature required and standard delivery. The estimated
+                        delivery date is March 15, 2024, by 5:00 PM UTC.'
+                    ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                    originalContentType: text/plain
+                    contentType: text/plain
+                    createdAt: '2025-04-11T08:13:56.849893697Z'
+                    updatedAt: '2025-04-11T08:13:56.849926437Z'
+                    shared: false
+                Image Document:
+                  value:
+                    docInfo:
+                      type: image
+                      documentId: 15eeb346-b822-4743-ac56-1a7669e8c66d
+                      fileName: dummy_confirmation_email.pdf
+                    ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                    originalContentType: application/pdf
+                    contentType: image/png
+                    createdAt: '2025-04-11T08:13:56.849893697Z'
+                    updatedAt: '2025-04-11T08:13:56.849926437Z'
+                    shared: false
         default:
           description: ''
           content:
@@ -1691,11 +2232,15 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/documents/{documentId}/content:
+  /api/documents/{documentId}/content:
     get:
       tags:
-      - reference
-      operationId: getApiReferenceDocumentsDocumentidContent
+      - documents
+      description: "\n Retrieves the content of a specific document.\n\n#### Error\
+        \ Responses:\n`404 Not Found` - If a document with the specified documentId\
+        \ does not exist.\n\n`403 Forbidden` - If the user does not have permission\
+        \ to view this document.\n   "
+      operationId: getApiDocumentsDocumentidContent
       parameters:
       - name: token
         in: query
@@ -1704,6 +2249,7 @@ paths:
           type: string
       - name: documentId
         in: path
+        description: Unique document identifier.
         required: true
         schema:
           type: string
@@ -1712,6 +2258,7 @@ paths:
           description: ''
           headers:
             Content-Type:
+              description: MIME type of document content
               required: true
               schema:
                 type: string
@@ -1732,16 +2279,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/reference/documents/text:
+  /api/documents/text:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceDocumentsText
+      - documents
+      description: "\n Save the text as a document. \n Once saved, this document can\
+        \ be used to perform inference,\n create ICL (In-Context Learning) examples,\n\
+        \ and/or save playground items with the text as input.\n \n In order to save\
+        \ non-text files, use the `/api/documents/file` endpoint.\n\n\n#### Response:\n\
+        \ The response contains a `documentId`, which is required in order to access\
+        \ and use this document.\n   "
+      operationId: postApiDocumentsText
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TextRequest'
+            example:
+              text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                processed. The customer ID for this order is c-20485. It was placed
+                on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The
+                total amount charged is $149.99 USD. The items in this order include:
+                Product ID p-00876 with a quantity of 1 at a unit price of $79.99,
+                and Product ID p-00321 with a quantity of 2 at a unit price of $35.00.
+                The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer
+                has requested: "Leave package at the front door." Additional delivery
+                preferences include no signature required and standard delivery. The
+                estimated delivery date is March 15, 2024, by 5:00 PM UTC.'
         required: true
       responses:
         '200':
@@ -1750,6 +2314,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DocumentResponse'
+              example:
+                docInfo:
+                  type: text
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                originalContentType: text/plain
+                contentType: text/plain
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                shared: false
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1767,14 +2353,31 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/documents/file:
+  /api/projects/{projectId}/documents/file:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceDocumentsFile
+      - documents
+      description: "\n Save the file as a document. \n\n Once saved, this document\
+        \ can be used to perform inference,\n create ICL (In-Context Learning) examples,\n\
+        \ and/or save playground items with the text as input.\n \n All non-image\
+        \ files are automatically converted to an image in the background when possible.\n\
+        \ For that, a parameter **rasterizationDpi** is taken into account. \n This\
+        \ parameter can be set in the project settings.\n\n\n\n#### Response:\n The\
+        \ response contains a `documentId`, which is required in order to access and\
+        \ use this document.\n When referencing a non-text/image file by `documentId`,\
+        \ only its converted image equivalents are accessible.\n\n#### Error Responses:\n\
+        `404 Not Found` - If a project with the specified projectId does not exist.\n"
+      operationId: postApiProjectsProjectidDocumentsFile
       parameters:
+      - name: projectId
+        in: path
+        description: Unique project identifier.
+        required: true
+        schema:
+          type: string
       - name: x-file-name
         in: header
+        description: The name of the file to be uploaded.
         required: true
         schema:
           type: string
@@ -1792,6 +2395,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DocumentResponse'
+              example:
+                docInfo:
+                  type: image
+                  documentId: 15eeb346-b822-4743-ac56-1a7669e8c66d
+                  fileName: dummy_confirmation_email.pdf
+                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                originalContentType: application/pdf
+                contentType: image/png
+                createdAt: '2025-04-11T08:13:56.849893697Z'
+                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                shared: false
         '400':
           description: 'Invalid value for: header x-file-name, Invalid value for:
             body'
@@ -1810,14 +2424,27 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/infer-text:
+  /api/projects/{projectId}/infer-text:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidInfer-text
+      - inference
+      description: "\n Performs information extraction inference on the provided text.\n\
+        \ The text content must be compatible with the template of the project.\n\
+        \ Inference **temperature** can be set in the project settings.\n\n\n####\
+        \ Response:\n Returns a json representing the inference result.\n The ***result***\
+        \ field is guaranteed to conform to the template.\n If the model returns an\
+        \ invalid response, the ***result*** contains an empty template. \n In this\
+        \ case, the raw response is additionally included in ***rawResponse*** field,\
+        \ \n together with the error message. \n Additionally, the response contains\
+        \ `documentId`, which allows to reuse this text document in the future.\n\n\
+        #### Error Responses:\n`404 Not Found` - If  a project with the specified\
+        \ projectId does not exist.\n\n`403 Forbidden` - If the user does not have\
+        \ permission to run inference on this project.\n   "
+      operationId: postApiProjectsProjectidInfer-text
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
@@ -1826,6 +2453,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TextRequest'
+            example:
+              text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                processed. The customer ID for this order is c-20485. It was placed
+                on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The
+                total amount charged is $149.99 USD. The items in this order include:
+                Product ID p-00876 with a quantity of 1 at a unit price of $79.99,
+                and Product ID p-00321 with a quantity of 2 at a unit price of $35.00.
+                The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer
+                has requested: "Leave package at the front door." Additional delivery
+                preferences include no signature required and standard delivery. The
+                estimated delivery date is March 15, 2024, by 5:00 PM UTC.'
         required: true
       responses:
         '200':
@@ -1836,36 +2474,46 @@ paths:
                 $ref: '#/components/schemas/InferenceResponse'
               example:
                 result:
-                  orderId: o-56789
-                  customerId: c-10293
-                  orderDate: '2024-02-28T14:30:00.000Z'
+                  orderId: 'Example: o-89123'
+                  customerId: 'Example: c-20485'
+                  orderDate: '2024-03-10T11:15:00.000Z'
                   status: shipped
-                  totalAmount: 199.98
+                  totalAmount: 149.99
                   currency: USD
                   items:
-                  - productId: p-00123
-                    quantity: 2
-                    unitPrice: 99.99
-                  - productId: p-00456
+                  - productId: p-00876
                     quantity: 1
-                    unitPrice: 49.99
+                    unitPrice: 79.99
+                  - productId: p-00321
+                    quantity: 2
+                    unitPrice: 35
                   shippingAddress:
-                    street: 456 Oak Ave
-                    city: Seattle
-                    state: WA
+                    street: 782 Pine St
+                    city: Austin
+                    state: TX
                     country: USA
-                    zip: '98101'
-                  comments: Please call before delivery
+                    zip: '73301'
+                  comments: Leave package at the front door.
                   deliveryPreferences:
-                  - signature_required
-                  - schedule_delivery
-                  estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                  - no_signature_required
+                  - standard_delivery
+                  estimatedDelivery: '2024-03-15T17:00:00.000Z'
                 documentInfo:
                   type: text
-                  documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                  fileName: text_file.txt
-                  text: This is an example text.
-                tokens: 0
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
+                tokens: 567
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1883,19 +2531,37 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/infer-file:
+  /api/projects/{projectId}/infer-file:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidInfer-file
+      - inference
+      description: "\n Performs information extraction inference on the provided file.\n\
+        \ The file content must be compatible with the template of the project.\n\
+        \ All non-image files are automatically converted to an image in the background\
+        \ when possible.\n For that, a parameter **rasterizationDpi** is taken into\
+        \ account. \n This parameter can be set in the project settings.\n Inference\
+        \ **temperature** can be set in the project settings.\n\n\n\n#### Response:\n\
+        \ Returns a json representing the inference result.\n The ***result*** field\
+        \ is guaranteed to conform to the template.\n If the model returns an invalid\
+        \ response, the ***result*** contains an empty template. \n In this case,\
+        \ the raw response is additionally included in ***rawResponse*** field, \n\
+        \ together with the error message. \n Additionally, the response contains\
+        \ `documentId`, which allows to reuse this file in the future.\n    When referencing\
+        \ a non-text/image file by `documentId`, only its converted image equivalents\
+        \ are accessible.\n\n#### Error Responses:\n`404 Not Found` - If  a project\
+        \ with the specified projectId does not exist.\n\n`403 Forbidden` - If the\
+        \ user does not have permission to run inference on this project.\n   "
+      operationId: postApiProjectsProjectidInfer-file
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
       - name: x-file-name
         in: header
+        description: The name of the file to be uploaded.
         required: true
         schema:
           type: string
@@ -1915,35 +2581,35 @@ paths:
                 $ref: '#/components/schemas/InferenceResponse'
               example:
                 result:
-                  orderId: o-56789
-                  customerId: c-10293
-                  orderDate: '2024-02-28T14:30:00.000Z'
-                  status: shipped
-                  totalAmount: 199.98
+                  orderId: 'Example: o-45762'
+                  customerId: 'Example: c-39874'
+                  orderDate: '2024-01-22T16:45:00.000Z'
+                  status: delivered
+                  totalAmount: 299.5
                   currency: USD
                   items:
-                  - productId: p-00123
-                    quantity: 2
-                    unitPrice: 99.99
-                  - productId: p-00456
-                    quantity: 1
+                  - productId: p-00234
+                    quantity: 3
                     unitPrice: 49.99
+                  - productId: p-00789
+                    quantity: 1
+                    unitPrice: 149.53
                   shippingAddress:
-                    street: 456 Oak Ave
-                    city: Seattle
-                    state: WA
+                    street: 982 Birch Ln
+                    city: San Diego
+                    state: CA
                     country: USA
-                    zip: '98101'
-                  comments: Please call before delivery
+                    zip: '92103'
+                  comments: Deliver to reception desk.
                   deliveryPreferences:
                   - signature_required
-                  - schedule_delivery
-                  estimatedDelivery: '2024-03-05T18:00:00.000Z'
+                  - express_shipping
+                  estimatedDelivery: '2024-01-25T15:30:00.000Z'
                 documentInfo:
                   type: image
-                  documentId: 6ca04d5d-b3ac-415b-bf6e-68605181b93f
-                  fileName: image_file.jpg
-                tokens: 0
+                  documentId: 15eeb346-b822-4743-ac56-1a7669e8c66d
+                  fileName: dummy_confirmation_email.pdf
+                tokens: 897
         '400':
           description: 'Invalid value for: header x-file-name, Invalid value for:
             body'
@@ -1962,19 +2628,32 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/projects/{projectId}/infer-document/{documentId}:
+  /api/projects/{projectId}/infer-document/{documentId}:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceProjectsProjectidInfer-documentDocumentid
+      - inference
+      description: "\n Performs information extraction inference on a specific document.\n\
+        \ The document content must be compatible with the template of the project.\n\
+        \ Inference **temperature** can be set in the project settings.\n\n#### Response:\n\
+        \ The ***result*** field is guaranteed to conform to the template.\n If the\
+        \ model returns an invalid response, the ***result*** contains an empty template.\
+        \ \n In this case, the raw response is additionally included in ***rawResponse***\
+        \ field, \n together with the error message.\n\n#### Error Responses:\n`404\
+        \ Not Found` - If a document with the given documentId, or a project with\
+        \ the specified projectId does not exist.\n\n`403 Forbidden` - If the user\
+        \ does not have permission to use this document or run inference on this project.\n\
+        \   "
+      operationId: postApiProjectsProjectidInfer-documentDocumentid
       parameters:
       - name: projectId
         in: path
+        description: Unique project identifier.
         required: true
         schema:
           type: string
       - name: documentId
         in: path
+        description: Unique document identifier.
         required: true
         schema:
           type: string
@@ -1985,72 +2664,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InferenceResponse'
-              examples:
-                Example0:
-                  value:
-                    result:
-                      orderId: o-56789
-                      customerId: c-10293
-                      orderDate: '2024-02-28T14:30:00.000Z'
-                      status: shipped
-                      totalAmount: 199.98
-                      currency: USD
-                      items:
-                      - productId: p-00123
-                        quantity: 2
-                        unitPrice: 99.99
-                      - productId: p-00456
-                        quantity: 1
-                        unitPrice: 49.99
-                      shippingAddress:
-                        street: 456 Oak Ave
-                        city: Seattle
-                        state: WA
-                        country: USA
-                        zip: '98101'
-                      comments: Please call before delivery
-                      deliveryPreferences:
-                      - signature_required
-                      - schedule_delivery
-                      estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                    documentInfo:
-                      type: text
-                      documentId: ead13c80-6a52-4318-8bae-f66ac2886558
-                      fileName: text_file.txt
-                      text: This is an example text.
-                    tokens: 0
-                Example1:
-                  value:
-                    result:
-                      orderId: o-56789
-                      customerId: c-10293
-                      orderDate: '2024-02-28T14:30:00.000Z'
-                      status: shipped
-                      totalAmount: 199.98
-                      currency: USD
-                      items:
-                      - productId: p-00123
-                        quantity: 2
-                        unitPrice: 99.99
-                      - productId: p-00456
-                        quantity: 1
-                        unitPrice: 49.99
-                      shippingAddress:
-                        street: 456 Oak Ave
-                        city: Seattle
-                        state: WA
-                        country: USA
-                        zip: '98101'
-                      comments: Please call before delivery
-                      deliveryPreferences:
-                      - signature_required
-                      - schedule_delivery
-                      estimatedDelivery: '2024-03-05T18:00:00.000Z'
-                    documentInfo:
-                      type: image
-                      documentId: 6ca04d5d-b3ac-415b-bf6e-68605181b93f
-                      fileName: image_file.jpg
-                    tokens: 0
+              example:
+                result:
+                  orderId: 'Example: o-89123'
+                  customerId: 'Example: c-20485'
+                  orderDate: '2024-03-10T11:15:00.000Z'
+                  status: shipped
+                  totalAmount: 149.99
+                  currency: USD
+                  items:
+                  - productId: p-00876
+                    quantity: 1
+                    unitPrice: 79.99
+                  - productId: p-00321
+                    quantity: 2
+                    unitPrice: 35
+                  shippingAddress:
+                    street: 782 Pine St
+                    city: Austin
+                    state: TX
+                    country: USA
+                    zip: '73301'
+                  comments: Leave package at the front door.
+                  deliveryPreferences:
+                  - no_signature_required
+                  - standard_delivery
+                  estimatedDelivery: '2024-03-15T17:00:00.000Z'
+                documentInfo:
+                  type: text
+                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  fileName: dummy_confirmation_email.txt
+                  text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
+                    processed. The customer ID for this order is c-20485. It was placed
+                    on March 10, 2024, at 11:15 AM UTC and is now marked as shipped.
+                    The total amount charged is $149.99 USD. The items in this order
+                    include: Product ID p-00876 with a quantity of 1 at a unit price
+                    of $79.99, and Product ID p-00321 with a quantity of 2 at a unit
+                    price of $35.00. The shipping address is 782 Pine St, Austin,
+                    TX, 73301, USA. The customer has requested: "Leave package at
+                    the front door." Additional delivery preferences include no signature
+                    required and standard delivery. The estimated delivery date is
+                    March 15, 2024, by 5:00 PM UTC.'
+                tokens: 567
         default:
           description: ''
           content:
@@ -2062,16 +2717,29 @@ paths:
         - openid
         - profile
         - email
-  /api/reference/infer-template:
+  /api/infer-template:
     post:
       tags:
-      - reference
-      operationId: postApiReferenceInfer-template
+      - inference
+      description: "\n Derives a template from the provided natural language description.\n\
+        \ Potentially, this endpoint can equally be used to correct the template to\
+        \ conform to the NuExtract standard.\n The resulting template is a JSON object\
+        \ that can be used as a project template.\n\n\n#### Response:\n Returns a\
+        \ json representing the derived template.\n The response is an empty template\
+        \ if the derivation fails.\n\n   "
+      operationId: postApiInfer-template
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TemplateRequest'
+            example:
+              description: '[EXAMPLE ONLY] Create a template that extracts key information
+                from an order confirmation email. The template should be able to pull
+                details like the order ID, customer ID, date and time of the order,
+                status, total amount, currency, item details (product ID, quantity,
+                and unit price), shipping address, any customer requests or delivery
+                preferences, and the estimated delivery date.'
         required: true
       responses:
         '200':
@@ -2080,6 +2748,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Obj'
+              example:
+                orderId: verbatim-string
+                customerId: verbatim-string
+                orderDate: date-time
+                status:
+                - pending
+                - processed
+                - shipped
+                - delivered
+                - cancelled
+                totalAmount: number
+                currency: string
+                items:
+                - productId: string
+                  quantity: number
+                  unitPrice: number
+                shippingAddress:
+                  street: string
+                  city: string
+                  state: string
+                  country: string
+                  zip: string
+                comments: string
+                deliveryPreferences:
+                - - contactless_delivery
+                  - signature_required
+                  - leave_at_door
+                  - pickup_from_store
+                  - deliver_to_neighbor
+                  - schedule_delivery
+                estimatedDelivery: date-time
         '400':
           description: 'Invalid value for: body'
           content:
@@ -2099,6 +2798,29 @@ paths:
         - email
 components:
   schemas:
+    ApiKeyResponse:
+      title: ApiKeyResponse
+      type: object
+      required:
+      - id
+      - name
+      - token
+      - userId
+      - createdAt
+      - expiresAt
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        token:
+          type: string
+        userId:
+          type: string
+        createdAt:
+          type: string
+        expiresAt:
+          type: string
     Arr:
       title: Arr
       type: object
@@ -2126,6 +2848,14 @@ components:
       properties:
         value:
           type: boolean
+    CreateOrUpdateApiKey:
+      title: CreateOrUpdateApiKey
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
     CreateOrUpdateExampleRequest:
       title: CreateOrUpdateExampleRequest
       type: object
@@ -2134,24 +2864,29 @@ components:
       - result
       properties:
         documentId:
+          description: Unique document identifier.
           type: string
         result:
           type: object
-    CreateOrUpdateHistoryRequest:
-      title: CreateOrUpdateHistoryRequest
+          description: Expected inference result.
+    CreateOrUpdatePlaygroundItemRequest:
+      title: CreateOrUpdatePlaygroundItemRequest
       type: object
       required:
       - documentId
       - result
       properties:
         ownerOrganization:
+          description: Project owning organization (optional).
           type: string
         documentId:
+          description: Unique document identifier.
           type: string
         result:
           type: object
-    CreateOrUpdateProjectRequest:
-      title: CreateOrUpdateProjectRequest
+          description: Inference result.
+    CreateProjectRequest:
+      title: CreateProjectRequest
       type: object
       required:
       - name
@@ -2159,20 +2894,16 @@ components:
       - template
       properties:
         name:
+          description: Project name.
           type: string
         description:
+          description: A brief explanation of the project.
           type: string
         template:
           type: object
+          description: Extraction template (NuExtract format).
         ownerOrganization:
-          type: string
-    CreateOrUpdateUserToken:
-      title: CreateOrUpdateUserToken
-      type: object
-      required:
-      - name
-      properties:
-        name:
+          description: Project owning organization (optional).
           type: string
     Datetime:
       title: Datetime
@@ -2201,19 +2932,27 @@ components:
       properties:
         docInfo:
           $ref: '#/components/schemas/DocumentInfo'
+          description: Basic document information.
         ownerUser:
+          description: Document owner.
           type: string
         ownerOrganization:
+          description: Document owning organization (if any).
           type: string
         originalContentType:
+          description: Mime type of the original file.
           type: string
         contentType:
+          description: Mime type of the converted document.
           type: string
         createdAt:
+          description: Document creation date.
           type: string
         updatedAt:
+          description: Document last update date.
           type: string
         shared:
+          description: The shared state of the document.
           type: boolean
     Enum:
       title: Enum
@@ -2247,18 +2986,25 @@ components:
       - updatedAt
       properties:
         id:
+          description: Unique example identifier.
           type: string
         projectId:
+          description: Unique project identifier.
           type: string
         ownerUser:
+          description: Example owner.
           type: string
         documentInfo:
           $ref: '#/components/schemas/DocumentInfo'
+          description: Basic information on the document used to create this example.
         result:
           $ref: '#/components/schemas/InformationResponse'
+          description: Expected inference result.
         createdAt:
+          description: Example creation date.
           type: string
         updatedAt:
+          description: Example last update date.
           type: string
     HealthResponse:
       title: HealthResponse
@@ -2268,32 +3014,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ServiceStatus'
-    HistoryResponse:
-      title: HistoryResponse
-      type: object
-      required:
-      - id
-      - projectId
-      - ownerUser
-      - documentInfo
-      - result
-      - createdAt
-      - updatedAt
-      properties:
-        id:
-          type: string
-        projectId:
-          type: string
-        ownerUser:
-          type: string
-        documentInfo:
-          $ref: '#/components/schemas/DocumentInfo'
-        result:
-          $ref: '#/components/schemas/InformationResponse'
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
     ImageInfo:
       title: ImageInfo
       type: object
@@ -2303,8 +3023,10 @@ components:
       - type
       properties:
         documentId:
+          description: Unique document identifier.
           type: string
         fileName:
+          description: Filename of the initial file.
           type: string
         type:
           type: string
@@ -2319,11 +3041,14 @@ components:
       properties:
         result:
           type: object
+          description: Inference result conforming to the template.
         rawResult:
           $ref: '#/components/schemas/RawResult'
         documentInfo:
           $ref: '#/components/schemas/DocumentInfo'
+          description: Basic information on the document used for inference.
         tokens:
+          description: Total number of tokens used for inference (input + output).
           type: integer
           format: int64
     InfoNode:
@@ -2357,8 +3082,11 @@ components:
       - type
       properties:
         information:
+          description: "Inference result not conforming to the template.   \n   This\
+            \ is the raw response from the model."
           type: string
         error:
+          description: Error message explaining why the inference result is invalid.
           type: string
         type:
           type: string
@@ -2422,6 +3150,39 @@ components:
       properties:
         schemas:
           $ref: '#/components/schemas/Map_V'
+    PlaygroundItemResponse:
+      title: PlaygroundItemResponse
+      type: object
+      required:
+      - id
+      - projectId
+      - ownerUser
+      - documentInfo
+      - result
+      - createdAt
+      - updatedAt
+      properties:
+        id:
+          description: Unique playground item identifier.
+          type: string
+        projectId:
+          description: Unique project identifier.
+          type: string
+        ownerUser:
+          description: Playground item owner.
+          type: string
+        documentInfo:
+          $ref: '#/components/schemas/DocumentInfo'
+          description: Basic information on the document used for inference.
+        result:
+          $ref: '#/components/schemas/InformationResponse'
+          description: Inference result.
+        createdAt:
+          description: Playground item creation date.
+          type: string
+        updatedAt:
+          description: Playground item last update date.
+          type: string
     ProjectResponse:
       title: ProjectResponse
       type: object
@@ -2434,35 +3195,73 @@ components:
       - createdAt
       - updatedAt
       - lockState
+      - shared
+      - settings
       properties:
         id:
+          description: Unique project identifier.
           type: string
         name:
+          description: Project name.
           type: string
         description:
+          description: A brief explanation of the project.
           type: string
         template:
           type: object
         ownerUser:
+          description: Project owner.
           type: string
         ownerOrganization:
+          description: Project owning organization (if any).
           type: string
         createdAt:
+          description: Project creation date.
           type: string
         updatedAt:
+          description: Project last update date.
           type: string
         lockState:
+          description: The lock state of the project.
           type: boolean
+        shared:
+          description: The shared state of the project.
+          type: boolean
+        settings:
+          $ref: '#/components/schemas/ProjectSettingsResponse'
+    ProjectSettingsResponse:
+      title: ProjectSettingsResponse
+      description: Project settings.
+      type: object
+      required:
+      - temperature
+      - rasterizationDpi
+      properties:
+        temperature:
+          description: The temperature to use for inference.
+          type: number
+          format: double
+          minimum: 0.0
+          maximum: 1.0
+        rasterizationDpi:
+          description: Rasterization DPI used during file to image conversion.
+          type: integer
+          format: int32
+          exclusiveMinimum: 0
+          maximum: 300
     RawResult:
       title: RawResult
+      description: Inference result if not conforming to the template.
       type: object
       required:
       - result
       - error
       properties:
         result:
+          description: Inference result not conforming to the template.
           type: string
         error:
+          description: Error message explaining why the inference result is invalid.
           type: string
     SchemaNode:
       title: SchemaNode
@@ -2479,9 +3278,10 @@ components:
       - $ref: '#/components/schemas/VerbatimStr'
     SchemaResponse:
       title: SchemaResponse
+      description: Extraction template (NuExtract format).
       oneOf:
-      - $ref: '#/components/schemas/ValidSchema'
       - $ref: '#/components/schemas/InvalidSchema'
+      - $ref: '#/components/schemas/ValidSchema'
       discriminator:
         propertyName: type
         mapping:
@@ -2519,6 +3319,7 @@ components:
       - description
       properties:
         description:
+          description: Free-format template description.
           type: string
     TextInfo:
       title: TextInfo
@@ -2529,10 +3330,14 @@ components:
       - type
       properties:
         documentId:
+          description: Unique document identifier.
           type: string
         fileName:
+          description: "Filename of the initial file if any.  \n  **None** for text\
+            \ input."
           type: string
         text:
+          description: The text content of the document.
           type: string
         type:
           type: string
@@ -2544,6 +3349,7 @@ components:
       - text
       properties:
         text:
+          description: The text to extract from.
           type: string
     TokenCodeRequest:
       title: TokenCodeRequest
@@ -2599,37 +3405,46 @@ components:
         refreshExpiresIn:
           type: integer
           format: int32
+    UpdateProjectRequest:
+      title: UpdateProjectRequest
+      type: object
+      properties:
+        name:
+          description: Project name (optional).
+          type: string
+        description:
+          description: A brief explanation of the project (optional).
+          type: string
+        template:
+          type: object
+          description: Extraction template (NuExtract format) (optional).
+    UpdateProjectSettingsRequest:
+      title: UpdateProjectSettingsRequest
+      type: object
+      properties:
+        temperature:
+          description: The temperature to use for inference (optional).
+          type: number
+          format: double
+          minimum: 0.0
+          maximum: 1.0
+        rasterizationDpi:
+          description: Rasterization DPI used during file to image conversion (optional).
+          type: integer
+          format: int32
+          exclusiveMinimum: 0
+          maximum: 300
     User:
       title: User
       type: object
       required:
       - email
+      - isAdmin
       properties:
         email:
           type: string
-    UserTokenResponse:
-      title: UserTokenResponse
-      type: object
-      required:
-      - id
-      - name
-      - token
-      - userId
-      - createdAt
-      - expiresAt
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        token:
-          type: string
-        userId:
-          type: string
-        createdAt:
-          type: string
-        expiresAt:
-          type: string
+        isAdmin:
+          type: boolean
     ValidInformation:
       title: ValidInformation
       type: object
@@ -2639,6 +3454,7 @@ components:
       properties:
         information:
           $ref: '#/components/schemas/Obj1'
+          description: Inference result conforming to the template.
         type:
           type: string
           const: information

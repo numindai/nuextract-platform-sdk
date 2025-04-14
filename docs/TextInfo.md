@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **str** |  | 
-**file_name** | **str** |  | [optional] 
-**text** | **str** |  | 
+**document_id** | **str** | Unique document identifier. | 
+**file_name** | **str** | Filename of the initial file if any.     **None** for text input. | [optional] 
+**text** | **str** | The text content of the document. | 
 **type** | **str** |  | 
 
 ## Example

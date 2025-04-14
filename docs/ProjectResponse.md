@@ -5,15 +5,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**name** | **str** |  | 
-**description** | **str** |  | 
+**id** | **str** | Unique project identifier. | 
+**name** | **str** | Project name. | 
+**description** | **str** | A brief explanation of the project. | 
 **template** | **object** |  | 
-**owner_user** | **str** |  | 
-**owner_organization** | **str** |  | [optional] 
-**created_at** | **str** |  | 
-**updated_at** | **str** |  | 
-**lock_state** | **bool** |  | 
+**owner_user** | **str** | Project owner. | 
+**owner_organization** | **str** | Project owning organization (if any). | [optional] 
+**created_at** | **str** | Project creation date. | 
+**updated_at** | **str** | Project last update date. | 
+**lock_state** | **bool** | The lock state of the project. | 
+**shared** | **bool** | The shared state of the project. | 
+**settings** | [**ProjectSettingsResponse**](ProjectSettingsResponse.md) |  | 
 
 ## Example
 

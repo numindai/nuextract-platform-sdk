@@ -5,13 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**project_id** | **str** |  | 
-**owner_user** | **str** |  | 
-**document_info** | [**DocumentInfo**](DocumentInfo.md) |  | 
-**result** | [**InformationResponse**](InformationResponse.md) |  | 
-**created_at** | **str** |  | 
-**updated_at** | **str** |  | 
+**id** | **str** | Unique example identifier. | 
+**project_id** | **str** | Unique project identifier. | 
+**owner_user** | **str** | Example owner. | 
+**document_info** | [**DocumentInfo**](DocumentInfo.md) | Basic information on the document used to create this example. | 
+**result** | [**InformationResponse**](InformationResponse.md) | Expected inference result. | 
+**created_at** | **str** | Example creation date. | 
+**updated_at** | **str** | Example last update date. | 
 
 ## Example
 

@@ -5,14 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**doc_info** | [**DocumentInfo**](DocumentInfo.md) |  | 
-**owner_user** | **str** |  | 
-**owner_organization** | **str** |  | [optional] 
-**original_content_type** | **str** |  | 
-**content_type** | **str** |  | 
-**created_at** | **str** |  | 
-**updated_at** | **str** |  | 
-**shared** | **bool** |  | 
+**doc_info** | [**DocumentInfo**](DocumentInfo.md) | Basic document information. | 
+**owner_user** | **str** | Document owner. | 
+**owner_organization** | **str** | Document owning organization (if any). | [optional] 
+**original_content_type** | **str** | Mime type of the original file. | 
+**content_type** | **str** | Mime type of the converted document. | 
+**created_at** | **str** | Document creation date. | 
+**updated_at** | **str** | Document last update date. | 
+**shared** | **bool** | The shared state of the document. | 
 
 ## Example
 

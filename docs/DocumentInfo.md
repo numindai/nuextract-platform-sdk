@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **str** |  | 
-**file_name** | **str** |  | 
+**document_id** | **str** | Unique document identifier. | 
+**file_name** | **str** | Filename of the initial file if any.     **None** for text input. | 
 **type** | **str** |  | 
-**text** | **str** |  | 
+**text** | **str** | The text content of the document. | 
 
 ## Example
 

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**information** | **str** |  | 
-**error** | **str** |  | 
+**information** | **str** | Inference result not conforming to the template.       This is the raw response from the model. | 
+**error** | **str** | Error message explaining why the inference result is invalid. | 
 **type** | **str** |  | 
 
 ## Example

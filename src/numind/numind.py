@@ -7,13 +7,16 @@ from .constants import NUMIND_API_KEY_ENV_VAR_NAME
 from .openapi_client import (
     ApiClient,
     Configuration,
+    DocumentsApi,
+    ExamplesApi,
+    InferenceApi,
     InferenceResponse,
-    ReferenceApi,
+    ProjectsApi,
     TextRequest,
 )
 
 
-class NuMind(ReferenceApi):
+class NuMind(DocumentsApi, ExamplesApi, InferenceApi, ProjectsApi):
     """NuMind API client."""
 
     def __init__(
@@ -49,14 +52,14 @@ class NuMind(ReferenceApi):
         """
         Send an inference request to the API for either a text or a file input.
 
+        TODO offer some way to infer by creating a project and deleting it on the fly?
+
         :param project_id: id of the associated project.
         :param input_text: text input as a string.
         :param input_file_path: path to the file to send to the API.
         :return: the API response.
         """
-        if (input_text is None and input_file_path is None) or (
-            input_text is not None and input_file_path is not None
-        ):
+        if (input_text is None) ^ input_file_path is not None:
             msg = (
                 "An input has to be provided with either the `input_text` or"
                 "`input_file_path` argument."
@@ -65,7 +68,7 @@ class NuMind(ReferenceApi):
 
         # Infer with text input
         if input_text is not None:
-            return self.post_api_reference_projects_projectid_infer_text(
+            return self.post_api_projects_projectid_infer_text(
                 project_id, TextRequest(text=input_text)
             )
 
@@ -74,6 +77,6 @@ class NuMind(ReferenceApi):
             input_file_path = Path(input_file_path)
         with input_file_path.open("rb") as file:
             intput_file = file.read()
-        return self.post_api_reference_projects_projectid_infer_file(
+        return self.post_api_projects_projectid_infer_file(
             project_id, input_file_path.name, intput_file
         )

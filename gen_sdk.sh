@@ -33,9 +33,9 @@ openapi-generator generate \
   -o src
   # --template-dir openapi-generator-template \
 
-# TODO run ruff to clean as much as possible
-# ruff check --fix
-# ruff format
+# Run ruff to lint as much as possible
+uvx ruff check --fix
+uvx ruff format
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator

@@ -14,6 +14,9 @@ jobs:
       - uses: astral-sh/ruff-action@v3
         with:
           args: "--version"  # added to not run the check command as done by default
-      - run: ruff check --fix & ruff format
+      - run: ruff check
+        env:
+          RUFF_OUTPUT_FORMAT: github
+      - run: ruff format
         env:
           RUFF_OUTPUT_FORMAT: github

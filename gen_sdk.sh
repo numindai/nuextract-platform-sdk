@@ -2,13 +2,6 @@
 
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
-# TODO fetch OpenAPI specs file from API itself and save as tmp file
-# TODO "ref: #.../Obj" and "ref: #.../Obj1" to "type: object"
-#  and $ref: '#/components/schemas/SchemaResponse' to "type: object"
-# ProjectResponse - template, CreateOrUpdateProjectRequest - template, CreateOrUpdateHistoryRequest, CreateOrUpdateExampleRequest,
-# InferenceResponse
-# edit properties that are references to /Obj and /Obj1, except for ValidInformation/ValidSchema/InfoNode/SchemaNode ?
-
 # Constants
 openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
 openapi_specs_file_path="numind_api.yaml"
@@ -18,7 +11,7 @@ openapi_specs_file_path="numind_api.yaml"
 curl --output $openapi_specs_file_path $openapi_specs_file_url
 
 # Fix edit the OpenAPI specs file to remove the models not required for the SDK
-python src/remove_problematic_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
+python src/remove_unused_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
 
 # Delete the current api client package
 rm -r src/numind/openapi_client

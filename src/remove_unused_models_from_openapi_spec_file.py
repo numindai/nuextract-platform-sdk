@@ -4,7 +4,6 @@ from pathlib import Path
 
 import yaml
 
-# TODO delete "TextRequest"?
 MODELS_TO_DELETE = {
     "Obj",
     "Obj1",

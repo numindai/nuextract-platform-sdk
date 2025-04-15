@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/ruff-action@v3
-        run: ruff check --fix & ruff format
+        with:
+          args: "--version"  # added to not run the check command as done by default
+      - run: ruff check --fix & ruff format
         env:
           RUFF_OUTPUT_FORMAT: github

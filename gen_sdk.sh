@@ -10,11 +10,15 @@
 # edit properties that are references to /Obj and /Obj1, except for ValidInformation/ValidSchema/InfoNode/SchemaNode ?
 
 # Constants
-#openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
+openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
 openapi_specs_file_path="numind_api.yaml"
 
+# PREPARATION
 # Fetch OpenAPI specs file from the API and save as a temporary file
-#curl --output $openapi_specs_file_path "$openapi_specs_file_url"
+curl --output $openapi_specs_file_path $openapi_specs_file_url
+
+# Fix edit the OpenAPI specs file to remove the models not required for the SDK
+python src/remove_problematic_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
 
 # Delete the current api client package
 rm -r src/numind/openapi_client
@@ -22,6 +26,7 @@ rm -r src/numind/openapi_client
 # `openapi-generator generate` command
 mv src/numind/__init__.py src/numind/__init__save.py
 
+# SDK GENERATION
 # Generate the sdk.
 # Support files (gitlab, travis, git_push.sh, README, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
@@ -64,4 +69,4 @@ rm src/pyproject.toml
 #  other way to fetch the define and fetch the package version in one place
 
 # Delete OpenAPI specs file
-# rm $openapi_specs_file_path
+rm $openapi_specs_file_path

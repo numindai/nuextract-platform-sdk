@@ -39,13 +39,13 @@ input_schema = {
         "time_quantity": "integer"
     }
 }
-project_id = client.post_api_reference_projects(input_schema)
+project_id = client.post_api_projects(input_schema)
 input_text = """My dream vacation would be a month-long escape to the stunning islands of Tahiti.
 I’d stay in an overwater bungalow in Bora Bora, waking up to crystal-clear turquoise waters and breathtaking sunrises.
 Days would be spent snorkeling with vibrant marine life, paddleboarding over coral gardens, and basking on pristine white-sand beaches.
 I’d explore lush rainforests, hidden waterfalls, and the rich Polynesian culture through traditional dance, music, and cuisine.
 Evenings would be filled with romantic beachside dinners under the stars, with the soothing sound of waves as the perfect backdrop."""
-output_schema = client.post_api_reference_projects_projectid_infer_text(project_id=project_id, text_request=input_text)
+output_schema = client.post_api_projects_projectid_infer_text(project_id=project_id, text_request=input_text)
 print(output_schema)
 ```
 

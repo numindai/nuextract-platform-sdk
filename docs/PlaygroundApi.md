@@ -293,7 +293,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.PlaygroundApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
-    create_or_update_playground_item_request = {"documentId":"055fb0ce-f5e8-4a28-81ef-938812a9193a","result":{"orderId":"Example: o-89123","customerId":"Example: c-20485","orderDate":"2024-03-10T11:15:00.000Z","status":"shipped","totalAmount":149.99,"currency":"USD","items":[{"productId":"p-00876","quantity":1,"unitPrice":79.99},{"productId":"p-00321","quantity":2,"unitPrice":35}],"shippingAddress":{"street":"782 Pine St","city":"Austin","state":"TX","country":"USA","zip":"73301"},"comments":"Leave package at the front door.","deliveryPreferences":["no_signature_required","standard_delivery"],"estimatedDelivery":"2024-03-15T17:00:00.000Z"}} # CreateOrUpdatePlaygroundItemRequest | 
+    create_or_update_playground_item_request = {"documentId":"5e7b1ffb-1ecf-45c4-8f14-fe955eff142f","result":{"orderId":"Example: o-89123","customerId":"Example: c-20485","orderDate":"2024-03-10T11:15:00.000Z","status":"shipped","totalAmount":149.99,"currency":"USD","items":[{"productId":"p-00876","quantity":1,"unitPrice":79.99},{"productId":"p-00321","quantity":2,"unitPrice":35}],"shippingAddress":{"street":"782 Pine St","city":"Austin","state":"TX","country":"USA","zip":"73301"},"comments":"Leave package at the front door.","deliveryPreferences":["no_signature_required","standard_delivery"],"estimatedDelivery":"2024-03-15T17:00:00.000Z"}} # CreateOrUpdatePlaygroundItemRequest | 
 
     try:
         api_response = api_instance.post_api_projects_projectid_playground(project_id, create_or_update_playground_item_request)
@@ -378,7 +378,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.PlaygroundApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
     playground_item_id = 'playground_item_id_example' # str | Unique playground item identifier.
-    create_or_update_playground_item_request = {documentId=055fb0ce-f5e8-4a28-81ef-938812a9193a, result={orderId=Example: o-89123, customerId=Example: c-20485, orderDate=2024-03-10T11:15:00.000Z, status=shipped, totalAmount=149.99, currency=USD, items=[{productId=p-00876, quantity=1, unitPrice=79.99}, {productId=p-00321, quantity=2, unitPrice=35}], shippingAddress={street=782 Pine St, city=Austin, state=TX, country=USA, zip=73301}, comments=Leave package at the front door., deliveryPreferences=[no_signature_required, standard_delivery], estimatedDelivery=2024-03-15T17:00:00.000Z}} # CreateOrUpdatePlaygroundItemRequest | 
+    create_or_update_playground_item_request = {documentId=5e7b1ffb-1ecf-45c4-8f14-fe955eff142f, result={orderId=Example: o-89123, customerId=Example: c-20485, orderDate=2024-03-10T11:15:00.000Z, status=shipped, totalAmount=149.99, currency=USD, items=[{productId=p-00876, quantity=1, unitPrice=79.99}, {productId=p-00321, quantity=2, unitPrice=35}], shippingAddress={street=782 Pine St, city=Austin, state=TX, country=USA, zip=73301}, comments=Leave package at the front door., deliveryPreferences=[no_signature_required, standard_delivery], estimatedDelivery=2024-03-15T17:00:00.000Z}} # CreateOrUpdatePlaygroundItemRequest | 
 
     try:
         api_response = api_instance.put_api_projects_projectid_playground_playgrounditemid(project_id, playground_item_id, create_or_update_playground_item_request)

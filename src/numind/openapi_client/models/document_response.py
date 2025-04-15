@@ -14,9 +14,10 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Self
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing_extensions import Self
 
 from numind.openapi_client.models.document_info import DocumentInfo
 
@@ -30,7 +31,7 @@ class DocumentResponse(BaseModel):
         description="Basic document information.", alias="docInfo"
     )
     owner_user: StrictStr = Field(description="Document owner.", alias="ownerUser")
-    owner_organization: StrictStr | None = Field(
+    owner_organization: Optional[StrictStr] = Field(
         default=None,
         description="Document owning organization (if any).",
         alias="ownerOrganization",
@@ -48,7 +49,7 @@ class DocumentResponse(BaseModel):
         description="Document last update date.", alias="updatedAt"
     )
     shared: StrictBool = Field(description="The shared state of the document.")
-    __properties: ClassVar[list[str]] = [
+    __properties: ClassVar[List[str]] = [
         "docInfo",
         "ownerUser",
         "ownerOrganization",
@@ -75,11 +76,11 @@ class DocumentResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self | None:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of DocumentResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         """
         Return the dictionary representation of the model using alias.
 
@@ -90,7 +91,7 @@ class DocumentResponse(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: Set[str] = set([])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -103,7 +104,7 @@ class DocumentResponse(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DocumentResponse from a dict"""
         if obj is None:
             return None

@@ -14,9 +14,10 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Self
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing_extensions import Self
 
 
 class User(BaseModel):
@@ -26,7 +27,7 @@ class User(BaseModel):
 
     email: StrictStr
     is_admin: StrictBool = Field(alias="isAdmin")
-    __properties: ClassVar[list[str]] = ["email", "isAdmin"]
+    __properties: ClassVar[List[str]] = ["email", "isAdmin"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -44,11 +45,11 @@ class User(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self | None:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of User from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         """
         Return the dictionary representation of the model using alias.
 
@@ -59,7 +60,7 @@ class User(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: Set[str] = set([])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -69,7 +70,7 @@ class User(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of User from a dict"""
         if obj is None:
             return None

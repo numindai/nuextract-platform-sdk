@@ -17,6 +17,7 @@ import os
 import re
 import tempfile
 from enum import Enum
+from typing import Dict, List, Optional, Tuple, Union
 from urllib.parse import quote
 
 from dateutil.parser import parse
@@ -32,7 +33,7 @@ from numind.openapi_client.exceptions import (
     ApiValueError,
 )
 
-RequestSerialized = tuple[str, str, dict[str, str], str | None, list[str]]
+RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
 
 class ApiClient:
@@ -267,7 +268,7 @@ class ApiClient:
     def response_deserialize(
         self,
         response_data: rest.RESTResponse,
-        response_types_map: dict[str, ApiResponseT] | None = None,
+        response_types_map: Optional[Dict[str, ApiResponseT]] = None,
     ) -> ApiResponse[ApiResponseT]:
         """
         Deserializes response into an object.
@@ -374,7 +375,7 @@ class ApiClient:
         }
 
     def deserialize(
-        self, response_text: str, response_type: str, content_type: str | None
+        self, response_text: str, response_type: str, content_type: Optional[str]
     ):
         """
         Deserializes response into an object.
@@ -463,7 +464,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: Parameters as list of tuples, collections formatted
         """
-        new_params: list[tuple[str, str]] = []
+        new_params: List[Tuple[str, str]] = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -493,7 +494,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: URL query string (e.g. a=Hello%20World&b=123)
         """
-        new_params: list[tuple[str, str]] = []
+        new_params: List[Tuple[str, str]] = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -527,7 +528,7 @@ class ApiClient:
 
     def files_parameters(
         self,
-        files: dict[str, str | bytes | list[str] | list[bytes] | tuple[str, bytes]],
+        files: Dict[str, Union[str, bytes, List[str], List[bytes], Tuple[str, bytes]]],
     ):
         """
         Builds form parameters.
@@ -556,7 +557,7 @@ class ApiClient:
             params.append(tuple([k, tuple([filename, filedata, mimetype])]))
         return params
 
-    def select_header_accept(self, accepts: list[str]) -> str | None:
+    def select_header_accept(self, accepts: List[str]) -> Optional[str]:
         """
         Returns `Accept` based on an array of accepts provided.
 

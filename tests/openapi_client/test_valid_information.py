@@ -35,18 +35,12 @@ class TestValidInformation(unittest.TestCase):
         model = ValidInformation()
         if include_optional:
             return ValidInformation(
-                information = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                information = numind.openapi_client.models.information.information(),
                 type = 'information'
             )
         else:
             return ValidInformation(
-                information = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                information = numind.openapi_client.models.information.information(),
                 type = 'information',
         )
         """

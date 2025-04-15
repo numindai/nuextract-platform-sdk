@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **post_api_infer_template**
-> Obj post_api_infer_template(template_request)
+> object post_api_infer_template(template_request)
 
 
  Derives a template from the provided natural language description.
@@ -31,7 +31,6 @@ Method | HTTP request | Description
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.obj import Obj
 from numind.openapi_client.models.template_request import TemplateRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
@@ -74,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Obj**](Obj.md)
+**object**
 
 ### Authorization
 

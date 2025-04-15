@@ -31,7 +31,9 @@ class ProjectResponse(BaseModel):
     id: StrictStr = Field(description="Unique project identifier.")
     name: StrictStr = Field(description="Project name.")
     description: StrictStr = Field(description="A brief explanation of the project.")
-    template: dict[str, Any]
+    template: dict[str, Any] = Field(
+        description="Extraction template (NuExtract format)."
+    )
     owner_user: StrictStr = Field(description="Project owner.", alias="ownerUser")
     owner_organization: StrictStr | None = Field(
         default=None,

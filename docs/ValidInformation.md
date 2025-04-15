@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**information** | [**Obj1**](Obj1.md) | Inference result conforming to the template. | 
+**information** | **object** | Inference result conforming to the template. | 
 **type** | **str** |  | 
 
 ## Example

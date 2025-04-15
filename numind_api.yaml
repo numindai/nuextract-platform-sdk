@@ -389,7 +389,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProjectResponse'
               example:
-              - id: 081b65b6-3f9c-4691-8929-e360dc459def
+              - id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -426,9 +426,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -514,7 +514,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -551,9 +551,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -600,7 +600,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -637,9 +637,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -756,7 +756,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -793,9 +793,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -851,7 +851,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -888,9 +888,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -939,7 +939,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -976,9 +976,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -999,26 +999,16 @@ paths:
     post:
       tags:
       - projects
-      description: |
-        Creates a copy of an existing project.
-
-        It is allowed to duplicate locked projects and reference projects.
-
-
-        #### Effect:
-        - The duplicated project retains the **same template, settings and examples**.
-        - A new name is assigned ("Original Name (copy)").
-        - Project playground is not duplicated.
-
-        #### Response:
-         The response contains a newly generated
-         `projectId`. When duplicated, a new project is always unlocked. The duplicated reference projects
-         are private and owned by the authenticated user.
-
-        #### Error Responses:
-        `404 Not Found` - If a project with the specified projectId does not exist.
-
-        `403 Forbidden` - If the user does not have permission to duplicate this project.
+      description: "Creates a copy of an existing project.\n\nIt is allowed to duplicate\
+        \ locked projects and reference projects.\n\n\n#### Effect:\n- The duplicated\
+        \ project retains the **same template, settings and examples**.\n- A new name\
+        \ is assigned (\"Original Name (copy)\").\n- Project playground is not duplicated.\n\
+        \n#### Response:\n The response contains a newly generated\n `projectId`.\
+        \ When duplicated, a new project is always unlocked. The duplicated reference\
+        \ projects\n are private and owned by the authenticated user.\n\n#### Error\
+        \ Responses:\n`404 Not Found` - If a project with the specified projectId\
+        \ does not exist.\n\n`403 Forbidden` - If the user does not have permission\
+        \ to duplicate this project.\n"
       operationId: postApiProjectsProjectidDuplicate
       parameters:
       - name: projectId
@@ -1035,7 +1025,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProjectResponse'
               example:
-                id: 081b65b6-3f9c-4691-8929-e360dc459def
+                id: 4aa56bf2-d201-43ad-b837-c215884fa370
                 name: 'Example: Order Delivery Information Extraction'
                 description: 'Example: Automated extraction of order delivery details
                   from emails and scanned documents'
@@ -1072,9 +1062,9 @@ paths:
                       - deliver_to_neighbor
                       - schedule_delivery
                     estimatedDelivery: date-time
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 lockState: false
                 shared: false
                 settings:
@@ -1095,26 +1085,18 @@ paths:
     post:
       tags:
       - projects
-      description: |
-        Shares a project with other users.
-
-         This endpoint turns an existing project into a reference project.
-         Only NuMind administrators can share a project with other users.
-         Lock state does not prevent sharing. Likewise, sharing does not change the lock state.
-
-        #### Effect:
-
-        - Reference projects are shared with the community (read access is granted to all users).
-        - Project examples and playground items are shared as well.
-        - Only NuMind administrators can update or delete reference projects.
-        - Only NuMind administrators can create, update, or delete reference project examples and playground items.
-        - The inference is allowed for all users.
-
-        #### Error Responses:
-
-        `404 Not Found` - If a project with the specified projectId does not exist.
-
-        `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+      description: "Shares a project with other users.\n\n This endpoint turns an\
+        \ existing project into a reference project.\n Only NuMind administrators\
+        \ can share a project with other users.\n Lock state does not prevent sharing.\
+        \ Likewise, sharing does not change the lock state.\n\n#### Effect:\n\n- Reference\
+        \ projects are shared with the community (read access is granted to all users).\n\
+        - Project examples and playground items are shared as well.\n- Only NuMind\
+        \ administrators can update or delete reference projects.\n- Only NuMind administrators\
+        \ can create, update, or delete reference project examples and playground\
+        \ items.\n- The inference is allowed for all users.\n\n#### Error Responses:\n\
+        \n`404 Not Found` - If a project with the specified projectId does not exist.\n\
+        \n`403 Forbidden` - If the user does not have permission to share projects\
+        \ (not NuMind admin).\n"
       operationId: postApiProjectsProjectidShare
       parameters:
       - name: projectId
@@ -1141,25 +1123,17 @@ paths:
     post:
       tags:
       - projects
-      description: |2
-
-        Unshares a reference project (makes it private).
-
-         Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.
-         The project owner is the initial owner, not the authenicated user.
-
-
-        #### Effect:
-        - The project is no longer a reference project and is no longer shared with the community.
-        - Read access is revoked for all users except the project owner.
-        - Project examples and playground are no longer publicly accessible.
-        - Only the project owner can manage or delete the project after unsharing.
-        - Inference is restricted to the project owner.
-
-        #### Error Responses:
-        `404 Not Found` - If a project with the specified projectId does not exist.
-
-        `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+      description: "\nUnshares a reference project (makes it private).\n\n Lock state\
+        \ does not prevent unsharing. Likewise, unsharing does not change the lock\
+        \ state.\n The project owner is the initial owner, not the authenicated user.\n\
+        \n\n#### Effect:\n- The project is no longer a reference project and is no\
+        \ longer shared with the community.\n- Read access is revoked for all users\
+        \ except the project owner.\n- Project examples and playground are no longer\
+        \ publicly accessible.\n- Only the project owner can manage or delete the\
+        \ project after unsharing.\n- Inference is restricted to the project owner.\n\
+        \n#### Error Responses:\n`404 Not Found` - If a project with the specified\
+        \ projectId does not exist.\n\n`403 Forbidden` - If the user does not have\
+        \ permission to unshare projects (not NuMind admin).\n"
       operationId: postApiProjectsProjectidUnshare
       parameters:
       - name: projectId
@@ -1186,20 +1160,13 @@ paths:
     post:
       tags:
       - projects
-      description: |
-        Locks a project to prevent modifications.
-
-
-        #### Effect:
-        - While locked, the project **cannot be updated or deleted**. Read access is still available.
-        - CRUD operations on project examples are not allowed.
-        - Inference is still allowed.
-        - CRUD access to project playground items is still available.
-
-        #### Error Responses:
-         `404 Not Found` - If a project with the specified projectId does not exist.
-
-         `403 Forbidden` - If the user does not have permission to lock this project.
+      description: "Locks a project to prevent modifications.\n\n\n#### Effect:\n\
+        - While locked, the project **cannot be updated or deleted**. Read access\
+        \ is still available.\n- CRUD operations on project examples are not allowed.\n\
+        - Inference is still allowed.\n- CRUD access to project playground items is\
+        \ still available.\n\n#### Error Responses:\n `404 Not Found` - If a project\
+        \ with the specified projectId does not exist.\n\n `403 Forbidden` - If the\
+        \ user does not have permission to lock this project.\n"
       operationId: postApiProjectsProjectidLock
       parameters:
       - name: projectId
@@ -1226,17 +1193,24 @@ paths:
     post:
       tags:
       - projects
-      description: |
-        Unlocks a previously locked project.
+      description: 'Unlocks a previously locked project.
+
 
         #### Effect:
+
         - Once unlocked, the project **can be updated or deleted**.
+
         - Full CRUD access to project examples is restored.
 
+
         #### Error Responses:
+
         `404 Not Found` - If a project with the specified projectId does not exist.
 
+
         `403 Forbidden` - If the user does not have permission to unlock this project.
+
+        '
       operationId: postApiProjectsProjectidUnlock
       parameters:
       - name: projectId
@@ -1285,12 +1259,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/ExampleResponse'
               example:
-              - id: 5b9367b3-574a-40e3-9773-e1026340d6e0
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+              - id: a40c4046-1ad9-4d72-a25d-bb1a3e742893
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  documentId: 78ca9572-85b0-442d-83c1-98c28f14c9a2
                   fileName: dummy_example_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
                     processed. The customer ID for this order is c-76549. It was placed
@@ -1320,14 +1294,14 @@ paths:
                       city: Boston
                       state: MA
                       country: USA
-                      zip: '02108'
+                      zip: 02108
                     comments: Hold at pickup location.
                     deliveryPreferences:
                     - scheduled_delivery
                     - contactless_delivery
                     estimatedDelivery: '2024-04-10T19:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         default:
           description: ''
           content:
@@ -1371,7 +1345,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOrUpdateExampleRequest'
             example:
-              documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+              documentId: 78ca9572-85b0-442d-83c1-98c28f14c9a2
               result:
                 orderId: 'Example: o-67214'
                 customerId: 'Example: c-76549'
@@ -1388,7 +1362,7 @@ paths:
                   city: Boston
                   state: MA
                   country: USA
-                  zip: '02108'
+                  zip: 02108
                 comments: Hold at pickup location.
                 deliveryPreferences:
                 - scheduled_delivery
@@ -1403,12 +1377,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExampleResponse'
               example:
-                id: 5b9367b3-574a-40e3-9773-e1026340d6e0
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                id: a40c4046-1ad9-4d72-a25d-bb1a3e742893
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  documentId: 78ca9572-85b0-442d-83c1-98c28f14c9a2
                   fileName: dummy_example_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
                     processed. The customer ID for this order is c-76549. It was placed
@@ -1438,14 +1412,14 @@ paths:
                       city: Boston
                       state: MA
                       country: USA
-                      zip: '02108'
+                      zip: 02108
                     comments: Hold at pickup location.
                     deliveryPreferences:
                     - scheduled_delivery
                     - contactless_delivery
                     estimatedDelivery: '2024-04-10T19:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1493,12 +1467,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExampleResponse'
               example:
-                id: 5b9367b3-574a-40e3-9773-e1026340d6e0
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                id: a40c4046-1ad9-4d72-a25d-bb1a3e742893
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  documentId: 78ca9572-85b0-442d-83c1-98c28f14c9a2
                   fileName: dummy_example_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
                     processed. The customer ID for this order is c-76549. It was placed
@@ -1528,14 +1502,14 @@ paths:
                       city: Boston
                       state: MA
                       country: USA
-                      zip: '02108'
+                      zip: 02108
                     comments: Hold at pickup location.
                     deliveryPreferences:
                     - scheduled_delivery
                     - contactless_delivery
                     estimatedDelivery: '2024-04-10T19:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         default:
           description: ''
           content:
@@ -1576,7 +1550,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOrUpdateExampleRequest'
             example:
-              documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+              documentId: 78ca9572-85b0-442d-83c1-98c28f14c9a2
               result:
                 orderId: 'Example: o-67214'
                 customerId: 'Example: c-76549'
@@ -1593,7 +1567,7 @@ paths:
                   city: Boston
                   state: MA
                   country: USA
-                  zip: '02108'
+                  zip: 02108
                 comments: Hold at pickup location.
                 deliveryPreferences:
                 - scheduled_delivery
@@ -1608,12 +1582,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExampleResponse'
               example:
-                id: 5b9367b3-574a-40e3-9773-e1026340d6e0
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                id: a40c4046-1ad9-4d72-a25d-bb1a3e742893
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: c944341c-dcde-42b7-a815-503fdc28cd57
+                  documentId: 78ca9572-85b0-442d-83c1-98c28f14c9a2
                   fileName: dummy_example_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-67214) has been successfully
                     processed. The customer ID for this order is c-76549. It was placed
@@ -1643,14 +1617,14 @@ paths:
                       city: Boston
                       state: MA
                       country: USA
-                      zip: '02108'
+                      zip: 02108
                     comments: Hold at pickup location.
                     deliveryPreferences:
                     - scheduled_delivery
                     - contactless_delivery
                     estimatedDelivery: '2024-04-10T19:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1730,12 +1704,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-              - id: 60232dca-afa2-43c5-95bc-d02730d6a94d
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+              - id: 3889b2b4-6043-4582-8695-dc375fd7e216
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -1775,8 +1749,8 @@ paths:
                     - no_signature_required
                     - standard_delivery
                     estimatedDelivery: '2024-03-15T17:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         default:
           description: ''
           content:
@@ -1810,7 +1784,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOrUpdatePlaygroundItemRequest'
             example:
-              documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+              documentId: 888d5433-7616-4124-b3da-004ea553d730
               result:
                 orderId: 'Example: o-89123'
                 customerId: 'Example: c-20485'
@@ -1845,12 +1819,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-                id: 60232dca-afa2-43c5-95bc-d02730d6a94d
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                id: 3889b2b4-6043-4582-8695-dc375fd7e216
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -1890,8 +1864,8 @@ paths:
                     - no_signature_required
                     - standard_delivery
                     estimatedDelivery: '2024-03-15T17:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -1939,12 +1913,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-                id: 60232dca-afa2-43c5-95bc-d02730d6a94d
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                id: 3889b2b4-6043-4582-8695-dc375fd7e216
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -1984,8 +1958,8 @@ paths:
                     - no_signature_required
                     - standard_delivery
                     estimatedDelivery: '2024-03-15T17:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         default:
           description: ''
           content:
@@ -2026,7 +2000,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOrUpdatePlaygroundItemRequest'
             example:
-              documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+              documentId: 888d5433-7616-4124-b3da-004ea553d730
               result:
                 orderId: 'Example: o-89123'
                 customerId: 'Example: c-20485'
@@ -2061,12 +2035,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PlaygroundItemResponse'
               example:
-                id: 60232dca-afa2-43c5-95bc-d02730d6a94d
-                projectId: 081b65b6-3f9c-4691-8929-e360dc459def
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                id: 3889b2b4-6043-4582-8695-dc375fd7e216
+                projectId: 4aa56bf2-d201-43ad-b837-c215884fa370
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 documentInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -2106,8 +2080,8 @@ paths:
                     - no_signature_required
                     - standard_delivery
                     estimatedDelivery: '2024-03-15T17:00:00.000Z'
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
         '400':
           description: 'Invalid value for: body'
           content:
@@ -2190,7 +2164,7 @@ paths:
                   value:
                     docInfo:
                       type: text
-                      documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                      documentId: 888d5433-7616-4124-b3da-004ea553d730
                       fileName: dummy_confirmation_email.txt
                       text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                         processed. The customer ID for this order is c-20485. It was
@@ -2203,23 +2177,23 @@ paths:
                         "Leave package at the front door." Additional delivery preferences
                         include no signature required and standard delivery. The estimated
                         delivery date is March 15, 2024, by 5:00 PM UTC.'
-                    ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                    ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                     originalContentType: text/plain
                     contentType: text/plain
-                    createdAt: '2025-04-11T08:13:56.849893697Z'
-                    updatedAt: '2025-04-11T08:13:56.849926437Z'
+                    createdAt: '2025-04-15T11:38:00.573425302Z'
+                    updatedAt: '2025-04-15T11:38:00.573462012Z'
                     shared: false
                 Image Document:
                   value:
                     docInfo:
                       type: image
-                      documentId: 15eeb346-b822-4743-ac56-1a7669e8c66d
+                      documentId: e580ead9-3c66-4b1a-9732-4540f18daddc
                       fileName: dummy_confirmation_email.pdf
-                    ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                    ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                     originalContentType: application/pdf
                     contentType: image/png
-                    createdAt: '2025-04-11T08:13:56.849893697Z'
-                    updatedAt: '2025-04-11T08:13:56.849926437Z'
+                    createdAt: '2025-04-15T11:38:00.573425302Z'
+                    updatedAt: '2025-04-15T11:38:00.573462012Z'
                     shared: false
         default:
           description: ''
@@ -2317,7 +2291,7 @@ paths:
               example:
                 docInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -2330,11 +2304,11 @@ paths:
                     the front door." Additional delivery preferences include no signature
                     required and standard delivery. The estimated delivery date is
                     March 15, 2024, by 5:00 PM UTC.'
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 originalContentType: text/plain
                 contentType: text/plain
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 shared: false
         '400':
           description: 'Invalid value for: body'
@@ -2398,13 +2372,13 @@ paths:
               example:
                 docInfo:
                   type: image
-                  documentId: 15eeb346-b822-4743-ac56-1a7669e8c66d
+                  documentId: e580ead9-3c66-4b1a-9732-4540f18daddc
                   fileName: dummy_confirmation_email.pdf
-                ownerUser: c946753f-2299-4f08-aa9a-a638f1136995
+                ownerUser: 8f12f883-266e-4c9b-a5b6-c68bd010a3fc
                 originalContentType: application/pdf
                 contentType: image/png
-                createdAt: '2025-04-11T08:13:56.849893697Z'
-                updatedAt: '2025-04-11T08:13:56.849926437Z'
+                createdAt: '2025-04-15T11:38:00.573425302Z'
+                updatedAt: '2025-04-15T11:38:00.573462012Z'
                 shared: false
         '400':
           description: 'Invalid value for: header x-file-name, Invalid value for:
@@ -2500,7 +2474,7 @@ paths:
                   estimatedDelivery: '2024-03-15T17:00:00.000Z'
                 documentInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -2607,7 +2581,7 @@ paths:
                   estimatedDelivery: '2024-01-25T15:30:00.000Z'
                 documentInfo:
                   type: image
-                  documentId: 15eeb346-b822-4743-ac56-1a7669e8c66d
+                  documentId: e580ead9-3c66-4b1a-9732-4540f18daddc
                   fileName: dummy_confirmation_email.pdf
                 tokens: 897
         '400':
@@ -2692,7 +2666,7 @@ paths:
                   estimatedDelivery: '2024-03-15T17:00:00.000Z'
                 documentInfo:
                   type: text
-                  documentId: 7285756f-3cb1-4986-a501-229744fd24d1
+                  documentId: 888d5433-7616-4124-b3da-004ea553d730
                   fileName: dummy_confirmation_email.txt
                   text: '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully
                     processed. The customer ID for this order is c-20485. It was placed
@@ -2747,7 +2721,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Obj'
+                type: object
               example:
                 orderId: verbatim-string
                 customerId: verbatim-string
@@ -2821,33 +2795,6 @@ components:
           type: string
         expiresAt:
           type: string
-    Arr:
-      title: Arr
-      type: object
-      required:
-      - schema
-      properties:
-        schema:
-          $ref: '#/components/schemas/SchemaNode'
-    Arr1:
-      title: Arr
-      type: object
-      properties:
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/InfoNode'
-    Bool:
-      title: Bool
-      type: object
-    Bool1:
-      title: Bool
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          type: boolean
     CreateOrUpdateApiKey:
       title: CreateOrUpdateApiKey
       type: object
@@ -2867,8 +2814,8 @@ components:
           description: Unique document identifier.
           type: string
         result:
-          type: object
           description: Expected inference result.
+          type: object
     CreateOrUpdatePlaygroundItemRequest:
       title: CreateOrUpdatePlaygroundItemRequest
       type: object
@@ -2883,8 +2830,8 @@ components:
           description: Unique document identifier.
           type: string
         result:
-          type: object
           description: Inference result.
+          type: object
     CreateProjectRequest:
       title: CreateProjectRequest
       type: object
@@ -2900,8 +2847,8 @@ components:
           description: A brief explanation of the project.
           type: string
         template:
-          type: object
           description: Extraction template (NuExtract format).
+          type: object
         ownerOrganization:
           description: Project owning organization (optional).
           type: string
@@ -2954,14 +2901,6 @@ components:
         shared:
           description: The shared state of the document.
           type: boolean
-    Enum:
-      title: Enum
-      type: object
-      properties:
-        values:
-          type: array
-          items:
-            type: string
     Error:
       title: Error
       type: object
@@ -3040,8 +2979,8 @@ components:
       - tokens
       properties:
         result:
-          type: object
           description: Inference result conforming to the template.
+          type: object
         rawResult:
           $ref: '#/components/schemas/RawResult'
         documentInfo:
@@ -3051,15 +2990,6 @@ components:
           description: Total number of tokens used for inference (input + output).
           type: integer
           format: int64
-    InfoNode:
-      title: InfoNode
-      oneOf:
-      - $ref: '#/components/schemas/Arr1'
-      - $ref: '#/components/schemas/Bool1'
-      - $ref: '#/components/schemas/Null'
-      - $ref: '#/components/schemas/Num1'
-      - $ref: '#/components/schemas/Obj1'
-      - $ref: '#/components/schemas/Str1'
     InformationResponse:
       title: InformationResponse
       oneOf:
@@ -3070,9 +3000,6 @@ components:
         mapping:
           information: '#/components/schemas/ValidInformation'
           string: '#/components/schemas/InvalidInformation'
-    Integer:
-      title: Integer
-      type: object
     InvalidInformation:
       title: InvalidInformation
       type: object
@@ -3091,65 +3018,11 @@ components:
         type:
           type: string
           const: string
-    InvalidSchema:
-      title: InvalidSchema
-      type: object
-      required:
-      - schema
-      - error
-      - type
-      properties:
-        schema:
-          type: string
-        error:
-          type: string
-        type:
-          type: string
-          const: string
     Map_V:
       title: Map_V
       type: object
       additionalProperties:
-        $ref: '#/components/schemas/SchemaNode'
-    MultiEnum:
-      title: MultiEnum
-      type: object
-      properties:
-        values:
-          type: array
-          items:
-            type: string
-    'Null':
-      title: 'Null'
-      type: object
-    Num:
-      title: Num
-      type: object
-    Num1:
-      title: Num
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          type: number
-          format: double
-    Obj:
-      title: Obj
-      type: object
-      required:
-      - schemas
-      properties:
-        schemas:
-          $ref: '#/components/schemas/Map_V'
-    Obj1:
-      title: Obj
-      type: object
-      required:
-      - schemas
-      properties:
-        schemas:
-          $ref: '#/components/schemas/Map_V'
+        type: object
     PlaygroundItemResponse:
       title: PlaygroundItemResponse
       type: object
@@ -3208,7 +3081,7 @@ components:
           description: A brief explanation of the project.
           type: string
         template:
-          type: object
+          $ref: '#/components/schemas/SchemaResponse'
         ownerUser:
           description: Project owner.
           type: string
@@ -3263,30 +3136,15 @@ components:
         error:
           description: Error message explaining why the inference result is invalid.
           type: string
-    SchemaNode:
-      title: SchemaNode
-      oneOf:
-      - $ref: '#/components/schemas/Arr'
-      - $ref: '#/components/schemas/Bool'
-      - $ref: '#/components/schemas/Datetime'
-      - $ref: '#/components/schemas/Enum'
-      - $ref: '#/components/schemas/Integer'
-      - $ref: '#/components/schemas/MultiEnum'
-      - $ref: '#/components/schemas/Num'
-      - $ref: '#/components/schemas/Obj'
-      - $ref: '#/components/schemas/Str'
-      - $ref: '#/components/schemas/VerbatimStr'
     SchemaResponse:
       title: SchemaResponse
       description: Extraction template (NuExtract format).
-      oneOf:
-      - $ref: '#/components/schemas/InvalidSchema'
-      - $ref: '#/components/schemas/ValidSchema'
       discriminator:
         propertyName: type
         mapping:
           schema: '#/components/schemas/ValidSchema'
           string: '#/components/schemas/InvalidSchema'
+      type: object
     ServiceStatus:
       title: ServiceStatus
       type: object
@@ -3301,17 +3159,6 @@ components:
         count:
           type: integer
           format: int32
-    Str:
-      title: Str
-      type: object
-    Str1:
-      title: Str
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          type: string
     TemplateRequest:
       title: TemplateRequest
       type: object
@@ -3416,8 +3263,8 @@ components:
           description: A brief explanation of the project (optional).
           type: string
         template:
-          type: object
           description: Extraction template (NuExtract format) (optional).
+          type: object
     UpdateProjectSettingsRequest:
       title: UpdateProjectSettingsRequest
       type: object
@@ -3453,26 +3300,11 @@ components:
       - type
       properties:
         information:
-          $ref: '#/components/schemas/Obj1'
           description: Inference result conforming to the template.
+          type: object
         type:
           type: string
           const: information
-    ValidSchema:
-      title: ValidSchema
-      type: object
-      required:
-      - schema
-      - type
-      properties:
-        schema:
-          $ref: '#/components/schemas/Obj'
-        type:
-          type: string
-          const: schema
-    VerbatimStr:
-      title: VerbatimStr
-      type: object
     VersionResponse:
       title: VersionResponse
       type: object

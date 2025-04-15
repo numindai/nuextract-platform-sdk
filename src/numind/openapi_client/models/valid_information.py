@@ -18,15 +18,13 @@ from typing import Any, ClassVar, Self
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 
-from numind.openapi_client.models.obj1 import Obj1
-
 
 class ValidInformation(BaseModel):
     """
     ValidInformation
     """
 
-    information: Obj1 = Field(
+    information: dict[str, Any] = Field(
         description="Inference result conforming to the template."
     )
     type: StrictStr
@@ -77,9 +75,6 @@ class ValidInformation(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of information
-        if self.information:
-            _dict["information"] = self.information.to_dict()
         return _dict
 
     @classmethod
@@ -92,11 +87,6 @@ class ValidInformation(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {
-                "information": Obj1.from_dict(obj["information"])
-                if obj.get("information") is not None
-                else None,
-                "type": obj.get("type"),
-            }
+            {"information": obj.get("information"), "type": obj.get("type")}
         )
         return _obj

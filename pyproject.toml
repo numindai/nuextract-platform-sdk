@@ -40,6 +40,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+build = [
+    "openapi-generator-cli",  # to build the client
+    "uv",  # to run ruff and packaging
+    "PyYAML",  # to edit OpenAPI specs file
+]
 tests = [
     "pytest-cov",
     "pytest-xdist[psutil]",

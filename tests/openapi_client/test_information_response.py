@@ -35,19 +35,13 @@ class TestInformationResponse(unittest.TestCase):
         model = InformationResponse()
         if include_optional:
             return InformationResponse(
-                information = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                information = numind.openapi_client.models.information.information(),
                 error = '',
                 type = 'string'
             )
         else:
             return InformationResponse(
-                information = numind.openapi_client.models.obj.Obj(
-                    schemas = {
-                        'key' : null
-                        }, ),
+                information = numind.openapi_client.models.information.information(),
                 error = '',
                 type = 'string',
         )

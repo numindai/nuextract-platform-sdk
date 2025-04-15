@@ -23,7 +23,6 @@ from pydantic import (
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.api_response import ApiResponse
 from numind.openapi_client.models.inference_response import InferenceResponse
-from numind.openapi_client.models.obj import Obj
 from numind.openapi_client.models.template_request import TemplateRequest
 from numind.openapi_client.models.text_request import TextRequest
 from numind.openapi_client.rest import RESTResponseType
@@ -55,7 +54,7 @@ class InferenceApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Obj:
+    ) -> object:
         """
         post_api_infer_template
 
@@ -93,7 +92,7 @@ class InferenceApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "Obj",
+            "200": "object",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -118,7 +117,7 @@ class InferenceApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Obj]:
+    ) -> ApiResponse[object]:
         """
         post_api_infer_template
 
@@ -156,7 +155,7 @@ class InferenceApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "Obj",
+            "200": "object",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -219,7 +218,7 @@ class InferenceApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "Obj",
+            "200": "object",
             "400": "str",
         }
         response_data = self.api_client.call_api(

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **id** | **str** | Unique project identifier. | 
 **name** | **str** | Project name. | 
 **description** | **str** | A brief explanation of the project. | 
-**template** | **object** |  | 
+**template** | **object** | Extraction template (NuExtract format). | 
 **owner_user** | **str** | Project owner. | 
 **owner_organization** | **str** | Project owning organization (if any). | [optional] 
 **created_at** | **str** | Project creation date. | 

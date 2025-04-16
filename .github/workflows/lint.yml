@@ -1,0 +1,22 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: "--version"  # added to not run the check command as done by default
+      - run: ruff check
+        env:
+          RUFF_OUTPUT_FORMAT: github
+      - run: ruff format
+        env:
+          RUFF_OUTPUT_FORMAT: github

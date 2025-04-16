@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import json
 import pprint
-from typing import Any, Self
+from typing import Any, Dict, Optional, Set, Union
 
 from pydantic import (
     BaseModel,
@@ -21,6 +21,7 @@ from pydantic import (
     ValidationError,
     field_validator,
 )
+from typing_extensions import Self
 
 from numind.openapi_client.models.invalid_information import InvalidInformation
 from numind.openapi_client.models.valid_information import ValidInformation
@@ -34,18 +35,18 @@ class InformationResponse(BaseModel):
     """
 
     # data type: InvalidInformation
-    oneof_schema_1_validator: InvalidInformation | None = None
+    oneof_schema_1_validator: Optional[InvalidInformation] = None
     # data type: ValidInformation
-    oneof_schema_2_validator: ValidInformation | None = None
-    actual_instance: InvalidInformation | ValidInformation | None = None
-    one_of_schemas: set[str] = {"InvalidInformation", "ValidInformation"}
+    oneof_schema_2_validator: Optional[ValidInformation] = None
+    actual_instance: Optional[Union[InvalidInformation, ValidInformation]] = None
+    one_of_schemas: Set[str] = {"InvalidInformation", "ValidInformation"}
 
     model_config = ConfigDict(
         validate_assignment=True,
         protected_namespaces=(),
     )
 
-    discriminator_value_class_map: dict[str, str] = {}
+    discriminator_value_class_map: Dict[str, str] = {}
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -95,7 +96,7 @@ class InformationResponse(BaseModel):
         return v
 
     @classmethod
-    def from_dict(cls, obj: str | dict[str, Any]) -> Self:
+    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -143,7 +144,9 @@ class InformationResponse(BaseModel):
             return self.actual_instance.to_json()
         return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict[str, Any] | InvalidInformation | ValidInformation | None:
+    def to_dict(
+        self,
+    ) -> Optional[Union[Dict[str, Any], InvalidInformation, ValidInformation]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

@@ -14,9 +14,10 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Self
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing_extensions import Self
 
 
 class ValidInformation(BaseModel):
@@ -24,11 +25,11 @@ class ValidInformation(BaseModel):
     ValidInformation
     """
 
-    information: dict[str, Any] = Field(
+    information: Dict[str, Any] = Field(
         description="Inference result conforming to the template."
     )
     type: StrictStr
-    __properties: ClassVar[list[str]] = ["information", "type"]
+    __properties: ClassVar[List[str]] = ["information", "type"]
 
     @field_validator("type")
     def type_validate_enum(cls, value):
@@ -53,11 +54,11 @@ class ValidInformation(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self | None:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ValidInformation from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         """
         Return the dictionary representation of the model using alias.
 
@@ -68,7 +69,7 @@ class ValidInformation(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: Set[str] = set([])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -78,7 +79,7 @@ class ValidInformation(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ValidInformation from a dict"""
         if obj is None:
             return None

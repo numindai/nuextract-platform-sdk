@@ -21,7 +21,7 @@ TEST_CASES = []  # (test_name, schema, string_list, file_paths_list)
 for dir_path in Path("tests", "test_cases").iterdir():
     with (dir_path / "schema.json").open() as file:
         schema = json.load(file)
-    with (dir_path / "texts.csv").open() as file:
+    with (dir_path / "texts.csv").open(encoding="utf-8") as file:
         reader = csv.reader(file)
         texts = [line[0] for line in reader]
     file_paths = [

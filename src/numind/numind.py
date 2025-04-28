@@ -3,10 +3,11 @@
 import os
 from pathlib import Path
 
-from .constants import NUMIND_API_KEY_ENV_VAR_NAME
+from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
 from .openapi_client import (
     ApiClient,
     Configuration,
+    CreateProjectRequest,
     DocumentsApi,
     ExamplesApi,
     InferenceApi,
@@ -45,16 +46,22 @@ class NuMind(DocumentsApi, ExamplesApi, InferenceApi, ProjectsApi):
 
     def infer(
         self,
-        project_id: str,
+        project_id: str | None,
+        template: str | dict,
         input_text: str | None = None,
         input_file_path: Path | str | None = None,
     ) -> InferenceResponse:
         """
         Send an inference request to the API for either a text or a file input.
 
-        TODO offer some way to infer by creating a project and deleting it on the fly?
+        Either the ``project_id`` or ``template`` argument has to be provided. The
+        former references to an existing project to which a template and examples are
+        associated. The latter allows to quickly infer from a template and input data
+        on the fly.
 
-        :param project_id: id of the associated project.
+        :param project_id: id of the associated project. (default: ``None``)
+        :param template: template of the structured output describing the information to
+            extract. (default: ``None``)
         :param input_text: text input as a string.
         :param input_file_path: path to the file to send to the API.
         :return: the API response.
@@ -65,6 +72,17 @@ class NuMind(DocumentsApi, ExamplesApi, InferenceApi, ProjectsApi):
                 "`input_file_path` argument."
             )
             raise ValueError(msg)
+
+        # If the project_id argument wasn't provided, create a temporary project
+        if not (project_id_provided := project_id is not None):
+            if template is None:
+                msg = "Either a `project_id` or `template` as to be provided."
+                raise ValueError(msg)
+            project_id = self.post_api_projects(
+                CreateProjectRequest(
+                    name=TMP_PROJECT_NAME, description="", template=template
+                )
+            ).id
 
         # Infer with text input
         if input_text is not None:
@@ -77,6 +95,11 @@ class NuMind(DocumentsApi, ExamplesApi, InferenceApi, ProjectsApi):
             input_file_path = Path(input_file_path)
         with input_file_path.open("rb") as file:
             intput_file = file.read()
+
+        # Delete temporary project if necessary
+        if not project_id_provided:
+            self.delete_api_projects_projectid(project_id)
+
         return self.post_api_projects_projectid_infer_file(
             project_id, input_file_path.name, intput_file
         )

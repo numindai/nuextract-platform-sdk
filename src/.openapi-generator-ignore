@@ -1,7 +1,6 @@
 # Ignore setup.py
 setup.py
 # Ignore other specific files
-*requirements.txt
 tox.ini
 .gitignore
 .gitlab-ci.yml

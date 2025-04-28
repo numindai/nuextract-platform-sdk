@@ -189,7 +189,6 @@ Name | Type | Description  | Notes
 
 Fetches the details of a specific project.
 
-
 #### Error Responses:
 `404 Not Found` - If a project with the specified projectId does not exist.
 

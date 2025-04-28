@@ -8,10 +8,9 @@ Name | Type | Description | Notes
 **doc_info** | [**DocumentInfo**](DocumentInfo.md) | Basic document information. | 
 **owner_user** | **str** | Document owner. | 
 **owner_organization** | **str** | Document owning organization (if any). | [optional] 
-**original_content_type** | **str** | Mime type of the original file. | 
-**content_type** | **str** | Mime type of the converted document. | 
+**content_type** | **str** | Mime type of the document. | 
+**file_id** | **str** | Unique file identifier of the file used to generate this document. | 
 **created_at** | **str** | Document creation date. | 
-**updated_at** | **str** | Document last update date. | 
 **shared** | **bool** | The shared state of the document. | 
 
 ## Example

@@ -1,7 +1,7 @@
 """
 NuMind Extraction Platform
 
-# Workflow for Using NuExtract API for Information Extraction  ## Creating and Managing Projects  A **Project** in NuExtract 2.0 serves as the **main entity** for organizing and managing an **information extraction task**. It provides a structured approach to processing and extracting data from multiple documents using a **shared template**.  1. **Create a Project**: A project stores the template for information extraction and can optionally include extraction examples to improve model performance. 2. **Define a Template**: The template specifies what information should be extracted from documents within this project. If needed, a template can be derived from a free-form description using the `/api/infer-template` endpoint. 3. **Managing Project Examples**:    - Project examples (optional) help refine model accuracy and consistency.    - They serve as **ICL (In-Context Learning) examples** during inference and represent tuples of (input, output).    - Only examples that match the current project template are used in inference calls.    - Examples are managed via the ***examples*** endpoints (CRUD operations), requiring a project ID. 4. **Storing Inference Playground Items**:    - Inference results can be stored within the **project playground** without adding them as ICL examples.    - This ensures that outputs are retained without affecting inference behavior or increasing token usage.  ## Performing Inference  Inference can be conducted on both **text and images**. If a file is in another format, it is **automatically converted to an image** in the background when possible. The inference response includes a `docId`, which should be used when managing project examples. For non-text/image files, only their converted image equivalents are accessible via `docId`.  Inference **temperature** can be set in the project settings. It controls variability in extraction inference responses. **RasterizationDpi** sets the dots per inch resolution when converting non-text files to images. Allowed range is (0, 300]  ## Locking a Project  The **locking mechanism** allows you to prevent accidental modifications while still permitting inference. When locked: - The **template and project examples** cannot be modified. - Project settings such as **temperature** and **rasterizationDpi** are also restricted. - Users can still perform inference and work with project playground. - This feature is useful in **production environments** to maintain consistency.  ## Project Ownership and Permissions  A project is owned by either a **user** (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves an organization, they lose access to its resources, even if they originally created them.  ## Additional Features  - **Duplication**: Projects can be **copied**, including examples but **excluding playground**. - **Deletion**: Removing a project **deletes all associated examples and playground items**. - **Sharing**: Projects can be shared with the community — in other words, they can be designated as **reference projects**. Sharing and unsharing require **Numind administrator access rights**. - **Reference Projects**: These are **static, predefined projects** created by the Numind team to serve as examples of extraction tasks. The inference is allowed for all users. However, reference projects cannot be modified but can be **copied**, allowing users to make changes to their duplicates.  By structuring projects efficiently, leveraging examples, and using locking mechanisms, users can ensure **accurate, reproducible, and well-managed** information extraction workflows in NuExtract 2.0.
+# Workflow for Using NuExtract API for Information Extraction  ## Creating and Managing Projects  A **Project** in NuExtract 2.0 serves as the **main entity** for organizing and managing an **information extraction task**. It provides a structured approach to processing and extracting data from multiple documents using a **shared template**.  1. **Create a Project**: A project stores the template for information extraction and can optionally include extraction examples to improve model performance. 2. **Define a Template**: The template specifies what information should be extracted from documents within this project. If needed, a template can be derived from a free-form description using the `/api/infer-template` endpoint. 3. **Managing Project Examples**:    - Project examples (optional) help refine model accuracy and consistency.    - They serve as **ICL (In-Context Learning) examples** during inference and represent tuples of (input, output).    - Only examples that match the current project template are used in inference calls.    - Examples are managed via the ***examples*** endpoints (CRUD operations), requiring a project ID. 4. **Storing Inference Playground Items**:    - Inference results can be stored within the **project playground** without adding them as ICL examples.    - This ensures that outputs are retained without affecting inference behavior or increasing token usage.  ## Performing Inference   A **Document** represents the atomic unit over which inference is performed.   It can be created from either **raw text** or **files** (such as text files, images or convertible types like PDFs, WORD, PPTX, or Excel files).    When using `/api/projects/{projectId}/infer-text`, a document is automatically created from the input text, and the resulting document ID is returned in the response.   Similarly, when using `/api/projects/{projectId}/infer-file`, if the file is a supported format (image, text or convertible), it is transformed into a document.   The conversion process can be controlled via parameters such as **RasterizationDpi**, which can be set in the project settings.     The resulting document ID is essential for:   - Adding the document as an **in-context example** for other inference calls   - Creating **playground items**     If needed, inference can be run directly on any existing document by specifying its document ID.     Additionally, when a file has been converted to a document, the original file ID remains available in the `docInfo`.   This enables users to reuse the same file with different **conversion parameters** via the `/api/files/{fileId}/convert-to-document` endpoint, effectively generating alternate versions of the document from the same source file.  Inference **temperature** can be set in the project settings. It controls variability in extraction inference responses. **RasterizationDpi** sets the dots per inch resolution when converting non-text files to images. Allowed range is (0, 300]  ## Locking a Project  The **locking mechanism** allows you to prevent accidental modifications while still permitting inference. When locked: - The **template and project examples** cannot be modified. - Project settings such as **temperature** and **rasterizationDpi** are also restricted. - Users can still perform inference and work with project playground. - This feature is useful in **production environments** to maintain consistency.  ## Project Ownership and Permissions  A project is owned by either a **user** (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves an organization, they lose access to its resources, even if they originally created them.  ## Additional Features  - **Duplication**: Projects can be **copied**, including examples but **excluding playground**. - **Deletion**: Removing a project **deletes all associated examples and playground items**. - **Sharing**: Projects can be shared with the community — in other words, they can be designated as **reference projects**. Sharing and unsharing require **Numind administrator access rights**. - **Reference Projects**: These are **static, predefined projects** created by the Numind team to serve as examples of extraction tasks. The inference is allowed for all users. However, reference projects cannot be modified but can be **copied**, allowing users to make changes to their duplicates.  By structuring projects efficiently, leveraging examples, and using locking mechanisms, users can ensure **accurate, reproducible, and well-managed** information extraction workflows in NuExtract 2.0.
 
 The version of the OpenAPI document: 1.0
 Generated by OpenAPI Generator (https://openapi-generator.tech)
@@ -36,27 +36,24 @@ class DocumentResponse(BaseModel):
         description="Document owning organization (if any).",
         alias="ownerOrganization",
     )
-    original_content_type: StrictStr = Field(
-        description="Mime type of the original file.", alias="originalContentType"
-    )
     content_type: StrictStr = Field(
-        description="Mime type of the converted document.", alias="contentType"
+        description="Mime type of the document.", alias="contentType"
+    )
+    file_id: StrictStr = Field(
+        description="Unique file identifier of the file used to generate this document.",
+        alias="fileId",
     )
     created_at: StrictStr = Field(
         description="Document creation date.", alias="createdAt"
-    )
-    updated_at: StrictStr = Field(
-        description="Document last update date.", alias="updatedAt"
     )
     shared: StrictBool = Field(description="The shared state of the document.")
     __properties: ClassVar[List[str]] = [
         "docInfo",
         "ownerUser",
         "ownerOrganization",
-        "originalContentType",
         "contentType",
+        "fileId",
         "createdAt",
-        "updatedAt",
         "shared",
     ]
 
@@ -119,10 +116,9 @@ class DocumentResponse(BaseModel):
                 else None,
                 "ownerUser": obj.get("ownerUser"),
                 "ownerOrganization": obj.get("ownerOrganization"),
-                "originalContentType": obj.get("originalContentType"),
                 "contentType": obj.get("contentType"),
+                "fileId": obj.get("fileId"),
                 "createdAt": obj.get("createdAt"),
-                "updatedAt": obj.get("updatedAt"),
                 "shared": obj.get("shared"),
             }
         )

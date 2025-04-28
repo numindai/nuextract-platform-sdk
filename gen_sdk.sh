@@ -35,12 +35,17 @@ openapi-generator generate \
 uvx ruff check --fix
 uvx ruff format
 
+# Integrate client dependencies and client pyproject tools into project pyproject
+python src/adapt_pyproject.py --project-pyproject-path=src/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
+rm src/pyproject.toml
+rm src/*requirements.txt
+
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
 rm src/numind/__init__.py  # copy back base __init__.py file
 mv src/numind/__init__save.py src/numind/__init__.py
 
-# Copying the tests, docs and pyproject.toml files.
+# Copying the tests and docs files.
 if [ -d tests ]; then
   rm -r tests/openapi_client
 fi
@@ -49,15 +54,7 @@ if [ -d docs ]; then
   rm -r docs
 fi
 mv src/docs .
-#if [ -f pyproject.toml ]; then
-#  rm pyproject.toml
-#fi
-#mv src/pyproject.toml .
-rm src/pyproject.toml
-# TODO relying on a 100% generated pyproject isn't sustainable/flexible. Using a fixed
-#  pyproject file makes the project vulnerable to dependency changes. A custom script
-#  extracting the dependencies in the generated pyproject.toml file and write them in
-#  the base pyproject.toml file seems a good alternative to handle this problem.
+
 # TODO rewrite the package version in the pyproject as in the config.json, or find an
 #  other way to fetch the define and fetch the package version in one place
 

@@ -49,8 +49,8 @@ class NuMind(DocumentsApi, ExamplesApi, InferenceApi, ProjectsApi):
 
     def infer(
         self,
-        project_id: str | None,
-        template: dict | BaseModel | str,
+        project_id: str | None = None,
+        template: dict | BaseModel | str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
     ) -> InferenceResponse:

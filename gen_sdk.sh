@@ -2,6 +2,8 @@
 
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
+# TODO Delete TextRequest with text?
+
 # Constants
 openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
 openapi_specs_file_path="numind_api.yaml"

@@ -510,7 +510,7 @@ class DocumentsApi:
             )
 
         # authentication setting
-        _auth_settings: List[str] = []
+        _auth_settings: List[str] = ["oauth2Auth"]
 
         return self.api_client.param_serialize(
             method="GET",
@@ -531,6 +531,12 @@ class DocumentsApi:
     def post_api_documents_text(
         self,
         text_request: TextRequest,
+        x_organization: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="The id of the current organization. This organization will own created resources"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -550,6 +556,8 @@ class DocumentsApi:
 
         :param text_request: (required)
         :type text_request: TextRequest
+        :param x_organization: The id of the current organization. This organization will own created resources
+        :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -573,6 +581,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_text_serialize(
             text_request=text_request,
+            x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -596,6 +605,12 @@ class DocumentsApi:
     def post_api_documents_text_with_http_info(
         self,
         text_request: TextRequest,
+        x_organization: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="The id of the current organization. This organization will own created resources"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -615,6 +630,8 @@ class DocumentsApi:
 
         :param text_request: (required)
         :type text_request: TextRequest
+        :param x_organization: The id of the current organization. This organization will own created resources
+        :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -638,6 +655,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_text_serialize(
             text_request=text_request,
+            x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -661,6 +679,12 @@ class DocumentsApi:
     def post_api_documents_text_without_preload_content(
         self,
         text_request: TextRequest,
+        x_organization: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="The id of the current organization. This organization will own created resources"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -680,6 +704,8 @@ class DocumentsApi:
 
         :param text_request: (required)
         :type text_request: TextRequest
+        :param x_organization: The id of the current organization. This organization will own created resources
+        :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -703,6 +729,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_text_serialize(
             text_request=text_request,
+            x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -721,6 +748,7 @@ class DocumentsApi:
     def _post_api_documents_text_serialize(
         self,
         text_request,
+        x_organization,
         _request_auth,
         _content_type,
         _headers,
@@ -742,6 +770,8 @@ class DocumentsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_organization is not None:
+            _header_params["x-organization"] = x_organization
         # process the form parameters
         # process the body parameter
         if text_request is not None:

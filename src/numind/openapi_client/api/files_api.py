@@ -530,6 +530,12 @@ class FilesApi:
             StrictStr, Field(description="The name of the file to be uploaded.")
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="The id of the current organization. This organization will own created resources"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -551,6 +557,8 @@ class FilesApi:
         :type x_file_name: str
         :param body: (required)
         :type body: bytearray
+        :param x_organization: The id of the current organization. This organization will own created resources
+        :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -571,10 +579,11 @@ class FilesApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_files_serialize(
             x_file_name=x_file_name,
             body=body,
+            x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -601,6 +610,12 @@ class FilesApi:
             StrictStr, Field(description="The name of the file to be uploaded.")
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="The id of the current organization. This organization will own created resources"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -622,6 +637,8 @@ class FilesApi:
         :type x_file_name: str
         :param body: (required)
         :type body: bytearray
+        :param x_organization: The id of the current organization. This organization will own created resources
+        :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -642,10 +659,11 @@ class FilesApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_files_serialize(
             x_file_name=x_file_name,
             body=body,
+            x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -672,6 +690,12 @@ class FilesApi:
             StrictStr, Field(description="The name of the file to be uploaded.")
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="The id of the current organization. This organization will own created resources"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -693,6 +717,8 @@ class FilesApi:
         :type x_file_name: str
         :param body: (required)
         :type body: bytearray
+        :param x_organization: The id of the current organization. This organization will own created resources
+        :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -713,10 +739,11 @@ class FilesApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_files_serialize(
             x_file_name=x_file_name,
             body=body,
+            x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -736,6 +763,7 @@ class FilesApi:
         self,
         x_file_name,
         body,
+        x_organization,
         _request_auth,
         _content_type,
         _headers,
@@ -759,6 +787,8 @@ class FilesApi:
         # process the header parameters
         if x_file_name is not None:
             _header_params["x-file-name"] = x_file_name
+        if x_organization is not None:
+            _header_params["x-organization"] = x_organization
         # process the form parameters
         # process the body parameter
         if body is not None:

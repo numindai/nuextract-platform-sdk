@@ -13,14 +13,18 @@ from .openapi_client import (
     CreateProjectRequest,
     DocumentsApi,
     ExamplesApi,
+    FilesApi,
     InferenceApi,
     InferenceResponse,
+    OrganizationsApi,
     ProjectsApi,
     TextRequest,
 )
 
 
-class NuMind(DocumentsApi, ExamplesApi, InferenceApi, ProjectsApi):
+class NuMind(
+    DocumentsApi, ExamplesApi, FilesApi, InferenceApi, OrganizationsApi, ProjectsApi
+):
     """NuMind API client."""
 
     def __init__(

@@ -23,6 +23,12 @@ class TestDefaultApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_get_api_debug_status_code(self) -> None:
+        """
+        Test case for get_api_debug_status_code
+
+        """
+
     def test_get_api_health(self) -> None:
         """
         Test case for get_api_health

@@ -36,13 +36,18 @@ class TestTextInfo(unittest.TestCase):
         if include_optional:
             return TextInfo(
                 document_id = '',
+                file_id = '',
                 file_name = '',
                 text = '',
+                possible_transformations = [
+                    ''
+                    ],
                 type = 'text'
             )
         else:
             return TextInfo(
                 document_id = '',
+                file_id = '',
                 text = '',
                 type = 'text',
         )

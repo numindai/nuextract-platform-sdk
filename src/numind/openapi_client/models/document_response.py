@@ -39,10 +39,6 @@ class DocumentResponse(BaseModel):
     content_type: StrictStr = Field(
         description="Mime type of the document.", alias="contentType"
     )
-    file_id: StrictStr = Field(
-        description="Unique file identifier of the file used to generate this document.",
-        alias="fileId",
-    )
     created_at: StrictStr = Field(
         description="Document creation date.", alias="createdAt"
     )
@@ -52,7 +48,6 @@ class DocumentResponse(BaseModel):
         "ownerUser",
         "ownerOrganization",
         "contentType",
-        "fileId",
         "createdAt",
         "shared",
     ]
@@ -117,7 +112,6 @@ class DocumentResponse(BaseModel):
                 "ownerUser": obj.get("ownerUser"),
                 "ownerOrganization": obj.get("ownerOrganization"),
                 "contentType": obj.get("contentType"),
-                "fileId": obj.get("fileId"),
                 "createdAt": obj.get("createdAt"),
                 "shared": obj.get("shared"),
             }

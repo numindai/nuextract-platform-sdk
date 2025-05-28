@@ -170,7 +170,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_files**
-> FileResponse post_api_files(x_file_name, body)
+> FileResponse post_api_files(x_file_name, body, x_organization=x_organization)
 
 Uploads a new file.
 
@@ -203,9 +203,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.FilesApi(api_client)
     x_file_name = 'x_file_name_example' # str | The name of the file to be uploaded.
     body = None # bytearray | 
+    x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
 
     try:
-        api_response = api_instance.post_api_files(x_file_name, body)
+        api_response = api_instance.post_api_files(x_file_name, body, x_organization=x_organization)
         print("The response of FilesApi->post_api_files:\n")
         pprint(api_response)
     except Exception as e:
@@ -221,6 +222,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **x_file_name** | **str**| The name of the file to be uploaded. | 
  **body** | **bytearray**|  | 
+ **x_organization** | **str**| The id of the current organization. This organization will own created resources | [optional] 
 
 ### Return type
 

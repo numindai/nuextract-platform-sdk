@@ -36,12 +36,17 @@ class TestImageInfo(unittest.TestCase):
         if include_optional:
             return ImageInfo(
                 document_id = '',
+                file_id = '',
                 file_name = '',
+                possible_transformations = [
+                    ''
+                    ],
                 type = 'image'
             )
         else:
             return ImageInfo(
                 document_id = '',
+                file_id = '',
                 file_name = '',
                 type = 'image',
         )

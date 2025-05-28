@@ -543,9 +543,8 @@ It is allowed to duplicate locked projects and reference projects.
 
 
 #### Effect:
-- The duplicated project retains the **same template, settings and examples**.
+- The duplicated project retains the **same template, settings, examples and playground**.
 - A new name is assigned ("Original Name (copy)").
-- Project playground is not duplicated.
 
 #### Response:
  The response contains a newly generated

@@ -28,14 +28,30 @@ class TextInfo(BaseModel):
     document_id: StrictStr = Field(
         description="Unique document identifier.", alias="documentId"
     )
+    file_id: StrictStr = Field(
+        description="Unique file identifier of the file used to generate this document.",
+        alias="fileId",
+    )
     file_name: Optional[StrictStr] = Field(
         default=None,
         description="Filename of the initial file if any.     **None** for text input.",
         alias="fileName",
     )
     text: StrictStr = Field(description="The text content of the document.")
+    possible_transformations: Optional[List[StrictStr]] = Field(
+        default=None,
+        description="Possible transformations that can be done with this document.",
+        alias="possibleTransformations",
+    )
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["documentId", "fileName", "text", "type"]
+    __properties: ClassVar[List[str]] = [
+        "documentId",
+        "fileId",
+        "fileName",
+        "text",
+        "possibleTransformations",
+        "type",
+    ]
 
     @field_validator("type")
     def type_validate_enum(cls, value):
@@ -96,8 +112,10 @@ class TextInfo(BaseModel):
         _obj = cls.model_validate(
             {
                 "documentId": obj.get("documentId"),
+                "fileId": obj.get("fileId"),
                 "fileName": obj.get("fileName"),
                 "text": obj.get("text"),
+                "possibleTransformations": obj.get("possibleTransformations"),
                 "type": obj.get("type"),
             }
         )

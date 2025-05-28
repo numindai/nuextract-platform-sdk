@@ -2,8 +2,6 @@
 
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
-# TODO Delete TextRequest with text?
-
 # Constants
 openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
 openapi_specs_file_path="numind_api.yaml"
@@ -23,7 +21,7 @@ mv src/numind/__init__.py src/numind/__init__save.py
 
 # SDK GENERATION
 # Generate the sdk.
-# Support files (gitlab, travis, git_push.sh, README, requirements, setup.cfg/py,
+# Support files (gitlab, travis, git_push.sh, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
 openapi-generator generate \
@@ -41,6 +39,10 @@ uvx ruff format
 python src/adapt_pyproject.py --project-pyproject-path=src/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
 rm src/pyproject.toml
 rm src/*requirements.txt
+
+# Copy generated documentation into the base README.md file
+python src/collate_documentation_readme.py
+rm src/README.md
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator

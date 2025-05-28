@@ -19,6 +19,8 @@ from typing import Any, ClassVar, Dict, List, Optional, Set
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing_extensions import Self
 
+from numind.openapi_client.models.organization_response import OrganizationResponse
+
 
 class User(BaseModel):
     """
@@ -27,7 +29,8 @@ class User(BaseModel):
 
     email: StrictStr
     is_admin: StrictBool = Field(alias="isAdmin")
-    __properties: ClassVar[List[str]] = ["email", "isAdmin"]
+    organizations: Optional[List[OrganizationResponse]] = None
+    __properties: ClassVar[List[str]] = ["email", "isAdmin", "organizations"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -67,6 +70,13 @@ class User(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in organizations (list)
+        _items = []
+        if self.organizations:
+            for _item_organizations in self.organizations:
+                if _item_organizations:
+                    _items.append(_item_organizations.to_dict())
+            _dict["organizations"] = _items
         return _dict
 
     @classmethod
@@ -79,6 +89,15 @@ class User(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {"email": obj.get("email"), "isAdmin": obj.get("isAdmin")}
+            {
+                "email": obj.get("email"),
+                "isAdmin": obj.get("isAdmin"),
+                "organizations": [
+                    OrganizationResponse.from_dict(_item)
+                    for _item in obj["organizations"]
+                ]
+                if obj.get("organizations") is not None
+                else None,
+            }
         )
         return _obj

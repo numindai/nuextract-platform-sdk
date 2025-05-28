@@ -540,11 +540,7 @@ class Configuration:
             {
                 "url": "https://nuextract.ai",
                 "description": "No description provided",
-            },
-            {
-                "url": "http://localhost:9000",
-                "description": "No description provided",
-            },
+            }
         ]
 
     def get_host_from_settings(

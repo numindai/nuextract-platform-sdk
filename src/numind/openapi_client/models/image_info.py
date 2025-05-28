@@ -28,11 +28,26 @@ class ImageInfo(BaseModel):
     document_id: StrictStr = Field(
         description="Unique document identifier.", alias="documentId"
     )
+    file_id: StrictStr = Field(
+        description="Unique file identifier of the file used to generate this document.",
+        alias="fileId",
+    )
     file_name: StrictStr = Field(
         description="Filename of the initial file.", alias="fileName"
     )
+    possible_transformations: Optional[List[StrictStr]] = Field(
+        default=None,
+        description="Possible transformations that can be done with this document.",
+        alias="possibleTransformations",
+    )
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["documentId", "fileName", "type"]
+    __properties: ClassVar[List[str]] = [
+        "documentId",
+        "fileId",
+        "fileName",
+        "possibleTransformations",
+        "type",
+    ]
 
     @field_validator("type")
     def type_validate_enum(cls, value):
@@ -93,7 +108,9 @@ class ImageInfo(BaseModel):
         _obj = cls.model_validate(
             {
                 "documentId": obj.get("documentId"),
+                "fileId": obj.get("fileId"),
                 "fileName": obj.get("fileName"),
+                "possibleTransformations": obj.get("possibleTransformations"),
                 "type": obj.get("type"),
             }
         )

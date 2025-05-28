@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **email** | **str** |  | 
 **is_admin** | **bool** |  | 
+**organizations** | [**List[OrganizationResponse]**](OrganizationResponse.md) |  | [optional] 
 
 ## Example
 

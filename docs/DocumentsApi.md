@@ -105,6 +105,7 @@ Name | Type | Description  | Notes
 
 ### Example
 
+* OAuth Authentication (oauth2Auth):
 
 ```python
 import numind.openapi_client
@@ -117,6 +118,12 @@ configuration = numind.openapi_client.Configuration(
     host = "https://nuextract.ai"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
@@ -147,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2Auth](../README.md#oauth2Auth)
 
 ### HTTP request headers
 
@@ -164,7 +171,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_documents_text**
-> DocumentResponse post_api_documents_text(text_request)
+> DocumentResponse post_api_documents_text(text_request, x_organization=x_organization)
 
 
  Save the text as a **Document**.
@@ -208,9 +215,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
     text_request = {text=[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.} # TextRequest | 
+    x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
 
     try:
-        api_response = api_instance.post_api_documents_text(text_request)
+        api_response = api_instance.post_api_documents_text(text_request, x_organization=x_organization)
         print("The response of DocumentsApi->post_api_documents_text:\n")
         pprint(api_response)
     except Exception as e:
@@ -225,6 +233,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **text_request** | [**TextRequest**](TextRequest.md)|  | 
+ **x_organization** | **str**| The id of the current organization. This organization will own created resources | [optional] 
 
 ### Return type
 

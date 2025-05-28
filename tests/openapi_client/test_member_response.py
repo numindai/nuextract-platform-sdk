@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.user import User
+from numind.openapi_client.models.member_response import MemberResponse
 
 
-class TestUser(unittest.TestCase):
-    """User unit test stubs"""
+class TestMemberResponse(unittest.TestCase):
+    """MemberResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,35 +23,35 @@ class TestUser(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> User:
+    def make_instance(self, include_optional) -> MemberResponse:
         """
-        Test User
+        Test MemberResponse
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `User`
+        # uncomment below to create an instance of `MemberResponse`
         """
-        model = User()
+        model = MemberResponse()
         if include_optional:
-            return User(
+            return MemberResponse(
+                id = '',
+                display_name = '',
                 email = '',
-                is_admin = True,
-                organizations = [
-                    numind.openapi_client.models.organization_response.OrganizationResponse(
-                        id = '', 
-                        name = '', )
+                roles = [
+                    ''
                     ]
             )
         else:
-            return User(
+            return MemberResponse(
+                id = '',
+                display_name = '',
                 email = '',
-                is_admin = True,
         )
         """
 
-    def testUser(self):
-        """Test User"""
+    def testMemberResponse(self):
+        """Test MemberResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

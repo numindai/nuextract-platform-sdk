@@ -39,7 +39,6 @@ class TestDocumentResponse(unittest.TestCase):
                 owner_user = '',
                 owner_organization = '',
                 content_type = '',
-                file_id = '',
                 created_at = '',
                 shared = True
             )
@@ -48,7 +47,6 @@ class TestDocumentResponse(unittest.TestCase):
                 doc_info = None,
                 owner_user = '',
                 content_type = '',
-                file_id = '',
                 created_at = '',
                 shared = True,
         )

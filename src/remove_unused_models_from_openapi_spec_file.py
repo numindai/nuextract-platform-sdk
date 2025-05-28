@@ -25,6 +25,7 @@ MODELS_TO_DELETE = {
     "InfoNode",
     "VerbatimStr",
 }
+API_BASE_URL = "https://nuextract.ai"
 
 
 def edit_problematic_leaves(data: dict | list) -> None:
@@ -79,6 +80,9 @@ def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
 
     edit_problematic_leaves(content["paths"])
     edit_problematic_leaves(content["components"])
+
+    # add server entry
+    content["servers"] = [{"url": API_BASE_URL}]
 
     with output_file_path.open("w") as file:
         yaml.dump(content, file, allow_unicode=True, line_break=True, sort_keys=False)

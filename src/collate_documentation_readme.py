@@ -1,0 +1,49 @@
+"""Script removing problematic models from an OpenAPI specification file."""
+
+from pathlib import Path
+
+
+def read_readme(readme_path: Path) -> str:
+    # TODO find the
+    with readme_path.open() as file:
+        readme = file.read().splitlines()
+    for idx, line in enumerate(readme):
+        if line == "# Documentation":
+            readme = readme[: idx + 1]
+            break
+    return "\n".join(readme)
+
+
+def read_and_preprocess_generated_readme(readme_gen_path: Path) -> str:
+    with readme_gen_path.open() as file:
+        doc_readme = file.read().splitlines()[2:]
+    idx_line_to_skip_start = None
+    idx_line_to_skip_end = None
+    for idx, line in enumerate(doc_readme):
+        if line == "## Author":
+            doc_readme = doc_readme[:idx]
+            break
+        if line == "## Requirements.":
+            idx_line_to_skip_start = idx
+        elif line == "## Documentation for API Endpoints":
+            idx_line_to_skip_end = idx
+        if line.startswith("#"):
+            doc_readme[idx] = f"#{line}"
+    doc_readme = doc_readme[:idx_line_to_skip_start] + doc_readme[idx_line_to_skip_end:]
+    return "\n".join(doc_readme)
+
+
+def main() -> None:
+    """Edit an OpenAPI file to remove the models to delete."""
+    readme_gen_path = Path("src", "README.md")
+    preprocessed_generated_readme = read_and_preprocess_generated_readme(
+        readme_gen_path
+    )
+    readme = read_readme(Path("README.md")) + f"\n\n{preprocessed_generated_readme}"
+
+    with Path("README.md").open("w") as file:
+        file.write(readme)
+
+
+if __name__ == "__main__":
+    main()

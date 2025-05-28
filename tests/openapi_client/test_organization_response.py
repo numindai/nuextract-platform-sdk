@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.user import User
+from numind.openapi_client.models.organization_response import OrganizationResponse
 
 
-class TestUser(unittest.TestCase):
-    """User unit test stubs"""
+class TestOrganizationResponse(unittest.TestCase):
+    """OrganizationResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,35 +23,30 @@ class TestUser(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> User:
+    def make_instance(self, include_optional) -> OrganizationResponse:
         """
-        Test User
+        Test OrganizationResponse
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `User`
+        # uncomment below to create an instance of `OrganizationResponse`
         """
-        model = User()
+        model = OrganizationResponse()
         if include_optional:
-            return User(
-                email = '',
-                is_admin = True,
-                organizations = [
-                    numind.openapi_client.models.organization_response.OrganizationResponse(
-                        id = '', 
-                        name = '', )
-                    ]
+            return OrganizationResponse(
+                id = '',
+                name = ''
             )
         else:
-            return User(
-                email = '',
-                is_admin = True,
+            return OrganizationResponse(
+                id = '',
+                name = '',
         )
         """
 
-    def testUser(self):
-        """Test User"""
+    def testOrganizationResponse(self):
+        """Test OrganizationResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

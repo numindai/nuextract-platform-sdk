@@ -7,5 +7,5 @@ tox.ini
 .github/
 .travis.yml
 git_push.sh
-README.md
+# README.md
 setup.cfg

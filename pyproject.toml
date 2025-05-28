@@ -26,10 +26,10 @@ build = [ "openapi-generator-cli", "uv", "PyYAML", "toml",]
 tests = [ "pytest-cov", "pytest-xdist[psutil]", "pytest-rerunfailures", "pytest-dependency",]
 
 [project.urls]
-Homepage = "https://github.com/numindai/numind"
-Repository = "https://github.com/numindai/numind.git"
-Documentation = "https://numind.readthedocs.io"
-Issues = "https://github.com/numindai/numind/issues"
+Homepage = "https://github.com/numindai/nuextract-platform-sdk"
+Repository = "https://github.com/numindai/nuextract-platform-sdk.git"
+Documentation = "https://github.com/numindai/nuextract-platform-sdk#documentation"
+Issues = "https://github.com/numindai/nuextract-platform-sdk/issues"
 
 [tool.ruff]
 target-version = "py39"

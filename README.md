@@ -2,17 +2,15 @@
 
 Python SDK to interact with NuMind's [**NuExtract**](https://nuextract.ai) API.
 
-## Getting Started
-
-### Installation
+## Installation
 
 ```sh
 pip install numind
 ```
 
-### Usage and code examples
+## Usage and code examples
 
-#### Create a client
+### Create a client
 
 You must first get an API key on [NuExtract](https://nuextract.ai).
 
@@ -27,7 +25,7 @@ from numind import NuMind
 client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 ```
 
-#### Extract structured information "on the fly"
+### Extract structured information "on the fly"
 
 If you want to extract structured information from data without projects but just by providing the input template, you can use the `infer` method which provides a more user-friendly way to interact with the API:
 
@@ -80,7 +78,39 @@ print(output)
 }
 ```
 
-#### Create a project
+### Create a good template
+
+NuExtract uses JSON schemas as extraction templates which specify the information to retrieve and their types, which are:
+
+* **string**: a text, whose value can be abstract, i.e. totally free and can be deduced from calculations, reasoning, external knowledge;
+* **verbatim-string**: a purely extractive text whose value must be present in the document. Some flexibility might be allowed on the formatting, e.g. new lines and escaped characters (e.g. `\n`) in a documents might be represented with a space;
+* **integer**: an integer number;
+* **number**: any number, that may be a floating point number or an integer;
+* **boolean**: a boolean whose value should be either true or false;
+* **date-time**: a date or time whose value should follow the ISO 8601 standard (`YYYY-MM-DDThh:mm:ss`). It may feature "reduced" accuracy, i.e. omitting certain date or time components not useful in specific cases. For examples, if the extracted value is a date, `YYYY-MM-DD` is a valid value format. The same applies to times with the `hh:mm:ss` format (without omitting the leading `T` symbol). Additionally, the "least significant" component might be omitted if it is not required or specified. For example, a specific month and year can be specified as `YYYY-MM` while omitting the day component `DD`. A specific hour can be specified as `hh` while omitting the minutes and seconds components. When combining dates and time, only the least significant time components can be omitted, e.g. `YYYY-MM-DDThh:mm` which is omitting the seconds.
+
+Additionally, the value of a field can be:
+
+* a **nested dictionary**, i.e. another branch, describing elements associated to their parent node (key);
+* an **array** of items of the form `["type"]`, whose values are elements of a given "type", which can also be a dictionary of unspecified depth;
+* an **enum**, i.e. a list of elements to choose from of the form `["choice1", "choice2", ...]`. For values of this type, just set the value of the item to choose, e.g. "choice1", and do not set the value as an array containing the item such as `["choice1"]`;
+* a **multi-enum**, i.e. a list from which multiple elements can be picked, of the form `[["choice1", "choice2", ...]]` (double square brackets).
+
+#### Inferring a template
+
+The "infer_template" method allows to quickly create a template that you can start to work with from a text description.
+
+```python
+from numind.openapi_client import TemplateRequest
+from pydantic import StrictStr
+
+description = "Create a template that extracts key information from an order confirmation email. The template should be able to pull details like the order ID, customer ID, date and time of the order, status, total amount, currency, item details (product ID, quantity, and unit price), shipping address, any customer requests or delivery preferences, and the estimated delivery date."
+input_schema = client.post_api_infer_template(
+    template_request=TemplateRequest(description=StrictStr(description))
+)
+```
+
+### Create a project
 
 A project allows to define an information extraction task from a template and examples.
 
@@ -98,7 +128,7 @@ project_id = client.post_api_projects(
 
 The `project_id` can also be found in the "API" tab of a project on the NuExtract website.
 
-#### Add examples to a project to teach NuExtract via ICL (In-Context Learning)
+### Add examples to a project to teach NuExtract via ICL (In-Context Learning)
 
 ```python
 from pathlib import Path
@@ -122,7 +152,7 @@ examples = [
 client.add_examples_to_project(project_id, examples)
 ```
 
-#### Extract structured information from text
+### Extract structured information from text
 
 ```python
 from numind.openapi_client import TextRequest
@@ -132,7 +162,7 @@ output_schema = client.post_api_projects_projectid_infer_text(
 )
 ```
 
-#### Extract structured information from a file
+### Extract structured information from a file
 
 ```python
 from pathlib import Path
@@ -142,25 +172,6 @@ with file_path.open("rb") as file:  # read bytes
     intput_file = file.read()
 output_schema = client.post_api_projects_projectid_infer_file(
     project_id, file_path.name, intput_file
-)
-```
-
-#### Infer a template from a document
-
-```python
-from numind.openapi_client import CreateOrUpdateExampleRequest
-from pathlib import Path
-
-from numind import NuMind
-client = NuMind()
-
-
-file_path = Path("path", "to", "document.odt")
-with file_path.open("rb") as file:  # read bytes
-    intput_file = file.read()
-client.post_api_documents_text()
-output_schema = client.post_api_projects_projectid_examples(
-    project_id, CreateOrUpdateExampleRequest()
 )
 ```
 

@@ -1,13 +1,18 @@
 """Testing the creation, update and deletion of a project."""
 
+from __future__ import annotations
+
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
-from numind import NuMind
 from numind.openapi_client.models import CreateProjectRequest, TextRequest
 
 from .conftest import TEST_CASES
+
+if TYPE_CHECKING:
+    from numind import NuMind
 
 
 @pytest.fixture(params=TEST_CASES, ids=lambda tc: f"project_{tc[0]}", scope="session")
@@ -20,10 +25,17 @@ def test_case(
 @pytest.mark.dependency(name="create_project")
 def test_create_project(
     numind_client: NuMind,
-    test_case: tuple[str, dict, list[str], list[Path]],
+    test_case: tuple[
+        str, dict, list[str], list[Path], list[tuple[str | Path, dict | str]]
+    ],
     request: pytest.FixtureRequest,
 ) -> None:
-    project_name, schema, string_list, file_paths_list = test_case
+    project_name, schema, string_list, file_paths_list, examples = test_case
+    # Convert examples Paths to str as needed to be json serializable when saving them
+    # to pytest's cache.
+    for idx in range(len(examples)):  # convert Path to str
+        if isinstance(examples[idx][0], Path):
+            examples[idx] = (str(examples[0]), examples[idx][1])
     project_id = numind_client.post_api_projects(
         CreateProjectRequest(name=project_name, description="", template=schema)
     ).id
@@ -32,6 +44,7 @@ def test_create_project(
     request.config.cache.set(
         "file_cases", [str(file_path) for file_path in file_paths_list]
     )
+    request.config.cache.set("examples", examples)
 
 
 @pytest.mark.dependency(depends=["create_project"])
@@ -41,6 +54,22 @@ def test_get_existing_projects(
     project_id = request.config.cache.get("project_id", None)
     projects = numind_client.get_api_projects(shared=False)
     assert project_id in {project.id for project in projects}
+
+
+@pytest.mark.dependency(depends=["create_project"])
+def test_add_examples_to_project(
+    numind_client: NuMind, request: pytest.FixtureRequest
+) -> None:
+    project_id = request.config.cache.get("project_id", None)
+    examples = request.config.cache.get("examples", None)
+    for idx in range(len(examples)):  # convert str paths to Path
+        try:
+            example_path = Path(examples[idx][0])
+            if example_path.is_file():
+                examples[idx] = (example_path, examples[idx][1])
+        except (OSError, RuntimeError):
+            continue
+    _ = numind_client.add_examples_to_project(project_id, examples)
 
 
 @pytest.mark.dependency(name="infer_text", depends=["create_project"])

@@ -1,10 +1,6 @@
-# numind
+# NuExtract SDK
 
-Python SDK to interact with the NuMind API.
-
-## Requirements
-
-Python 3.8+
+Python SDK to interact with NuMind's [**NuExtract**](https://nuextract.ai) API.
 
 ## Getting Started
 
@@ -14,9 +10,11 @@ Python 3.8+
 pip install numind
 ```
 
-### Usage
+### Usage and code examples
 
 #### Create a client
+
+You must first get an API key on [NuExtract](https://nuextract.ai).
 
 ```python
 import os
@@ -29,13 +27,11 @@ from numind import NuMind
 client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 ```
 
-#### Create a project
+#### Extract structured information "on the fly"
 
-A project allows to define, on the platform, an input schema along with examples to provide to the model to extract the structured information you want from data.
+If you want to extract structured information from data without projects but just by providing the input template, you can use the `infer` method which provides a more user-friendly way to interact with the API:
 
 ```python
-from numind.openapi_client import CreateProjectRequest
-
 template = {
     "destination": {
         "name": "verbatim-string",
@@ -49,30 +45,18 @@ template = {
         "time_quantity": "integer"
     }
 }
-
-project_id = client.post_api_projects(
-    CreateProjectRequest(
-        name="vacation",
-        description="Extraction of locations and activities",
-        template=template,
-    )
-)
-```
-
-#### Extract structured information from text
-
-```python
-from numind.openapi_client import TextRequest
-
 input_text = """My dream vacation would be a month-long escape to the stunning islands of Tahiti.
 I’d stay in an overwater bungalow in Bora Bora, waking up to crystal-clear turquoise waters and breathtaking sunrises.
 Days would be spent snorkeling with vibrant marine life, paddleboarding over coral gardens, and basking on pristine white-sand beaches.
 I’d explore lush rainforests, hidden waterfalls, and the rich Polynesian culture through traditional dance, music, and cuisine.
 Evenings would be filled with romantic beachside dinners under the stars, with the soothing sound of waves as the perfect backdrop."""
-output_schema = client.post_api_projects_projectid_infer_text(
-    project_id=project_id, text_request=TextRequest(text=input_text)
-)
-print(output_schema)
+
+output = client.infer(template=template, input_text=input_text)
+print(output)
+
+# Can also work with files, replace the path with your own
+# from pathlib import Path
+# output = client.infer(template=template, input_file=Path("to", "file.ppt"))
 ```
 
 ```json
@@ -96,6 +80,58 @@ print(output_schema)
 }
 ```
 
+#### Create a project
+
+A project allows to define an information extraction task from a template and examples.
+
+```python
+from numind.openapi_client import CreateProjectRequest
+
+project_id = client.post_api_projects(
+    CreateProjectRequest(
+        name="vacation",
+        description="Extraction of locations and activities",
+        template=template,
+    )
+)
+```
+
+The `project_id` can also be found in the "API" tab of a project on the NuExtract website.
+
+#### Add examples to a project to teach NuExtract via ICL (In-Context Learning)
+
+```python
+from pathlib import Path
+
+# Prepare examples, here a text and a file
+example_1_input = "This is a text example"
+example_1_expected_output = {
+    "destination": {"name": None, "zip_code": None, "country": None}
+}
+with Path("path", "to", "example_2.odt").open("rb") as file:  # read bytes
+    example_2_input = file.read()
+example_2_expected_output = {
+    "destination": {"name": None, "zip_code": None, "country": None}
+}
+examples = [
+    (example_1_input, example_1_expected_output),
+    (example_2_input, example_2_expected_output),
+]
+
+# Add the examples to the project
+client.add_examples_to_project(project_id, examples)
+```
+
+#### Extract structured information from text
+
+```python
+from numind.openapi_client import TextRequest
+
+output_schema = client.post_api_projects_projectid_infer_text(
+    project_id=project_id, text_request=TextRequest(text=input_text)
+)
+```
+
 #### Extract structured information from a file
 
 ```python
@@ -109,20 +145,23 @@ output_schema = client.post_api_projects_projectid_infer_file(
 )
 ```
 
-#### Extract structured information with no attached project ("on the fly")
-
-If you want to extract structured information from data without projects but just by providing the input template, you can use the `infer` method which provides a more user-friendly way to interact with the API:
+#### Infer a template from a document
 
 ```python
+from numind.openapi_client import CreateOrUpdateExampleRequest
+from pathlib import Path
+
 from numind import NuMind
+client = NuMind()
 
-# Create a client object to interact with the API
-# Providing the `api_key` is not required if the `NUMIND_API_KEY` environment variable
-# is already set.
-client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 
-output_schema_text = client.infer(template=template, input_text=input_text)
-output_schema_file = client.infer(template=template, input_file=Path("to", "file.ppt"))
+file_path = Path("path", "to", "document.odt")
+with file_path.open("rb") as file:  # read bytes
+    intput_file = file.read()
+client.post_api_documents_text()
+output_schema = client.post_api_projects_projectid_examples(
+    project_id, CreateOrUpdateExampleRequest()
+)
 ```
 
 # Documentation

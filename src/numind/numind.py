@@ -84,6 +84,7 @@ class NuMind(
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
+        convert_request: ConvertRequest | None = None,
     ) -> InferenceResponse:
         """
         Send an inference request to the API for either a text or a file input.
@@ -103,6 +104,9 @@ class NuMind(
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
+        :param convert_request: ``ConvertRequest`` object holding the file conversion
+            configuration, such as the DPI. If ``None`` is provided, the default API
+            conversion configuration will be used. (default: ``None``)
         :return: the API response.
         """
         if (input_text is None) ^ input_file is not None:
@@ -126,7 +130,7 @@ class NuMind(
 
         # Add examples to the project
         if examples is not None and len(examples) > 0:
-            self.add_examples_to_project(project_id, examples)
+            self.add_examples_to_project(project_id, examples, convert_request)
 
         # Infer with text input
         if input_text is not None:
@@ -161,24 +165,29 @@ class NuMind(
             output. The inputs can be text (``str``) or files (``pathlib.Path`` or
             ``bytes``).
         :param convert_request: ``ConvertRequest`` object holding the file conversion
-            configuration, such as the DPI. If ``None`` is provided, the default API
+            configuration, such as the DPI. If ``None`` is provided, the project's
             conversion configuration will be used. (default: ``None``)
         """
         files_ids, documents_ids = [], []
+        if convert_request is None:
+            project_info = self.get_api_projects_projectid(project_id=project_id)
+            convert_request = ConvertRequest(
+                rasterizationDpi=project_info.settings.rasterization_dpi,
+            )
         for example_input, example_output in examples:
             # Prepare the example input and output, upload the input as file
             example_output = self.__parse_template(example_output)
             if isinstance(example_input, (Path, bytes)):
                 example_input, file_name = self.__parse_input_file(example_input)
-                file_id = self.post_api_files(file_name, example_input)
+                file_id = self.post_api_files(file_name, example_input).file_id
                 document_id = self.post_api_files_fileid_convert_to_document(
                     file_id, convert_request
-                )
+                ).doc_info.actual_instance.document_id
             else:
                 file_id = None
                 document_id = self.post_api_documents_text(
                     TextRequest(text=example_input)
-                )
+                ).doc_info.actual_instance.document_id
             files_ids.append(file_id)
             documents_ids.append(document_id)
 

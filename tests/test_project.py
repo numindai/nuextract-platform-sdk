@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture(params=TEST_CASES, ids=lambda tc: f"project_{tc[0]}", scope="session")
 def test_case(
-    numind_client: NuMind, request: pytest.FixtureRequest
+    request: pytest.FixtureRequest
 ) -> tuple[str, dict, list[str], list[Path]]:
     return request.param
 
@@ -35,7 +35,7 @@ def test_create_project(
     # to pytest's cache.
     for idx in range(len(examples)):  # convert Path to str
         if isinstance(examples[idx][0], Path):
-            examples[idx] = (str(examples[0]), examples[idx][1])
+            examples[idx] = (str(examples[idx][0]), examples[idx][1])
     project_id = numind_client.post_api_projects(
         CreateProjectRequest(name=project_name, description="", template=schema)
     ).id

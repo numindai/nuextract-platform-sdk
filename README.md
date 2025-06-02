@@ -1,22 +1,18 @@
-# numind
+# NuExtract SDK
 
-Python SDK to interact with the NuMind API.
+Python SDK to interact with NuMind's [**NuExtract**](https://nuextract.ai) API.
 
-## Requirements
-
-Python 3.8+
-
-## Getting Started
-
-### Installation
+## Installation
 
 ```sh
 pip install numind
 ```
 
-### Usage
+## Usage and code examples
 
-#### Create a client
+### Create a client
+
+You must first get an API key on [NuExtract](https://nuextract.ai).
 
 ```python
 import os
@@ -29,13 +25,11 @@ from numind import NuMind
 client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 ```
 
-#### Create a project
+### Extract structured information "on the fly"
 
-A project allows to define, on the platform, an input schema along with examples to provide to the model to extract the structured information you want from data.
+If you want to extract structured information from data without projects but just by providing the input template, you can use the `infer` method which provides a more user-friendly way to interact with the API:
 
 ```python
-from numind.openapi_client import CreateProjectRequest
-
 template = {
     "destination": {
         "name": "verbatim-string",
@@ -49,30 +43,18 @@ template = {
         "time_quantity": "integer"
     }
 }
-
-project_id = client.post_api_projects(
-    CreateProjectRequest(
-        name="vacation",
-        description="Extraction of locations and activities",
-        template=template,
-    )
-)
-```
-
-#### Extract structured information from text
-
-```python
-from numind.openapi_client import TextRequest
-
 input_text = """My dream vacation would be a month-long escape to the stunning islands of Tahiti.
 I’d stay in an overwater bungalow in Bora Bora, waking up to crystal-clear turquoise waters and breathtaking sunrises.
 Days would be spent snorkeling with vibrant marine life, paddleboarding over coral gardens, and basking on pristine white-sand beaches.
 I’d explore lush rainforests, hidden waterfalls, and the rich Polynesian culture through traditional dance, music, and cuisine.
 Evenings would be filled with romantic beachside dinners under the stars, with the soothing sound of waves as the perfect backdrop."""
-output_schema = client.post_api_projects_projectid_infer_text(
-    project_id=project_id, text_request=TextRequest(text=input_text)
-)
-print(output_schema)
+
+output = client.infer(template=template, input_text=input_text)
+print(output)
+
+# Can also work with files, replace the path with your own
+# from pathlib import Path
+# output = client.infer(template=template, input_file=Path("to", "file.ppt"))
 ```
 
 ```json
@@ -96,7 +78,91 @@ print(output_schema)
 }
 ```
 
-#### Extract structured information from a file
+### Create a good template
+
+NuExtract uses JSON schemas as extraction templates which specify the information to retrieve and their types, which are:
+
+* **string**: a text, whose value can be abstract, i.e. totally free and can be deduced from calculations, reasoning, external knowledge;
+* **verbatim-string**: a purely extractive text whose value must be present in the document. Some flexibility might be allowed on the formatting, e.g. new lines and escaped characters (e.g. `\n`) in a documents might be represented with a space;
+* **integer**: an integer number;
+* **number**: any number, that may be a floating point number or an integer;
+* **boolean**: a boolean whose value should be either true or false;
+* **date-time**: a date or time whose value should follow the ISO 8601 standard (`YYYY-MM-DDThh:mm:ss`). It may feature "reduced" accuracy, i.e. omitting certain date or time components not useful in specific cases. For examples, if the extracted value is a date, `YYYY-MM-DD` is a valid value format. The same applies to times with the `hh:mm:ss` format (without omitting the leading `T` symbol). Additionally, the "least significant" component might be omitted if it is not required or specified. For example, a specific month and year can be specified as `YYYY-MM` while omitting the day component `DD`. A specific hour can be specified as `hh` while omitting the minutes and seconds components. When combining dates and time, only the least significant time components can be omitted, e.g. `YYYY-MM-DDThh:mm` which is omitting the seconds.
+
+Additionally, the value of a field can be:
+
+* a **nested dictionary**, i.e. another branch, describing elements associated to their parent node (key);
+* an **array** of items of the form `["type"]`, whose values are elements of a given "type", which can also be a dictionary of unspecified depth;
+* an **enum**, i.e. a list of elements to choose from of the form `["choice1", "choice2", ...]`. For values of this type, just set the value of the item to choose, e.g. "choice1", and do not set the value as an array containing the item such as `["choice1"]`;
+* a **multi-enum**, i.e. a list from which multiple elements can be picked, of the form `[["choice1", "choice2", ...]]` (double square brackets).
+
+#### Inferring a template
+
+The "infer_template" method allows to quickly create a template that you can start to work with from a text description.
+
+```python
+from numind.openapi_client import TemplateRequest
+from pydantic import StrictStr
+
+description = "Create a template that extracts key information from an order confirmation email. The template should be able to pull details like the order ID, customer ID, date and time of the order, status, total amount, currency, item details (product ID, quantity, and unit price), shipping address, any customer requests or delivery preferences, and the estimated delivery date."
+input_schema = client.post_api_infer_template(
+    template_request=TemplateRequest(description=StrictStr(description))
+)
+```
+
+### Create a project
+
+A project allows to define an information extraction task from a template and examples.
+
+```python
+from numind.openapi_client import CreateProjectRequest
+
+project_id = client.post_api_projects(
+    CreateProjectRequest(
+        name="vacation",
+        description="Extraction of locations and activities",
+        template=template,
+    )
+)
+```
+
+The `project_id` can also be found in the "API" tab of a project on the NuExtract website.
+
+### Add examples to a project to teach NuExtract via ICL (In-Context Learning)
+
+```python
+from pathlib import Path
+
+# Prepare examples, here a text and a file
+example_1_input = "This is a text example"
+example_1_expected_output = {
+    "destination": {"name": None, "zip_code": None, "country": None}
+}
+with Path("path", "to", "example_2.odt").open("rb") as file:  # read bytes
+    example_2_input = file.read()
+example_2_expected_output = {
+    "destination": {"name": None, "zip_code": None, "country": None}
+}
+examples = [
+    (example_1_input, example_1_expected_output),
+    (example_2_input, example_2_expected_output),
+]
+
+# Add the examples to the project
+client.add_examples_to_project(project_id, examples)
+```
+
+### Extract structured information from text
+
+```python
+from numind.openapi_client import TextRequest
+
+output_schema = client.post_api_projects_projectid_infer_text(
+    project_id=project_id, text_request=TextRequest(text=input_text)
+)
+```
+
+### Extract structured information from a file
 
 ```python
 from pathlib import Path
@@ -107,22 +173,6 @@ with file_path.open("rb") as file:  # read bytes
 output_schema = client.post_api_projects_projectid_infer_file(
     project_id, file_path.name, intput_file
 )
-```
-
-#### Extract structured information with no attached project ("on the fly")
-
-If you want to extract structured information from data without projects but just by providing the input template, you can use the `infer` method which provides a more user-friendly way to interact with the API:
-
-```python
-from numind import NuMind
-
-# Create a client object to interact with the API
-# Providing the `api_key` is not required if the `NUMIND_API_KEY` environment variable
-# is already set.
-client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
-
-output_schema_text = client.infer(template=template, input_text=input_text)
-output_schema_file = client.infer(template=template, input_file=Path("to", "file.ppt"))
 ```
 
 # Documentation

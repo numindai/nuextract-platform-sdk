@@ -17,19 +17,37 @@ from numind import NuMind
 
 NUMIND_API_KEY_TEST_ENV_VAR_NAME = "NUMIND_API_KEY_TESTS"
 
+
+def _read_test_case_examples(
+    file_path: Path,
+) -> list[tuple[str | Path, dict | str]]:
+    with file_path.open() as file:
+        reader = csv.reader(file)
+        next(reader)  # skipping header
+        examples = []
+        for row in reader:
+            input_text, input_file_path, output = row
+            if input_text != "":
+                examples.append((input_text, output))
+            else:
+                examples.append((file_path.parent / input_file_path, output))
+    return examples
+
+
 TEST_CASES = []  # (test_name, schema, string_list, file_paths_list)
 for dir_path in Path("tests", "test_cases").iterdir():
-    with (dir_path / "schema.json").open() as file:
-        schema = json.load(file)
-    with (dir_path / "texts.csv").open(encoding="utf-8") as file:
-        reader = csv.reader(file)
-        texts = [line[0] for line in reader]
+    with (dir_path / "schema.json").open() as file_:
+        schema = json.load(file_)
+    with (dir_path / "texts.csv").open(encoding="utf-8") as file_:
+        reader_ = csv.reader(file_)
+        texts = [line[0] for line in reader_]
     file_paths = [
         file_path
         for file_path in (dir_path / "files").iterdir()
         if not file_path.name.startswith(".")
     ]
-    TEST_CASES.append((dir_path.name, schema, texts, file_paths))
+    examples_ = _read_test_case_examples(dir_path / "examples.csv")
+    TEST_CASES.append((dir_path.name, schema, texts, file_paths, examples_))
 
 
 @pytest.fixture(scope="session")

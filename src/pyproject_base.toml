@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.0.0.dev0"
+version = "0.0.1"
 description = "SDK to interact with the NuMind models API."
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
@@ -48,10 +48,10 @@ tests = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/numindai/numind"
-Repository = "https://github.com/numindai/numind.git"
-Documentation = "https://numind.readthedocs.io"
-Issues = "https://github.com/numindai/numind/issues"
+Homepage = "https://github.com/numindai/nuextract-platform-sdk"
+Repository = "https://github.com/numindai/nuextract-platform-sdk.git"
+Documentation = "https://github.com/numindai/nuextract-platform-sdk#documentation"
+Issues = "https://github.com/numindai/nuextract-platform-sdk/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/numind"]

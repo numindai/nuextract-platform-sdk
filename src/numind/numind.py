@@ -1,15 +1,19 @@
 """NuMind API client."""
 
+from __future__ import annotations
+
 import json
 import os
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictStr
 
 from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
 from .openapi_client import (
     ApiClient,
     Configuration,
+    ConvertRequest,
+    CreateOrUpdateExampleRequest,
     CreateProjectRequest,
     DocumentsApi,
     ExamplesApi,
@@ -51,12 +55,36 @@ class NuMind(
 
         super().__init__(client)
 
+    @staticmethod
+    def __parse_template(template: dict | BaseModel | str) -> dict:
+        """Read a ``template`` argument provided in upstream methods."""
+        if not isinstance(template, dict):
+            if isinstance(template, str):
+                template = json.loads(template)
+            else:
+                template = BaseModel().model_dump()
+        return template
+
+    @staticmethod
+    def __parse_input_file(input_file: Path | str | bytes) -> tuple[bytes, str]:
+        """Read an ``input_file`` argument provided in upstream methods."""
+        file_name = ""
+        if not isinstance(input_file, bytes):
+            if not isinstance(input_file, Path):
+                input_file = Path(input_file)
+            file_name = input_file.name
+            with input_file.open("rb") as file:
+                input_file = file.read()
+        return input_file, file_name
+
     def infer(
         self,
         project_id: str | None = None,
         template: dict | BaseModel | str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
+        examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
+        convert_request: ConvertRequest | None = None,
     ) -> InferenceResponse:
         """
         Send an inference request to the API for either a text or a file input.
@@ -72,6 +100,13 @@ class NuMind(
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
+        :param examples: ICL (In-Context Learning) examples to add to the inference.
+            Examples are pairs of inputs and expected outputs that aim to show practical
+            use-cases and expected responses aiming to guide it to produce more accurate
+            outputs. (default: ``None``)
+        :param convert_request: ``ConvertRequest`` object holding the file conversion
+            configuration, such as the DPI. If ``None`` is provided, the default API
+            conversion configuration will be used. (default: ``None``)
         :return: the API response.
         """
         if (input_text is None) ^ input_file is not None:
@@ -86,16 +121,16 @@ class NuMind(
             if template is None:
                 msg = "Either a `project_id` or `template` as to be provided."
                 raise ValueError(msg)
-            if not isinstance(template, dict):
-                if isinstance(template, str):
-                    template = json.loads(template, ensure_ascii=False, indent=0)
-                else:
-                    template = BaseModel().model_dump()
+            template = self.__parse_template(template)
             project_id = self.post_api_projects(
                 CreateProjectRequest(
                     name=TMP_PROJECT_NAME, description="", template=template
                 )
             ).id
+
+        # Add examples to the project
+        if examples is not None and len(examples) > 0:
+            self.add_examples_to_project(project_id, examples, convert_request)
 
         # Infer with text input
         if input_text is not None:
@@ -105,13 +140,9 @@ class NuMind(
 
         # Infer with file input
         else:
-            if not isinstance(input_file, bytes):
-                if not isinstance(input_file, Path):
-                    input_file = Path(input_file)
-                with input_file.open("rb") as file:
-                    intput_file = file.read()
+            input_file, file_name = self.__parse_input_file(input_file)
             output = self.post_api_projects_projectid_infer_file(
-                project_id, input_file.name, intput_file
+                project_id, file_name, input_file
             )
 
         # Delete temporary project if necessary
@@ -119,3 +150,53 @@ class NuMind(
             self.delete_api_projects_projectid(project_id)
 
         return output
+
+    def add_examples_to_project(
+        self,
+        project_id: str,
+        examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
+        convert_request: ConvertRequest | None = None,
+    ) -> tuple[list[str], list[str]]:
+        """
+        Add ICL (In-Context Learning) examples to a project.
+
+        :param project_id: id of the project to add examples to.
+        :param examples: list of examples, to provided as a tuples of input and expected
+            output. The inputs can be text (``str``) or files (``pathlib.Path`` or
+            ``bytes``).
+        :param convert_request: ``ConvertRequest`` object holding the file conversion
+            configuration, such as the DPI. If ``None`` is provided, the project's
+            conversion configuration will be used. (default: ``None``)
+        """
+        files_ids, documents_ids = [], []
+        if convert_request is None:
+            project_info = self.get_api_projects_projectid(project_id=project_id)
+            convert_request = ConvertRequest(
+                rasterizationDpi=project_info.settings.rasterization_dpi,
+            )
+        for example_input, example_output in examples:
+            # Prepare the example input and output, upload the input as file
+            example_output = self.__parse_template(example_output)
+            if isinstance(example_input, (Path, bytes)):
+                example_input, file_name = self.__parse_input_file(example_input)
+                file_id = self.post_api_files(file_name, example_input).file_id
+                document_id = self.post_api_files_fileid_convert_to_document(
+                    file_id, convert_request
+                ).doc_info.actual_instance.document_id
+            else:
+                file_id = None
+                document_id = self.post_api_documents_text(
+                    TextRequest(text=example_input)
+                ).doc_info.actual_instance.document_id
+            files_ids.append(file_id)
+            documents_ids.append(document_id)
+
+            # Add the example to the project
+            self.post_api_projects_projectid_examples(
+                project_id,
+                CreateOrUpdateExampleRequest(
+                    documentId=StrictStr(document_id), result=example_output
+                ),
+            )
+
+        return files_ids, documents_ids

@@ -1,0 +1,43 @@
+input_text, input_file, output
+"I’m planning a 5-day trip to Kyoto to immerse myself in its rich culture, historic temples, and serene gardens. I’ll start with a visit to Kiyomizu-dera and stroll through the charming streets of Higashiyama. I’ll explore the Arashiyama Bamboo Grove and relax at a traditional ryokan. On another day, I’ll tour the Golden Pavilion (Kinkaku-ji) and the peaceful Zen gardens at Ryoan-ji. I’m also looking forward to sampling Kyoto’s famous kaiseki cuisine and visiting the Nishiki Market. A day trip to Nara is also on the list!",,"{
+    ""destination"": {
+        ""name"": ""Kyoto"",
+        ""zip_code"": null,
+        ""country"": ""Japan""
+    },
+    ""accommodation"": ""traditional ryokan"",
+    ""activities"": [
+        ""visit to Kiyomizu-dera"",
+        ""stroll through the charming streets of Higashiyama"",
+        ""explore the Arashiyama Bamboo Grove"",
+        ""tour the Golden Pavilion (Kinkaku-ji) and the peaceful Zen gardens at Ryoan-ji"",
+        ""sampling Kyoto’s famous kaiseki cuisinee"",
+        ""visit the Nishiki Market"",
+        ""day trip to Nara""
+    ],
+    ""duration"": {
+        ""time_unit"": ""day"",
+        ""time_quantity"": 5
+    }
+}"
+"","files_examples/kyoto.docx","{
+    ""destination"": {
+        ""name"": ""Kyoto"",
+        ""zip_code"": null,
+        ""country"": ""Japan""
+    },
+    ""accommodation"": ""traditional ryokan"",
+    ""activities"": [
+        ""visit to Kiyomizu-dera"",
+        ""stroll through the charming streets of Higashiyama"",
+        ""explore the Arashiyama Bamboo Grove"",
+        ""tour the Golden Pavilion (Kinkaku-ji) and the peaceful Zen gardens at Ryoan-ji"",
+        ""sampling Kyoto’s famous kaiseki cuisinee"",
+        ""visit the Nishiki Market"",
+        ""day trip to Nara""
+    ],
+    ""duration"": {
+        ""time_unit"": ""day"",
+        ""time_quantity"": 5
+    }
+}"

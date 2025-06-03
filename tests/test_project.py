@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 @pytest.fixture(params=TEST_CASES, ids=lambda tc: f"project_{tc[0]}", scope="session")
 def test_case(
-    request: pytest.FixtureRequest
+    request: pytest.FixtureRequest,
 ) -> tuple[str, dict, list[str], list[Path]]:
     return request.param
 

@@ -49,12 +49,12 @@ Days would be spent snorkeling with vibrant marine life, paddleboarding over cor
 I’d explore lush rainforests, hidden waterfalls, and the rich Polynesian culture through traditional dance, music, and cuisine.
 Evenings would be filled with romantic beachside dinners under the stars, with the soothing sound of waves as the perfect backdrop."""
 
-output = client.infer(template=template, input_text=input_text)
+output = client.extract(template=template, input_text=input_text)
 print(output)
 
 # Can also work with files, replace the path with your own
 # from pathlib import Path
-# output = client.infer(template=template, input_file=Path("to", "file.ppt"))
+# output = client.extract(template=template, input_file=Path("to", "file.ppt"))
 ```
 
 ```json

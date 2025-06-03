@@ -77,7 +77,7 @@ class NuMind(
                 input_file = file.read()
         return input_file, file_name
 
-    def infer(
+    def extract(
         self,
         project_id: str | None = None,
         template: dict | BaseModel | str | None = None,
@@ -101,6 +101,8 @@ class NuMind(
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
         :param examples: ICL (In-Context Learning) examples to add to the inference.
+            This argument is only used when this method is used "on the fly" with no
+            attached project, i.e. when ``project_id`` is not provided.
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
@@ -128,9 +130,10 @@ class NuMind(
                 )
             ).id
 
-        # Add examples to the project
-        if examples is not None and len(examples) > 0:
-            self.add_examples_to_project(project_id, examples, convert_request)
+            # Add examples to the project, only when project_id is not provided so to
+            # prevent users from adding examples with this method.
+            if examples is not None and len(examples) > 0:
+                self.add_examples_to_project(project_id, examples, convert_request)
 
         # Infer with text input
         if input_text is not None:

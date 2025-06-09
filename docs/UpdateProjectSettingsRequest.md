@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**temperature** | **float** | The temperature to use for inference (optional). | [optional] 
-**rasterization_dpi** | **int** | Rasterization DPI used during file to image conversion (optional). | [optional] 
+**temperature** | **float** | Model temperature (optional). | [optional] 
+**rasterization_dpi** | **int** | Resolution used to convert formatted documents to images (optional). | [optional] 
 
 ## Example
 

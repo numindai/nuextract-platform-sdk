@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**rasterization_dpi** | **int** | Rasterization DPI to be used during file to image conversion. | 
+**rasterization_dpi** | **int** | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.   Ranges between 1 and 300. | 
 
 ## Example
 

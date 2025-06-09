@@ -1,9 +1,9 @@
 """
-NuMind Extraction Platform
+NuExtract Extraction Platform
 
-# Workflow for Using NuExtract API for Information Extraction  ## Creating and Managing Projects  A **Project** in NuExtract 2.0 serves as the **main entity** for organizing and managing an **information extraction task**. It provides a structured approach to processing and extracting data from multiple documents using a **shared template**.  1. **Create a Project**: A project stores the template for information extraction and can optionally include extraction examples to improve model performance. 2. **Define a Template**: The template specifies what information should be extracted from documents within this project. If needed, a template can be derived from a free-form description using the `/api/infer-template` endpoint. 3. **Managing Project Examples**:    - Project examples (optional) help refine model accuracy and consistency.    - They serve as **ICL (In-Context Learning) examples** during inference and represent tuples of (input, output).    - Only examples that match the current project template are used in inference calls.    - Examples are managed via the ***examples*** endpoints (CRUD operations), requiring a project ID. 4. **Storing Inference Playground Items**:    - Inference results can be stored within the **project playground** without adding them as ICL examples.    - This ensures that outputs are retained without affecting inference behavior or increasing token usage.  ## Performing Inference   A **Document** represents the atomic unit over which inference is performed.   It can be created from either **raw text** or **files** (such as text files, images or convertible types like PDFs, WORD, PPTX, or Excel files).    When using `/api/projects/{projectId}/infer-text`, a document is automatically created from the input text, and the resulting document ID is returned in the response.   Similarly, when using `/api/projects/{projectId}/infer-file`, if the file is a supported format (image, text or convertible), it is transformed into a document.   The conversion process can be controlled via parameters such as **RasterizationDpi**, which can be set in the project settings.     The resulting document ID is essential for:   - Adding the document as an **in-context example** for other inference calls   - Creating **playground items**     If needed, inference can be run directly on any existing document by specifying its document ID.     Additionally, when a file has been converted to a document, the original file ID remains available in the `docInfo`.   This enables users to reuse the same file with different **conversion parameters** via the `/api/files/{fileId}/convert-to-document` endpoint, effectively generating alternate versions of the document from the same source file.  Inference **temperature** can be set in the project settings. It controls variability in extraction inference responses. **RasterizationDpi** sets the dots per inch resolution when converting non-text files to images. Allowed range is (0, 300]  ## Locking a Project  The **locking mechanism** allows you to prevent accidental modifications while still permitting inference. When locked: - The **template and project examples** cannot be modified. - Project settings such as **temperature** and **rasterizationDpi** are also restricted. - Users can still perform inference and work with project playground. - This feature is useful in **production environments** to maintain consistency.  ## Project Ownership and Permissions  A project is owned by either a **user** (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves an organization, they lose access to its resources, even if they originally created them.  ## Additional Features  - **Duplication**: Projects can be **copied**, including examples but **excluding playground**. - **Deletion**: Removing a project **deletes all associated examples and playground items**. - **Sharing**: Projects can be shared with the community — in other words, they can be designated as **reference projects**. Sharing and unsharing require **Numind administrator access rights**. - **Reference Projects**: These are **static, predefined projects** created by the Numind team to serve as examples of extraction tasks. The inference is allowed for all users. However, reference projects cannot be modified but can be **copied**, allowing users to make changes to their duplicates.  By structuring projects efficiently, leveraging examples, and using locking mechanisms, users can ensure **accurate, reproducible, and well-managed** information extraction workflows in NuExtract 2.0.
+## Extracting Information from Documents  Once your project is ready, you can use it to extract information from documents in real time via this RESTful API.  Each project has its own extraction endpoint:  `https://nuextract.ai/api/projects/{projectId}/extract`  You provide it a document and it returns the extracted information according to the task defined in the project. To use it, you need:  - To create an API key in the Account section - To replace `{projectId}` by the project ID found in the API tab of the project  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `PROJECT_ID`, `NUEXTRACT_API_KEY`, and `FILE_NAME`):  ``` NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ FILE_NAME=\"FrenchID.png\"; \\ curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/infer-file\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -H \"Content-Type: application/octet-stream\" \\   -H \"x-file-name: ${FILE_NAME}\" \\   --data-binary @\"${FILE_NAME}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and `file_path` variables in the following code:  ``` from numind import NuMind from pathlib import Path  client = NuMind(api_key=api_key) file_path = Path(\"path\", \"to\", \"document.odt\") with file_path.open(\"rb\") as file:     intput_file = file.read() output_schema = client.post_api_projects_projectid_infer_file(     project_id, file_path.name, intput_file ) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  Main resources:  - **Project** - user project, identified by `projectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an Example - **Document** - internal representation of a document, identified by `documentId`, created from a File or a text, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `exampleId`, created from a Document  Here are the main operations you might want to do via API:  - Creating a **Project** via `POST /api/projects` - Changing the template of a **Project** via `PATCH /api/projects/{projectId}` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Creating a **Document** via `POST /api/documents/text` and `POST /api/files/{fileID}/convert-to-document` from a text or a **File** - Adding an **Example** to a **Project** via `POST /api/projects/{projectId}/examples` - Changing Project settings via `POST /api/projects/{projectId}/settings` - Locking a **Project** via `POST /api/projects/{projectId}/lock`  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation).  ## Creating a temporary authorization  This is for you to test the API endpoints here in this Swagger interface. Click the Authorize button. In the pop-up, set `client_id` to `user`, leave `client_secret` blank, check all the checkboxes, and click “Authorize”.
 
-The version of the OpenAPI document: 1.0
+The version of the OpenAPI document:
 Generated by OpenAPI Generator (https://openapi-generator.tech)
 
 Do not edit the class manually.
@@ -24,7 +24,7 @@ from numind.openapi_client.models.update_project_settings_request import (
 from numind.openapi_client.rest import RESTResponseType
 
 
-class ProjectsApi:
+class ProjectManagementApi:
     """
     NOTE: This class is auto generated by OpenAPI Generator
     Ref: https://openapi-generator.tech
@@ -58,7 +58,7 @@ class ProjectsApi:
         """
         delete_api_projects_projectid
 
-         Permanently removes a project and all related data.   #### Effect: Deletes the project together with the associated examples and playground items.   #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to delete this project.  `403 Locked` - If the project is locked.
+         Permanently remove a **Project** and all related data.   #### Effect: Deletes the **Project** together with the associated **Examples** and **Playground** items.   #### Error Responses: `404 Not Found` - If a **Project** with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to delete this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -124,7 +124,7 @@ class ProjectsApi:
         """
         delete_api_projects_projectid
 
-         Permanently removes a project and all related data.   #### Effect: Deletes the project together with the associated examples and playground items.   #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to delete this project.  `403 Locked` - If the project is locked.
+         Permanently remove a **Project** and all related data.   #### Effect: Deletes the **Project** together with the associated **Examples** and **Playground** items.   #### Error Responses: `404 Not Found` - If a **Project** with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to delete this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -190,7 +190,7 @@ class ProjectsApi:
         """
         delete_api_projects_projectid
 
-         Permanently removes a project and all related data.   #### Effect: Deletes the project together with the associated examples and playground items.   #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to delete this project.  `403 Locked` - If the project is locked.
+         Permanently remove a **Project** and all related data.   #### Effect: Deletes the **Project** together with the associated **Examples** and **Playground** items.   #### Error Responses: `404 Not Found` - If a **Project** with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to delete this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -290,14 +290,12 @@ class ProjectsApi:
         organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="Optional organization identifier.     If provided, only projects owned by this organization are returned.     This parameter is ignored if ***shared=true***."
+                description="Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.   This parameter is ignored if ***reference=true***."
             ),
         ] = None,
-        shared: Annotated[
+        reference: Annotated[
             Optional[StrictBool],
-            Field(
-                description="If **true**, only reference projects (shared projects) are returned.     If **false**, only non-reference projects are returned."
-            ),
+            Field(description="If **true**, only reference projects are returned."),
         ] = None,
         _request_timeout: Union[
             None,
@@ -314,12 +312,12 @@ class ProjectsApi:
         """
         get_api_projects
 
-         Retrieves a list of projects accessible to the authenticated user.  #### Error Responses: `403 Forbidden` - If the user attempts to access an unauthorized organization.
+         Return a list of **Projects** accessible to the authenticated user.  #### Error Responses: `403 Forbidden` - If the user attempts to access an unauthorized organization.
 
-        :param organization_id: Optional organization identifier.     If provided, only projects owned by this organization are returned.     This parameter is ignored if ***shared=true***.
+        :param organization_id: Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.   This parameter is ignored if ***reference=true***.
         :type organization_id: str
-        :param shared: If **true**, only reference projects (shared projects) are returned.     If **false**, only non-reference projects are returned.
-        :type shared: bool
+        :param reference: If **true**, only reference projects are returned.
+        :type reference: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -343,7 +341,7 @@ class ProjectsApi:
         """  # noqa: E501
         _param = self._get_api_projects_serialize(
             organization_id=organization_id,
-            shared=shared,
+            reference=reference,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -369,14 +367,12 @@ class ProjectsApi:
         organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="Optional organization identifier.     If provided, only projects owned by this organization are returned.     This parameter is ignored if ***shared=true***."
+                description="Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.   This parameter is ignored if ***reference=true***."
             ),
         ] = None,
-        shared: Annotated[
+        reference: Annotated[
             Optional[StrictBool],
-            Field(
-                description="If **true**, only reference projects (shared projects) are returned.     If **false**, only non-reference projects are returned."
-            ),
+            Field(description="If **true**, only reference projects are returned."),
         ] = None,
         _request_timeout: Union[
             None,
@@ -393,12 +389,12 @@ class ProjectsApi:
         """
         get_api_projects
 
-         Retrieves a list of projects accessible to the authenticated user.  #### Error Responses: `403 Forbidden` - If the user attempts to access an unauthorized organization.
+         Return a list of **Projects** accessible to the authenticated user.  #### Error Responses: `403 Forbidden` - If the user attempts to access an unauthorized organization.
 
-        :param organization_id: Optional organization identifier.     If provided, only projects owned by this organization are returned.     This parameter is ignored if ***shared=true***.
+        :param organization_id: Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.   This parameter is ignored if ***reference=true***.
         :type organization_id: str
-        :param shared: If **true**, only reference projects (shared projects) are returned.     If **false**, only non-reference projects are returned.
-        :type shared: bool
+        :param reference: If **true**, only reference projects are returned.
+        :type reference: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -422,7 +418,7 @@ class ProjectsApi:
         """  # noqa: E501
         _param = self._get_api_projects_serialize(
             organization_id=organization_id,
-            shared=shared,
+            reference=reference,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -448,14 +444,12 @@ class ProjectsApi:
         organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="Optional organization identifier.     If provided, only projects owned by this organization are returned.     This parameter is ignored if ***shared=true***."
+                description="Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.   This parameter is ignored if ***reference=true***."
             ),
         ] = None,
-        shared: Annotated[
+        reference: Annotated[
             Optional[StrictBool],
-            Field(
-                description="If **true**, only reference projects (shared projects) are returned.     If **false**, only non-reference projects are returned."
-            ),
+            Field(description="If **true**, only reference projects are returned."),
         ] = None,
         _request_timeout: Union[
             None,
@@ -472,12 +466,12 @@ class ProjectsApi:
         """
         get_api_projects
 
-         Retrieves a list of projects accessible to the authenticated user.  #### Error Responses: `403 Forbidden` - If the user attempts to access an unauthorized organization.
+         Return a list of **Projects** accessible to the authenticated user.  #### Error Responses: `403 Forbidden` - If the user attempts to access an unauthorized organization.
 
-        :param organization_id: Optional organization identifier.     If provided, only projects owned by this organization are returned.     This parameter is ignored if ***shared=true***.
+        :param organization_id: Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.   This parameter is ignored if ***reference=true***.
         :type organization_id: str
-        :param shared: If **true**, only reference projects (shared projects) are returned.     If **false**, only non-reference projects are returned.
-        :type shared: bool
+        :param reference: If **true**, only reference projects are returned.
+        :type reference: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -501,7 +495,7 @@ class ProjectsApi:
         """  # noqa: E501
         _param = self._get_api_projects_serialize(
             organization_id=organization_id,
-            shared=shared,
+            reference=reference,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -520,7 +514,7 @@ class ProjectsApi:
     def _get_api_projects_serialize(
         self,
         organization_id,
-        shared,
+        reference,
         _request_auth,
         _content_type,
         _headers,
@@ -544,8 +538,8 @@ class ProjectsApi:
         if organization_id is not None:
             _query_params.append(("organizationId", organization_id))
 
-        if shared is not None:
-            _query_params.append(("shared", shared))
+        if reference is not None:
+            _query_params.append(("reference", reference))
 
         # process the header parameters
         # process the form parameters
@@ -596,7 +590,7 @@ class ProjectsApi:
         """
         get_api_projects_projectid
 
-         Fetches the details of a specific project.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to view this project.
+         Return the details of a specific **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -662,7 +656,7 @@ class ProjectsApi:
         """
         get_api_projects_projectid
 
-         Fetches the details of a specific project.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to view this project.
+         Return the details of a specific **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -728,7 +722,7 @@ class ProjectsApi:
         """
         get_api_projects_projectid
 
-         Fetches the details of a specific project.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to view this project.
+         Return the details of a specific **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -844,7 +838,7 @@ class ProjectsApi:
         """
         patch_api_projects_projectid
 
-         Updates the details of an existing unlocked project.   Note that you cannot change the lock or shared status via this endpoint. To modify these states, use the lock/unlock and share/unshare project endpoints.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Update the details of an existing **Project**.   Note that you cannot change the lock or reference (shared) status via this endpoint. To modify these states, use the lock/unlock and share/unshare project endpoints.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -915,7 +909,7 @@ class ProjectsApi:
         """
         patch_api_projects_projectid
 
-         Updates the details of an existing unlocked project.   Note that you cannot change the lock or shared status via this endpoint. To modify these states, use the lock/unlock and share/unshare project endpoints.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Update the details of an existing **Project**.   Note that you cannot change the lock or reference (shared) status via this endpoint. To modify these states, use the lock/unlock and share/unshare project endpoints.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -986,7 +980,7 @@ class ProjectsApi:
         """
         patch_api_projects_projectid
 
-         Updates the details of an existing unlocked project.   Note that you cannot change the lock or shared status via this endpoint. To modify these states, use the lock/unlock and share/unshare project endpoints.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Update the details of an existing **Project**.   Note that you cannot change the lock or reference (shared) status via this endpoint. To modify these states, use the lock/unlock and share/unshare project endpoints.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1119,7 +1113,7 @@ class ProjectsApi:
         """
         patch_api_projects_projectid_settings
 
-         Updates the settings of an existing unlocked project.   #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Update the settings of an existing **Project**.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1190,7 +1184,7 @@ class ProjectsApi:
         """
         patch_api_projects_projectid_settings
 
-         Updates the settings of an existing unlocked project.   #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Update the settings of an existing **Project**.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1261,7 +1255,7 @@ class ProjectsApi:
         """
         patch_api_projects_projectid_settings
 
-         Updates the settings of an existing unlocked project.   #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Update the settings of an existing **Project**.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1391,7 +1385,7 @@ class ProjectsApi:
         """
         post_api_projects
 
-         Creates a new project to organize an information extraction task.  #### Effect: A project is created with default settings:   Parameter | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDpi` | 115 |   If *ownerOrganization* is not provided, the project will be owned by the authenticated user. When created, a project is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the project, perform CRUD operations on project examples and  project playground items, and run inference for this project.
+         Create a new **Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 115 |   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
 
         :param create_project_request: (required)
         :type create_project_request: CreateProjectRequest
@@ -1456,7 +1450,7 @@ class ProjectsApi:
         """
         post_api_projects
 
-         Creates a new project to organize an information extraction task.  #### Effect: A project is created with default settings:   Parameter | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDpi` | 115 |   If *ownerOrganization* is not provided, the project will be owned by the authenticated user. When created, a project is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the project, perform CRUD operations on project examples and  project playground items, and run inference for this project.
+         Create a new **Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 115 |   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
 
         :param create_project_request: (required)
         :type create_project_request: CreateProjectRequest
@@ -1521,7 +1515,7 @@ class ProjectsApi:
         """
         post_api_projects
 
-         Creates a new project to organize an information extraction task.  #### Effect: A project is created with default settings:   Parameter | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDpi` | 115 |   If *ownerOrganization* is not provided, the project will be owned by the authenticated user. When created, a project is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the project, perform CRUD operations on project examples and  project playground items, and run inference for this project.
+         Create a new **Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 115 |   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
 
         :param create_project_request: (required)
         :type create_project_request: CreateProjectRequest
@@ -1647,7 +1641,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_duplicate
 
-        Creates a copy of an existing project.  It is allowed to duplicate locked projects and reference projects.   #### Effect: - The duplicated project retains the **same template, settings, examples and playground**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new project is always unlocked. The duplicated reference projects  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this project.
+         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1713,7 +1707,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_duplicate
 
-        Creates a copy of an existing project.  It is allowed to duplicate locked projects and reference projects.   #### Effect: - The duplicated project retains the **same template, settings, examples and playground**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new project is always unlocked. The duplicated reference projects  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this project.
+         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1779,7 +1773,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_duplicate
 
-        Creates a copy of an existing project.  It is allowed to duplicate locked projects and reference projects.   #### Effect: - The duplicated project retains the **same template, settings, examples and playground**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new project is always unlocked. The duplicated reference projects  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this project.
+         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1894,7 +1888,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_lock
 
-        Locks a project to prevent modifications.   #### Effect: - While locked, the project **cannot be updated or deleted**. Read access is still available. - CRUD operations on project examples are not allowed. - Inference is still allowed. - CRUD access to project playground items is still available.  #### Error Responses:  `404 Not Found` - If a project with the specified projectId does not exist.   `403 Forbidden` - If the user does not have permission to lock this project.
+        Locks a project to prevent modifications.   #### Effect: - While locked, the **Project** cannot be updated or deleted. Read access is still available. - CRUD operations on **Examples** are not allowed. - Inference is still allowed. - CRUD access to **Playground Items** is still available.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.   `403 Forbidden` - If the user does not have permission to lock this project.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1960,7 +1954,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_lock
 
-        Locks a project to prevent modifications.   #### Effect: - While locked, the project **cannot be updated or deleted**. Read access is still available. - CRUD operations on project examples are not allowed. - Inference is still allowed. - CRUD access to project playground items is still available.  #### Error Responses:  `404 Not Found` - If a project with the specified projectId does not exist.   `403 Forbidden` - If the user does not have permission to lock this project.
+        Locks a project to prevent modifications.   #### Effect: - While locked, the **Project** cannot be updated or deleted. Read access is still available. - CRUD operations on **Examples** are not allowed. - Inference is still allowed. - CRUD access to **Playground Items** is still available.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.   `403 Forbidden` - If the user does not have permission to lock this project.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2026,7 +2020,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_lock
 
-        Locks a project to prevent modifications.   #### Effect: - While locked, the project **cannot be updated or deleted**. Read access is still available. - CRUD operations on project examples are not allowed. - Inference is still allowed. - CRUD access to project playground items is still available.  #### Error Responses:  `404 Not Found` - If a project with the specified projectId does not exist.   `403 Forbidden` - If the user does not have permission to lock this project.
+        Locks a project to prevent modifications.   #### Effect: - While locked, the **Project** cannot be updated or deleted. Read access is still available. - CRUD operations on **Examples** are not allowed. - Inference is still allowed. - CRUD access to **Playground Items** is still available.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.   `403 Forbidden` - If the user does not have permission to lock this project.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2141,7 +2135,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_reset_settings
 
-         Resets the settings of an existing unlocked project to their default values.  Default values are:   Parameter | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDpi` | 115 |  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 115 |  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2207,7 +2201,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_reset_settings
 
-         Resets the settings of an existing unlocked project to their default values.  Default values are:   Parameter | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDpi` | 115 |  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 115 |  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2273,7 +2267,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_reset_settings
 
-         Resets the settings of an existing unlocked project to their default values.  Default values are:   Parameter | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDpi` | 115 |  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to update this project.  `403 Locked` - If the project is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 115 |  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2388,7 +2382,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_share
 
-        Shares a project with other users.   This endpoint turns an existing project into a reference project.  Only NuMind administrators can share a project with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - Reference projects are shared with the community (read access is granted to all users). - Project examples and playground items are shared as well. - Only NuMind administrators can update or delete reference projects. - Only NuMind administrators can create, update, or delete reference project examples and playground items. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+         Turn an existing **Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are shared with the community (read access is granted to all users). - **Project Examples** and **Playground Items** are shared as well. - Only NuMind administrators can update or delete **Reference Projects**. - Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2454,7 +2448,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_share
 
-        Shares a project with other users.   This endpoint turns an existing project into a reference project.  Only NuMind administrators can share a project with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - Reference projects are shared with the community (read access is granted to all users). - Project examples and playground items are shared as well. - Only NuMind administrators can update or delete reference projects. - Only NuMind administrators can create, update, or delete reference project examples and playground items. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+         Turn an existing **Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are shared with the community (read access is granted to all users). - **Project Examples** and **Playground Items** are shared as well. - Only NuMind administrators can update or delete **Reference Projects**. - Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2520,7 +2514,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_share
 
-        Shares a project with other users.   This endpoint turns an existing project into a reference project.  Only NuMind administrators can share a project with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - Reference projects are shared with the community (read access is granted to all users). - Project examples and playground items are shared as well. - Only NuMind administrators can update or delete reference projects. - Only NuMind administrators can create, update, or delete reference project examples and playground items. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+         Turn an existing **Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are shared with the community (read access is granted to all users). - **Project Examples** and **Playground Items** are shared as well. - Only NuMind administrators can update or delete **Reference Projects**. - Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2635,7 +2629,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_unlock
 
-        Unlocks a previously locked project.  #### Effect: - Once unlocked, the project **can be updated or deleted**. - Full CRUD access to project examples is restored.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to unlock this project.
+         Unlock a **Project**.  #### Effect: - Once unlocked, the **Project** can be updated or deleted. - Full CRUD access to **Examples** is restored.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unlock this project.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2701,7 +2695,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_unlock
 
-        Unlocks a previously locked project.  #### Effect: - Once unlocked, the project **can be updated or deleted**. - Full CRUD access to project examples is restored.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to unlock this project.
+         Unlock a **Project**.  #### Effect: - Once unlocked, the **Project** can be updated or deleted. - Full CRUD access to **Examples** is restored.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unlock this project.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2767,7 +2761,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_unlock
 
-        Unlocks a previously locked project.  #### Effect: - Once unlocked, the project **can be updated or deleted**. - Full CRUD access to project examples is restored.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to unlock this project.
+         Unlock a **Project**.  #### Effect: - Once unlocked, the **Project** can be updated or deleted. - Full CRUD access to **Examples** is restored.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unlock this project.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2882,7 +2876,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_unshare
 
-         Unshares a reference project (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The project is no longer a reference project and is no longer shared with the community. - Read access is revoked for all users except the project owner. - Project examples and playground are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - Read access is revoked for all users except the project owner. - **Examples** and **Playground Items** are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2948,7 +2942,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_unshare
 
-         Unshares a reference project (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The project is no longer a reference project and is no longer shared with the community. - Read access is revoked for all users except the project owner. - Project examples and playground are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - Read access is revoked for all users except the project owner. - **Examples** and **Playground Items** are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -3014,7 +3008,7 @@ class ProjectsApi:
         """
         post_api_projects_projectid_unshare
 
-         Unshares a reference project (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The project is no longer a reference project and is no longer shared with the community. - Read access is revoked for all users except the project owner. - Project examples and playground are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - Read access is revoked for all users except the project owner. - **Examples** and **Playground Items** are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str

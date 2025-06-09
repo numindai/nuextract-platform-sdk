@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **result** | **object** | Inference result conforming to the template. | 
-**raw_result** | [**RawResult**](RawResult.md) |  | [optional] 
+**raw_result** | [**RawResult**](RawResult.md) | Inference result if not conforming to the template. | [optional] 
 **document_info** | [**DocumentInfo**](DocumentInfo.md) | Basic information on the document used for inference. | 
 **tokens** | **int** | Total number of tokens used for inference (input + output). | 
 

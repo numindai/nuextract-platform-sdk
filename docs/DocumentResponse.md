@@ -10,7 +10,6 @@ Name | Type | Description | Notes
 **owner_organization** | **str** | Document owning organization (if any). | [optional] 
 **content_type** | **str** | Mime type of the document. | 
 **created_at** | **str** | Document creation date. | 
-**shared** | **bool** | The shared state of the document. | 
 
 ## Example
 

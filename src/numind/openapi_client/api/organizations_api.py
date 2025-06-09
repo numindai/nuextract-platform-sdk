@@ -1,9 +1,9 @@
 """
-NuMind Extraction Platform
+NuExtract Extraction Platform
 
-# Workflow for Using NuExtract API for Information Extraction  ## Creating and Managing Projects  A **Project** in NuExtract 2.0 serves as the **main entity** for organizing and managing an **information extraction task**. It provides a structured approach to processing and extracting data from multiple documents using a **shared template**.  1. **Create a Project**: A project stores the template for information extraction and can optionally include extraction examples to improve model performance. 2. **Define a Template**: The template specifies what information should be extracted from documents within this project. If needed, a template can be derived from a free-form description using the `/api/infer-template` endpoint. 3. **Managing Project Examples**:    - Project examples (optional) help refine model accuracy and consistency.    - They serve as **ICL (In-Context Learning) examples** during inference and represent tuples of (input, output).    - Only examples that match the current project template are used in inference calls.    - Examples are managed via the ***examples*** endpoints (CRUD operations), requiring a project ID. 4. **Storing Inference Playground Items**:    - Inference results can be stored within the **project playground** without adding them as ICL examples.    - This ensures that outputs are retained without affecting inference behavior or increasing token usage.  ## Performing Inference   A **Document** represents the atomic unit over which inference is performed.   It can be created from either **raw text** or **files** (such as text files, images or convertible types like PDFs, WORD, PPTX, or Excel files).    When using `/api/projects/{projectId}/infer-text`, a document is automatically created from the input text, and the resulting document ID is returned in the response.   Similarly, when using `/api/projects/{projectId}/infer-file`, if the file is a supported format (image, text or convertible), it is transformed into a document.   The conversion process can be controlled via parameters such as **RasterizationDpi**, which can be set in the project settings.     The resulting document ID is essential for:   - Adding the document as an **in-context example** for other inference calls   - Creating **playground items**     If needed, inference can be run directly on any existing document by specifying its document ID.     Additionally, when a file has been converted to a document, the original file ID remains available in the `docInfo`.   This enables users to reuse the same file with different **conversion parameters** via the `/api/files/{fileId}/convert-to-document` endpoint, effectively generating alternate versions of the document from the same source file.  Inference **temperature** can be set in the project settings. It controls variability in extraction inference responses. **RasterizationDpi** sets the dots per inch resolution when converting non-text files to images. Allowed range is (0, 300]  ## Locking a Project  The **locking mechanism** allows you to prevent accidental modifications while still permitting inference. When locked: - The **template and project examples** cannot be modified. - Project settings such as **temperature** and **rasterizationDpi** are also restricted. - Users can still perform inference and work with project playground. - This feature is useful in **production environments** to maintain consistency.  ## Project Ownership and Permissions  A project is owned by either a **user** (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves an organization, they lose access to its resources, even if they originally created them.  ## Additional Features  - **Duplication**: Projects can be **copied**, including examples but **excluding playground**. - **Deletion**: Removing a project **deletes all associated examples and playground items**. - **Sharing**: Projects can be shared with the community — in other words, they can be designated as **reference projects**. Sharing and unsharing require **Numind administrator access rights**. - **Reference Projects**: These are **static, predefined projects** created by the Numind team to serve as examples of extraction tasks. The inference is allowed for all users. However, reference projects cannot be modified but can be **copied**, allowing users to make changes to their duplicates.  By structuring projects efficiently, leveraging examples, and using locking mechanisms, users can ensure **accurate, reproducible, and well-managed** information extraction workflows in NuExtract 2.0.
+## Extracting Information from Documents  Once your project is ready, you can use it to extract information from documents in real time via this RESTful API.  Each project has its own extraction endpoint:  `https://nuextract.ai/api/projects/{projectId}/extract`  You provide it a document and it returns the extracted information according to the task defined in the project. To use it, you need:  - To create an API key in the Account section - To replace `{projectId}` by the project ID found in the API tab of the project  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `PROJECT_ID`, `NUEXTRACT_API_KEY`, and `FILE_NAME`):  ``` NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ FILE_NAME=\"FrenchID.png\"; \\ curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/infer-file\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -H \"Content-Type: application/octet-stream\" \\   -H \"x-file-name: ${FILE_NAME}\" \\   --data-binary @\"${FILE_NAME}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and `file_path` variables in the following code:  ``` from numind import NuMind from pathlib import Path  client = NuMind(api_key=api_key) file_path = Path(\"path\", \"to\", \"document.odt\") with file_path.open(\"rb\") as file:     intput_file = file.read() output_schema = client.post_api_projects_projectid_infer_file(     project_id, file_path.name, intput_file ) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  Main resources:  - **Project** - user project, identified by `projectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an Example - **Document** - internal representation of a document, identified by `documentId`, created from a File or a text, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `exampleId`, created from a Document  Here are the main operations you might want to do via API:  - Creating a **Project** via `POST /api/projects` - Changing the template of a **Project** via `PATCH /api/projects/{projectId}` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Creating a **Document** via `POST /api/documents/text` and `POST /api/files/{fileID}/convert-to-document` from a text or a **File** - Adding an **Example** to a **Project** via `POST /api/projects/{projectId}/examples` - Changing Project settings via `POST /api/projects/{projectId}/settings` - Locking a **Project** via `POST /api/projects/{projectId}/lock`  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation).  ## Creating a temporary authorization  This is for you to test the API endpoints here in this Swagger interface. Click the Authorize button. In the pop-up, set `client_id` to `user`, leave `client_secret` blank, check all the checkboxes, and click “Authorize”.
 
-The version of the OpenAPI document: 1.0
+The version of the OpenAPI document:
 Generated by OpenAPI Generator (https://openapi-generator.tech)
 
 Do not edit the class manually.
@@ -62,7 +62,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid
 
-         Delete a specific organization, and all its associated objects  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
+         Delete a specific organization, and all its associated objects.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -128,7 +128,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid
 
-         Delete a specific organization, and all its associated objects  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
+         Delete a specific organization, and all its associated objects.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -194,7 +194,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid
 
-         Delete a specific organization, and all its associated objects  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
+         Delete a specific organization, and all its associated objects.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -310,7 +310,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_invitations_invitationid
 
-         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist, or if the invitationId is not valid
+         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -380,7 +380,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_invitations_invitationid
 
-         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist, or if the invitationId is not valid
+         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -450,7 +450,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_invitations_invitationid
 
-         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist, or if the invitationId is not valid
+         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -574,7 +574,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_userid
 
-         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist, or if the member with the given memberId does not exist.
+         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -646,7 +646,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_userid
 
-         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist, or if the member with the given memberId does not exist.
+         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -718,7 +718,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_userid
 
-         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist, or if the member with the given memberId does not exist.
+         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -836,7 +836,7 @@ class OrganizationsApi:
         """
         get_api_organizations
 
-         Retrieves the organizations for the current user
+         Returns the organizations for the current user.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -896,7 +896,7 @@ class OrganizationsApi:
         """
         get_api_organizations
 
-         Retrieves the organizations for the current user
+         Returns the organizations for the current user.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -956,7 +956,7 @@ class OrganizationsApi:
         """
         get_api_organizations
 
-         Retrieves the organizations for the current user
+         Returns the organizations for the current user.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1065,7 +1065,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members
 
-         List the members of an organization  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.
+         List the members of an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1131,7 +1131,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members
 
-         List the members of an organization  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.
+         List the members of an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1197,7 +1197,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members
 
-         List the members of an organization  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.
+         List the members of an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1312,7 +1312,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members_invitations
 
-         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist
+         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1380,7 +1380,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members_invitations
 
-         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist
+         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1448,7 +1448,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members_invitations
 
-         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist
+         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1563,7 +1563,7 @@ class OrganizationsApi:
         """
         post_api_organizations
 
-         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a json representing the created organization.
+         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a JSON representing the created organization.
 
         :param create_organization_request: (required)
         :type create_organization_request: CreateOrganizationRequest
@@ -1628,7 +1628,7 @@ class OrganizationsApi:
         """
         post_api_organizations
 
-         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a json representing the created organization.
+         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a JSON representing the created organization.
 
         :param create_organization_request: (required)
         :type create_organization_request: CreateOrganizationRequest
@@ -1693,7 +1693,7 @@ class OrganizationsApi:
         """
         post_api_organizations
 
-         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a json representing the created organization.
+         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a JSON representing the created organization.
 
         :param create_organization_request: (required)
         :type create_organization_request: CreateOrganizationRequest
@@ -1820,7 +1820,7 @@ class OrganizationsApi:
         """
         post_api_organizations_organizationid_members
 
-         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.
+         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1891,7 +1891,7 @@ class OrganizationsApi:
         """
         post_api_organizations_organizationid_members
 
-         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.
+         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1962,7 +1962,7 @@ class OrganizationsApi:
         """
         post_api_organizations_organizationid_members
 
-         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.
+         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2095,7 +2095,7 @@ class OrganizationsApi:
         """
         put_api_organizations_organizationid
 
-         Update a specific organization  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
+         Update a specific organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2166,7 +2166,7 @@ class OrganizationsApi:
         """
         put_api_organizations_organizationid
 
-         Update a specific organization  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
+         Update a specific organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2237,7 +2237,7 @@ class OrganizationsApi:
         """
         put_api_organizations_organizationid
 
-         Update a specific organization  #### Error Responses: `404 Not Found` - If  an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
+         Update a specific organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str

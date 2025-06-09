@@ -1,6 +1,5 @@
 # RawResult
 
-Inference result if not conforming to the template.
 
 ## Properties
 

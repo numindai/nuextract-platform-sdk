@@ -52,7 +52,7 @@ def test_get_existing_projects(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
-    projects = numind_client.get_api_projects(shared=False)
+    projects = numind_client.get_api_projects()
     assert project_id in {project.id for project in projects}
 
 
@@ -90,16 +90,15 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         file_path = Path(file_path)
         with file_path.open("rb") as file:
             intput_file = file.read()
-        _ = numind_client.post_api_projects_projectid_infer_file(
-            project_id, file_path.name, intput_file
-        )
+        _ = numind_client.post_api_projects_projectid_extract(project_id, intput_file)
 
 
+# TODO remove dependency, make it run whether these tests failed or not
 @pytest.mark.dependency(depends=["infer_text", "infer_file"])
 def test_delete_project_and_has_been_deleted(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
     numind_client.delete_api_projects_projectid(project_id)
-    projects = numind_client.get_api_projects(shared=False)
+    projects = numind_client.get_api_projects()
     assert project_id not in {project.id for project in projects}

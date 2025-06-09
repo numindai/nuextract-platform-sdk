@@ -15,14 +15,14 @@ Method | HTTP request | Description
 > delete_api_projects_projectid_examples_exampleid(project_id, example_id)
 
 
-Deletes a specific project example.
+Delete a specific **Example**.
 
 #### Error Responses:
-`404 Not Found` - If an example with the specified exampleId associated with the given projectId does not exist.
+`404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to update this project.
+`403 Forbidden` - If the user does not have permission to update this **Project**.
 
-`403 Locked` - If the project is locked.
+`403 Locked` - If the **Project** is locked.
   
 
 ### Example
@@ -96,12 +96,12 @@ void (empty response body)
 > List[ExampleResponse] get_api_projects_projectid_examples(project_id)
 
 
-Retrieves a list of examples associated to the specified project.
+Return a list of **Examples** associated to the specified **Project**.
 
 #### Error Responses:
-`404 Not Found` - If a project with the specified projectId does not exist.
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this project.
+`403 Forbidden` - If the user does not have permission to view this **Project**.
   
 
 ### Example
@@ -176,12 +176,12 @@ Name | Type | Description  | Notes
 > ExampleResponse get_api_projects_projectid_examples_exampleid(project_id, example_id)
 
 
-Retrieves a specific project example.
+Return a specific **Example**.
 
 #### Error Responses:
-`404 Not Found` - If an example with the specified exampleId associated with the given projectId does not exist.
+`404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this project.
+`403 Forbidden` - If the user does not have permission to view this **Project**.
   
 
 ### Example
@@ -258,27 +258,26 @@ Name | Type | Description  | Notes
 > ExampleResponse post_api_projects_projectid_examples(project_id, create_or_update_example_request)
 
 
-Creates a new project example associated with a specific project.
-An example consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result.
-To obtain a documentId, use the endpoints under the ***documents*** tag.
-Once created, this example will be automatically applied to subsequent inference calls as ICL (In-Context Learning) example—unless the output no longer aligns with the current template.
-In such cases, the example will be skipped.
+Create a new **Example** associated with a specific **Project**.
+An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result.
+To obtain a `documentId`, use the endpoints under the ***documents*** tag.
+Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template.
+In such cases, the **Example** will be skipped.
 
 
 
 #### Effect:
- If the project is shared, the document used to create this example will be automatically shared for read access to all users.
+ If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.
 
 #### Response:
- The response contains `exampleId`, which
- is required to update or delete this example.
+ The response contains `exampleId`, which is required to update or delete this **Example**.
 
 #### Error Responses:
-`404 Not Found` - If a project with the specified projectId does not exist or a document with the specified documentId does not exist.
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to update this project or use the specified document.
+`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
 
-`403 Locked` - If the project is locked.
+`403 Locked` - If the **Project** is locked.
   
 
 ### Example
@@ -310,7 +309,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ExamplesApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
-    create_or_update_example_request = {"documentId":"4e47e6b2-242e-47b0-aa04-e692e0c7389b","result":{"orderId":"Example: o-67214","customerId":"Example: c-76549","orderDate":"2024-04-05T08:20:00.000Z","status":"pending","totalAmount":89.75,"currency":"USD","items":[{"productId":"p-00567","quantity":1,"unitPrice":89.75}],"shippingAddress":{"street":"123 Elm St","city":"Boston","state":"MA","country":"USA","zip":"02108"},"comments":"Hold at pickup location.","deliveryPreferences":["scheduled_delivery","contactless_delivery"],"estimatedDelivery":"2024-04-10T19:00:00.000Z"}} # CreateOrUpdateExampleRequest | 
+    create_or_update_example_request = {"documentId":"4fcbd104-4d72-4460-87f9-c081b33337a9","result":{"orderId":"Example: o-67214","customerId":"Example: c-76549","orderDate":"2024-04-05T08:20:00.000Z","status":"pending","totalAmount":89.75,"currency":"USD","items":[{"productId":"p-00567","quantity":1,"unitPrice":89.75}],"shippingAddress":{"street":"123 Elm St","city":"Boston","state":"MA","country":"USA","zip":"02108"},"comments":"Hold at pickup location.","deliveryPreferences":["scheduled_delivery","contactless_delivery"],"estimatedDelivery":"2024-04-10T19:00:00.000Z"}} # CreateOrUpdateExampleRequest | 
 
     try:
         api_response = api_instance.post_api_projects_projectid_examples(project_id, create_or_update_example_request)
@@ -357,14 +356,14 @@ Name | Type | Description  | Notes
 > ExampleResponse put_api_projects_projectid_examples_exampleid(project_id, example_id, create_or_update_example_request)
 
 
-Updates a specific project example.
+Update a specific **Example**.
 
 #### Error Responses:
-`404 Not Found` - If an example with the specified exampleId associated with the given projectId does not exist, or if a document with the specified documentId cannot be found.
+`404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.
 
-`403 Forbidden` - If the user does not have permission to update this project or use the specified document.
+`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
 
-`403 Locked` - If the project is locked.
+`403 Locked` - If the **Project** is locked.
   
 
 ### Example
@@ -397,7 +396,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.ExamplesApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
     example_id = 'example_id_example' # str | Unique example identifier.
-    create_or_update_example_request = {documentId=4e47e6b2-242e-47b0-aa04-e692e0c7389b, result={orderId=Example: o-67214, customerId=Example: c-76549, orderDate=2024-04-05T08:20:00.000Z, status=pending, totalAmount=89.75, currency=USD, items=[{productId=p-00567, quantity=1, unitPrice=89.75}], shippingAddress={street=123 Elm St, city=Boston, state=MA, country=USA, zip=02108}, comments=Hold at pickup location., deliveryPreferences=[scheduled_delivery, contactless_delivery], estimatedDelivery=2024-04-10T19:00:00.000Z}} # CreateOrUpdateExampleRequest | 
+    create_or_update_example_request = {documentId=4fcbd104-4d72-4460-87f9-c081b33337a9, result={orderId=Example: o-67214, customerId=Example: c-76549, orderDate=2024-04-05T08:20:00.000Z, status=pending, totalAmount=89.75, currency=USD, items=[{productId=p-00567, quantity=1, unitPrice=89.75}], shippingAddress={street=123 Elm St, city=Boston, state=MA, country=USA, zip=02108}, comments=Hold at pickup location., deliveryPreferences=[scheduled_delivery, contactless_delivery], estimatedDelivery=2024-04-10T19:00:00.000Z}} # CreateOrUpdateExampleRequest | 
 
     try:
         api_response = api_instance.put_api_projects_projectid_examples_exampleid(project_id, example_id, create_or_update_example_request)

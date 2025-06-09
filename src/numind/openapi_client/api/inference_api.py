@@ -1,9 +1,9 @@
 """
-NuMind Extraction Platform
+NuExtract Extraction Platform
 
-# Workflow for Using NuExtract API for Information Extraction  ## Creating and Managing Projects  A **Project** in NuExtract 2.0 serves as the **main entity** for organizing and managing an **information extraction task**. It provides a structured approach to processing and extracting data from multiple documents using a **shared template**.  1. **Create a Project**: A project stores the template for information extraction and can optionally include extraction examples to improve model performance. 2. **Define a Template**: The template specifies what information should be extracted from documents within this project. If needed, a template can be derived from a free-form description using the `/api/infer-template` endpoint. 3. **Managing Project Examples**:    - Project examples (optional) help refine model accuracy and consistency.    - They serve as **ICL (In-Context Learning) examples** during inference and represent tuples of (input, output).    - Only examples that match the current project template are used in inference calls.    - Examples are managed via the ***examples*** endpoints (CRUD operations), requiring a project ID. 4. **Storing Inference Playground Items**:    - Inference results can be stored within the **project playground** without adding them as ICL examples.    - This ensures that outputs are retained without affecting inference behavior or increasing token usage.  ## Performing Inference   A **Document** represents the atomic unit over which inference is performed.   It can be created from either **raw text** or **files** (such as text files, images or convertible types like PDFs, WORD, PPTX, or Excel files).    When using `/api/projects/{projectId}/infer-text`, a document is automatically created from the input text, and the resulting document ID is returned in the response.   Similarly, when using `/api/projects/{projectId}/infer-file`, if the file is a supported format (image, text or convertible), it is transformed into a document.   The conversion process can be controlled via parameters such as **RasterizationDpi**, which can be set in the project settings.     The resulting document ID is essential for:   - Adding the document as an **in-context example** for other inference calls   - Creating **playground items**     If needed, inference can be run directly on any existing document by specifying its document ID.     Additionally, when a file has been converted to a document, the original file ID remains available in the `docInfo`.   This enables users to reuse the same file with different **conversion parameters** via the `/api/files/{fileId}/convert-to-document` endpoint, effectively generating alternate versions of the document from the same source file.  Inference **temperature** can be set in the project settings. It controls variability in extraction inference responses. **RasterizationDpi** sets the dots per inch resolution when converting non-text files to images. Allowed range is (0, 300]  ## Locking a Project  The **locking mechanism** allows you to prevent accidental modifications while still permitting inference. When locked: - The **template and project examples** cannot be modified. - Project settings such as **temperature** and **rasterizationDpi** are also restricted. - Users can still perform inference and work with project playground. - This feature is useful in **production environments** to maintain consistency.  ## Project Ownership and Permissions  A project is owned by either a **user** (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves an organization, they lose access to its resources, even if they originally created them.  ## Additional Features  - **Duplication**: Projects can be **copied**, including examples but **excluding playground**. - **Deletion**: Removing a project **deletes all associated examples and playground items**. - **Sharing**: Projects can be shared with the community — in other words, they can be designated as **reference projects**. Sharing and unsharing require **Numind administrator access rights**. - **Reference Projects**: These are **static, predefined projects** created by the Numind team to serve as examples of extraction tasks. The inference is allowed for all users. However, reference projects cannot be modified but can be **copied**, allowing users to make changes to their duplicates.  By structuring projects efficiently, leveraging examples, and using locking mechanisms, users can ensure **accurate, reproducible, and well-managed** information extraction workflows in NuExtract 2.0.
+## Extracting Information from Documents  Once your project is ready, you can use it to extract information from documents in real time via this RESTful API.  Each project has its own extraction endpoint:  `https://nuextract.ai/api/projects/{projectId}/extract`  You provide it a document and it returns the extracted information according to the task defined in the project. To use it, you need:  - To create an API key in the Account section - To replace `{projectId}` by the project ID found in the API tab of the project  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `PROJECT_ID`, `NUEXTRACT_API_KEY`, and `FILE_NAME`):  ``` NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ FILE_NAME=\"FrenchID.png\"; \\ curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/infer-file\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -H \"Content-Type: application/octet-stream\" \\   -H \"x-file-name: ${FILE_NAME}\" \\   --data-binary @\"${FILE_NAME}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and `file_path` variables in the following code:  ``` from numind import NuMind from pathlib import Path  client = NuMind(api_key=api_key) file_path = Path(\"path\", \"to\", \"document.odt\") with file_path.open(\"rb\") as file:     intput_file = file.read() output_schema = client.post_api_projects_projectid_infer_file(     project_id, file_path.name, intput_file ) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  Main resources:  - **Project** - user project, identified by `projectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an Example - **Document** - internal representation of a document, identified by `documentId`, created from a File or a text, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `exampleId`, created from a Document  Here are the main operations you might want to do via API:  - Creating a **Project** via `POST /api/projects` - Changing the template of a **Project** via `PATCH /api/projects/{projectId}` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Creating a **Document** via `POST /api/documents/text` and `POST /api/files/{fileID}/convert-to-document` from a text or a **File** - Adding an **Example** to a **Project** via `POST /api/projects/{projectId}/examples` - Changing Project settings via `POST /api/projects/{projectId}/settings` - Locking a **Project** via `POST /api/projects/{projectId}/lock`  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation).  ## Creating a temporary authorization  This is for you to test the API endpoints here in this Swagger interface. Click the Authorize button. In the pop-up, set `client_id` to `user`, leave `client_secret` blank, check all the checkboxes, and click “Authorize”.
 
-The version of the OpenAPI document: 1.0
+The version of the OpenAPI document:
 Generated by OpenAPI Generator (https://openapi-generator.tech)
 
 Do not edit the class manually.
@@ -11,14 +11,7 @@ Do not edit the class manually.
 
 from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
-from pydantic import (
-    Field,
-    StrictBytes,
-    StrictFloat,
-    StrictInt,
-    StrictStr,
-    validate_call,
-)
+from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.api_response import ApiResponse
@@ -60,7 +53,7 @@ class InferenceApi:
         """
         post_api_infer_template
 
-          Derives a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.   #### Response:  Returns a json representing the derived template.  The response is an empty template if the derivation fails.
+          Derive a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.   #### Response:  Returns a JSON representing the derived template.  The response is an empty template if the derivation fails.
 
         :param template_request: (required)
         :type template_request: TemplateRequest
@@ -125,7 +118,7 @@ class InferenceApi:
         """
         post_api_infer_template
 
-          Derives a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.   #### Response:  Returns a json representing the derived template.  The response is an empty template if the derivation fails.
+          Derive a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.   #### Response:  Returns a JSON representing the derived template.  The response is an empty template if the derivation fails.
 
         :param template_request: (required)
         :type template_request: TemplateRequest
@@ -190,7 +183,7 @@ class InferenceApi:
         """
         post_api_infer_template
 
-          Derives a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.   #### Response:  Returns a json representing the derived template.  The response is an empty template if the derivation fails.
+          Derive a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.   #### Response:  Returns a JSON representing the derived template.  The response is an empty template if the derivation fails.
 
         :param template_request: (required)
         :type template_request: TemplateRequest
@@ -319,7 +312,7 @@ class InferenceApi:
         """
         post_api_projects_projectid_infer_document_documentid
 
-          Performs information extraction inference on a specific document.  The document content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a document with the given documentId, or a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to use this document or run inference on this project.
+          Performs information extraction inference on a specific **Document**.  The **Document** content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -391,7 +384,7 @@ class InferenceApi:
         """
         post_api_projects_projectid_infer_document_documentid
 
-          Performs information extraction inference on a specific document.  The document content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a document with the given documentId, or a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to use this document or run inference on this project.
+          Performs information extraction inference on a specific **Document**.  The **Document** content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -463,7 +456,7 @@ class InferenceApi:
         """
         post_api_projects_projectid_infer_document_documentid
 
-          Performs information extraction inference on a specific document.  The document content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a document with the given documentId, or a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to use this document or run inference on this project.
+          Performs information extraction inference on a specific **Document**.  The **Document** content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -564,310 +557,6 @@ class InferenceApi:
         )
 
     @validate_call
-    def post_api_projects_projectid_infer_file(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
-        ],
-        x_file_name: Annotated[
-            StrictStr, Field(description="The name of the file to be uploaded.")
-        ],
-        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InferenceResponse:
-        """
-        post_api_projects_projectid_infer_file
-
-          Performs information extraction inference on the provided file.  The file content must be compatible with the template of the project.  All non-image files are automatically converted to an image in the background when possible.  For that, a parameter **rasterizationDpi** is taken into account.   This parameter can be set in the project settings.  Inference **temperature** can be set in the project settings.    #### Response:  Returns a json representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this file in the future.     When referencing a non-text/image file by `documentId`, only its converted image equivalents are accessible.  #### Error Responses: `404 Not Found` - If  a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this project.
-
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
-        :param x_file_name: The name of the file to be uploaded. (required)
-        :type x_file_name: str
-        :param body: (required)
-        :type body: bytearray
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_file_serialize(
-            project_id=project_id,
-            x_file_name=x_file_name,
-            body=body,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "InferenceResponse",
-            "400": "str",
-        }
-        response_data = self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    def post_api_projects_projectid_infer_file_with_http_info(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
-        ],
-        x_file_name: Annotated[
-            StrictStr, Field(description="The name of the file to be uploaded.")
-        ],
-        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InferenceResponse]:
-        """
-        post_api_projects_projectid_infer_file
-
-          Performs information extraction inference on the provided file.  The file content must be compatible with the template of the project.  All non-image files are automatically converted to an image in the background when possible.  For that, a parameter **rasterizationDpi** is taken into account.   This parameter can be set in the project settings.  Inference **temperature** can be set in the project settings.    #### Response:  Returns a json representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this file in the future.     When referencing a non-text/image file by `documentId`, only its converted image equivalents are accessible.  #### Error Responses: `404 Not Found` - If  a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this project.
-
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
-        :param x_file_name: The name of the file to be uploaded. (required)
-        :type x_file_name: str
-        :param body: (required)
-        :type body: bytearray
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_file_serialize(
-            project_id=project_id,
-            x_file_name=x_file_name,
-            body=body,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "InferenceResponse",
-            "400": "str",
-        }
-        response_data = self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    def post_api_projects_projectid_infer_file_without_preload_content(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
-        ],
-        x_file_name: Annotated[
-            StrictStr, Field(description="The name of the file to be uploaded.")
-        ],
-        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_projects_projectid_infer_file
-
-          Performs information extraction inference on the provided file.  The file content must be compatible with the template of the project.  All non-image files are automatically converted to an image in the background when possible.  For that, a parameter **rasterizationDpi** is taken into account.   This parameter can be set in the project settings.  Inference **temperature** can be set in the project settings.    #### Response:  Returns a json representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this file in the future.     When referencing a non-text/image file by `documentId`, only its converted image equivalents are accessible.  #### Error Responses: `404 Not Found` - If  a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this project.
-
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
-        :param x_file_name: The name of the file to be uploaded. (required)
-        :type x_file_name: str
-        :param body: (required)
-        :type body: bytearray
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_file_serialize(
-            project_id=project_id,
-            x_file_name=x_file_name,
-            body=body,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "InferenceResponse",
-            "400": "str",
-        }
-        response_data = self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_projects_projectid_infer_file_serialize(
-        self,
-        project_id,
-        x_file_name,
-        body,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if project_id is not None:
-            _path_params["projectId"] = project_id
-        # process the query parameters
-        # process the header parameters
-        if x_file_name is not None:
-            _header_params["x-file-name"] = x_file_name
-        # process the form parameters
-        # process the body parameter
-        if body is not None:
-            # convert to byte array if the input is a file name (str)
-            if isinstance(body, str):
-                with open(body, "rb") as _fp:
-                    _body_params = _fp.read()
-            elif isinstance(body, tuple):
-                # drop the filename from the tuple
-                _body_params = body[1]
-            else:
-                _body_params = body
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json", "text/plain"]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params["Content-Type"] = _content_type
-        else:
-            _default_content_type = self.api_client.select_header_content_type(
-                ["application/octet-stream"]
-            )
-            if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/projects/{projectId}/infer-file",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
     def post_api_projects_projectid_infer_text(
         self,
         project_id: Annotated[
@@ -889,7 +578,7 @@ class InferenceApi:
         """
         post_api_projects_projectid_infer_text
 
-          Performs information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a json representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text document in the future.  #### Error Responses: `404 Not Found` - If  a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this project.
+          Perform information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a JSON representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -960,7 +649,7 @@ class InferenceApi:
         """
         post_api_projects_projectid_infer_text
 
-          Performs information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a json representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text document in the future.  #### Error Responses: `404 Not Found` - If  a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this project.
+          Perform information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a JSON representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1031,7 +720,7 @@ class InferenceApi:
         """
         post_api_projects_projectid_infer_text
 
-          Performs information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a json representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text document in the future.  #### Error Responses: `404 Not Found` - If  a project with the specified projectId does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this project.
+          Perform information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a JSON representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str

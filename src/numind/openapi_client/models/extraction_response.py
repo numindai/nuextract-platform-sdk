@@ -16,22 +16,29 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing_extensions import Self
 
+from numind.openapi_client.models.raw_result import RawResult
 
-class MemberResponse(BaseModel):
+
+class ExtractionResponse(BaseModel):
     """
-    MemberResponse
+    ExtractionResponse
     """
 
-    id: StrictStr = Field(description="identifier of the user")
-    display_name: StrictStr = Field(description="name of the user", alias="displayName")
-    email: StrictStr = Field(description="email of the user")
-    roles: Optional[List[StrictStr]] = Field(
-        default=None, description="roles of the user"
+    result: Dict[str, Any] = Field(
+        description="Extraction result conforming to the template."
     )
-    __properties: ClassVar[List[str]] = ["id", "displayName", "email", "roles"]
+    raw_result: Optional[RawResult] = Field(
+        default=None,
+        description="Extraction result if not conforming to the template.",
+        alias="rawResult",
+    )
+    tokens: StrictInt = Field(
+        description="Total number of tokens used for extraction (input + output)."
+    )
+    __properties: ClassVar[List[str]] = ["result", "rawResult", "tokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +57,7 @@ class MemberResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of MemberResponse from a JSON string"""
+        """Create an instance of ExtractionResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,11 +78,14 @@ class MemberResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of raw_result
+        if self.raw_result:
+            _dict["rawResult"] = self.raw_result.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of MemberResponse from a dict"""
+        """Create an instance of ExtractionResponse from a dict"""
         if obj is None:
             return None
 
@@ -84,10 +94,11 @@ class MemberResponse(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": obj.get("id"),
-                "displayName": obj.get("displayName"),
-                "email": obj.get("email"),
-                "roles": obj.get("roles"),
+                "result": obj.get("result"),
+                "rawResult": RawResult.from_dict(obj["rawResult"])
+                if obj.get("rawResult") is not None
+                else None,
+                "tokens": obj.get("tokens"),
             }
         )
         return _obj

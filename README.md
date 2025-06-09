@@ -155,11 +155,7 @@ client.add_examples_to_project(project_id, examples)
 ### Extract structured information from text
 
 ```python
-from numind.openapi_client import TextRequest
-
-output_schema = client.post_api_projects_projectid_infer_text(
-    project_id=project_id, text_request=TextRequest(text=input_text)
-)
+output_schema = client.post_api_projects_projectid_extract(project_id, input_text)
 ```
 
 ### Extract structured information from a file
@@ -168,82 +164,89 @@ output_schema = client.post_api_projects_projectid_infer_text(
 from pathlib import Path
 
 file_path = Path("path", "to", "document.odt")
-with file_path.open("rb") as file:  # read bytes
+with file_path.open("rb") as file:
+    input_file = file.read()
+output_schema = client.post_api_projects_projectid_extract(project_id, input_file)
+```
+
+# Documentation
+
+### Extracting Information from Documents
+
+Once your project is ready, you can use it to extract information from documents in real time via this RESTful API.
+
+Each project has its own extraction endpoint:
+
+`https://nuextract.ai/api/projects/{projectId}/extract`
+
+You provide it a document and it returns the extracted information according to the task defined in the project. To use it, you need:
+
+- To create an API key in the Account section
+- To replace `{projectId}` by the project ID found in the API tab of the project
+
+You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `PROJECT_ID`, `NUEXTRACT_API_KEY`, and `FILE_NAME`):
+
+```
+NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\
+PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\
+FILE_NAME=\"FrenchID.png\"; \\
+curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/infer-file\" \\
+  -X POST \\
+  -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\
+  -H \"Content-Type: application/octet-stream\" \\
+  -H \"x-file-name: ${FILE_NAME}\" \\
+  --data-binary @\"${FILE_NAME}\"
+```
+
+You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the
+`project_id`, `api_key` and `file_path` variables in the following code:
+
+```
+from numind import NuMind
+from pathlib import Path
+
+client = NuMind(api_key=api_key)
+file_path = Path(\"path\", \"to\", \"document.odt\")
+with file_path.open(\"rb\") as file:
     intput_file = file.read()
 output_schema = client.post_api_projects_projectid_infer_file(
     project_id, file_path.name, intput_file
 )
 ```
 
-# Documentation
+### Using the Platform via API
 
-## Workflow for Using NuExtract API for Information Extraction
+Everything you can do on the web platform can be done via API -
+ check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.
+ This can be useful to create projects automatically, or to make your production more robust for example.
 
-### Creating and Managing Projects
+Main resources:
 
-A **Project** in NuExtract 2.0 serves as the **main entity** for organizing and managing an **information extraction task**.
-It provides a structured approach to processing and extracting data from multiple documents using a **shared template**.
+- **Project** - user project, identified by `projectId`
+- **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an Example
+- **Document** - internal representation of a document, identified by `documentId`, created from a File or a text, stored up to two weeks if not tied to an Example
+- **Example** - document-extraction pair given to teach NuExtract, identified by `exampleId`, created from a Document
 
-1. **Create a Project**: A project stores the template for information extraction and can optionally include extraction examples to improve model performance.
-2. **Define a Template**: The template specifies what information should be extracted from documents within this project. If needed, a template can be derived from a free-form description using the `/api/infer-template` endpoint.
-3. **Managing Project Examples**:
-   - Project examples (optional) help refine model accuracy and consistency.
-   - They serve as **ICL (In-Context Learning) examples** during inference and represent tuples of (input, output).
-   - Only examples that match the current project template are used in inference calls.
-   - Examples are managed via the ***examples*** endpoints (CRUD operations), requiring a project ID.
-4. **Storing Inference Playground Items**:
-   - Inference results can be stored within the **project playground** without adding them as ICL examples.
-   - This ensures that outputs are retained without affecting inference behavior or increasing token usage.
+Here are the main operations you might want to do via API:
 
-### Performing Inference
+- Creating a **Project** via `POST /api/projects`
+- Changing the template of a **Project** via `PATCH /api/projects/{projectId}`
+- Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage)
+- Creating a **Document** via `POST /api/documents/text` and `POST /api/files/{fileID}/convert-to-document` from a text or a **File**
+- Adding an **Example** to a **Project** via `POST /api/projects/{projectId}/examples`
+- Changing Project settings via `POST /api/projects/{projectId}/settings`
+- Locking a **Project** via `POST /api/projects/{projectId}/lock`
 
- A **Document** represents the atomic unit over which inference is performed.
-  It can be created from either **raw text** or **files** (such as text files, images or convertible types like PDFs, WORD, PPTX, or Excel files).
+You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation).
 
-  When using `/api/projects/{projectId}/infer-text`, a document is automatically created from the input text, and the resulting document ID is returned in the response.
-  Similarly, when using `/api/projects/{projectId}/infer-file`, if the file is a supported format (image, text or convertible), it is transformed into a document.
-  The conversion process can be controlled via parameters such as **RasterizationDpi**, which can be set in the project settings.
+### Creating a temporary authorization
 
-
-  The resulting document ID is essential for:
-  - Adding the document as an **in-context example** for other inference calls
-  - Creating **playground items**
-
-
-  If needed, inference can be run directly on any existing document by specifying its document ID.
-
-
-  Additionally, when a file has been converted to a document, the original file ID remains available in the `docInfo`.
-  This enables users to reuse the same file with different **conversion parameters** via the `/api/files/{fileId}/convert-to-document` endpoint, effectively generating alternate versions of the document from the same source file.
-
-Inference **temperature** can be set in the project settings. It controls variability in extraction inference responses.
-**RasterizationDpi** sets the dots per inch resolution when converting non-text files to images. Allowed range is (0, 300]
-
-### Locking a Project
-
-The **locking mechanism** allows you to prevent accidental modifications while still permitting inference. When locked:
-- The **template and project examples** cannot be modified.
-- Project settings such as **temperature** and **rasterizationDpi** are also restricted.
-- Users can still perform inference and work with project playground.
-- This feature is useful in **production environments** to maintain consistency.
-
-### Project Ownership and Permissions
-
-A project is owned by either a **user** (`ownerUser`) or an **organization** (`ownerOrganization`). If a user leaves an organization, they lose access to its resources, even if they originally created them.
-
-### Additional Features
-
-- **Duplication**: Projects can be **copied**, including examples but **excluding playground**.
-- **Deletion**: Removing a project **deletes all associated examples and playground items**.
-- **Sharing**: Projects can be shared with the community — in other words, they can be designated as **reference projects**. Sharing and unsharing require **Numind administrator access rights**.
-- **Reference Projects**: These are **static, predefined projects** created by the Numind team to serve as examples of extraction tasks. The inference is allowed for all users. However, reference projects cannot be modified but can be **copied**, allowing users to make changes to their duplicates.
-
-By structuring projects efficiently, leveraging examples, and using locking mechanisms, users can ensure **accurate, reproducible, and well-managed** information extraction workflows in NuExtract 2.0.
-  
+This is for you to test the API endpoints here in this Swagger interface. Click the Authorize button. In the pop-up, set `client_id` to `user`, leave `client_secret` blank, check all the checkboxes, and click “Authorize”.
+    
 
 This Python package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: 1.0
+- API version: 
 - Package version: 1.0.0
 - Generator version: 7.13.0
 - Build package: org.openapitools.codegen.languages.PythonClientCodegen
@@ -262,10 +265,6 @@ Class | Method | HTTP request | Description
 *AuthenticationApi* | [**post_api_auth_logout**](docs/AuthenticationApi.md#post_api_auth_logout) | **POST** /api/auth/logout | 
 *AuthenticationApi* | [**post_api_auth_token**](docs/AuthenticationApi.md#post_api_auth_token) | **POST** /api/auth/token | 
 *AuthenticationApi* | [**put_api_auth_api_keys_apikeyid**](docs/AuthenticationApi.md#put_api_auth_api_keys_apikeyid) | **PUT** /api/auth/api-keys/{apiKeyId} | 
-*DefaultApi* | [**get_api_debug_status_code**](docs/DefaultApi.md#get_api_debug_status_code) | **GET** /api/debug/status/{code} | 
-*DefaultApi* | [**get_api_health**](docs/DefaultApi.md#get_api_health) | **GET** /api/health | 
-*DefaultApi* | [**get_api_ping**](docs/DefaultApi.md#get_api_ping) | **GET** /api/ping | 
-*DefaultApi* | [**get_api_version**](docs/DefaultApi.md#get_api_version) | **GET** /api/version | 
 *DocumentsApi* | [**get_api_documents_documentid**](docs/DocumentsApi.md#get_api_documents_documentid) | **GET** /api/documents/{documentId} | 
 *DocumentsApi* | [**get_api_documents_documentid_content**](docs/DocumentsApi.md#get_api_documents_documentid_content) | **GET** /api/documents/{documentId}/content | 
 *DocumentsApi* | [**post_api_documents_text**](docs/DocumentsApi.md#post_api_documents_text) | **POST** /api/documents/text | 
@@ -274,13 +273,13 @@ Class | Method | HTTP request | Description
 *ExamplesApi* | [**get_api_projects_projectid_examples_exampleid**](docs/ExamplesApi.md#get_api_projects_projectid_examples_exampleid) | **GET** /api/projects/{projectId}/examples/{exampleId} | 
 *ExamplesApi* | [**post_api_projects_projectid_examples**](docs/ExamplesApi.md#post_api_projects_projectid_examples) | **POST** /api/projects/{projectId}/examples | 
 *ExamplesApi* | [**put_api_projects_projectid_examples_exampleid**](docs/ExamplesApi.md#put_api_projects_projectid_examples_exampleid) | **PUT** /api/projects/{projectId}/examples/{exampleId} | 
+*ExtractionApi* | [**post_api_projects_projectid_extract**](docs/ExtractionApi.md#post_api_projects_projectid_extract) | **POST** /api/projects/{projectId}/extract | 
 *FilesApi* | [**get_api_files_fileid**](docs/FilesApi.md#get_api_files_fileid) | **GET** /api/files/{fileId} | 
 *FilesApi* | [**get_api_files_fileid_content**](docs/FilesApi.md#get_api_files_fileid_content) | **GET** /api/files/{fileId}/content | 
 *FilesApi* | [**post_api_files**](docs/FilesApi.md#post_api_files) | **POST** /api/files | 
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
 *InferenceApi* | [**post_api_infer_template**](docs/InferenceApi.md#post_api_infer_template) | **POST** /api/infer-template | 
 *InferenceApi* | [**post_api_projects_projectid_infer_document_documentid**](docs/InferenceApi.md#post_api_projects_projectid_infer_document_documentid) | **POST** /api/projects/{projectId}/infer-document/{documentId} | 
-*InferenceApi* | [**post_api_projects_projectid_infer_file**](docs/InferenceApi.md#post_api_projects_projectid_infer_file) | **POST** /api/projects/{projectId}/infer-file | 
 *InferenceApi* | [**post_api_projects_projectid_infer_text**](docs/InferenceApi.md#post_api_projects_projectid_infer_text) | **POST** /api/projects/{projectId}/infer-text | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid) | **DELETE** /api/organizations/{organizationId} | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid_members_invitations_invitationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid_members_invitations_invitationid) | **DELETE** /api/organizations/{organizationId}/members/invitations/{invitationId} | 
@@ -296,18 +295,22 @@ Class | Method | HTTP request | Description
 *PlaygroundApi* | [**get_api_projects_projectid_playground_playgrounditemid**](docs/PlaygroundApi.md#get_api_projects_projectid_playground_playgrounditemid) | **GET** /api/projects/{projectId}/playground/{playgroundItemId} | 
 *PlaygroundApi* | [**post_api_projects_projectid_playground**](docs/PlaygroundApi.md#post_api_projects_projectid_playground) | **POST** /api/projects/{projectId}/playground | 
 *PlaygroundApi* | [**put_api_projects_projectid_playground_playgrounditemid**](docs/PlaygroundApi.md#put_api_projects_projectid_playground_playgrounditemid) | **PUT** /api/projects/{projectId}/playground/{playgroundItemId} | 
-*ProjectsApi* | [**delete_api_projects_projectid**](docs/ProjectsApi.md#delete_api_projects_projectid) | **DELETE** /api/projects/{projectId} | 
-*ProjectsApi* | [**get_api_projects**](docs/ProjectsApi.md#get_api_projects) | **GET** /api/projects | 
-*ProjectsApi* | [**get_api_projects_projectid**](docs/ProjectsApi.md#get_api_projects_projectid) | **GET** /api/projects/{projectId} | 
-*ProjectsApi* | [**patch_api_projects_projectid**](docs/ProjectsApi.md#patch_api_projects_projectid) | **PATCH** /api/projects/{projectId} | 
-*ProjectsApi* | [**patch_api_projects_projectid_settings**](docs/ProjectsApi.md#patch_api_projects_projectid_settings) | **PATCH** /api/projects/{projectId}/settings | 
-*ProjectsApi* | [**post_api_projects**](docs/ProjectsApi.md#post_api_projects) | **POST** /api/projects | 
-*ProjectsApi* | [**post_api_projects_projectid_duplicate**](docs/ProjectsApi.md#post_api_projects_projectid_duplicate) | **POST** /api/projects/{projectId}/duplicate | 
-*ProjectsApi* | [**post_api_projects_projectid_lock**](docs/ProjectsApi.md#post_api_projects_projectid_lock) | **POST** /api/projects/{projectId}/lock | 
-*ProjectsApi* | [**post_api_projects_projectid_reset_settings**](docs/ProjectsApi.md#post_api_projects_projectid_reset_settings) | **POST** /api/projects/{projectId}/reset-settings | 
-*ProjectsApi* | [**post_api_projects_projectid_share**](docs/ProjectsApi.md#post_api_projects_projectid_share) | **POST** /api/projects/{projectId}/share | 
-*ProjectsApi* | [**post_api_projects_projectid_unlock**](docs/ProjectsApi.md#post_api_projects_projectid_unlock) | **POST** /api/projects/{projectId}/unlock | 
-*ProjectsApi* | [**post_api_projects_projectid_unshare**](docs/ProjectsApi.md#post_api_projects_projectid_unshare) | **POST** /api/projects/{projectId}/unshare | 
+*ProjectManagementApi* | [**delete_api_projects_projectid**](docs/ProjectManagementApi.md#delete_api_projects_projectid) | **DELETE** /api/projects/{projectId} | 
+*ProjectManagementApi* | [**get_api_projects**](docs/ProjectManagementApi.md#get_api_projects) | **GET** /api/projects | 
+*ProjectManagementApi* | [**get_api_projects_projectid**](docs/ProjectManagementApi.md#get_api_projects_projectid) | **GET** /api/projects/{projectId} | 
+*ProjectManagementApi* | [**patch_api_projects_projectid**](docs/ProjectManagementApi.md#patch_api_projects_projectid) | **PATCH** /api/projects/{projectId} | 
+*ProjectManagementApi* | [**patch_api_projects_projectid_settings**](docs/ProjectManagementApi.md#patch_api_projects_projectid_settings) | **PATCH** /api/projects/{projectId}/settings | 
+*ProjectManagementApi* | [**post_api_projects**](docs/ProjectManagementApi.md#post_api_projects) | **POST** /api/projects | 
+*ProjectManagementApi* | [**post_api_projects_projectid_duplicate**](docs/ProjectManagementApi.md#post_api_projects_projectid_duplicate) | **POST** /api/projects/{projectId}/duplicate | 
+*ProjectManagementApi* | [**post_api_projects_projectid_lock**](docs/ProjectManagementApi.md#post_api_projects_projectid_lock) | **POST** /api/projects/{projectId}/lock | 
+*ProjectManagementApi* | [**post_api_projects_projectid_reset_settings**](docs/ProjectManagementApi.md#post_api_projects_projectid_reset_settings) | **POST** /api/projects/{projectId}/reset-settings | 
+*ProjectManagementApi* | [**post_api_projects_projectid_share**](docs/ProjectManagementApi.md#post_api_projects_projectid_share) | **POST** /api/projects/{projectId}/share | 
+*ProjectManagementApi* | [**post_api_projects_projectid_unlock**](docs/ProjectManagementApi.md#post_api_projects_projectid_unlock) | **POST** /api/projects/{projectId}/unlock | 
+*ProjectManagementApi* | [**post_api_projects_projectid_unshare**](docs/ProjectManagementApi.md#post_api_projects_projectid_unshare) | **POST** /api/projects/{projectId}/unshare | 
+*DefaultApi* | [**get_api_debug_status_code**](docs/DefaultApi.md#get_api_debug_status_code) | **GET** /api/debug/status/{code} | 
+*DefaultApi* | [**get_api_health**](docs/DefaultApi.md#get_api_health) | **GET** /api/health | 
+*DefaultApi* | [**get_api_ping**](docs/DefaultApi.md#get_api_ping) | **GET** /api/ping | 
+*DefaultApi* | [**get_api_version**](docs/DefaultApi.md#get_api_version) | **GET** /api/version | 
 
 
 ### Documentation For Models
@@ -323,6 +326,7 @@ Class | Method | HTTP request | Description
  - [DocumentResponse](docs/DocumentResponse.md)
  - [Error](docs/Error.md)
  - [ExampleResponse](docs/ExampleResponse.md)
+ - [ExtractionResponse](docs/ExtractionResponse.md)
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)

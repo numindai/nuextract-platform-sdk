@@ -19,10 +19,10 @@ Method | HTTP request | Description
 > delete_api_organizations_organizationid(organization_id)
 
 
-Delete a specific organization, and all its associated objects
+Delete a specific organization, and all its associated objects.
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist.
+`404 Not Found` - If an organization with the specified id does not exist.
 
 `403 Forbidden` - If the user does not have permission to delete this organization
 
@@ -99,7 +99,7 @@ void (empty response body)
 Delete an invitation. Can be used to then create a new one for the user.
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist,
+`404 Not Found` - If an organization with the specified id does not exist,
 or if the invitationId is not valid
 
 
@@ -177,7 +177,7 @@ void (empty response body)
 Remove a member from an organization.
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist,
+`404 Not Found` - If an organization with the specified id does not exist,
 or if the member with the given memberId does not exist.
 
 
@@ -252,7 +252,7 @@ void (empty response body)
 > List[OrganizationResponse] get_api_organizations()
 
 
-Retrieves the organizations for the current user
+Returns the organizations for the current user.
 
 
 ### Example
@@ -323,10 +323,10 @@ This endpoint does not need any parameter.
 > List[MemberResponse] get_api_organizations_organizationid_members(organization_id)
 
 
-List the members of an organization
+List the members of an organization.
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist.
+`404 Not Found` - If an organization with the specified id does not exist.
 
 
 ### Example
@@ -404,7 +404,7 @@ Name | Type | Description  | Notes
 List all the pending invitations for a given organization.
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist
+`404 Not Found` - If an organization with the specified id does not exist
 
 
 ### Example
@@ -483,7 +483,7 @@ Creates an organization with the current user as member.
 The name does not need to be unique.
 
 #### Response:
- Returns a json representing the created organization.
+ Returns a JSON representing the created organization.
 
 
 ### Example
@@ -566,7 +566,7 @@ she will be added once the account is activated.
 
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist.
+`404 Not Found` - If an organization with the specified id does not exist.
 
 
 ### Example
@@ -642,10 +642,10 @@ void (empty response body)
 > put_api_organizations_organizationid(organization_id, update_organization_request)
 
 
-Update a specific organization
+Update a specific organization.
 
 #### Error Responses:
-`404 Not Found` - If  an organization with the specified id does not exist.
+`404 Not Found` - If an organization with the specified id does not exist.
 
 `403 Forbidden` - If the user does not have permission to change this organization
 

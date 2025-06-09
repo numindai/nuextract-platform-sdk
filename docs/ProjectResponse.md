@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **created_at** | **str** | Project creation date. | 
 **updated_at** | **str** | Project last update date. | 
 **lock_state** | **bool** | The lock state of the project. | 
-**shared** | **bool** | The shared state of the project. | 
+**shared** | **bool** | The shared (reference) state of the project. | 
 **settings** | [**ProjectSettingsResponse**](ProjectSettingsResponse.md) |  | 
 
 ## Example

@@ -17,17 +17,24 @@ from .openapi_client import (
     CreateProjectRequest,
     DocumentsApi,
     ExamplesApi,
+    ExtractionApi,
+    ExtractionResponse,
     FilesApi,
     InferenceApi,
-    InferenceResponse,
     OrganizationsApi,
-    ProjectsApi,
+    ProjectManagementApi,
     TextRequest,
 )
 
 
 class NuMind(
-    DocumentsApi, ExamplesApi, FilesApi, InferenceApi, OrganizationsApi, ProjectsApi
+    DocumentsApi,
+    ExamplesApi,
+    ExtractionApi,
+    FilesApi,
+    InferenceApi,
+    OrganizationsApi,
+    ProjectManagementApi,
 ):
     """NuMind API client."""
 
@@ -85,7 +92,8 @@ class NuMind(
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
-    ) -> InferenceResponse:
+        **kwargs,
+    ) -> ExtractionResponse:
         """
         Send an inference request to the API for either a text or a file input.
 
@@ -109,6 +117,8 @@ class NuMind(
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
+        :param kwargs: additional keyword arguments to pass to the
+            ``post_api_projects_projectid_extract`` method, such as ``temperature``.
         :return: the API response.
         """
         if (input_text is None) ^ input_file is not None:
@@ -135,18 +145,14 @@ class NuMind(
             if examples is not None and len(examples) > 0:
                 self.add_examples_to_project(project_id, examples, convert_request)
 
-        # Infer with text input
+        # Determine input
         if input_text is not None:
-            output = self.post_api_projects_projectid_infer_text(
-                project_id, TextRequest(text=input_text)
-            )
-
-        # Infer with file input
+            input_ = input_file
         else:
-            input_file, file_name = self.__parse_input_file(input_file)
-            output = self.post_api_projects_projectid_infer_file(
-                project_id, file_name, input_file
-            )
+            input_, _ = self.__parse_input_file(input_file)
+
+        # Infer
+        output = self.post_api_projects_projectid_extract(project_id, input_, **kwargs)
 
         # Delete temporary project if necessary
         if not project_id_provided:
@@ -175,7 +181,7 @@ class NuMind(
         if convert_request is None:
             project_info = self.get_api_projects_projectid(project_id=project_id)
             convert_request = ConvertRequest(
-                rasterizationDpi=project_info.settings.rasterization_dpi,
+                rasterizationDPI=project_info.settings.rasterization_dpi,
             )
         for example_input, example_output in examples:
             # Prepare the example input and output, upload the input as file

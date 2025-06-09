@@ -13,14 +13,14 @@ Method | HTTP request | Description
 > DocumentResponse get_api_documents_documentid(document_id)
 
 
- Retrieves meta information about a specific document. 
- For text documents, this also includes the text content.
- In order to access the non-text document content, uset the endpoint `/api/documents/{documentId}/content`
+ Return meta information about a specific **Document**.
+ For text **Documents**, this also includes the text content.
+ In order to access the non-text **Document** content, use the endpoint `/api/documents/{documentId}/content`
 
 #### Error Responses:
-`404 Not Found` - If a document with the specified documentId does not exist.
+`404 Not Found` - If a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this document.
+`403 Forbidden` - If the user does not have permission to view this **Document**.
    
 
 ### Example
@@ -95,12 +95,12 @@ Name | Type | Description  | Notes
 > bytearray get_api_documents_documentid_content(document_id)
 
 
- Retrieves the content of a specific document.
+ Return the content of a specific **Document**.
 
 #### Error Responses:
-`404 Not Found` - If a document with the specified documentId does not exist.
+`404 Not Found` - If a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this document.
+`403 Forbidden` - If the user does not have permission to view this **Document**.
    
 
 ### Example
@@ -177,13 +177,12 @@ Name | Type | Description  | Notes
  Save the text as a **Document**.
 
 
- Once saved, this document can be used to perform inference,
- create ICL (In-Context Learning) examples,
- and/or save playground items with the text as input.
+ Once saved, this **Document** can be used to perform inference,
+ create **Examples**, and/or save **Playground Items** with the text as input.
  
 
 #### Response:
- The response contains a `documentId`, which is required in order to access and use this document.
+ The response contains a `documentId`, which is required in order to access and use this **Document**.
    
 
 ### Example
@@ -214,7 +213,7 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
-    text_request = {text=[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.} # TextRequest | 
+    text_request = {"text":"[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: \"Leave package at the front door.\" Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC."} # TextRequest | 
     x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
 
     try:

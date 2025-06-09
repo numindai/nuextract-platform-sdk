@@ -6,8 +6,8 @@ Project settings.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**temperature** | **float** | The temperature to use for inference. | 
-**rasterization_dpi** | **int** | Rasterization DPI used during file to image conversion. | 
+**temperature** | **float** | Model temperature. | 
+**rasterization_dpi** | **int** | Resolution used to convert formatted documents to images. | 
 
 ## Example
 

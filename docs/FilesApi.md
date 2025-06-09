@@ -14,12 +14,12 @@ Method | HTTP request | Description
 > FileResponse get_api_files_fileid(file_id)
 
 
- Retrieves meta information about a specific file.
+ Return meta information about a specific **File**.
 
 #### Error Responses:
-`404 Not Found` - If a file with the specified fileId does not exist.
+`404 Not Found` - If a **File** with the specified `fileId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this file.
+`403 Forbidden` - If the user does not have permission to view this **File**.
     
 
 ### Example
@@ -94,12 +94,12 @@ Name | Type | Description  | Notes
 > bytearray get_api_files_fileid_content(file_id)
 
 
- Retrieves the content of a specific file.
+ Return the content of a specific **File**.
 
 #### Error Responses:
-`404 Not Found` - If a file with the specified fileId does not exist.
+`404 Not Found` - If a **File** with the specified `fileId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this file.
+`403 Forbidden` - If the user does not have permission to view this **File**.
    
 
 ### Example
@@ -172,7 +172,10 @@ Name | Type | Description  | Notes
 # **post_api_files**
 > FileResponse post_api_files(x_file_name, body, x_organization=x_organization)
 
-Uploads a new file.
+
+ Uploads a new file into a **File**.
+ Use `/api/files/{fileId}/convert-to-document` to convert this **File** to a **Document**.
+    
 
 ### Example
 
@@ -251,22 +254,23 @@ Name | Type | Description  | Notes
 > DocumentResponse post_api_files_fileid_convert_to_document(file_id, convert_request)
 
 
- Saves the file as a **Document**.
+ Convert the **File** into a **Document**
 
- - For **text and image files**, the content is used as-is — no conversion is performed.
- - For **other supported file types** (e.g., PDFs, WORD, PPTX, Excel), the file is **converted to an image** in the background, using the **conversion parameters** provided in the request body (e.g., `rasterizationDpi`).
+ - For ***text and image files***, the content is used as-is — no conversion is performed.
+ - For ***other supported file types*** (e.g., PDFs, WORD, PPTX, Excel),
+ the file is ***converted to an image*** in the background,
+ using the **conversion parameters** provided in the request body (e.g., `rasterizationDPI`).
 
- The resulting image is then saved as a Document and can be used for inference or further processing.
+ The resulting image is then saved as a **Document** and can be used for inference or further processing.
 
- Once saved, this document can be used to perform inference,
- create ICL (In-Context Learning) examples,
- and/or save playground items with the text as input.
+ Once saved, this **Document** can be used to perform inference,
+ create **Examples**, and/or save **Playground Items** with the text as input.
  
 #### Response:
- The response contains a `documentId`, which is required in order to access and use this document.
+ The response contains a `documentId`, which is required in order to access and use this **Document**.
 
 #### Error Responses:
-`404 Not Found` - If a file with the specified fileId does not exist.
+`404 Not Found` - If a **File** with the specified `fileId` does not exist.
 
 
 ### Example

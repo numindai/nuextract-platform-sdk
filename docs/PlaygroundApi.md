@@ -15,12 +15,12 @@ Method | HTTP request | Description
 > delete_api_projects_projectid_playground_playgrounditemid(project_id, playground_item_id)
 
 
-Deletes a specific playground item.
+Delete a specific **Playground Item**.
 
 #### Error Responses:
-`404 Not Found` - If a playground item with the specified playgroundItemId associated with the given projectId does not exist.
+`404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to update this project.
+`403 Forbidden` - If the user does not have permission to update this **Project**.
   
 
 ### Example
@@ -94,12 +94,12 @@ void (empty response body)
 > List[PlaygroundItemResponse] get_api_projects_projectid_playground(project_id)
 
 
-Retrieves a list of playground items associated to the specified project.
+Return a list of **Playground Items** associated to the specified **Project**.
 
 #### Error Responses:
-`404 Not Found` - If a project with the specified projectId does not exist.
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this project.
+`403 Forbidden` - If the user does not have permission to view this **Project**.
   
 
 ### Example
@@ -174,12 +174,12 @@ Name | Type | Description  | Notes
 > PlaygroundItemResponse get_api_projects_projectid_playground_playgrounditemid(project_id, playground_item_id)
 
 
-Retrieves a specific playground item.
+Return a specific **Playground Item**.
 
 #### Error Responses:
-`404 Not Found` - If a playground item with the specified playgroundItemId associated with the given projectId does not exist.
+`404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to view this project.
+`403 Forbidden` - If the user does not have permission to view this **Project**.
   
 
 ### Example
@@ -256,12 +256,12 @@ Name | Type | Description  | Notes
 > PlaygroundItemResponse post_api_projects_projectid_playground(project_id, create_or_update_playground_item_request)
 
 
-Creates a new playground item associated to the specified project.
+Create a new **Playground Item** associated to the specified **Project**.
 
 #### Error Responses:
-`404 Not Found` - If a project with the specified projectId does not exist or a document with the specified documentId does not exist.
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to update this project or use the specified document.
+`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
   
 
 ### Example
@@ -293,7 +293,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.PlaygroundApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
-    create_or_update_playground_item_request = {"documentId":"1f076423-d838-4e06-a67b-ded4a0245c14","result":{"orderId":"Example: o-89123","customerId":"Example: c-20485","orderDate":"2024-03-10T11:15:00.000Z","status":"shipped","totalAmount":149.99,"currency":"USD","items":[{"productId":"p-00876","quantity":1,"unitPrice":79.99},{"productId":"p-00321","quantity":2,"unitPrice":35}],"shippingAddress":{"street":"782 Pine St","city":"Austin","state":"TX","country":"USA","zip":"73301"},"comments":"Leave package at the front door.","deliveryPreferences":["no_signature_required","standard_delivery"],"estimatedDelivery":"2024-03-15T17:00:00.000Z"},"tokens":567} # CreateOrUpdatePlaygroundItemRequest | 
+    create_or_update_playground_item_request = {"documentId":"c906690b-b871-41d8-b0cd-e3b462bee8a9","result":{"orderId":"Example: o-89123","customerId":"Example: c-20485","orderDate":"2024-03-10T11:15:00.000Z","status":"shipped","totalAmount":149.99,"currency":"USD","items":[{"productId":"p-00876","quantity":1,"unitPrice":79.99},{"productId":"p-00321","quantity":2,"unitPrice":35}],"shippingAddress":{"street":"782 Pine St","city":"Austin","state":"TX","country":"USA","zip":"73301"},"comments":"Leave package at the front door.","deliveryPreferences":["no_signature_required","standard_delivery"],"estimatedDelivery":"2024-03-15T17:00:00.000Z"},"tokens":567} # CreateOrUpdatePlaygroundItemRequest | 
 
     try:
         api_response = api_instance.post_api_projects_projectid_playground(project_id, create_or_update_playground_item_request)
@@ -340,12 +340,12 @@ Name | Type | Description  | Notes
 > PlaygroundItemResponse put_api_projects_projectid_playground_playgrounditemid(project_id, playground_item_id, create_or_update_playground_item_request)
 
 
-Updates a specific playground item.
+Update a specific **Playground Item**.
 
 #### Error Responses:
-`404 Not Found` - If a playground item with the specified playgroundItemId associated with the given projectId does not exist, or if a document with the specified documentId cannot be found.
+`404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.
 
-`403 Forbidden` - If the user does not have permission to update this project or use the specified document.
+`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
   
 
 ### Example
@@ -378,7 +378,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.PlaygroundApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
     playground_item_id = 'playground_item_id_example' # str | Unique playground item identifier.
-    create_or_update_playground_item_request = {documentId=1f076423-d838-4e06-a67b-ded4a0245c14, result={orderId=Example: o-89123, customerId=Example: c-20485, orderDate=2024-03-10T11:15:00.000Z, status=shipped, totalAmount=149.99, currency=USD, items=[{productId=p-00876, quantity=1, unitPrice=79.99}, {productId=p-00321, quantity=2, unitPrice=35}], shippingAddress={street=782 Pine St, city=Austin, state=TX, country=USA, zip=73301}, comments=Leave package at the front door., deliveryPreferences=[no_signature_required, standard_delivery], estimatedDelivery=2024-03-15T17:00:00.000Z}, tokens=567} # CreateOrUpdatePlaygroundItemRequest | 
+    create_or_update_playground_item_request = {documentId=c906690b-b871-41d8-b0cd-e3b462bee8a9, result={orderId=Example: o-89123, customerId=Example: c-20485, orderDate=2024-03-10T11:15:00.000Z, status=shipped, totalAmount=149.99, currency=USD, items=[{productId=p-00876, quantity=1, unitPrice=79.99}, {productId=p-00321, quantity=2, unitPrice=35}], shippingAddress={street=782 Pine St, city=Austin, state=TX, country=USA, zip=73301}, comments=Leave package at the front door., deliveryPreferences=[no_signature_required, standard_delivery], estimatedDelivery=2024-03-15T17:00:00.000Z}, tokens=567} # CreateOrUpdatePlaygroundItemRequest | 
 
     try:
         api_response = api_instance.put_api_projects_projectid_playground_playgrounditemid(project_id, playground_item_id, create_or_update_playground_item_request)

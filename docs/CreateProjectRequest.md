@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** | Project name. | 
-**description** | **str** | A brief explanation of the project. | 
-**template** | **object** | Extraction template (NuExtract format). | 
-**owner_organization** | **str** | Project owning organization (optional). | [optional] 
+**name** | **str** | Name of the project. | 
+**description** | **str** | Text description of the project (can be left empty). | 
+**template** | **object** | Template of the project. | 
+**owner_organization** | **str** | Optional organization identifier.   When specified, the project will belong to the given organization instead of being a personal project. | [optional] 
 
 ## Example
 

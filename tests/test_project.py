@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from numind.openapi_client.models import CreateProjectRequest, TextRequest
+from numind.openapi_client.models import CreateProjectRequest
 
-from .conftest import TEST_CASES
+from .conftest import EXTRACT_KWARGS, TEST_CASES
 
 if TYPE_CHECKING:
     from numind import NuMind
@@ -77,8 +77,8 @@ def test_infer_text(numind_client: NuMind, request: pytest.FixtureRequest) -> No
     project_id = request.config.cache.get("project_id", None)
     text_cases = request.config.cache.get("text_cases", None)
     for input_text in text_cases:
-        _ = numind_client.post_api_projects_projectid_infer_text(
-            project_id, text_request=TextRequest(text=input_text)
+        _ = numind_client.post_api_projects_projectid_extract(
+            project_id, input_text.encode()
         )
 
 
@@ -90,7 +90,9 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         file_path = Path(file_path)
         with file_path.open("rb") as file:
             intput_file = file.read()
-        _ = numind_client.post_api_projects_projectid_extract(project_id, intput_file)
+        _ = numind_client.post_api_projects_projectid_extract(
+            project_id, intput_file, **EXTRACT_KWARGS
+        )
 
 
 # TODO remove dependency, make it run whether these tests failed or not

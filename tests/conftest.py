@@ -16,6 +16,7 @@ import pytest
 from numind import NuMind
 
 NUMIND_API_KEY_TEST_ENV_VAR_NAME = "NUMIND_API_KEY_TESTS"
+EXTRACT_KWARGS = {"temperature": 0.1, "max_output_tokens": 600}
 
 
 def _read_test_case_examples(

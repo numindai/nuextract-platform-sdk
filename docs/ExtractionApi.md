@@ -8,12 +8,12 @@ Method | HTTP request | Description
 
 
 # **post_api_projects_projectid_extract**
-> ExtractionResponse post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi)
+> ExtractionResponse post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens)
 
 
  Extract information from the provided text or file. Some files are converted to images - 
-the **rasterizationDPI** parameter controls their resolution. When **temperature** or **rasterizationDPI** 
-parameters are not specified, they are set to their project-setting values.
+the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI** 
+ or **maxOutputTokens** parameters are not specified, they are set to their project-setting values.
 
 #### Response:
 Returns a JSON representing the extracted information.
@@ -59,9 +59,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     body = None # bytearray | 
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
     rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. (optional)
+    max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi)
+        api_response = api_instance.post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens)
         print("The response of ExtractionApi->post_api_projects_projectid_extract:\n")
         pprint(api_response)
     except Exception as e:
@@ -79,6 +80,7 @@ Name | Type | Description  | Notes
  **body** | **bytearray**|  | 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
  **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. | [optional] 
+ **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | [optional] 
 
 ### Return type
 
@@ -98,7 +100,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

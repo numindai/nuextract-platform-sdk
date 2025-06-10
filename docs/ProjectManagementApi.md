@@ -397,7 +397,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ProjectManagementApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
-    update_project_settings_request = {"temperature":0,"rasterizationDPI":115} # UpdateProjectSettingsRequest | 
+    update_project_settings_request = {"temperature":0,"rasterizationDPI":115,"maxOutputTokens":0} # UpdateProjectSettingsRequest | 
 
     try:
         api_response = api_instance.patch_api_projects_projectid_settings(project_id, update_project_settings_request)
@@ -462,6 +462,7 @@ A **Project** is created with default settings:
 ---------|---------|
  `temperature` | 0.0 |
  `rasterizationDPI` | 115 |
+ `maxOutputTokens` | 0 (no limit) |
 
 
 If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user.
@@ -730,6 +731,7 @@ Default values are:
 -----------|---------|
  `temperature` | 0.0 |
  `rasterizationDPI` | 115 |
+ `maxOutputTokens` | 0 (no limit) |
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.

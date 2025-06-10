@@ -155,7 +155,7 @@ client.add_examples_to_project(project_id, examples)
 ### Extract structured information from text
 
 ```python
-output_schema = client.post_api_projects_projectid_extract(project_id, input_text)
+output_schema = client.extract(project_id, input_text=input_text)
 ```
 
 ### Extract structured information from a file
@@ -166,7 +166,7 @@ from pathlib import Path
 file_path = Path("path", "to", "document.odt")
 with file_path.open("rb") as file:
     input_file = file.read()
-output_schema = client.post_api_projects_projectid_extract(project_id, input_file)
+output_schema = client.extract(project_id, input_file=input_file)
 ```
 
 # Documentation
@@ -186,11 +186,11 @@ You provide it a document and it returns the extracted information according to 
 
 You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `PROJECT_ID`, `NUEXTRACT_API_KEY`, and `FILE_NAME`):
 
-```
+```bash
 NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\
 PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\
 FILE_NAME=\"FrenchID.png\"; \\
-curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/infer-file\" \\
+curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/extract\" \\
   -X POST \\
   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\
   -H \"Content-Type: application/octet-stream\" \\
@@ -201,17 +201,15 @@ curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/infer-file\" \\
 You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the
 `project_id`, `api_key` and `file_path` variables in the following code:
 
-```
+```python
 from numind import NuMind
 from pathlib import Path
 
 client = NuMind(api_key=api_key)
 file_path = Path(\"path\", \"to\", \"document.odt\")
 with file_path.open(\"rb\") as file:
-    intput_file = file.read()
-output_schema = client.post_api_projects_projectid_infer_file(
-    project_id, file_path.name, intput_file
-)
+    input_file = file.read()
+output_schema = client.post_api_projects_projectid_extract(project_id, input_file)
 ```
 
 ### Using the Platform via API

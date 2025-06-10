@@ -5,25 +5,25 @@ from pathlib import Path
 import yaml
 
 MODELS_TO_DELETE = {
-    "Obj",
-    "Obj1",
-    "SchemaNode",
-    "ValidSchema",
-    "InvalidSchema",
-    "MultiEnum",
-    "Enum",
-    "Arr",
-    "Arr1",
-    "Bool",
-    "Bool1",
-    "Null",
-    "Num",
-    "Num1",
-    "Str",
-    "Str1",
-    "Integer",
-    "InfoNode",
-    "VerbatimStr",
+    "Obj": None,
+    "Obj1": None,
+    "SchemaNode": None,
+    "ValidSchema": None,
+    "InvalidSchema": None,
+    "MultiEnum": None,
+    "Enum": None,
+    "Arr": None,
+    "Arr1": None,
+    "Bool": None,
+    "Bool1": None,
+    "Null": None,
+    "Num": None,
+    "Num1": None,
+    "Str": None,
+    "Str1": None,
+    "Integer": None,
+    "InfoNode": None,
+    "VerbatimStr": None,
 }
 API_BASE_URL = "https://nuextract.ai"
 
@@ -63,9 +63,15 @@ def edit_problematic_leaves(data: dict | list) -> None:
                 del data[key]
                 data["type"] = "object"
         # Replace references to model to delete by a simple "object" type
-        elif key == "$ref" and any(value.endswith(model) for model in MODELS_TO_DELETE):
-            del data[key]
-            data["type"] = "object"
+        elif key == "$ref":
+            for model in MODELS_TO_DELETE:
+                if value.endswith(model):
+                    del data[key]
+                    if MODELS_TO_DELETE[model] is None:
+                        data["type"] = "object"
+                    else:
+                        data.update(MODELS_TO_DELETE[model])
+                    break
 
 
 def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:

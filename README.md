@@ -12,7 +12,7 @@ pip install numind
 
 ### Create a client
 
-You must first get an API key on [NuExtract](https://nuextract.ai).
+You must first get an API key on [NuExtract](https://nuextract.ai/app/user?content=api).
 
 ```python
 import os

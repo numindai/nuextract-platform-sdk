@@ -7,7 +7,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **result** | **object** | Extraction result conforming to the template. | 
 **raw_result** | [**RawResult**](RawResult.md) | Extraction result if not conforming to the template. | [optional] 
-**tokens** | **int** | Total number of tokens used for extraction (input + output). | 
+**completion_tokens** | **int** | Completion tokens used for extraction (output). | 
+**prompt_tokens** | **int** | Prompt tokens used for extraction (input). | 
+**total_tokens** | **int** | Total number of tokens used for extraction (input + output). | 
+**logprobs** | **float** | Logprob of the extraction result (sum of logprobs of all tokens). | 
 
 ## Example
 

@@ -35,7 +35,7 @@ class ExtractionResponse(BaseModel):
         description="Extraction result if not conforming to the template.",
         alias="rawResult",
     )
-    tokens: StrictInt = Field(
+    tokens: Optional[StrictInt] = Field(
         description="Total number of tokens used for extraction (input + output)."
     )
     __properties: ClassVar[List[str]] = ["result", "rawResult", "tokens"]

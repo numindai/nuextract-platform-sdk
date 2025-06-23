@@ -147,7 +147,7 @@ class NuMind(
 
         # Determine input
         if input_text is not None:
-            input_ = input_file.encode()
+            input_ = input_text.encode()
         else:
             input_, _ = self.__parse_input_file(input_file)
 

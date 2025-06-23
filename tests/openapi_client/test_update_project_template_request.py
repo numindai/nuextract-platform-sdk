@@ -12,11 +12,13 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.template_request import TemplateRequest
+from numind.openapi_client.models.update_project_template_request import (
+    UpdateProjectTemplateRequest,
+)
 
 
-class TestTemplateRequest(unittest.TestCase):
-    """TemplateRequest unit test stubs"""
+class TestUpdateProjectTemplateRequest(unittest.TestCase):
+    """UpdateProjectTemplateRequest unit test stubs"""
 
     def setUp(self):
         pass
@@ -24,28 +26,28 @@ class TestTemplateRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> TemplateRequest:
+    def make_instance(self, include_optional) -> UpdateProjectTemplateRequest:
         """
-        Test TemplateRequest
+        Test UpdateProjectTemplateRequest
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `TemplateRequest`
+        # uncomment below to create an instance of `UpdateProjectTemplateRequest`
         """
-        model = TemplateRequest()
+        model = UpdateProjectTemplateRequest()
         if include_optional:
-            return TemplateRequest(
-                description = ''
+            return UpdateProjectTemplateRequest(
+                template = None
             )
         else:
-            return TemplateRequest(
-                description = '',
+            return UpdateProjectTemplateRequest(
+                template = None,
         )
         """
 
-    def testTemplateRequest(self):
-        """Test TemplateRequest"""
+    def testUpdateProjectTemplateRequest(self):
+        """Test UpdateProjectTemplateRequest"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

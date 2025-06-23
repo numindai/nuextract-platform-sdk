@@ -121,7 +121,7 @@ class NuMind(
             ``post_api_projects_projectid_extract`` method, such as ``temperature``.
         :return: the API response.
         """
-        if (input_text is None) ^ input_file is not None:
+        if bool(input_text is None) ^ bool(input_file is not None):
             msg = (
                 "An input has to be provided with either the `input_text` or"
                 "`input_file_path` argument."
@@ -147,7 +147,7 @@ class NuMind(
 
         # Determine input
         if input_text is not None:
-            input_ = input_file.encode()
+            input_ = input_text.encode()
         else:
             input_, _ = self.__parse_input_file(input_file)
 

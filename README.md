@@ -27,7 +27,7 @@ client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 
 ### Extract structured information "on the fly"
 
-If you want to extract structured information from data without projects but just by providing the input template, you can use the `infer` method which provides a more user-friendly way to interact with the API:
+If you want to extract structured information from data without projects but just by providing the input template, you can use the `extract` method which provides a more user-friendly way to interact with the API:
 
 ```python
 template = {

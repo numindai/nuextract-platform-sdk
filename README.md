@@ -54,7 +54,7 @@ print(output)
 
 # Can also work with files, replace the path with your own
 # from pathlib import Path
-# output = client.extract(template=template, input_file=Path("to", "file.ppt"))
+# output = client.extract(template=template, input_file="file.ppt")
 ```
 
 ```json
@@ -138,7 +138,7 @@ example_1_input = "This is a text example"
 example_1_expected_output = {
     "destination": {"name": None, "zip_code": None, "country": None}
 }
-with Path("path", "to", "example_2.odt").open("rb") as file:  # read bytes
+with Path("example_2.odt").open("rb") as file:  # read bytes
     example_2_input = file.read()
 example_2_expected_output = {
     "destination": {"name": None, "zip_code": None, "country": None}
@@ -163,7 +163,7 @@ output_schema = client.extract(project_id, input_text=input_text)
 ```python
 from pathlib import Path
 
-file_path = Path("path", "to", "document.odt")
+file_path = Path("document.odt")
 with file_path.open("rb") as file:
     input_file = file.read()
 output_schema = client.extract(project_id, input_file=input_file)
@@ -204,7 +204,7 @@ from numind import NuMind
 from pathlib import Path
 
 client = NuMind(api_key=api_key)
-file_path = Path(\"path\", \"to\", \"document.odt\")
+file_path = Path("document.odt")
 with file_path.open(\"rb\") as file:
     input_file = file.read()
 output_schema = client.post_api_projects_projectid_extract(project_id, input_file)

@@ -205,7 +205,7 @@ from pathlib import Path
 
 client = NuMind(api_key=api_key)
 file_path = Path("document.odt")
-with file_path.open(\"rb\") as file:
+with file_path.open("rb") as file:
     input_file = file.read()
 output_schema = client.post_api_projects_projectid_extract(project_id, input_file)
 ```

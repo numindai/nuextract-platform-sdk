@@ -17,6 +17,7 @@ from numind import NuMind
 
 NUMIND_API_KEY_TEST_ENV_VAR_NAME = "NUMIND_API_KEY_TESTS"
 EXTRACT_KWARGS = {"temperature": 0.1, "max_output_tokens": 600}
+TESTS_NAME_PREFIX = "tests-sdk"
 
 
 def _read_test_case_examples(
@@ -48,7 +49,9 @@ for dir_path in Path("tests", "test_cases").iterdir():
         if not file_path.name.startswith(".")
     ]
     examples_ = _read_test_case_examples(dir_path / "examples.csv")
-    TEST_CASES.append((dir_path.name, schema, texts, file_paths, examples_))
+    TEST_CASES.append(
+        (f"{TESTS_NAME_PREFIX}-{dir_path.name}", schema, texts, file_paths, examples_)
+    )
 
 
 @pytest.fixture(scope="session")

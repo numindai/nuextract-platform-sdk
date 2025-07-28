@@ -2,6 +2,11 @@
 
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
+# set -e: exit immediately if a command exits with a non-zero status.
+# set -o pipefail: if any command in a pipeline fails, the entire pipeline's
+#                  exit code is that of the failed command.
+set -eo pipefail
+
 # Constants
 openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
 openapi_specs_file_path="numind_api.yaml"

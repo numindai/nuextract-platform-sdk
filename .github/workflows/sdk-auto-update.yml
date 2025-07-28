@@ -16,7 +16,7 @@ jobs:
 
     # Granting permissions for the GITHUB_TOKEN to create a pull request and read repo data
     permissions:
-      actions: write
+      issues: write
       contents: write
       pull-requests: write
 
@@ -81,6 +81,7 @@ jobs:
       - name: Generate SDK
         if: steps.check_pr.outputs.pr_exists == 'false'
         run: |
+          set -e # Exit immediately if a command exits with a non-zero status.
           echo "API version has changed. Generating new SDK..."
           sh gen_sdk.sh
 

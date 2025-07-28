@@ -16,6 +16,7 @@ jobs:
 
     # Granting permissions for the GITHUB_TOKEN to create a pull request and read repo data
     permissions:
+      actions: write
       contents: write
       pull-requests: write
 
@@ -62,7 +63,20 @@ jobs:
             echo "pr_exists=false" >> $GITHUB_OUTPUT
           fi
 
-      # Step 5: Generate SDK if version changed and no PR exists
+      # Step 5: Setup Python
+      - name: Set up Python
+        if: steps.fetch_version.outputs.version != steps.current_version.outputs.version
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Step 6: Install dependencies
+      - name: Install dependencies
+        if: steps.fetch_version.outputs.version != steps.current_version.outputs.version
+        run: |
+          pip install uv yaml toml openapi-generator-cli
+
+      # Step 7: Generate SDK if version changed and no PR exists
       # This step only runs if the version is new AND a PR for it doesn't already exist.
       - name: Generate SDK
         if: steps.check_pr.outputs.pr_exists == 'false'
@@ -74,7 +88,7 @@ jobs:
           echo "${{ steps.fetch_version.outputs.version }}" > .github/.api_version
           echo "Updated .github/.api_version file."
 
-      # Step 6: Create a Pull Request if there are any changes
+      # Step 8: Create a Pull Request if there are any changes
       # This uses the 'peter-evans/create-pull-request' action, which is a robust tool for this task.
       # It will automatically detect changes, create a new branch, commit the files, and open a PR.
       - name: Create Pull Request
@@ -111,7 +125,7 @@ jobs:
           # Reviewers for the pull request (optional, comma-separated)
           reviewers: ''
 
-      # Step 7: A simple message if no update was needed
+      # Step 9: A simple message if no update was needed
       - name: Report no changes
         if: steps.fetch_version.outputs.version == steps.current_version.outputs.version
         run: echo "API version is up to date. No changes needed."

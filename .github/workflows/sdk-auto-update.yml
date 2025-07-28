@@ -1,0 +1,117 @@
+# This workflow regularly check for the API version (`build_version`)
+
+name: Check for API Updates and Generate SDK
+
+on:
+  # Runs every hour
+  schedule:
+    - cron: '0 * * * *'
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # This job checks for the new version, generates code, and opens a PR if needed
+  check-and-generate:
+    runs-on: ubuntu-latest
+
+    # Granting permissions for the GITHUB_TOKEN to create a pull request and read repo data
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # Step 1: Check out the repository's code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Fetch the latest buildVersion from the API
+      # It uses curl to make the request and jq to parse the JSON response.
+      # The result is stored in an environment variable for later steps.
+      - name: Fetch latest API version
+        id: fetch_version
+        run: |
+          LATEST_VERSION=$(curl -s -X 'GET' 'https://nuextract.ai/api/version' -H 'accept: application/json' | jq -r '.buildVersion')
+          echo "Latest API version: $LATEST_VERSION"
+          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+
+      # Step 3: Get the currently stored version from the file in the repo
+      # It's set to continue on error in case the file doesn't exist yet (e.g., first run).
+      - name: Get current version from file
+        id: current_version
+        continue-on-error: true
+        run: |
+          STORED_VERSION=$(cat .github/.api_version)
+          echo "Stored version: $STORED_VERSION"
+          echo "version=$STORED_VERSION" >> $GITHUB_OUTPUT
+
+      # Step 4: Check for an existing Pull Request if version has changed
+      # This step prevents creating duplicate PRs for the same version update.
+      - name: Check for existing Pull Request
+        id: check_pr
+        if: steps.fetch_version.outputs.version != steps.current_version.outputs.version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH_NAME: "bot/regenerate-sdk-${{ steps.fetch_version.outputs.version }}"
+        run: |
+          # Use the gh CLI to check if a PR from the expected branch already exists.
+          if gh pr list --head "$BRANCH_NAME" | grep -q "."; then
+            echo "A pull request for this version already exists. Halting workflow."
+            echo "pr_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "No existing pull request found for this version. Proceeding."
+            echo "pr_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Step 5: Generate SDK if version changed and no PR exists
+      # This step only runs if the version is new AND a PR for it doesn't already exist.
+      - name: Generate SDK
+        if: steps.check_pr.outputs.pr_exists == 'false'
+        run: |
+          echo "API version has changed. Generating new SDK..."
+          sh gen_sdk.sh
+
+          # Update the version file with the new version number
+          echo "${{ steps.fetch_version.outputs.version }}" > .github/.api_version
+          echo "Updated .github/.api_version file."
+
+      # Step 6: Create a Pull Request if there are any changes
+      # This uses the 'peter-evans/create-pull-request' action, which is a robust tool for this task.
+      # It will automatically detect changes, create a new branch, commit the files, and open a PR.
+      - name: Create Pull Request
+        if: steps.check_pr.outputs.pr_exists == 'false'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          # The token is automatically provided by GitHub Actions
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Standard git commit settings
+          commit-message: "feat(sdk): Regenerate SDK for API version ${{ steps.fetch_version.outputs.version }}"
+          committer: GitHub Actions <actions@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          # How to sign off on the commit
+          signoff: false
+          # The branch to create the pull request from
+          branch: "bot/regenerate-sdk-${{ steps.fetch_version.outputs.version }}"
+          # Automatically delete the branch after the PR is merged or closed
+          delete-branch: true
+          # The title of the pull request
+          title: "feat(sdk): Regenerate SDK for API version ${{ steps.fetch_version.outputs.version }}"
+          # The body content of the pull request
+          body: |
+            The API has been updated to version `${{ steps.fetch_version.outputs.version }}`.
+            This PR contains the newly generated SDK code.
+            
+            Please review the changes and merge.
+          # Labels to add to the pull request
+          labels: |
+            bot
+            sdk-update
+            automated
+          # Assignees for the pull request (optional, comma-separated)
+          assignees: ''
+          # Reviewers for the pull request (optional, comma-separated)
+          reviewers: ''
+
+      # Step 7: A simple message if no update was needed
+      - name: Report no changes
+        if: steps.fetch_version.outputs.version == steps.current_version.outputs.version
+        run: echo "API version is up to date. No changes needed."

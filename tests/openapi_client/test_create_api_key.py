@@ -12,11 +12,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
+from numind.openapi_client.models.create_api_key import CreateApiKey
 
 
-class TestCreateOrUpdateApiKey(unittest.TestCase):
-    """CreateOrUpdateApiKey unit test stubs"""
+class TestCreateApiKey(unittest.TestCase):
+    """CreateApiKey unit test stubs"""
 
     def setUp(self):
         pass
@@ -24,28 +24,29 @@ class TestCreateOrUpdateApiKey(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> CreateOrUpdateApiKey:
+    def make_instance(self, include_optional) -> CreateApiKey:
         """
-        Test CreateOrUpdateApiKey
+        Test CreateApiKey
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `CreateOrUpdateApiKey`
+        # uncomment below to create an instance of `CreateApiKey`
         """
-        model = CreateOrUpdateApiKey()
+        model = CreateApiKey()
         if include_optional:
-            return CreateOrUpdateApiKey(
+            return CreateApiKey(
+                maybe_orga = '',
                 name = ''
             )
         else:
-            return CreateOrUpdateApiKey(
+            return CreateApiKey(
                 name = '',
         )
         """
 
-    def testCreateOrUpdateApiKey(self):
-        """Test CreateOrUpdateApiKey"""
+    def testCreateApiKey(self):
+        """Test CreateApiKey"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

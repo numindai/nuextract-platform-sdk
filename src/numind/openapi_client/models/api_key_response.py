@@ -27,6 +27,7 @@ class ApiKeyResponse(BaseModel):
     """
 
     id: StrictStr
+    organization: Optional[StrictStr] = None
     name: StrictStr
     token: StrictStr
     user_id: StrictStr = Field(alias="userId")
@@ -34,6 +35,7 @@ class ApiKeyResponse(BaseModel):
     expires_at: StrictStr = Field(alias="expiresAt")
     __properties: ClassVar[List[str]] = [
         "id",
+        "organization",
         "name",
         "token",
         "userId",
@@ -93,6 +95,7 @@ class ApiKeyResponse(BaseModel):
         _obj = cls.model_validate(
             {
                 "id": obj.get("id"),
+                "organization": obj.get("organization"),
                 "name": obj.get("name"),
                 "token": obj.get("token"),
                 "userId": obj.get("userId"),

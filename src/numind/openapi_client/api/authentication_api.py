@@ -17,9 +17,10 @@ from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.api_response import ApiResponse
 from numind.openapi_client.models.api_key_response import ApiKeyResponse
-from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
+from numind.openapi_client.models.create_api_key import CreateApiKey
 from numind.openapi_client.models.token_request import TokenRequest
 from numind.openapi_client.models.token_response import TokenResponse
+from numind.openapi_client.models.update_api_key import UpdateApiKey
 from numind.openapi_client.models.user import User
 from numind.openapi_client.rest import RESTResponseType
 
@@ -960,7 +961,7 @@ class AuthenticationApi:
     @validate_call
     def post_api_auth_api_keys(
         self,
-        create_or_update_api_key: CreateOrUpdateApiKey,
+        create_api_key: CreateApiKey,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -976,8 +977,8 @@ class AuthenticationApi:
         """
         post_api_auth_api_keys
 
-        :param create_or_update_api_key: (required)
-        :type create_or_update_api_key: CreateOrUpdateApiKey
+        :param create_api_key: (required)
+        :type create_api_key: CreateApiKey
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1000,7 +1001,7 @@ class AuthenticationApi:
         :return: Returns the result object.
         """
         _param = self._post_api_auth_api_keys_serialize(
-            create_or_update_api_key=create_or_update_api_key,
+            create_api_key=create_api_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1023,7 +1024,7 @@ class AuthenticationApi:
     @validate_call
     def post_api_auth_api_keys_with_http_info(
         self,
-        create_or_update_api_key: CreateOrUpdateApiKey,
+        create_api_key: CreateApiKey,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1039,8 +1040,8 @@ class AuthenticationApi:
         """
         post_api_auth_api_keys
 
-        :param create_or_update_api_key: (required)
-        :type create_or_update_api_key: CreateOrUpdateApiKey
+        :param create_api_key: (required)
+        :type create_api_key: CreateApiKey
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1063,7 +1064,7 @@ class AuthenticationApi:
         :return: Returns the result object.
         """
         _param = self._post_api_auth_api_keys_serialize(
-            create_or_update_api_key=create_or_update_api_key,
+            create_api_key=create_api_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1086,7 +1087,7 @@ class AuthenticationApi:
     @validate_call
     def post_api_auth_api_keys_without_preload_content(
         self,
-        create_or_update_api_key: CreateOrUpdateApiKey,
+        create_api_key: CreateApiKey,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1102,8 +1103,8 @@ class AuthenticationApi:
         """
         post_api_auth_api_keys
 
-        :param create_or_update_api_key: (required)
-        :type create_or_update_api_key: CreateOrUpdateApiKey
+        :param create_api_key: (required)
+        :type create_api_key: CreateApiKey
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1126,7 +1127,7 @@ class AuthenticationApi:
         :return: Returns the result object.
         """
         _param = self._post_api_auth_api_keys_serialize(
-            create_or_update_api_key=create_or_update_api_key,
+            create_api_key=create_api_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1144,7 +1145,7 @@ class AuthenticationApi:
 
     def _post_api_auth_api_keys_serialize(
         self,
-        create_or_update_api_key,
+        create_api_key,
         _request_auth,
         _content_type,
         _headers,
@@ -1168,8 +1169,8 @@ class AuthenticationApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_or_update_api_key is not None:
-            _body_params = create_or_update_api_key
+        if create_api_key is not None:
+            _body_params = create_api_key
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -1707,7 +1708,7 @@ class AuthenticationApi:
         api_key_id: Annotated[
             StrictStr, Field(description="Unique api key identifier.")
         ],
-        create_or_update_api_key: CreateOrUpdateApiKey,
+        update_api_key: UpdateApiKey,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1725,8 +1726,8 @@ class AuthenticationApi:
 
         :param api_key_id: Unique api key identifier. (required)
         :type api_key_id: str
-        :param create_or_update_api_key: (required)
-        :type create_or_update_api_key: CreateOrUpdateApiKey
+        :param update_api_key: (required)
+        :type update_api_key: UpdateApiKey
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1750,7 +1751,7 @@ class AuthenticationApi:
         """
         _param = self._put_api_auth_api_keys_apikeyid_serialize(
             api_key_id=api_key_id,
-            create_or_update_api_key=create_or_update_api_key,
+            update_api_key=update_api_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1776,7 +1777,7 @@ class AuthenticationApi:
         api_key_id: Annotated[
             StrictStr, Field(description="Unique api key identifier.")
         ],
-        create_or_update_api_key: CreateOrUpdateApiKey,
+        update_api_key: UpdateApiKey,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1794,8 +1795,8 @@ class AuthenticationApi:
 
         :param api_key_id: Unique api key identifier. (required)
         :type api_key_id: str
-        :param create_or_update_api_key: (required)
-        :type create_or_update_api_key: CreateOrUpdateApiKey
+        :param update_api_key: (required)
+        :type update_api_key: UpdateApiKey
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1819,7 +1820,7 @@ class AuthenticationApi:
         """
         _param = self._put_api_auth_api_keys_apikeyid_serialize(
             api_key_id=api_key_id,
-            create_or_update_api_key=create_or_update_api_key,
+            update_api_key=update_api_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1845,7 +1846,7 @@ class AuthenticationApi:
         api_key_id: Annotated[
             StrictStr, Field(description="Unique api key identifier.")
         ],
-        create_or_update_api_key: CreateOrUpdateApiKey,
+        update_api_key: UpdateApiKey,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1863,8 +1864,8 @@ class AuthenticationApi:
 
         :param api_key_id: Unique api key identifier. (required)
         :type api_key_id: str
-        :param create_or_update_api_key: (required)
-        :type create_or_update_api_key: CreateOrUpdateApiKey
+        :param update_api_key: (required)
+        :type update_api_key: UpdateApiKey
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1888,7 +1889,7 @@ class AuthenticationApi:
         """
         _param = self._put_api_auth_api_keys_apikeyid_serialize(
             api_key_id=api_key_id,
-            create_or_update_api_key=create_or_update_api_key,
+            update_api_key=update_api_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1907,7 +1908,7 @@ class AuthenticationApi:
     def _put_api_auth_api_keys_apikeyid_serialize(
         self,
         api_key_id,
-        create_or_update_api_key,
+        update_api_key,
         _request_auth,
         _content_type,
         _headers,
@@ -1933,8 +1934,8 @@ class AuthenticationApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_or_update_api_key is not None:
-            _body_params = create_or_update_api_key
+        if update_api_key is not None:
+            _body_params = update_api_key
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:

@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set
+from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing_extensions import Self
@@ -41,12 +41,17 @@ class ImageInfo(BaseModel):
         description="Possible transformations that can be done with this document.",
         alias="possibleTransformations",
     )
+    dpi: Optional[Annotated[int, Field(le=300, strict=True)]] = Field(
+        default=None,
+        description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.",
+    )
     type: StrictStr
     __properties: ClassVar[List[str]] = [
         "documentId",
         "fileId",
         "fileName",
         "possibleTransformations",
+        "dpi",
         "type",
     ]
 
@@ -112,6 +117,7 @@ class ImageInfo(BaseModel):
                 "fileId": obj.get("fileId"),
                 "fileName": obj.get("fileName"),
                 "possibleTransformations": obj.get("possibleTransformations"),
+                "dpi": obj.get("dpi"),
                 "type": obj.get("type"),
             }
         )

@@ -5,6 +5,8 @@ All URIs are relative to *https://nuextract.ai*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**post_api_infer_template**](InferenceApi.md#post_api_infer_template) | **POST** /api/infer-template | 
+[**post_api_infer_template_document_documentid**](InferenceApi.md#post_api_infer_template_document_documentid) | **POST** /api/infer-template/document/{documentId} | 
+[**post_api_infer_template_file**](InferenceApi.md#post_api_infer_template_file) | **POST** /api/infer-template/file | 
 [**post_api_projects_projectid_infer_document_documentid**](InferenceApi.md#post_api_projects_projectid_infer_document_documentid) | **POST** /api/projects/{projectId}/infer-document/{documentId} | 
 [**post_api_projects_projectid_infer_text**](InferenceApi.md#post_api_projects_projectid_infer_text) | **POST** /api/projects/{projectId}/infer-text | 
 
@@ -89,6 +91,171 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** |  |  -  |
 **400** | Invalid value for: body |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_api_infer_template_document_documentid**
+> object post_api_infer_template_document_documentid(document_id)
+
+
+ Derive a template from the provided **Document**.
+
+
+#### Response:
+ Returns a JSON representing the derived template.
+ The response is an empty template if the derivation fails.
+
+   
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.InferenceApi(api_client)
+    document_id = 'document_id_example' # str | Unique document identifier.
+
+    try:
+        api_response = api_instance.post_api_infer_template_document_documentid(document_id)
+        print("The response of InferenceApi->post_api_infer_template_document_documentid:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling InferenceApi->post_api_infer_template_document_documentid: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **document_id** | **str**| Unique document identifier. | 
+
+### Return type
+
+**object**
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_api_infer_template_file**
+> object post_api_infer_template_file(body, rasterization_dpi=rasterization_dpi)
+
+
+ Derive a template from the provided **File**.
+ The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).
+ The resulting template is a JSON object that can be used as a project template.
+
+
+#### Response:
+ Returns a JSON representing the derived template.
+ The response is an empty template if the derivation fails.
+
+   
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.InferenceApi(api_client)
+    body = None # bytearray | 
+    rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 DPI is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+
+    try:
+        api_response = api_instance.post_api_infer_template_file(body, rasterization_dpi=rasterization_dpi)
+        print("The response of InferenceApi->post_api_infer_template_file:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling InferenceApi->post_api_infer_template_file: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **bytearray**|  | 
+ **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 DPI is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
+
+### Return type
+
+**object**
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/octet-stream
+ - **Accept**: application/json, text/plain
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**400** | Invalid value for: query parameter rasterizationDPI, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

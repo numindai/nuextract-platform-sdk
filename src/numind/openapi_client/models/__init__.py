@@ -15,7 +15,7 @@ Do not edit the class manually.
 # import models into model package
 from numind.openapi_client.models.api_key_response import ApiKeyResponse
 from numind.openapi_client.models.convert_request import ConvertRequest
-from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
+from numind.openapi_client.models.create_api_key import CreateApiKey
 from numind.openapi_client.models.create_or_update_example_request import (
     CreateOrUpdateExampleRequest,
 )
@@ -55,6 +55,7 @@ from numind.openapi_client.models.token_code_request import TokenCodeRequest
 from numind.openapi_client.models.token_refresh_request import TokenRefreshRequest
 from numind.openapi_client.models.token_request import TokenRequest
 from numind.openapi_client.models.token_response import TokenResponse
+from numind.openapi_client.models.update_api_key import UpdateApiKey
 from numind.openapi_client.models.update_organization_request import (
     UpdateOrganizationRequest,
 )

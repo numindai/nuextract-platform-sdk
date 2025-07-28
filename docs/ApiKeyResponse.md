@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
+**organization** | **str** |  | [optional] 
 **name** | **str** |  | 
 **token** | **str** |  | 
 **user_id** | **str** |  | 

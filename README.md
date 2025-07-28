@@ -268,6 +268,8 @@ Class | Method | HTTP request | Description
 *FilesApi* | [**post_api_files**](docs/FilesApi.md#post_api_files) | **POST** /api/files | 
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
 *InferenceApi* | [**post_api_infer_template**](docs/InferenceApi.md#post_api_infer_template) | **POST** /api/infer-template | 
+*InferenceApi* | [**post_api_infer_template_document_documentid**](docs/InferenceApi.md#post_api_infer_template_document_documentid) | **POST** /api/infer-template/document/{documentId} | 
+*InferenceApi* | [**post_api_infer_template_file**](docs/InferenceApi.md#post_api_infer_template_file) | **POST** /api/infer-template/file | 
 *InferenceApi* | [**post_api_projects_projectid_infer_document_documentid**](docs/InferenceApi.md#post_api_projects_projectid_infer_document_documentid) | **POST** /api/projects/{projectId}/infer-document/{documentId} | 
 *InferenceApi* | [**post_api_projects_projectid_infer_text**](docs/InferenceApi.md#post_api_projects_projectid_infer_text) | **POST** /api/projects/{projectId}/infer-text | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid) | **DELETE** /api/organizations/{organizationId} | 
@@ -307,7 +309,7 @@ Class | Method | HTTP request | Description
 
  - [ApiKeyResponse](docs/ApiKeyResponse.md)
  - [ConvertRequest](docs/ConvertRequest.md)
- - [CreateOrUpdateApiKey](docs/CreateOrUpdateApiKey.md)
+ - [CreateApiKey](docs/CreateApiKey.md)
  - [CreateOrUpdateExampleRequest](docs/CreateOrUpdateExampleRequest.md)
  - [CreateOrUpdatePlaygroundItemRequest](docs/CreateOrUpdatePlaygroundItemRequest.md)
  - [CreateOrganizationRequest](docs/CreateOrganizationRequest.md)
@@ -339,6 +341,7 @@ Class | Method | HTTP request | Description
  - [TokenRefreshRequest](docs/TokenRefreshRequest.md)
  - [TokenRequest](docs/TokenRequest.md)
  - [TokenResponse](docs/TokenResponse.md)
+ - [UpdateApiKey](docs/UpdateApiKey.md)
  - [UpdateOrganizationRequest](docs/UpdateOrganizationRequest.md)
  - [UpdateProjectRequest](docs/UpdateProjectRequest.md)
  - [UpdateProjectSettingsRequest](docs/UpdateProjectSettingsRequest.md)

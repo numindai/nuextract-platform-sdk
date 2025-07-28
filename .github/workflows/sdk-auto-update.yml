@@ -74,7 +74,7 @@ jobs:
       - name: Install dependencies
         if: steps.fetch_version.outputs.version != steps.current_version.outputs.version
         run: |
-          pip install uv yaml toml openapi-generator-cli
+          pip install -e .[build]
 
       # Step 7: Generate SDK if version changed and no PR exists
       # This step only runs if the version is new AND a PR for it doesn't already exist.

@@ -27,7 +27,7 @@ mv src/numind/__init__.py src/numind/__init__save.py
 # Support files (gitlab, travis, git_push.sh, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
-openapi-generator generate \
+openapi-generator-cli generate \
   -i $openapi_specs_file_path \
   -g python \
   --config config.json \

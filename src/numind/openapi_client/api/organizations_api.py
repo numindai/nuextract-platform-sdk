@@ -63,7 +63,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid
 
-         Delete a specific organization, and all its associated objects.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
+         Delete a specific organization, and all its associated objects. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -129,7 +129,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid
 
-         Delete a specific organization, and all its associated objects.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
+         Delete a specific organization, and all its associated objects. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -195,7 +195,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid
 
-         Delete a specific organization, and all its associated objects.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
+         Delete a specific organization, and all its associated objects. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to delete this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -311,7 +311,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_invitations_invitationid
 
-         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
+         Delete an invitation. Can be used to then create a new one for the user. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -381,7 +381,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_invitations_invitationid
 
-         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
+         Delete an invitation. Can be used to then create a new one for the user. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -451,7 +451,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_invitations_invitationid
 
-         Delete an invitation. Can be used to then create a new one for the user.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
+         Delete an invitation. Can be used to then create a new one for the user. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the invitationId is not valid
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -575,7 +575,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_userid
 
-         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
+         Remove a member from an organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -647,7 +647,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_userid
 
-         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
+         Remove a member from an organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -719,7 +719,7 @@ class OrganizationsApi:
         """
         delete_api_organizations_organizationid_members_userid
 
-         Remove a member from an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
+         Remove a member from an organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist, or if the member with the given memberId does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -837,7 +837,7 @@ class OrganizationsApi:
         """
         get_api_organizations
 
-         Returns the organizations for the current user.
+         Returns the organizations for the current user. Calling this method with an api key will result in a 403 (forbidden) error.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -859,7 +859,7 @@ class OrganizationsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_organizations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -897,7 +897,7 @@ class OrganizationsApi:
         """
         get_api_organizations
 
-         Returns the organizations for the current user.
+         Returns the organizations for the current user. Calling this method with an api key will result in a 403 (forbidden) error.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -919,7 +919,7 @@ class OrganizationsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_organizations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -957,7 +957,7 @@ class OrganizationsApi:
         """
         get_api_organizations
 
-         Returns the organizations for the current user.
+         Returns the organizations for the current user. Calling this method with an api key will result in a 403 (forbidden) error.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -979,7 +979,7 @@ class OrganizationsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_organizations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1066,7 +1066,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members
 
-         List the members of an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
+         List the members of an organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1132,7 +1132,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members
 
-         List the members of an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
+         List the members of an organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1198,7 +1198,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members
 
-         List the members of an organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
+         List the members of an organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1313,7 +1313,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members_invitations
 
-         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
+         List all the pending invitations for a given organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1381,7 +1381,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members_invitations
 
-         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
+         List all the pending invitations for a given organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1449,7 +1449,7 @@ class OrganizationsApi:
         """
         get_api_organizations_organizationid_members_invitations
 
-         List all the pending invitations for a given organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
+         List all the pending invitations for a given organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1564,7 +1564,7 @@ class OrganizationsApi:
         """
         post_api_organizations
 
-         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a JSON representing the created organization.
+         Creates an organization with the current user as member. The name does not need to be unique. Calling this method with an api key will result in a 403 (forbidden) error.  #### Response:  Returns a JSON representing the created organization.
 
         :param create_organization_request: (required)
         :type create_organization_request: CreateOrganizationRequest
@@ -1629,7 +1629,7 @@ class OrganizationsApi:
         """
         post_api_organizations
 
-         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a JSON representing the created organization.
+         Creates an organization with the current user as member. The name does not need to be unique. Calling this method with an api key will result in a 403 (forbidden) error.  #### Response:  Returns a JSON representing the created organization.
 
         :param create_organization_request: (required)
         :type create_organization_request: CreateOrganizationRequest
@@ -1694,7 +1694,7 @@ class OrganizationsApi:
         """
         post_api_organizations
 
-         Creates an organization with the current user as member. The name does not need to be unique.  #### Response:  Returns a JSON representing the created organization.
+         Creates an organization with the current user as member. The name does not need to be unique. Calling this method with an api key will result in a 403 (forbidden) error.  #### Response:  Returns a JSON representing the created organization.
 
         :param create_organization_request: (required)
         :type create_organization_request: CreateOrganizationRequest
@@ -1821,7 +1821,7 @@ class OrganizationsApi:
         """
         post_api_organizations_organizationid_members
 
-         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
+         Invite someone to an organization. Calling this method with an api key will result in a 403 (forbidden) error. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1892,7 +1892,7 @@ class OrganizationsApi:
         """
         post_api_organizations_organizationid_members
 
-         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
+         Invite someone to an organization. Calling this method with an api key will result in a 403 (forbidden) error. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -1963,7 +1963,7 @@ class OrganizationsApi:
         """
         post_api_organizations_organizationid_members
 
-         Invite someone to an organization. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
+         Invite someone to an organization. Calling this method with an api key will result in a 403 (forbidden) error. The person to invite does not need to have an account when invited, she will be added once the account is activated.   #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2092,11 +2092,11 @@ class OrganizationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OrganizationResponse:
         """
         put_api_organizations_organizationid
 
-         Update a specific organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
+         Update a specific organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2133,7 +2133,7 @@ class OrganizationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": None,
+            "200": "OrganizationResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -2163,11 +2163,11 @@ class OrganizationsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OrganizationResponse]:
         """
         put_api_organizations_organizationid
 
-         Update a specific organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
+         Update a specific organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2204,7 +2204,7 @@ class OrganizationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": None,
+            "200": "OrganizationResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -2238,7 +2238,7 @@ class OrganizationsApi:
         """
         put_api_organizations_organizationid
 
-         Update a specific organization.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
+         Update a specific organization. Calling this method with an api key will result in a 403 (forbidden) error.  #### Error Responses: `404 Not Found` - If an organization with the specified id does not exist.  `403 Forbidden` - If the user does not have permission to change this organization
 
         :param organization_id: identifier for the organization (required)
         :type organization_id: str
@@ -2275,7 +2275,7 @@ class OrganizationsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": None,
+            "200": "OrganizationResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -2318,7 +2318,7 @@ class OrganizationsApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["text/plain", "application/json"]
+                ["application/json", "text/plain"]
             )
 
         # set the HTTP header `Content-Type`

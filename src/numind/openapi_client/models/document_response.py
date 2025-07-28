@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
@@ -43,17 +43,12 @@ class DocumentResponse(BaseModel):
     created_at: StrictStr = Field(
         description="Document creation date.", alias="createdAt"
     )
-    dpi: Optional[Annotated[int, Field(le=300, strict=True)]] = Field(
-        default=None,
-        description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.",
-    )
     __properties: ClassVar[List[str]] = [
         "docInfo",
         "ownerUser",
         "ownerOrganization",
         "contentType",
         "createdAt",
-        "dpi",
     ]
 
     model_config = ConfigDict(
@@ -117,7 +112,6 @@ class DocumentResponse(BaseModel):
                 "ownerOrganization": obj.get("ownerOrganization"),
                 "contentType": obj.get("contentType"),
                 "createdAt": obj.get("createdAt"),
-                "dpi": obj.get("dpi"),
             }
         )
         return _obj

@@ -37,6 +37,7 @@ class TestApiKeyResponse(unittest.TestCase):
         if include_optional:
             return ApiKeyResponse(
                 id = '',
+                organization = '',
                 name = '',
                 token = '',
                 user_id = '',

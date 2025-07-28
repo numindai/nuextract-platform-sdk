@@ -281,7 +281,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_auth_api_keys**
-> ApiKeyResponse post_api_auth_api_keys(create_or_update_api_key)
+> ApiKeyResponse post_api_auth_api_keys(create_api_key)
 
 ### Example
 
@@ -290,7 +290,7 @@ This endpoint does not need any parameter.
 ```python
 import numind.openapi_client
 from numind.openapi_client.models.api_key_response import ApiKeyResponse
-from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
+from numind.openapi_client.models.create_api_key import CreateApiKey
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -311,10 +311,10 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.AuthenticationApi(api_client)
-    create_or_update_api_key = numind.openapi_client.CreateOrUpdateApiKey() # CreateOrUpdateApiKey | 
+    create_api_key = numind.openapi_client.CreateApiKey() # CreateApiKey | 
 
     try:
-        api_response = api_instance.post_api_auth_api_keys(create_or_update_api_key)
+        api_response = api_instance.post_api_auth_api_keys(create_api_key)
         print("The response of AuthenticationApi->post_api_auth_api_keys:\n")
         pprint(api_response)
     except Exception as e:
@@ -328,7 +328,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_or_update_api_key** | [**CreateOrUpdateApiKey**](CreateOrUpdateApiKey.md)|  | 
+ **create_api_key** | [**CreateApiKey**](CreateApiKey.md)|  | 
 
 ### Return type
 
@@ -491,7 +491,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **put_api_auth_api_keys_apikeyid**
-> ApiKeyResponse put_api_auth_api_keys_apikeyid(api_key_id, create_or_update_api_key)
+> ApiKeyResponse put_api_auth_api_keys_apikeyid(api_key_id, update_api_key)
 
 ### Example
 
@@ -500,7 +500,7 @@ No authorization required
 ```python
 import numind.openapi_client
 from numind.openapi_client.models.api_key_response import ApiKeyResponse
-from numind.openapi_client.models.create_or_update_api_key import CreateOrUpdateApiKey
+from numind.openapi_client.models.update_api_key import UpdateApiKey
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -522,10 +522,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.AuthenticationApi(api_client)
     api_key_id = 'api_key_id_example' # str | Unique api key identifier.
-    create_or_update_api_key = numind.openapi_client.CreateOrUpdateApiKey() # CreateOrUpdateApiKey | 
+    update_api_key = numind.openapi_client.UpdateApiKey() # UpdateApiKey | 
 
     try:
-        api_response = api_instance.put_api_auth_api_keys_apikeyid(api_key_id, create_or_update_api_key)
+        api_response = api_instance.put_api_auth_api_keys_apikeyid(api_key_id, update_api_key)
         print("The response of AuthenticationApi->put_api_auth_api_keys_apikeyid:\n")
         pprint(api_response)
     except Exception as e:
@@ -540,7 +540,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **api_key_id** | **str**| Unique api key identifier. | 
- **create_or_update_api_key** | [**CreateOrUpdateApiKey**](CreateOrUpdateApiKey.md)|  | 
+ **update_api_key** | [**UpdateApiKey**](UpdateApiKey.md)|  | 
 
 ### Return type
 

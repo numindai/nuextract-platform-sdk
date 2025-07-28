@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **file_id** | **str** | Unique file identifier of the file used to generate this document. | 
 **file_name** | **str** | Filename of the initial file if any.     **None** for text input. | 
 **possible_transformations** | **List[str]** | Possible transformations that can be done with this document. | [optional] 
+**dpi** | **int** | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch. | [optional] 
 **type** | **str** |  | 
 **text** | **str** | The text content of the document. | 
 

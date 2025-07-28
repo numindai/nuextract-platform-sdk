@@ -19,7 +19,7 @@ Method | HTTP request | Description
 > delete_api_organizations_organizationid(organization_id)
 
 
-Delete a specific organization, and all its associated objects.
+Delete a specific organization, and all its associated objects. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Error Responses:
 `404 Not Found` - If an organization with the specified id does not exist.
@@ -96,7 +96,7 @@ void (empty response body)
 > delete_api_organizations_organizationid_members_invitations_invitationid(organization_id, invitation_id)
 
 
-Delete an invitation. Can be used to then create a new one for the user.
+Delete an invitation. Can be used to then create a new one for the user. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Error Responses:
 `404 Not Found` - If an organization with the specified id does not exist,
@@ -174,7 +174,7 @@ void (empty response body)
 > delete_api_organizations_organizationid_members_userid(organization_id, user_id)
 
 
-Remove a member from an organization.
+Remove a member from an organization. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Error Responses:
 `404 Not Found` - If an organization with the specified id does not exist,
@@ -252,7 +252,7 @@ void (empty response body)
 > List[OrganizationResponse] get_api_organizations()
 
 
-Returns the organizations for the current user.
+Returns the organizations for the current user. Calling this method with an api key will result in a 403 (forbidden) error.
 
 
 ### Example
@@ -323,7 +323,7 @@ This endpoint does not need any parameter.
 > List[MemberResponse] get_api_organizations_organizationid_members(organization_id)
 
 
-List the members of an organization.
+List the members of an organization. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Error Responses:
 `404 Not Found` - If an organization with the specified id does not exist.
@@ -401,7 +401,7 @@ Name | Type | Description  | Notes
 > List[InvitationResponse] get_api_organizations_organizationid_members_invitations(organization_id)
 
 
-List all the pending invitations for a given organization.
+List all the pending invitations for a given organization. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Error Responses:
 `404 Not Found` - If an organization with the specified id does not exist
@@ -480,7 +480,7 @@ Name | Type | Description  | Notes
 
 
 Creates an organization with the current user as member.
-The name does not need to be unique.
+The name does not need to be unique. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Response:
  Returns a JSON representing the created organization.
@@ -560,7 +560,7 @@ Name | Type | Description  | Notes
 > post_api_organizations_organizationid_members(organization_id, invite_member_request)
 
 
-Invite someone to an organization.
+Invite someone to an organization. Calling this method with an api key will result in a 403 (forbidden) error.
 The person to invite does not need to have an account when invited,
 she will be added once the account is activated.
 
@@ -639,10 +639,10 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **put_api_organizations_organizationid**
-> put_api_organizations_organizationid(organization_id, update_organization_request)
+> OrganizationResponse put_api_organizations_organizationid(organization_id, update_organization_request)
 
 
-Update a specific organization.
+Update a specific organization. Calling this method with an api key will result in a 403 (forbidden) error.
 
 #### Error Responses:
 `404 Not Found` - If an organization with the specified id does not exist.
@@ -656,6 +656,7 @@ Update a specific organization.
 
 ```python
 import numind.openapi_client
+from numind.openapi_client.models.organization_response import OrganizationResponse
 from numind.openapi_client.models.update_organization_request import UpdateOrganizationRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
@@ -681,7 +682,9 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     update_organization_request = {"name":"new name"} # UpdateOrganizationRequest | 
 
     try:
-        api_instance.put_api_organizations_organizationid(organization_id, update_organization_request)
+        api_response = api_instance.put_api_organizations_organizationid(organization_id, update_organization_request)
+        print("The response of OrganizationsApi->put_api_organizations_organizationid:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling OrganizationsApi->put_api_organizations_organizationid: %s\n" % e)
 ```
@@ -698,7 +701,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**OrganizationResponse**](OrganizationResponse.md)
 
 ### Authorization
 
@@ -707,7 +710,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: text/plain, application/json
+ - **Accept**: application/json, text/plain
 
 ### HTTP response details
 

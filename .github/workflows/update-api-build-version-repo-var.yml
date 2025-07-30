@@ -16,8 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      # Permission to write to repository variables
-      repository-projects: write
+      actions: write   # needed to write repository variables
 
     steps:
       - name: Get version from merged branch name
@@ -33,7 +32,8 @@ jobs:
       - name: Update Repository Variable
         env:
           GH_TOKEN: ${{ github.token }}
-          NEW_VERSION: ${{ steps.get_version.outputs.version }}
         run: |
-          echo "Updating repository variable API_BUILD_VERSION to $NEW_VERSION"
-          gh variable set API_BUILD_VERSION --body "$NEW_VERSION"
+          echo "Updating repository variable API_BUILD_VERSION to ${{ steps.get_version.outputs.version }}"
+          gh variable set API_BUILD_VERSION \
+            --body "${{ steps.get_version.outputs.version }}" \
+            -R "${{ github.repository }}"

@@ -1,0 +1,39 @@
+# This workflow updates the API_BUILD_VERSION repository variable when an SDK update PR is merged.
+
+name: Update API Build Version Variable on Merge
+
+on:
+  pull_request:
+    # We only care when a PR is closed
+    types: [closed]
+    branches:
+      - 'main'
+
+jobs:
+  update-variable:
+    # This job will only run if the PR was merged AND it has the 'sdk-update' label
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'sdk-update')
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Permission to write to repository variables
+      repository-projects: write
+
+    steps:
+      - name: Get version from merged branch name
+        id: get_version
+        run: |
+          # The branch name is like "bot/regenerate-sdk-1.2.3"
+          # This command extracts "1.2.3" from the branch name
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          VERSION=$(echo "$BRANCH_NAME" | sed 's#bot/regenerate-sdk-##')
+          echo "Extracted version from branch: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update Repository Variable
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEW_VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          echo "Updating repository variable API_BUILD_VERSION to $NEW_VERSION"
+          gh variable set API_BUILD_VERSION --body "$NEW_VERSION"

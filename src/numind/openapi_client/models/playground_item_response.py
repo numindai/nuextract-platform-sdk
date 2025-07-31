@@ -47,8 +47,20 @@ class PlaygroundItemResponse(BaseModel):
     updated_at: StrictStr = Field(
         description="Playground item last update date.", alias="updatedAt"
     )
-    tokens: StrictInt = Field(
-        description="Total number of tokens used for inference (input + output)."
+    total_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Total number of tokens used for inference (input + output).",
+        alias="totalTokens",
+    )
+    completion_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Completion tokens used for inference (output).",
+        alias="completionTokens",
+    )
+    prompt_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Prompt tokens used for inference (input).",
+        alias="promptTokens",
     )
     __properties: ClassVar[List[str]] = [
         "id",
@@ -58,7 +70,9 @@ class PlaygroundItemResponse(BaseModel):
         "result",
         "createdAt",
         "updatedAt",
-        "tokens",
+        "totalTokens",
+        "completionTokens",
+        "promptTokens",
     ]
 
     model_config = ConfigDict(
@@ -129,7 +143,9 @@ class PlaygroundItemResponse(BaseModel):
                 else None,
                 "createdAt": obj.get("createdAt"),
                 "updatedAt": obj.get("updatedAt"),
-                "tokens": obj.get("tokens"),
+                "totalTokens": obj.get("totalTokens"),
+                "completionTokens": obj.get("completionTokens"),
+                "promptTokens": obj.get("promptTokens"),
             }
         )
         return _obj

@@ -8,7 +8,9 @@ Name | Type | Description | Notes
 **owner_organization** | **str** | Project owning organization (optional). | [optional] 
 **document_id** | **str** | Unique document identifier. | 
 **result** | **object** | Inference result. | 
-**tokens** | **int** | Total number of tokens used for inference (input + output). | 
+**total_tokens** | **int** | Total number of tokens used for inference (input + output). | [optional] 
+**completion_tokens** | **int** | Completion tokens used for extraction (output). | [optional] 
+**prompt_tokens** | **int** | Prompt tokens used for extraction (input). | [optional] 
 
 ## Example
 

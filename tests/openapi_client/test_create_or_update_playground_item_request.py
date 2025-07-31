@@ -41,13 +41,14 @@ class TestCreateOrUpdatePlaygroundItemRequest(unittest.TestCase):
                 owner_organization = '',
                 document_id = '',
                 result = None,
-                tokens = 56
+                total_tokens = 56,
+                completion_tokens = 56,
+                prompt_tokens = 56
             )
         else:
             return CreateOrUpdatePlaygroundItemRequest(
                 document_id = '',
                 result = None,
-                tokens = 56,
         )
         """
 

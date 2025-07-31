@@ -12,7 +12,9 @@ Name | Type | Description | Notes
 **result** | [**InformationResponse**](InformationResponse.md) | Inference result. | 
 **created_at** | **str** | Playground item creation date. | 
 **updated_at** | **str** | Playground item last update date. | 
-**tokens** | **int** | Total number of tokens used for inference (input + output). | 
+**total_tokens** | **int** | Total number of tokens used for inference (input + output). | [optional] 
+**completion_tokens** | **int** | Completion tokens used for inference (output). | [optional] 
+**prompt_tokens** | **int** | Prompt tokens used for inference (input). | [optional] 
 
 ## Example
 

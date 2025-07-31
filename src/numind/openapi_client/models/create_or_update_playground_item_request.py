@@ -35,14 +35,28 @@ class CreateOrUpdatePlaygroundItemRequest(BaseModel):
         description="Unique document identifier.", alias="documentId"
     )
     result: Dict[str, Any] = Field(description="Inference result.")
-    tokens: StrictInt = Field(
-        description="Total number of tokens used for inference (input + output)."
+    total_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Total number of tokens used for inference (input + output).",
+        alias="totalTokens",
+    )
+    completion_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Completion tokens used for extraction (output).",
+        alias="completionTokens",
+    )
+    prompt_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Prompt tokens used for extraction (input).",
+        alias="promptTokens",
     )
     __properties: ClassVar[List[str]] = [
         "ownerOrganization",
         "documentId",
         "result",
-        "tokens",
+        "totalTokens",
+        "completionTokens",
+        "promptTokens",
     ]
 
     model_config = ConfigDict(
@@ -99,7 +113,9 @@ class CreateOrUpdatePlaygroundItemRequest(BaseModel):
                 "ownerOrganization": obj.get("ownerOrganization"),
                 "documentId": obj.get("documentId"),
                 "result": obj.get("result"),
-                "tokens": obj.get("tokens"),
+                "totalTokens": obj.get("totalTokens"),
+                "completionTokens": obj.get("completionTokens"),
+                "promptTokens": obj.get("promptTokens"),
             }
         )
         return _obj

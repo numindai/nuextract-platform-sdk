@@ -1,5 +1,9 @@
 # This workflow updates the API_BUILD_VERSION repository variable when an SDK update PR is merged.
 
+# NOTE:
+# This workflow may fail with HTTP 403 if triggered by a pull request from a fork.
+# GitHub limits GITHUB_TOKEN permissions for security. Consider switching to workflow_run if needed.
+
 name: Update API Build Version Variable on Merge
 
 on:
@@ -9,14 +13,14 @@ on:
     branches:
       - 'main'
 
+permissions:
+  actions: write   # needed to write repository variables
+
 jobs:
   update-variable:
     # This job will only run if the PR was merged AND it has the 'sdk-update' label
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'sdk-update')
     runs-on: ubuntu-latest
-
-    permissions:
-      actions: write   # needed to write repository variables
 
     steps:
       - name: Get version from merged branch name

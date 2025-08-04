@@ -43,7 +43,9 @@ class TestPlaygroundItemResponse(unittest.TestCase):
                 result = None,
                 created_at = '',
                 updated_at = '',
-                tokens = 56
+                total_tokens = 56,
+                completion_tokens = 56,
+                prompt_tokens = 56
             )
         else:
             return PlaygroundItemResponse(
@@ -54,7 +56,6 @@ class TestPlaygroundItemResponse(unittest.TestCase):
                 result = None,
                 created_at = '',
                 updated_at = '',
-                tokens = 56,
         )
         """
 

@@ -5,6 +5,7 @@ All URIs are relative to *https://nuextract.ai*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**post_api_projects_projectid_extract**](ExtractionApi.md#post_api_projects_projectid_extract) | **POST** /api/projects/{projectId}/extract | 
+[**post_api_projects_projectid_extract_async**](ExtractionApi.md#post_api_projects_projectid_extract_async) | **POST** /api/projects/{projectId}/extract-async | 
 
 
 # **post_api_projects_projectid_extract**
@@ -101,6 +102,88 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** |  |  -  |
 **400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: body |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_api_projects_projectid_extract_async**
+> JobIdResponse post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens)
+
+Start file extraction as async job
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.models.job_id_response import JobIdResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.ExtractionApi(api_client)
+    project_id = 'project_id_example' # str | Unique project identifier.
+    body = None # bytearray | 
+    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
+    dpi = 56 # int | DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+    max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
+
+    try:
+        api_response = api_instance.post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens)
+        print("The response of ExtractionApi->post_api_projects_projectid_extract_async:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ExtractionApi->post_api_projects_projectid_extract_async: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **project_id** | **str**| Unique project identifier. | 
+ **body** | **bytearray**|  | 
+ **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
+ **dpi** | **int**| DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
+ **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
+
+### Return type
+
+[**JobIdResponse**](JobIdResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/octet-stream
+ - **Accept**: application/json, text/plain
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter dpi, Invalid value for: query parameter maxOutputTokens, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

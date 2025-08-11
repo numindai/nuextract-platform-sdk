@@ -12,38 +12,60 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.api.inference_api import InferenceApi
+from numind.openapi_client.models.job_response import JobResponse
 
 
-class TestInferenceApi(unittest.TestCase):
-    """InferenceApi unit test stubs"""
+class TestJobResponse(unittest.TestCase):
+    """JobResponse unit test stubs"""
 
-    def setUp(self) -> None:
-        self.api = InferenceApi()
-
-    def tearDown(self) -> None:
+    def setUp(self):
         pass
 
-    def test_post_api_infer_template(self) -> None:
-        """Test case for post_api_infer_template"""
+    def tearDown(self):
+        pass
 
-    def test_post_api_infer_template_document_documentid(self) -> None:
-        """Test case for post_api_infer_template_document_documentid"""
+    def make_instance(self, include_optional) -> JobResponse:
+        """
+        Test JobResponse
+        include_optional is a boolean, when False only required
+        params are included, when True both required and
+        optional params are included
+        """
+        # uncomment below to create an instance of `JobResponse`
+        """
+        model = JobResponse()
+        if include_optional:
+            return JobResponse(
+                id = '',
+                job_type = '',
+                status = '',
+                owner_user = '',
+                owner_organization = '',
+                input_data = '',
+                output_data = '',
+                error_message = '',
+                started_at = '',
+                completed_at = '',
+                created_at = '',
+                updated_at = ''
+            )
+        else:
+            return JobResponse(
+                id = '',
+                job_type = '',
+                status = '',
+                owner_user = '',
+                input_data = '',
+                started_at = '',
+                created_at = '',
+                updated_at = '',
+        )
+        """
 
-    def test_post_api_infer_template_file(self) -> None:
-        """Test case for post_api_infer_template_file"""
-
-    def test_post_api_projects_projectid_infer_document_async_documentid(self) -> None:
-        """Test case for post_api_projects_projectid_infer_document_async_documentid"""
-
-    def test_post_api_projects_projectid_infer_document_documentid(self) -> None:
-        """Test case for post_api_projects_projectid_infer_document_documentid"""
-
-    def test_post_api_projects_projectid_infer_text(self) -> None:
-        """Test case for post_api_projects_projectid_infer_text"""
-
-    def test_post_api_projects_projectid_infer_text_async(self) -> None:
-        """Test case for post_api_projects_projectid_infer_text_async"""
+    def testJobResponse(self):
+        """Test JobResponse"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 
 if __name__ == "__main__":

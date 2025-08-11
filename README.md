@@ -263,6 +263,7 @@ Class | Method | HTTP request | Description
 *ExamplesApi* | [**post_api_projects_projectid_examples**](docs/ExamplesApi.md#post_api_projects_projectid_examples) | **POST** /api/projects/{projectId}/examples | 
 *ExamplesApi* | [**put_api_projects_projectid_examples_exampleid**](docs/ExamplesApi.md#put_api_projects_projectid_examples_exampleid) | **PUT** /api/projects/{projectId}/examples/{exampleId} | 
 *ExtractionApi* | [**post_api_projects_projectid_extract**](docs/ExtractionApi.md#post_api_projects_projectid_extract) | **POST** /api/projects/{projectId}/extract | 
+*ExtractionApi* | [**post_api_projects_projectid_extract_async**](docs/ExtractionApi.md#post_api_projects_projectid_extract_async) | **POST** /api/projects/{projectId}/extract-async | 
 *FilesApi* | [**get_api_files_fileid**](docs/FilesApi.md#get_api_files_fileid) | **GET** /api/files/{fileId} | 
 *FilesApi* | [**get_api_files_fileid_content**](docs/FilesApi.md#get_api_files_fileid_content) | **GET** /api/files/{fileId}/content | 
 *FilesApi* | [**post_api_files**](docs/FilesApi.md#post_api_files) | **POST** /api/files | 
@@ -270,8 +271,13 @@ Class | Method | HTTP request | Description
 *InferenceApi* | [**post_api_infer_template**](docs/InferenceApi.md#post_api_infer_template) | **POST** /api/infer-template | 
 *InferenceApi* | [**post_api_infer_template_document_documentid**](docs/InferenceApi.md#post_api_infer_template_document_documentid) | **POST** /api/infer-template/document/{documentId} | 
 *InferenceApi* | [**post_api_infer_template_file**](docs/InferenceApi.md#post_api_infer_template_file) | **POST** /api/infer-template/file | 
+*InferenceApi* | [**post_api_projects_projectid_infer_document_async_documentid**](docs/InferenceApi.md#post_api_projects_projectid_infer_document_async_documentid) | **POST** /api/projects/{projectId}/infer-document-async/{documentId} | 
 *InferenceApi* | [**post_api_projects_projectid_infer_document_documentid**](docs/InferenceApi.md#post_api_projects_projectid_infer_document_documentid) | **POST** /api/projects/{projectId}/infer-document/{documentId} | 
 *InferenceApi* | [**post_api_projects_projectid_infer_text**](docs/InferenceApi.md#post_api_projects_projectid_infer_text) | **POST** /api/projects/{projectId}/infer-text | 
+*InferenceApi* | [**post_api_projects_projectid_infer_text_async**](docs/InferenceApi.md#post_api_projects_projectid_infer_text_async) | **POST** /api/projects/{projectId}/infer-text-async | 
+*JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
+*JobsApi* | [**get_api_jobs_jobid**](docs/JobsApi.md#get_api_jobs_jobid) | **GET** /api/jobs/{jobId} | 
+*JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid) | **DELETE** /api/organizations/{organizationId} | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid_members_invitations_invitationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid_members_invitations_invitationid) | **DELETE** /api/organizations/{organizationId}/members/invitations/{invitationId} | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid_members_userid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid_members_userid) | **DELETE** /api/organizations/{organizationId}/members/{userId} | 
@@ -327,6 +333,8 @@ Class | Method | HTTP request | Description
  - [InvalidInformation](docs/InvalidInformation.md)
  - [InvitationResponse](docs/InvitationResponse.md)
  - [InviteMemberRequest](docs/InviteMemberRequest.md)
+ - [JobIdResponse](docs/JobIdResponse.md)
+ - [JobResponse](docs/JobResponse.md)
  - [MemberResponse](docs/MemberResponse.md)
  - [OrganizationResponse](docs/OrganizationResponse.md)
  - [PlaygroundItemResponse](docs/PlaygroundItemResponse.md)

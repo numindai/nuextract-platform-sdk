@@ -27,6 +27,9 @@ class TestExtractionApi(unittest.TestCase):
     def test_post_api_projects_projectid_extract(self) -> None:
         """Test case for post_api_projects_projectid_extract"""
 
+    def test_post_api_projects_projectid_extract_async(self) -> None:
+        """Test case for post_api_projects_projectid_extract_async"""
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -12,38 +12,26 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.api.inference_api import InferenceApi
+from numind.openapi_client.api.jobs_api import JobsApi
 
 
-class TestInferenceApi(unittest.TestCase):
-    """InferenceApi unit test stubs"""
+class TestJobsApi(unittest.TestCase):
+    """JobsApi unit test stubs"""
 
     def setUp(self) -> None:
-        self.api = InferenceApi()
+        self.api = JobsApi()
 
     def tearDown(self) -> None:
         pass
 
-    def test_post_api_infer_template(self) -> None:
-        """Test case for post_api_infer_template"""
+    def test_get_api_jobs(self) -> None:
+        """Test case for get_api_jobs"""
 
-    def test_post_api_infer_template_document_documentid(self) -> None:
-        """Test case for post_api_infer_template_document_documentid"""
+    def test_get_api_jobs_jobid(self) -> None:
+        """Test case for get_api_jobs_jobid"""
 
-    def test_post_api_infer_template_file(self) -> None:
-        """Test case for post_api_infer_template_file"""
-
-    def test_post_api_projects_projectid_infer_document_async_documentid(self) -> None:
-        """Test case for post_api_projects_projectid_infer_document_async_documentid"""
-
-    def test_post_api_projects_projectid_infer_document_documentid(self) -> None:
-        """Test case for post_api_projects_projectid_infer_document_documentid"""
-
-    def test_post_api_projects_projectid_infer_text(self) -> None:
-        """Test case for post_api_projects_projectid_infer_text"""
-
-    def test_post_api_projects_projectid_infer_text_async(self) -> None:
-        """Test case for post_api_projects_projectid_infer_text_async"""
+    def test_get_api_jobs_jobid_stream(self) -> None:
+        """Test case for get_api_jobs_jobid_stream"""
 
 
 if __name__ == "__main__":

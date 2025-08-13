@@ -23,6 +23,7 @@ __all__ = [
     "ExtractionApi",
     "FilesApi",
     "InferenceApi",
+    "JobsApi",
     "OrganizationsApi",
     "PlaygroundApi",
     "ProjectManagementApi",
@@ -56,6 +57,8 @@ __all__ = [
     "InvalidInformation",
     "InvitationResponse",
     "InviteMemberRequest",
+    "JobIdResponse",
+    "JobResponse",
     "MemberResponse",
     "OrganizationResponse",
     "PlaygroundItemResponse",
@@ -89,6 +92,7 @@ from numind.openapi_client.api.examples_api import ExamplesApi as ExamplesApi
 from numind.openapi_client.api.extraction_api import ExtractionApi as ExtractionApi
 from numind.openapi_client.api.files_api import FilesApi as FilesApi
 from numind.openapi_client.api.inference_api import InferenceApi as InferenceApi
+from numind.openapi_client.api.jobs_api import JobsApi as JobsApi
 from numind.openapi_client.api.organizations_api import (
     OrganizationsApi as OrganizationsApi,
 )
@@ -160,6 +164,8 @@ from numind.openapi_client.models.invitation_response import (
 from numind.openapi_client.models.invite_member_request import (
     InviteMemberRequest as InviteMemberRequest,
 )
+from numind.openapi_client.models.job_id_response import JobIdResponse as JobIdResponse
+from numind.openapi_client.models.job_response import JobResponse as JobResponse
 from numind.openapi_client.models.member_response import (
     MemberResponse as MemberResponse,
 )

@@ -18,7 +18,7 @@ jobs:
       issues: write
       contents: write
       pull-requests: write
-      actions: read
+      variables: read
 
     steps:
       # Step 1: Check out the repository's code

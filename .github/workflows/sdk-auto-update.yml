@@ -13,13 +13,12 @@ jobs:
   check-and-generate:
     runs-on: ubuntu-latest
 
-    # Granting permissions for the GITHUB_TOKEN to create a pull request and read repo data
+    # Granting permissions for the GITHUB_TOKEN to create a pull request and read repo data and read repository variables
     permissions:
       issues: write
       contents: write
       pull-requests: write
-      # Permission to read repository variables
-      repository-projects: read
+      actions: read
 
     steps:
       # Step 1: Check out the repository's code
@@ -34,15 +33,14 @@ jobs:
           echo "Latest API version: $LATEST_VERSION"
           echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
 
-      # Step 3: Get the last MERGED version from the Repository Variable
+      # Step 3: Get the last MERGED version from the Repository Variable (and fail if not found)
       - name: Get current version from Repository Variable
         id: current_version
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # The 'gh variable get' command will exit with an error if the variable doesn't exist.
-          # We catch this to handle the first run gracefully.
-          STORED_VERSION=$(gh variable get API_BUILD_VERSION 2>/dev/null || echo "none")
+          # This command will now fail the step if the variable doesn't exist or permissions are wrong.
+          STORED_VERSION=$(gh variable get API_BUILD_VERSION)
           echo "Stored (merged) version: $STORED_VERSION"
           echo "version=$STORED_VERSION" >> $GITHUB_OUTPUT
 

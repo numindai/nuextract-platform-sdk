@@ -18,7 +18,6 @@ jobs:
       issues: write
       contents: write
       pull-requests: write
-      variables: read
 
     steps:
       # Step 1: Check out the repository's code
@@ -33,14 +32,19 @@ jobs:
           echo "Latest API version: $LATEST_VERSION"
           echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
 
-      # Step 3: Get the last MERGED version from the Repository Variable (and fail if not found)
+      # Step 3: Get the last MERGED version from the Repository Variable
       - name: Get current version from Repository Variable
         id: current_version
         env:
-          GH_TOKEN: ${{ github.token }}
+          # Natively inject the variable into an environment variable for the script
+          STORED_VERSION: ${{ vars.API_BUILD_VERSION }}
         run: |
-          # This command will now fail the step if the variable doesn't exist or permissions are wrong.
-          STORED_VERSION=$(gh variable get API_BUILD_VERSION)
+          # The variable is now available directly in the shell environment.
+          # Add a check to ensure the variable was actually found.
+          if [[ -z "$STORED_VERSION" ]]; then
+            echo "Error: Repository variable 'API_BUILD_VERSION' is not set or is empty."
+            exit 1
+          fi
           echo "Stored (merged) version: $STORED_VERSION"
           echo "version=$STORED_VERSION" >> $GITHUB_OUTPUT
 

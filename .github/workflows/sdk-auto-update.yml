@@ -115,6 +115,8 @@ jobs:
             if [[ "$BRANCH_NAME" != "$CURRENT_BRANCH" ]]; then
               echo "Closing stale PR #$PR_NUMBER as it is superseded by #${NEW_PR_NUMBER}."
               gh pr close "$PR_NUMBER" --comment "This PR has been superseded by #${NEW_PR_NUMBER}."
+              echo "Deleting stale branch '$BRANCH_NAME'."
+              gh branch delete "$BRANCH_NAME" -r
             fi
           done
 

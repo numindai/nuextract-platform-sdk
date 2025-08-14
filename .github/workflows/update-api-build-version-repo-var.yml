@@ -1,36 +1,32 @@
 # This workflow updates the API_BUILD_VERSION repository variable when an SDK update PR is merged.
 
-# NOTE:
-# This workflow may fail with HTTP 403 if triggered by a pull request from a fork.
-# GitHub limits GITHUB_TOKEN permissions for security. Consider switching to workflow_run if needed.
-
 name: Update API Build Version Variable on Merge
 
 on:
-  pull_request:
-    # We only care when a PR is closed
-    types: [closed]
+  push:
     branches:
       - 'main'
 
-permissions:
-  actions: write   # needed to write repository variables
-
 jobs:
   update-variable:
-    # This job will only run if the PR was merged AND it has the 'sdk-update' label
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'sdk-update')
+    # This job will only run if the push to main was from our specific SDK commit.
+    # The commit message is created by the first workflow: "feat(sdk): Regenerate SDK for API version ..."
+    if: "startsWith(github.event.head_commit.message, 'feat(sdk): Regenerate SDK')"
     runs-on: ubuntu-latest
 
+    # Permissions for a `push` trigger are respected, allowing us to write variables.
+    permissions:
+      actions: write
+
     steps:
-      - name: Get version from merged branch name
+      - name: Get version from commit message
         id: get_version
         run: |
-          # The branch name is like "bot/regenerate-sdk-1.2.3"
-          # This command extracts "1.2.3" from the branch name
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          VERSION=$(echo "$BRANCH_NAME" | sed 's#bot/regenerate-sdk-##')
-          echo "Extracted version from branch: $VERSION"
+          # The commit message is "feat(sdk): Regenerate SDK for API version 1.2.3"
+          # This command extracts the last word ("1.2.3") from the commit message.
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          VERSION=$(echo "$COMMIT_MESSAGE" | awk '{print $NF}')
+          echo "Extracted version from commit message: $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Update Repository Variable
@@ -39,5 +35,4 @@ jobs:
         run: |
           echo "Updating repository variable API_BUILD_VERSION to ${{ steps.get_version.outputs.version }}"
           gh variable set API_BUILD_VERSION \
-            --body "${{ steps.get_version.outputs.version }}" \
-            -R "${{ github.repository }}"
+            --body "${{ steps.get_version.outputs.version }}"

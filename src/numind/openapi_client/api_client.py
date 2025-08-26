@@ -17,6 +17,7 @@ import mimetypes
 import os
 import re
 import tempfile
+import uuid
 from enum import Enum
 from typing import Dict, List, Optional, Tuple, Union
 from urllib.parse import quote
@@ -349,6 +350,8 @@ class ApiClient:
             return obj.get_secret_value()
         if isinstance(obj, self.PRIMITIVE_TYPES):
             return obj
+        if isinstance(obj, uuid.UUID):
+            return str(obj)
         if isinstance(obj, list):
             return [self.sanitize_for_serialization(sub_obj) for sub_obj in obj]
         if isinstance(obj, tuple):
@@ -399,7 +402,7 @@ class ApiClient:
             except ValueError:
                 data = response_text
         elif re.match(
-            r"^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)",
+            r"^application/(json|[\w!#$&.+\-^_]+\+json)\s*(;|$)",
             content_type,
             re.IGNORECASE,
         ):

@@ -24,7 +24,17 @@ MODELS_TO_DELETE = {
     "Integer": None,
     "InfoNode": None,
     "VerbatimStr": None,
+    "BillingProfileResponse": None,
+    "Plan": None,
+    "StripePortalRequest": None,
+    "StripePortalResponse": None,
+    "StripeSubscriptionRequest": None,
+    "StripeSubscriptionResponse": None,
+    "Subscription": None,
+    "SubscriptionRequest": None,
 }
+_API_PREFIX = "/api"
+PATHS_TO_DELETE = {f"{_API_PREFIX}/billing"}
 API_BASE_URL = "https://nuextract.ai"
 
 
@@ -74,6 +84,17 @@ def edit_problematic_leaves(data: dict | list) -> None:
                     break
 
 
+def remove_unwanted_paths(paths: dict[str, dict]) -> None:
+    """
+    Remove paths from an OpenAPI paths dictionary.
+
+    :param paths: dictionary of paths of OpenAPI specifications.
+    """
+    for path in paths.copy():
+        if any(path.startswith(forbidden_path) for forbidden_path in PATHS_TO_DELETE):
+            del paths[path]
+
+
 def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
     """
     Edit an OpenAPI file to remove the models to delete.
@@ -86,6 +107,7 @@ def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
 
     edit_problematic_leaves(content["paths"])
     edit_problematic_leaves(content["components"])
+    remove_unwanted_paths(content["paths"])
 
     # add server entry
     content["servers"] = [{"url": API_BASE_URL}]

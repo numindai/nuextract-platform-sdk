@@ -24,13 +24,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      # Step 2: upgrade GitHub CLI as `ubuntu-latest` doesn't come with the latest version
-      - name: Install GitHub CLI
-        uses: cli/gh-cli@v2
-        with:
-          version: 2.x
-
-      # Step 3: Fetch the latest buildVersion from the API
+      # Step 2: Fetch the latest buildVersion from the API
       - name: Fetch latest API version
         id: fetch_version
         run: |
@@ -38,7 +32,7 @@ jobs:
           echo "Latest API version: $LATEST_VERSION"
           echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
 
-      # Step 4: Get the last MERGED version from the Repository Variable
+      # Step 3: Get the last MERGED version from the Repository Variable
       - name: Get current version from Repository Variable
         id: current_version
         env:
@@ -54,7 +48,7 @@ jobs:
           echo "Stored (merged) version: $STORED_VERSION"
           echo "version=$STORED_VERSION" >> $GITHUB_OUTPUT
 
-      # Step 5: Check if a PR for the NEW version already exists
+      # Step 4: Check if a PR for the NEW version already exists
       - name: Check for existing Pull Request for new version
         id: check_pr
         # This check is crucial: only run if the API version is newer than our last merged version
@@ -71,19 +65,19 @@ jobs:
             echo "pr_exists=false" >> $GITHUB_OUTPUT
           fi
 
-      # Step 6: Setup Python
+      # Step 5: Setup Python
       - name: Set up Python
         if: steps.check_pr.outputs.pr_exists == 'false'
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      # Step 7: Install dependencies
+      # Step 6: Install dependencies
       - name: Install dependencies
         if: steps.check_pr.outputs.pr_exists == 'false'
         run: pip install -e .[build]
 
-      # Step 8: Generate SDK (no version file is touched)
+      # Step 7: Generate SDK (no version file is touched)
       - name: Generate SDK
         if: steps.check_pr.outputs.pr_exists == 'false'
         run: |
@@ -91,7 +85,7 @@ jobs:
           echo "Generating new SDK for version ${{ steps.fetch_version.outputs.version }}..."
           sh gen_sdk.sh
 
-      # Step 9: Create a Pull Request if there are any changes
+      # Step 8: Create a Pull Request if there are any changes
       - name: Create Pull Request
         id: create_pr
         if: steps.check_pr.outputs.pr_exists == 'false'
@@ -107,7 +101,7 @@ jobs:
             This PR contains the newly generated SDK code.
           labels: bot,sdk-update,automated
 
-      # Step 10: Close Stale Pull Requests if a new one was created
+      # Step 9: Close Stale Pull Requests if a new one was created
       - name: Close Stale PRs
         if: steps.create_pr.outputs.pull-request-number
         env:
@@ -124,11 +118,11 @@ jobs:
               echo "Closing stale PR #$PR_NUMBER as it is superseded by #${NEW_PR_NUMBER}."
               gh pr close "$PR_NUMBER" --comment "This PR has been superseded by #${NEW_PR_NUMBER}."
               echo "Deleting stale branch '$BRANCH_NAME'."
-              gh branch delete "$BRANCH_NAME" -r
+              git push origin --delete "$BRANCH_NAME"
             fi
           done
 
-      # Step 11: Report no changes
+      # Step 10: Report no changes
       - name: Report no changes
         if: steps.fetch_version.outputs.version == steps.current_version.outputs.version
         run: echo "API version is up to date with last merged version. No action needed."

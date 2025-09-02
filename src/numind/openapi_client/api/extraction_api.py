@@ -71,6 +71,18 @@ class ExtractionApi:
                 description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit."
             ),
         ] = None,
+        degraded_mode: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Controls whether a response is returned when smart example is not functionning. Rejects by default."
+            ),
+        ] = None,
+        max_tokens_smart_example: Annotated[
+            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -86,7 +98,7 @@ class ExtractionApi:
         """
         post_api_projects_projectid_extract
 
-          Extract information from the provided text or file. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**   or **maxOutputTokens** parameters are not specified, they are set to their project-setting values.  #### Response: Returns a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+          Extract information from the provided text or file. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response: Returns a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -98,6 +110,10 @@ class ExtractionApi:
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.
         :type max_output_tokens: int
+        :param degraded_mode: Controls whether a response is returned when smart example is not functionning. Rejects by default.
+        :type degraded_mode: str
+        :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_tokens_smart_example: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -125,6 +141,8 @@ class ExtractionApi:
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
+            degraded_mode=degraded_mode,
+            max_tokens_smart_example=max_tokens_smart_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -174,6 +192,18 @@ class ExtractionApi:
                 description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit."
             ),
         ] = None,
+        degraded_mode: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Controls whether a response is returned when smart example is not functionning. Rejects by default."
+            ),
+        ] = None,
+        max_tokens_smart_example: Annotated[
+            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -189,7 +219,7 @@ class ExtractionApi:
         """
         post_api_projects_projectid_extract
 
-          Extract information from the provided text or file. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**   or **maxOutputTokens** parameters are not specified, they are set to their project-setting values.  #### Response: Returns a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+          Extract information from the provided text or file. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response: Returns a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -201,6 +231,10 @@ class ExtractionApi:
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.
         :type max_output_tokens: int
+        :param degraded_mode: Controls whether a response is returned when smart example is not functionning. Rejects by default.
+        :type degraded_mode: str
+        :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_tokens_smart_example: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -228,6 +262,8 @@ class ExtractionApi:
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
+            degraded_mode=degraded_mode,
+            max_tokens_smart_example=max_tokens_smart_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -277,6 +313,18 @@ class ExtractionApi:
                 description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit."
             ),
         ] = None,
+        degraded_mode: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Controls whether a response is returned when smart example is not functionning. Rejects by default."
+            ),
+        ] = None,
+        max_tokens_smart_example: Annotated[
+            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -292,7 +340,7 @@ class ExtractionApi:
         """
         post_api_projects_projectid_extract
 
-          Extract information from the provided text or file. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**   or **maxOutputTokens** parameters are not specified, they are set to their project-setting values.  #### Response: Returns a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+          Extract information from the provided text or file. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response: Returns a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -304,6 +352,10 @@ class ExtractionApi:
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.
         :type max_output_tokens: int
+        :param degraded_mode: Controls whether a response is returned when smart example is not functionning. Rejects by default.
+        :type degraded_mode: str
+        :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_tokens_smart_example: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -331,6 +383,8 @@ class ExtractionApi:
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
+            degraded_mode=degraded_mode,
+            max_tokens_smart_example=max_tokens_smart_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -353,6 +407,8 @@ class ExtractionApi:
         temperature,
         rasterization_dpi,
         max_output_tokens,
+        degraded_mode,
+        max_tokens_smart_example,
         _request_auth,
         _content_type,
         _headers,
@@ -383,6 +439,12 @@ class ExtractionApi:
 
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
+
+        if degraded_mode is not None:
+            _query_params.append(("degradedMode", degraded_mode))
+
+        if max_tokens_smart_example is not None:
+            _query_params.append(("maxTokensSmartExample", max_tokens_smart_example))
 
         # process the header parameters
         # process the form parameters
@@ -462,6 +524,18 @@ class ExtractionApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
+        degraded_mode: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Controls whether a response is returned when smart example is not functionning. Rejects by default."
+            ),
+        ] = None,
+        max_tokens_smart_example: Annotated[
+            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -489,6 +563,10 @@ class ExtractionApi:
         :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
+        :param degraded_mode: Controls whether a response is returned when smart example is not functionning. Rejects by default.
+        :type degraded_mode: str
+        :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_tokens_smart_example: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -516,6 +594,8 @@ class ExtractionApi:
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
+            degraded_mode=degraded_mode,
+            max_tokens_smart_example=max_tokens_smart_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -565,6 +645,18 @@ class ExtractionApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
+        degraded_mode: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Controls whether a response is returned when smart example is not functionning. Rejects by default."
+            ),
+        ] = None,
+        max_tokens_smart_example: Annotated[
+            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -592,6 +684,10 @@ class ExtractionApi:
         :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
+        :param degraded_mode: Controls whether a response is returned when smart example is not functionning. Rejects by default.
+        :type degraded_mode: str
+        :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_tokens_smart_example: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -619,6 +715,8 @@ class ExtractionApi:
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
+            degraded_mode=degraded_mode,
+            max_tokens_smart_example=max_tokens_smart_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -668,6 +766,18 @@ class ExtractionApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
+        degraded_mode: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Controls whether a response is returned when smart example is not functionning. Rejects by default."
+            ),
+        ] = None,
+        max_tokens_smart_example: Annotated[
+            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -695,6 +805,10 @@ class ExtractionApi:
         :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
+        :param degraded_mode: Controls whether a response is returned when smart example is not functionning. Rejects by default.
+        :type degraded_mode: str
+        :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_tokens_smart_example: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -722,6 +836,8 @@ class ExtractionApi:
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
+            degraded_mode=degraded_mode,
+            max_tokens_smart_example=max_tokens_smart_example,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -744,6 +860,8 @@ class ExtractionApi:
         temperature,
         dpi,
         max_output_tokens,
+        degraded_mode,
+        max_tokens_smart_example,
         _request_auth,
         _content_type,
         _headers,
@@ -774,6 +892,12 @@ class ExtractionApi:
 
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
+
+        if degraded_mode is not None:
+            _query_params.append(("degradedMode", degraded_mode))
+
+        if max_tokens_smart_example is not None:
+            _query_params.append(("maxTokensSmartExample", max_tokens_smart_example))
 
         # process the header parameters
         # process the form parameters

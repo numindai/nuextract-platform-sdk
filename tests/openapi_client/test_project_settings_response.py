@@ -40,13 +40,17 @@ class TestProjectSettingsResponse(unittest.TestCase):
             return ProjectSettingsResponse(
                 temperature = 0.0,
                 rasterization_dpi = 56,
-                max_output_tokens = 56
+                max_output_tokens = 56,
+                degraded_mode = '',
+                max_tokens_smart_example = 0
             )
         else:
             return ProjectSettingsResponse(
                 temperature = 0.0,
                 rasterization_dpi = 56,
                 max_output_tokens = 56,
+                degraded_mode = '',
+                max_tokens_smart_example = 0,
         )
         """
 

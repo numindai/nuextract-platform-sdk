@@ -28,6 +28,13 @@ jobs:
       - name: Install the project
         run: uv sync --extra tests
 
+      - name: Debug Secret Availability
+        run: |
+          echo "Checking NUMIND_API_KEY_TESTS:"
+          echo $NUMIND_API_KEY_TESTS
+        env:
+          NUMIND_API_KEY_TESTS: ${{ secrets.NUMIND_API_KEY_TESTS }}
+
       - name: Run tests
         run: uv run pytest tests --cov=./ --cov-report=xml --durations=0 --reruns=3
         env:

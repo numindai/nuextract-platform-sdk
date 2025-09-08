@@ -60,6 +60,7 @@ __all__ = [
     "JobIdResponse",
     "JobResponse",
     "MemberResponse",
+    "ModelUsageResponse",
     "OrganizationResponse",
     "PlaygroundItemResponse",
     "ProjectResponse",
@@ -172,6 +173,9 @@ if __import__("typing").TYPE_CHECKING:
     from numind.openapi_client.models.member_response import (
         MemberResponse as MemberResponse,
     )
+    from numind.openapi_client.models.model_usage_response import (
+        ModelUsageResponse as ModelUsageResponse,
+    )
     from numind.openapi_client.models.organization_response import (
         OrganizationResponse as OrganizationResponse,
     )
@@ -280,6 +284,7 @@ from numind.openapi_client.models.invite_member_request import InviteMemberReque
 from numind.openapi_client.models.job_id_response import JobIdResponse as JobIdResponse
 from numind.openapi_client.models.job_response import JobResponse as JobResponse
 from numind.openapi_client.models.member_response import MemberResponse as MemberResponse
+from numind.openapi_client.models.model_usage_response import ModelUsageResponse as ModelUsageResponse
 from numind.openapi_client.models.organization_response import OrganizationResponse as OrganizationResponse
 from numind.openapi_client.models.playground_item_response import PlaygroundItemResponse as PlaygroundItemResponse
 from numind.openapi_client.models.project_response import ProjectResponse as ProjectResponse

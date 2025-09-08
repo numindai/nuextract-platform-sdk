@@ -336,6 +336,7 @@ Class | Method | HTTP request | Description
  - [JobIdResponse](docs/JobIdResponse.md)
  - [JobResponse](docs/JobResponse.md)
  - [MemberResponse](docs/MemberResponse.md)
+ - [ModelUsageResponse](docs/ModelUsageResponse.md)
  - [OrganizationResponse](docs/OrganizationResponse.md)
  - [PlaygroundItemResponse](docs/PlaygroundItemResponse.md)
  - [ProjectResponse](docs/ProjectResponse.md)

@@ -15,46 +15,21 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing_extensions import Self
 
 
-class ProjectSettingsResponse(BaseModel):
+class ModelUsageResponse(BaseModel):
     """
-    Project settings.
+    ModelUsageResponse
     """
 
-    temperature: Union[
-        Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-        Annotated[int, Field(le=1, strict=True, ge=0)],
-    ] = Field(description="Model temperature.")
-    rasterization_dpi: Annotated[int, Field(le=300, strict=True)] = Field(
-        description="Resolution used to convert formatted documents to images.",
-        alias="rasterizationDPI",
-    )
-    max_output_tokens: StrictInt = Field(
-        description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.",
-        alias="maxOutputTokens",
-    )
-    degraded_mode: StrictStr = Field(
-        description="Controls whether a response is returned when smart example is not functionning. Rejects by default.",
-        alias="degradedMode",
-    )
-    max_tokens_smart_example: Annotated[int, Field(le=32000, strict=True, ge=0)] = (
-        Field(
-            description="Maximum number of output tokens for smart examples (optional). Must be positive.",
-            alias="maxTokensSmartExample",
-        )
-    )
-    __properties: ClassVar[List[str]] = [
-        "temperature",
-        "rasterizationDPI",
-        "maxOutputTokens",
-        "degradedMode",
-        "maxTokensSmartExample",
-    ]
+    usage: StrictInt
+    balance: StrictInt
+    overage: StrictInt
+    __properties: ClassVar[List[str]] = ["usage", "balance", "overage"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,7 +48,7 @@ class ProjectSettingsResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ProjectSettingsResponse from a JSON string"""
+        """Create an instance of ModelUsageResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -98,7 +73,7 @@ class ProjectSettingsResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ProjectSettingsResponse from a dict"""
+        """Create an instance of ModelUsageResponse from a dict"""
         if obj is None:
             return None
 
@@ -107,11 +82,9 @@ class ProjectSettingsResponse(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "temperature": obj.get("temperature"),
-                "rasterizationDPI": obj.get("rasterizationDPI"),
-                "maxOutputTokens": obj.get("maxOutputTokens"),
-                "degradedMode": obj.get("degradedMode"),
-                "maxTokensSmartExample": obj.get("maxTokensSmartExample"),
+                "usage": obj.get("usage"),
+                "balance": obj.get("balance"),
+                "overage": obj.get("overage"),
             }
         )
         return _obj

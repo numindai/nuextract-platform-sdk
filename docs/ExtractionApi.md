@@ -9,12 +9,13 @@ Method | HTTP request | Description
 
 
 # **post_api_projects_projectid_extract**
-> ExtractionResponse post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens)
+> ExtractionResponse post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
 
 
  Extract information from the provided text or file. Some files are converted to images - 
-the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI** 
- or **maxOutputTokens** parameters are not specified, they are set to their project-setting values.
+the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**, 
+**maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified, 
+they are set to their project-setting values.
 
 #### Response:
 Returns a JSON representing the extracted information.
@@ -61,9 +62,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
     rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. (optional)
+    degraded_mode = 'degraded_mode_example' # str | Controls whether a response is returned when smart example is not functionning. Rejects by default. (optional)
+    max_tokens_smart_example = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens)
+        api_response = api_instance.post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
         print("The response of ExtractionApi->post_api_projects_projectid_extract:\n")
         pprint(api_response)
     except Exception as e:
@@ -82,6 +85,8 @@ Name | Type | Description  | Notes
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
  **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | [optional] 
+ **degraded_mode** | **str**| Controls whether a response is returned when smart example is not functionning. Rejects by default. | [optional] 
+ **max_tokens_smart_example** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
 
 ### Return type
 
@@ -101,13 +106,13 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxTokensSmartExample, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_extract_async**
-> JobIdResponse post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens)
+> JobIdResponse post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
 
 Start file extraction as async job
 
@@ -143,9 +148,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
     dpi = 56 # int | DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
+    degraded_mode = 'degraded_mode_example' # str | Controls whether a response is returned when smart example is not functionning. Rejects by default. (optional)
+    max_tokens_smart_example = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens)
+        api_response = api_instance.post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
         print("The response of ExtractionApi->post_api_projects_projectid_extract_async:\n")
         pprint(api_response)
     except Exception as e:
@@ -164,6 +171,8 @@ Name | Type | Description  | Notes
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
  **dpi** | **int**| DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
+ **degraded_mode** | **str**| Controls whether a response is returned when smart example is not functionning. Rejects by default. | [optional] 
+ **max_tokens_smart_example** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
 
 ### Return type
 
@@ -183,7 +192,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter dpi, Invalid value for: query parameter maxOutputTokens, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter dpi, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxTokensSmartExample, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

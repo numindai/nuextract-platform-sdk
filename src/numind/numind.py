@@ -21,10 +21,14 @@ from .openapi_client import (
     ExtractionResponse,
     FilesApi,
     InferenceApi,
+    JobsApi,
     OrganizationsApi,
     ProjectManagementApi,
     TextRequest,
 )
+
+ASYNC_REQUEST_TIMEOUT = 1e-1
+JOB_STATUS_COMPLETED = "completed"
 
 
 class NuMind(
@@ -33,6 +37,7 @@ class NuMind(
     ExtractionApi,
     FilesApi,
     InferenceApi,
+    JobsApi,
     OrganizationsApi,
     ProjectManagementApi,
 ):
@@ -151,8 +156,20 @@ class NuMind(
         else:
             input_, _ = self.__parse_input_file(input_file)
 
-        # Infer
-        output = self.post_api_projects_projectid_extract(project_id, input_, **kwargs)
+        # Call model using server sent events streaming
+        job_id_response = self.post_api_projects_projectid_extract_async(
+            project_id, input_, **kwargs
+        )
+        job_output = self.get_api_jobs_jobid_stream(
+            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
+        )
+
+        # Parsing the server's response
+        messages = _parse_sse_string(job_output)
+        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
+        output = json.loads(json.loads(messages[-1]["data"])["outputData"])
+        output = ExtractionResponse(**output)
 
         # Delete temporary project if necessary
         if not project_id_provided:
@@ -209,3 +226,33 @@ class NuMind(
             )
 
         return files_ids, documents_ids
+
+
+def _parse_sse_string(raw: str) -> list[dict[str, str]]:
+    messages = []
+    msg = {}
+    data_buf = []
+    for line in raw.splitlines():
+        if not line.strip():  # blank line = end of message
+            if data_buf or msg:
+                msg["data"] = "\n".join(data_buf)
+                messages.append(msg)
+                msg, data_buf = {}, []
+            continue
+
+        if line.startswith(":"):  # comment line
+            continue
+
+        field, _, value = line.partition(":")
+        value = value.lstrip(" ")
+        if field == "data":
+            data_buf.append(value)
+        else:
+            msg[field] = value
+
+    # handle final pending message
+    if data_buf or msg:
+        msg["data"] = "\n".join(data_buf)
+        messages.append(msg)
+
+    return messages

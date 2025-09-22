@@ -31,6 +31,11 @@ def test_create_project(
     request: pytest.FixtureRequest,
 ) -> None:
     project_name, schema, string_list, file_paths_list, examples = test_case
+    numind_client.extract(
+        "4f5030bc-2ba7-4d6e-94a1-7f70f01cacdb",
+        template=schema,
+        input_text=string_list[0],
+    )
     # Convert examples Paths to str as needed to be json serializable when saving them
     # to pytest's cache.
     for idx in range(len(examples)):  # convert Path to str

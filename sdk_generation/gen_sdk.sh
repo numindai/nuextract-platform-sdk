@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
+# SDK generation script, to be run from the repository's root directory.
+
 # To extract python template: openapi-generator author template -g python -o path/to/custom-template
 
 # set -e: exit immediately if a command exits with a non-zero status.
 set -e
+
+# Go to the root directory of the repo
+current_dir=$(basename "$PWD")
+if [[ "$current_dir" != "nuextract-platform-sdk" ]]; then
+  cd ..
+fi
 
 # Constants
 openapi_specs_file_url="https://nuextract.ai/docs/docs.yaml"
@@ -12,27 +20,36 @@ openapi_specs_file_path="numind_api.yaml"
 # PREPARATION
 # Fetch OpenAPI specs file from the API and save as a temporary file
 curl --output $openapi_specs_file_path $openapi_specs_file_url
+# Moving the openapi-generator-ignore file at the root of the output directory. For
+# whatever reason, using the --ignore-file-override flag pointing to a file in another
+# location ignores all its content.
+cp sdk_generation/.openapi-generator-ignore src/.openapi-generator-ignore
 
 # Fix edit the OpenAPI specs file to remove the models not required for the SDK
-python src/remove_unused_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
+python sdk_generation/remove_unused_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
 
-# Delete the current api client package
+# Delete the current api client packages
 rm -r src/numind/openapi_client
+# rm -r src/numind/openapi_client_async
 # Create a copy of the base numind __init__.py file as it'll be overwritten by the
 # `openapi-generator generate` command
 mv src/numind/__init__.py src/numind/__init__save.py
 
 # SDK GENERATION
-# Generate the sdk.
+# First generate an async client from which the pyproject file will be reused to make
+# the main numind package one.
 # Support files (gitlab, travis, git_push.sh, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
+
+  # --template-dir openapi-generator-template \
+# Generate the sync client (source code only)
 openapi-generator-cli generate \
   -i $openapi_specs_file_path \
   -g python \
-  --config config.json \
+  --config sdk_generation/config.json \
+  --additional-properties=packageName=numind.openapi_client \
   -o src
-  # --template-dir openapi-generator-template \
 
 # Run ruff to lint as much as possible
 uvx ruff format
@@ -40,12 +57,12 @@ uvx ruff check --fix --exit-zero
 uvx ruff format  # second pass to catch more fixable cases
 
 # Integrate client dependencies and client pyproject tools into project pyproject
-python src/adapt_pyproject.py --project-pyproject-path=src/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
+python sdk_generation/adapt_pyproject.py --project-pyproject-path=sdk_generation/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
 rm src/pyproject.toml
 rm src/*requirements.txt
 
 # Copy generated documentation into the base README.md file
-python src/collate_documentation_readme.py
+python sdk_generation/collate_documentation_readme.py
 rm src/README.md
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
@@ -68,3 +85,4 @@ mv src/docs .
 
 # Delete OpenAPI specs file
 rm $openapi_specs_file_path
+rm src/.openapi-generator-ignore

@@ -27,7 +27,6 @@ from .openapi_client import (
     TextRequest,
 )
 
-ASYNC_REQUEST_TIMEOUT = 1e-1
 JOB_STATUS_COMPLETED = "completed"
 
 

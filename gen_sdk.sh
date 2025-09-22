@@ -37,6 +37,7 @@ openapi-generator-cli generate \
 # Run ruff to lint as much as possible
 uvx ruff format
 uvx ruff check --fix --exit-zero
+uvx ruff format  # second pass to catch more fixable cases
 
 # Integrate client dependencies and client pyproject tools into project pyproject
 python src/adapt_pyproject.py --project-pyproject-path=src/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt

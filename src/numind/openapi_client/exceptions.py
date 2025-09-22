@@ -1,4 +1,3 @@
-
 """
 NuExtract Platform
 
@@ -204,10 +203,8 @@ class ConflictException(ApiException):
     """Exception for HTTP 409 Conflict."""
 
 
-
 class UnprocessableEntityException(ApiException):
     """Exception for HTTP 422 Unprocessable Entity."""
-
 
 
 def render_path(path_to_item):

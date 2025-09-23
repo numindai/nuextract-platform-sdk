@@ -82,18 +82,6 @@ __all__ = [
     "User",
     "ValidInformation",
     "VersionResponse",
-    "AuthenticationApiAsync",
-    "DocumentsApiAsync",
-    "ExamplesApiAsync",
-    "ExtractionApiAsync",
-    "FilesApiAsync",
-    "InferenceApiAsync",
-    "JobsApiAsync",
-    "OrganizationsApiAsync",
-    "PlaygroundApiAsync",
-    "ProjectManagementApiAsync",
-    "DefaultApiAsync",
-    "ApiClientAsync",
 ]
 
 if __import__("typing").TYPE_CHECKING:
@@ -240,36 +228,6 @@ if __import__("typing").TYPE_CHECKING:
         VersionResponse as VersionResponse,
     )
 
-    from numind.openapi_client.api_async.authentication_api import (
-        AuthenticationApi as AuthenticationApiAsync,
-    )
-    from numind.openapi_client.api_async.documents_api import (
-        DocumentsApi as DocumentsApiAsync,
-    )
-    from numind.openapi_client.api_async.examples_api import (
-        ExamplesApi as ExamplesApiAsync,
-    )
-    from numind.openapi_client.api_async.extraction_api import (
-        ExtractionApi as ExtractionApiAsync,
-    )
-    from numind.openapi_client.api_async.files_api import FilesApi as FilesApiAsync
-    from numind.openapi_client.api_async.inference_api import (
-        InferenceApi as InferenceApiAsync,
-    )
-    from numind.openapi_client.api_async.jobs_api import JobsApi as JobsApiAsync
-    from numind.openapi_client.api_async.organizations_api import (
-        OrganizationsApi as OrganizationsApiAsync,
-    )
-    from numind.openapi_client.api_async.playground_api import (
-        PlaygroundApi as PlaygroundApiAsync,
-    )
-    from numind.openapi_client.api_async.project_management_api import (
-        ProjectManagementApi as ProjectManagementApiAsync,
-    )
-    from numind.openapi_client.api_async.default_api import (
-        DefaultApi as DefaultApiAsync,
-    )
-    from numind.openapi_client.api_client_async import ApiClient as ApiClientAsync
 else:
     from lazy_imports import LazyModule, as_package, load
 
@@ -349,19 +307,7 @@ from numind.openapi_client.models.user import User as User
 from numind.openapi_client.models.valid_information import ValidInformation as ValidInformation
 from numind.openapi_client.models.version_response import VersionResponse as VersionResponse
 
-
-from numind.openapi_client.api_async.authentication_api import AuthenticationApi as AuthenticationApiAsync
-from numind.openapi_client.api_async.documents_api import DocumentsApi as DocumentsApiAsync
-from numind.openapi_client.api_async.examples_api import ExamplesApi as ExamplesApiAsync
-from numind.openapi_client.api_async.extraction_api import ExtractionApi as ExtractionApiAsync
-from numind.openapi_client.api_async.files_api import FilesApi as FilesApiAsync
-from numind.openapi_client.api_async.inference_api import InferenceApi as InferenceApiAsync
-from numind.openapi_client.api_async.jobs_api import JobsApi as JobsApiAsync
-from numind.openapi_client.api_async.organizations_api import OrganizationsApi as OrganizationsApiAsync
-from numind.openapi_client.api_async.playground_api import PlaygroundApi as PlaygroundApiAsync
-from numind.openapi_client.api_async.project_management_api import ProjectManagementApi as ProjectManagementApiAsync
-from numind.openapi_client.api_async.default_api import DefaultApi as DefaultApiAsync
-from numind.openapi_client.api_client_async import ApiClient as ApiClientAsync""",
+""",
             name=__name__,
             doc=__doc__,
         )

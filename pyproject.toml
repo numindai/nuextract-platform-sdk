@@ -35,7 +35,7 @@ Issues = "https://github.com/numindai/nuextract-platform-sdk/issues"
 target-version = "py39"
 
 [tool.mypy]
-files = [ "numind.openapi_client", "tests",]
+files = [ "numind.openapi_client_async", "tests",]
 warn_unused_configs = true
 warn_redundant_casts = true
 warn_unused_ignores = true
@@ -46,7 +46,7 @@ disallow_subclassing_any = true
 disallow_untyped_decorators = true
 disallow_any_generics = true
 [[tool.mypy.overrides]]
-module = [ "numind.openapi_client.configuration",]
+module = [ "numind.openapi_client_async.configuration",]
 warn_unused_ignores = true
 strict_equality = true
 extra_checks = true

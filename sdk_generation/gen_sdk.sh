@@ -46,9 +46,9 @@ mv src/numind/__init__.py src/numind/__init__save.py
 # Two clients are generated:
 # - a sync one: tests, docs, README
 # - an async one: tests, pyproject
-# The only differences between the two are the .api package and the api_client.py file
-# (must keep both versions in the final package). The models and configuration are
-# identical. There will be a `NuMind` and a `NuMindAsync` classes
+# The only differences between the two are the .api package, the api_client.py and
+# rest.py files (must keep both versions in the final package). The models and
+# configuration are identical. There will be a `NuMind` and a `NuMindAsync` classes
 # Support files (gitlab, travis, git_push.sh, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
@@ -58,7 +58,6 @@ openapi-generator-cli generate \
   --config sdk_generation/config.json \
   --additional-properties=packageName=numind.openapi_client \
   -o src
-mv src/numind/openapi_client src/numind/openapi_client_tmp
 
 # Copy generated documentation into the base README.md file
 python sdk_generation/collate_documentation_readme.py
@@ -74,62 +73,16 @@ openapi-generator-cli generate \
   -i $openapi_specs_file_path \
   -g python \
   --config sdk_generation/config.json \
-  --additional-properties=packageName=numind.openapi_client,asyncio=true \
+  --additional-properties=packageName=numind.openapi_client_async,library=asyncio \
   -o src
 
-# Copy async files to main client package
-mv src/numind/openapi_client/api src/numind/openapi_client_tmp/api_async
-mv src/numind/openapi_client/api_client.py src/numind/openapi_client_tmp/api_client_async.py
-
 # Add async imports to openapi_client package (api, ApiClient)
-python sdk_generation/adapt_openapi_client_init.py --init-path=src/numind/openapi_client_tmp/__init__.py
-
-# Rename the temporary working package name to its real name
-rm -r src/numind/openapi_client
-mv src/numind/openapi_client_tmp src/numind/openapi_client
+# Was used when trying to merge the two clients in a single directory, but this
+# resulted in complicated imports handling.
+# python sdk_generation/adapt_openapi_client_init.py
 
 # Copy async tests
 mv src/test tests/openapi_client_async
-
-# Deduplicate test files
-DIR1="tests/openapi_client"
-DIR2="tests/openapi_client_async"
-for file1 in "$DIR1"/*; do
-    # Skip if not a regular file
-    if [ ! -f "$file1" ]; then
-        continue
-    fi
-
-    # Get the filename without path
-    filename=$(basename "$file1")
-    # Corresponding file in second directory
-    file2="$DIR2/$filename"
-
-    # Compare file contents
-    if ! cmp -s "$file1" "$file2"; then
-        # Files are different, create async version
-        # Extract filename and extension
-        if [[ "$filename" == *.* ]]; then
-            # Has extension
-            stem="${filename%.*}"
-            extension="${filename##*.}"
-            async_filename="${stem}_async.${extension}"
-        else
-            # No extension
-            async_filename="${filename}_async"
-        fi
-
-        async_path="$DIR1/$async_filename"
-
-        # Copy file2 to directory1 with async suffix
-        # Read file and replace imports, then write to destination
-        sed 's/^from numind\.openapi_client\.api/from numind.openapi_client.api_async/g' "$file2" > "$async_path"
-        echo "Files differ: copied '$file2' to '$async_path' (with import modifications)"
-    else
-        echo "Files identical: '$filename' - no action needed"
-    fi
-done
-rm -r $DIR2
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator

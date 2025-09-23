@@ -11,29 +11,31 @@ from pydantic import BaseModel, StrictStr
 from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
 from .openapi_client import (
     ApiClient,
-    ApiClientAsync,
     Configuration,
     ConvertRequest,
     CreateOrUpdateExampleRequest,
     CreateProjectRequest,
     DocumentsApi,
-    DocumentsApiAsync,
     ExamplesApi,
-    ExamplesApiAsync,
     ExtractionApi,
-    ExtractionApiAsync,
     ExtractionResponse,
     FilesApi,
-    FilesApiAsync,
     InferenceApi,
-    InferenceApiAsync,
     JobsApi,
-    JobsApiAsync,
     OrganizationsApi,
-    OrganizationsApiAsync,
     ProjectManagementApi,
-    ProjectManagementApiAsync,
     TextRequest,
+)
+from .openapi_client_async import (
+    ApiClient as ApiClientAsync,
+    DocumentsApi as DocumentsApiAsync,
+    ExamplesApi as ExamplesApiAsync,
+    ExtractionApi as ExtractionApiAsync,
+    FilesApi as FilesApiAsync,
+    InferenceApi as InferenceApiAsync,
+    JobsApi as JobsApiAsync,
+    OrganizationsApi as OrganizationsApiAsync,
+    ProjectManagementApi as ProjectManagementApiAsync,
 )
 
 JOB_STATUS_COMPLETED = "completed"
@@ -216,10 +218,10 @@ class NuMindAsync(
         self,
         api_key: str | None = None,
         configuration: Configuration | None = None,
-        client: ApiClient | None = None,
+        client: ApiClientAsync | None = None,
     ) -> None:
         if client is None:
-            client = _prepare_client(api_key, configuration)
+            client = _prepare_client(api_key, configuration, async_client=True)
         super().__init__(client)
 
     async def extract(

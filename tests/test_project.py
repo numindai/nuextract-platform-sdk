@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -12,7 +13,7 @@ from numind.openapi_client.models import CreateProjectRequest
 from .conftest import EXTRACT_KWARGS, TEST_CASES
 
 if TYPE_CHECKING:
-    from numind import NuMind
+    from numind import NuMind, NuMindAsync
 
 
 @pytest.fixture(params=TEST_CASES, ids=lambda tc: f"project_{tc[0]}", scope="session")
@@ -31,11 +32,6 @@ def test_create_project(
     request: pytest.FixtureRequest,
 ) -> None:
     project_name, schema, string_list, file_paths_list, examples = test_case
-    numind_client.extract(
-        "4f5030bc-2ba7-4d6e-94a1-7f70f01cacdb",
-        template=schema,
-        input_text=string_list[0],
-    )
     # Convert examples Paths to str as needed to be json serializable when saving them
     # to pytest's cache.
     for idx in range(len(examples)):  # convert Path to str
@@ -87,6 +83,23 @@ def test_infer_text(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         )
 
 
+@pytest.mark.asyncio
+@pytest.mark.dependency(name="infer_text_async", depends=["create_project"])
+async def test_infer_text_async(
+    numind_client_async: NuMindAsync, request: pytest.FixtureRequest
+) -> None:
+    project_id = request.config.cache.get("project_id", None)
+    text_cases = request.config.cache.get("text_cases", None)
+
+    tasks = [
+        numind_client_async.post_api_projects_projectid_extract(
+            project_id, input_text.encode()
+        )
+        for input_text in text_cases
+    ]
+    await asyncio.gather(*tasks)
+
+
 @pytest.mark.dependency(name="infer_file", depends=["create_project"])
 def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> None:
     project_id = request.config.cache.get("project_id", None)
@@ -101,7 +114,7 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
 
 
 # TODO remove dependency, make it run whether these tests failed or not
-@pytest.mark.dependency(depends=["infer_text", "infer_file"])
+@pytest.mark.dependency(depends=["infer_text", "infer_text_async", "infer_file"])
 def test_delete_project_and_has_been_deleted(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:

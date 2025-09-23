@@ -34,6 +34,8 @@ if [ -d src/numind/openapi_client ]; then
 fi
 if [ -d tests/openapi_client ]; then
   rm -r tests/openapi_client
+fi
+if [ -d tests/openapi_client_async ]; then
   rm -r tests/openapi_client_async
 fi
 if [ -d docs ]; then

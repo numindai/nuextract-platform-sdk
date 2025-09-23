@@ -23,7 +23,7 @@ file = "LICENSE"
 
 [project.optional-dependencies]
 build = [ "openapi-generator-cli", "uv", "PyYAML", "toml",]
-tests = [ "pytest-cov", "pytest-rerunfailures", "pytest-dependency",]
+tests = [ "pytest-asyncio", "pytest-cov", "pytest-rerunfailures", "pytest-dependency",]
 
 [project.urls]
 Homepage = "https://github.com/numindai/nuextract-platform-sdk"

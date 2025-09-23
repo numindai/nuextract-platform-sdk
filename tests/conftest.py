@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from numind import NuMind
+from numind import NuMind, NuMindAsync
 
 NUMIND_API_KEY_TEST_ENV_VAR_NAME = "NUMIND_API_KEY_TESTS"
 EXTRACT_KWARGS = {"temperature": 0.1, "max_output_tokens": 600}
@@ -80,3 +80,13 @@ def numind_client(api_key: str) -> NuMind:
     If the variable is not set, the test using this fixture will be skipped.
     """
     return NuMind(api_key=api_key)
+
+
+@pytest.fixture(scope="session")
+def numind_client_async(api_key: str) -> NuMindAsync:
+    """
+    Get the NuMind api_key from the environment variable.
+
+    If the variable is not set, the test using this fixture will be skipped.
+    """
+    return NuMindAsync(api_key=api_key)

@@ -41,6 +41,7 @@ build = [
     "toml",  # to collate project base pyproject and gen client pyproject files
 ]
 tests = [
+    "pytest-asyncio",
     "pytest-cov",
     "pytest-rerunfailures",
     "pytest-dependency",

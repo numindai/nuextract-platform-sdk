@@ -1,4 +1,6 @@
-"""Script removing problematic models from an OpenAPI specification file."""
+"""Script removing problematic models from an OpenAPI specification file."""  # noqa:INP001
+
+from __future__ import annotations
 
 from pathlib import Path
 

@@ -1,4 +1,4 @@
-"""Script removing problematic models from an OpenAPI specification file."""
+"""Script removing problematic models from an OpenAPI specification file."""  # noqa:INP001
 
 from pathlib import Path
 
@@ -9,7 +9,7 @@ OPENAPI_GEN_MENTION = (
 
 
 def read_readme(readme_path: Path) -> str:
-    # TODO find the
+    """Read the README file."""
     with readme_path.open() as file:
         readme = file.read().splitlines()
     for idx, line in enumerate(readme):
@@ -20,6 +20,7 @@ def read_readme(readme_path: Path) -> str:
 
 
 def read_and_preprocess_generated_readme(readme_gen_path: Path) -> str:
+    """Read and preprocess the generated README file."""
     with readme_gen_path.open() as file:
         doc_readme = file.read().splitlines()
 

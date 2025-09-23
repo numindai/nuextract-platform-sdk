@@ -33,7 +33,7 @@ rm -r src/numind/openapi_client
 # rm -r src/numind/openapi_client_async
 if [ -d tests ]; then
   rm -r tests/openapi_client
-  # rm -r tests/openapi_client_async
+  rm -r tests/openapi_client_async
 fi
 if [ -d docs ]; then
   rm -r docs
@@ -47,8 +47,8 @@ mv src/numind/__init__.py src/numind/__init__save.py
 # - a sync one: tests, docs, README
 # - an async one: tests, pyproject
 # The only differences between the two are the .api package and the api_client.py file
-# (must keep both versions in the final package). There will be a `NuMind` and a
-# `NuMindAsync` classes
+# (must keep both versions in the final package). The models and configuration are
+# identical. There will be a `NuMind` and a `NuMindAsync` classes
 # Support files (gitlab, travis, git_push.sh, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
@@ -58,6 +58,7 @@ openapi-generator-cli generate \
   --config sdk_generation/config.json \
   --additional-properties=packageName=numind.openapi_client \
   -o src
+mv src/numind/openapi_client src/numind/openapi_client_tmp
 
 # Copy generated documentation into the base README.md file
 python sdk_generation/collate_documentation_readme.py
@@ -66,29 +67,42 @@ python sdk_generation/collate_documentation_readme.py
 mv src/test tests/openapi_client
 mv src/docs .
 
+# Generate the async client
+# We use the same package name as previously (after that the first package has been
+# renamed) so that all imports have the same name
+openapi-generator-cli generate \
+  -i $openapi_specs_file_path \
+  -g python \
+  --config sdk_generation/config.json \
+  --additional-properties=packageName=numind.openapi_client,asyncio=true \
+  -o src
+
+# Copy async files to main client package
+mv src/numind/openapi_client/api src/numind/openapi_client_tmp/api_async
+mv src/numind/openapi_client/api_client.py src/numind/openapi_client_tmp/api_client_async.py
+
+# Add async imports to openapi_client package (api, ApiClient)
+python sdk_generation/adapt_openapi_client_init.py --init-path=src/numind/openapi_client_tmp/__init__.py
+
+# Rename the temporary working package name to its real name
+rm -r src/numind/openapi_client
+mv src/numind/openapi_client_tmp src/numind/openapi_client
+
+# Copy async tests
+mv src/test tests/openapi_client_async
+# TODO Deduplicate identical tests
+
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
 rm src/numind/__init__.py  # copy back base __init__.py file
 mv src/numind/__init__save.py src/numind/__init__.py
-
-# Generate the async client
-#openapi-generator-cli generate \
-#  -i $openapi_specs_file_path \
-#  -g python \
-#  --config sdk_generation/config.json \
-#  --additional-properties=packageName=numind.openapi_client \
-#  -o src
-
-# Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
-# rm -r src/.openapi-generator
-# rm src/numind/__init__.py  # copy back base __init__.py file
-# mv src/numind/__init__save.py src/numind/__init__.py
 
 # Integrate client dependencies and client pyproject tools into project pyproject
 python sdk_generation/adapt_pyproject.py --project-pyproject-path=sdk_generation/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
 rm src/pyproject.toml
 rm src/*requirements.txt
 rm src/README.md  # already used the one from sync client gen
+rm -r src/docs  # already used the one from sync client gen
 
 # TODO rewrite the package version in the pyproject as in the config.json, or find an
 #  other way to fetch the define and fetch the package version in one place

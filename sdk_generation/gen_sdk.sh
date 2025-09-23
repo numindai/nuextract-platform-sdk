@@ -31,19 +31,27 @@ python sdk_generation/remove_unused_models_from_openapi_spec_file.py --openapi-f
 # Delete the current api client packages
 rm -r src/numind/openapi_client
 # rm -r src/numind/openapi_client_async
+if [ -d tests ]; then
+  rm -r tests/openapi_client
+  # rm -r tests/openapi_client_async
+fi
+if [ -d docs ]; then
+  rm -r docs
+fi
 # Create a copy of the base numind __init__.py file as it'll be overwritten by the
 # `openapi-generator generate` command
 mv src/numind/__init__.py src/numind/__init__save.py
 
 # SDK GENERATION
-# First generate an async client from which the pyproject file will be reused to make
-# the main numind package one.
+# Two clients are generated:
+# - a sync one: tests, docs, README
+# - an async one: tests, pyproject
+# The only differences between the two are the .api package and the api_client.py file
+# (must keep both versions in the final package). There will be a `NuMind` and a
+# `NuMindAsync` classes
 # Support files (gitlab, travis, git_push.sh, requirements, setup.cfg/py,
 # tox.ini...) are ignored and not generated as specified in the
 # .openapi-generator-ignore file present in the output directory.
-
-  # --template-dir openapi-generator-template \
-# Generate the sync client (source code only)
 openapi-generator-cli generate \
   -i $openapi_specs_file_path \
   -g python \
@@ -51,37 +59,44 @@ openapi-generator-cli generate \
   --additional-properties=packageName=numind.openapi_client \
   -o src
 
-# Run ruff to lint as much as possible
-uvx ruff format
-uvx ruff check --fix --exit-zero
-uvx ruff format  # second pass to catch more fixable cases
-
-# Integrate client dependencies and client pyproject tools into project pyproject
-python sdk_generation/adapt_pyproject.py --project-pyproject-path=sdk_generation/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
-rm src/pyproject.toml
-rm src/*requirements.txt
-
 # Copy generated documentation into the base README.md file
 python sdk_generation/collate_documentation_readme.py
-rm src/README.md
+
+# Copying the tests and docs files.
+mv src/test tests/openapi_client
+mv src/docs .
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
 rm src/numind/__init__.py  # copy back base __init__.py file
 mv src/numind/__init__save.py src/numind/__init__.py
 
-# Copying the tests and docs files.
-if [ -d tests ]; then
-  rm -r tests/openapi_client
-fi
-mv src/test tests/openapi_client
-if [ -d docs ]; then
-  rm -r docs
-fi
-mv src/docs .
+# Generate the async client
+#openapi-generator-cli generate \
+#  -i $openapi_specs_file_path \
+#  -g python \
+#  --config sdk_generation/config.json \
+#  --additional-properties=packageName=numind.openapi_client \
+#  -o src
+
+# Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
+# rm -r src/.openapi-generator
+# rm src/numind/__init__.py  # copy back base __init__.py file
+# mv src/numind/__init__save.py src/numind/__init__.py
+
+# Integrate client dependencies and client pyproject tools into project pyproject
+python sdk_generation/adapt_pyproject.py --project-pyproject-path=sdk_generation/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt
+rm src/pyproject.toml
+rm src/*requirements.txt
+rm src/README.md  # already used the one from sync client gen
 
 # TODO rewrite the package version in the pyproject as in the config.json, or find an
 #  other way to fetch the define and fetch the package version in one place
+
+# Run ruff to lint as much as possible
+uvx ruff format
+uvx ruff check --fix --exit-zero
+uvx ruff format  # second pass to catch more fixable cases
 
 # Delete OpenAPI specs file
 rm $openapi_specs_file_path

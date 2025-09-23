@@ -11,53 +11,56 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.api_key_response import ApiKeyResponse
+from numind.openapi_client.api_async.project_management_api import ProjectManagementApi
 
 
-class TestApiKeyResponse(unittest.TestCase):
-    """ApiKeyResponse unit test stubs"""
+class TestProjectManagementApi(unittest.IsolatedAsyncioTestCase):
+    """ProjectManagementApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = ProjectManagementApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> ApiKeyResponse:
-        """
-        Test ApiKeyResponse
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `ApiKeyResponse`
-        """
-        model = ApiKeyResponse()
-        if include_optional:
-            return ApiKeyResponse(
-                id = '',
-                organization = '',
-                name = '',
-                token = '',
-                user_id = '',
-                created_at = '',
-                expires_at = ''
-            )
-        else:
-            return ApiKeyResponse(
-                id = '',
-                name = '',
-                token = '',
-                user_id = '',
-                created_at = '',
-                expires_at = '',
-        )
-        """
+    async def test_delete_api_projects_projectid(self) -> None:
+        """Test case for delete_api_projects_projectid"""
 
-    def testApiKeyResponse(self):
-        """Test ApiKeyResponse"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_get_api_projects(self) -> None:
+        """Test case for get_api_projects"""
+
+    async def test_get_api_projects_projectid(self) -> None:
+        """Test case for get_api_projects_projectid"""
+
+    async def test_patch_api_projects_projectid(self) -> None:
+        """Test case for patch_api_projects_projectid"""
+
+    async def test_patch_api_projects_projectid_settings(self) -> None:
+        """Test case for patch_api_projects_projectid_settings"""
+
+    async def test_post_api_projects(self) -> None:
+        """Test case for post_api_projects"""
+
+    async def test_post_api_projects_projectid_duplicate(self) -> None:
+        """Test case for post_api_projects_projectid_duplicate"""
+
+    async def test_post_api_projects_projectid_lock(self) -> None:
+        """Test case for post_api_projects_projectid_lock"""
+
+    async def test_post_api_projects_projectid_reset_settings(self) -> None:
+        """Test case for post_api_projects_projectid_reset_settings"""
+
+    async def test_post_api_projects_projectid_share(self) -> None:
+        """Test case for post_api_projects_projectid_share"""
+
+    async def test_post_api_projects_projectid_unlock(self) -> None:
+        """Test case for post_api_projects_projectid_unlock"""
+
+    async def test_post_api_projects_projectid_unshare(self) -> None:
+        """Test case for post_api_projects_projectid_unshare"""
+
+    async def test_put_api_projects_projectid_template(self) -> None:
+        """Test case for put_api_projects_projectid_template"""
 
 
 if __name__ == "__main__":

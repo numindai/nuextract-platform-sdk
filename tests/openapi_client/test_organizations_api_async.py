@@ -11,44 +11,48 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.organization_response import OrganizationResponse
+from numind.openapi_client.api_async.organizations_api import OrganizationsApi
 
 
-class TestOrganizationResponse(unittest.TestCase):
-    """OrganizationResponse unit test stubs"""
+class TestOrganizationsApi(unittest.IsolatedAsyncioTestCase):
+    """OrganizationsApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = OrganizationsApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> OrganizationResponse:
-        """
-        Test OrganizationResponse
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `OrganizationResponse`
-        """
-        model = OrganizationResponse()
-        if include_optional:
-            return OrganizationResponse(
-                id = '',
-                name = ''
-            )
-        else:
-            return OrganizationResponse(
-                id = '',
-                name = '',
-        )
-        """
+    async def test_delete_api_organizations_organizationid(self) -> None:
+        """Test case for delete_api_organizations_organizationid"""
 
-    def testOrganizationResponse(self):
-        """Test OrganizationResponse"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_delete_api_organizations_organizationid_members_invitations_invitationid(
+        self,
+    ) -> None:
+        """Test case for delete_api_organizations_organizationid_members_invitations_invitationid"""
+
+    async def test_delete_api_organizations_organizationid_members_userid(self) -> None:
+        """Test case for delete_api_organizations_organizationid_members_userid"""
+
+    async def test_get_api_organizations(self) -> None:
+        """Test case for get_api_organizations"""
+
+    async def test_get_api_organizations_organizationid_members(self) -> None:
+        """Test case for get_api_organizations_organizationid_members"""
+
+    async def test_get_api_organizations_organizationid_members_invitations(
+        self,
+    ) -> None:
+        """Test case for get_api_organizations_organizationid_members_invitations"""
+
+    async def test_post_api_organizations(self) -> None:
+        """Test case for post_api_organizations"""
+
+    async def test_post_api_organizations_organizationid_members(self) -> None:
+        """Test case for post_api_organizations_organizationid_members"""
+
+    async def test_put_api_organizations_organizationid(self) -> None:
+        """Test case for put_api_organizations_organizationid"""
 
 
 if __name__ == "__main__":

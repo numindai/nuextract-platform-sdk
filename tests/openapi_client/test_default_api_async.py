@@ -11,49 +11,29 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.document_response import DocumentResponse
+from numind.openapi_client.api_async.default_api import DefaultApi
 
 
-class TestDocumentResponse(unittest.TestCase):
-    """DocumentResponse unit test stubs"""
+class TestDefaultApi(unittest.IsolatedAsyncioTestCase):
+    """DefaultApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = DefaultApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> DocumentResponse:
-        """
-        Test DocumentResponse
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `DocumentResponse`
-        """
-        model = DocumentResponse()
-        if include_optional:
-            return DocumentResponse(
-                doc_info = None,
-                owner_user = '',
-                owner_organization = '',
-                content_type = '',
-                created_at = ''
-            )
-        else:
-            return DocumentResponse(
-                doc_info = None,
-                owner_user = '',
-                content_type = '',
-                created_at = '',
-        )
-        """
+    async def test_get_api_debug_status_code(self) -> None:
+        """Test case for get_api_debug_status_code"""
 
-    def testDocumentResponse(self):
-        """Test DocumentResponse"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_get_api_health(self) -> None:
+        """Test case for get_api_health"""
+
+    async def test_get_api_ping(self) -> None:
+        """Test case for get_api_ping"""
+
+    async def test_get_api_version(self) -> None:
+        """Test case for get_api_version"""
 
 
 if __name__ == "__main__":

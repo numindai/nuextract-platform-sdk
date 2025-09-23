@@ -11,47 +11,26 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.update_project_settings_request import (
-    UpdateProjectSettingsRequest,
-)
+from numind.openapi_client.api_async.documents_api import DocumentsApi
 
 
-class TestUpdateProjectSettingsRequest(unittest.TestCase):
-    """UpdateProjectSettingsRequest unit test stubs"""
+class TestDocumentsApi(unittest.IsolatedAsyncioTestCase):
+    """DocumentsApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = DocumentsApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> UpdateProjectSettingsRequest:
-        """
-        Test UpdateProjectSettingsRequest
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `UpdateProjectSettingsRequest`
-        """
-        model = UpdateProjectSettingsRequest()
-        if include_optional:
-            return UpdateProjectSettingsRequest(
-                temperature = 0.0,
-                rasterization_dpi = 56,
-                max_output_tokens = 56,
-                degraded_mode = '',
-                max_tokens_smart_example = 0
-            )
-        else:
-            return UpdateProjectSettingsRequest(
-        )
-        """
+    async def test_get_api_documents_documentid(self) -> None:
+        """Test case for get_api_documents_documentid"""
 
-    def testUpdateProjectSettingsRequest(self):
-        """Test UpdateProjectSettingsRequest"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_get_api_documents_documentid_content(self) -> None:
+        """Test case for get_api_documents_documentid_content"""
+
+    async def test_post_api_documents_text(self) -> None:
+        """Test case for post_api_documents_text"""
 
 
 if __name__ == "__main__":

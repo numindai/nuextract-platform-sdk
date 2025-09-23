@@ -11,46 +11,32 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.health_response import HealthResponse
+from numind.openapi_client.api_async.examples_api import ExamplesApi
 
 
-class TestHealthResponse(unittest.TestCase):
-    """HealthResponse unit test stubs"""
+class TestExamplesApi(unittest.IsolatedAsyncioTestCase):
+    """ExamplesApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = ExamplesApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> HealthResponse:
-        """
-        Test HealthResponse
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `HealthResponse`
-        """
-        model = HealthResponse()
-        if include_optional:
-            return HealthResponse(
-                services = [
-                    numind.openapi_client.models.service_status.ServiceStatus(
-                        name = '', 
-                        status = '', 
-                        count = 56, )
-                    ]
-            )
-        else:
-            return HealthResponse(
-        )
-        """
+    async def test_delete_api_projects_projectid_examples_exampleid(self) -> None:
+        """Test case for delete_api_projects_projectid_examples_exampleid"""
 
-    def testHealthResponse(self):
-        """Test HealthResponse"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_get_api_projects_projectid_examples(self) -> None:
+        """Test case for get_api_projects_projectid_examples"""
+
+    async def test_get_api_projects_projectid_examples_exampleid(self) -> None:
+        """Test case for get_api_projects_projectid_examples_exampleid"""
+
+    async def test_post_api_projects_projectid_examples(self) -> None:
+        """Test case for post_api_projects_projectid_examples"""
+
+    async def test_put_api_projects_projectid_examples_exampleid(self) -> None:
+        """Test case for put_api_projects_projectid_examples_exampleid"""
 
 
 if __name__ == "__main__":

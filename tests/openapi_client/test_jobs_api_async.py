@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.api.jobs_api import JobsApi
+from numind.openapi_client.api_async.jobs_api import JobsApi
 
 
 class TestJobsApi(unittest.IsolatedAsyncioTestCase):

@@ -11,29 +11,41 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.api.files_api import FilesApi
+from numind.openapi_client.api_async.authentication_api import AuthenticationApi
 
 
-class TestFilesApi(unittest.IsolatedAsyncioTestCase):
-    """FilesApi unit test stubs"""
+class TestAuthenticationApi(unittest.IsolatedAsyncioTestCase):
+    """AuthenticationApi unit test stubs"""
 
     async def asyncSetUp(self) -> None:
-        self.api = FilesApi()
+        self.api = AuthenticationApi()
 
     async def asyncTearDown(self) -> None:
         await self.api.api_client.close()
 
-    async def test_get_api_files_fileid(self) -> None:
-        """Test case for get_api_files_fileid"""
+    async def test_delete_api_auth_api_keys_apikeyid(self) -> None:
+        """Test case for delete_api_auth_api_keys_apikeyid"""
 
-    async def test_get_api_files_fileid_content(self) -> None:
-        """Test case for get_api_files_fileid_content"""
+    async def test_get_api_auth(self) -> None:
+        """Test case for get_api_auth"""
 
-    async def test_post_api_files(self) -> None:
-        """Test case for post_api_files"""
+    async def test_get_api_auth_api_keys(self) -> None:
+        """Test case for get_api_auth_api_keys"""
 
-    async def test_post_api_files_fileid_convert_to_document(self) -> None:
-        """Test case for post_api_files_fileid_convert_to_document"""
+    async def test_get_api_auth_me(self) -> None:
+        """Test case for get_api_auth_me"""
+
+    async def test_post_api_auth_api_keys(self) -> None:
+        """Test case for post_api_auth_api_keys"""
+
+    async def test_post_api_auth_logout(self) -> None:
+        """Test case for post_api_auth_logout"""
+
+    async def test_post_api_auth_token(self) -> None:
+        """Test case for post_api_auth_token"""
+
+    async def test_put_api_auth_api_keys_apikeyid(self) -> None:
+        """Test case for put_api_auth_api_keys_apikeyid"""
 
 
 if __name__ == "__main__":

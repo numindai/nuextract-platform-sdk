@@ -29,11 +29,11 @@ cp sdk_generation/.openapi-generator-ignore src/.openapi-generator-ignore
 python sdk_generation/remove_unused_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
 
 # Delete the current api client packages
-rm -r src/numind/openapi_client
-# rm -r src/numind/openapi_client_async
-if [ -d tests ]; then
+if [ -d src/numind/openapi_client ]; then
+  rm -r src/numind/openapi_client
+fi
+if [ -d tests/openapi_client ]; then
   rm -r tests/openapi_client
-  rm -r tests/openapi_client_async
 fi
 if [ -d docs ]; then
   rm -r docs
@@ -90,7 +90,46 @@ mv src/numind/openapi_client_tmp src/numind/openapi_client
 
 # Copy async tests
 mv src/test tests/openapi_client_async
-# TODO Deduplicate identical tests
+
+# Deduplicate test files
+DIR1="tests/openapi_client"
+DIR2="tests/openapi_client_async"
+for file1 in "$DIR1"/*; do
+    # Skip if not a regular file
+    if [ ! -f "$file1" ]; then
+        continue
+    fi
+
+    # Get the filename without path
+    filename=$(basename "$file1")
+    # Corresponding file in second directory
+    file2="$DIR2/$filename"
+
+    # Compare file contents
+    if ! cmp -s "$file1" "$file2"; then
+        # Files are different, create async version
+        # Extract filename and extension
+        if [[ "$filename" == *.* ]]; then
+            # Has extension
+            stem="${filename%.*}"
+            extension="${filename##*.}"
+            async_filename="${stem}_async.${extension}"
+        else
+            # No extension
+            async_filename="${filename}_async"
+        fi
+
+        async_path="$DIR1/$async_filename"
+
+        # Copy file2 to directory1 with async suffix
+        # Read file and replace imports, then write to destination
+        sed 's/^from numind\.openapi_client\.api/from numind.openapi_client.api_async/g' "$file2" > "$async_path"
+        echo "Files differ: copied '$file2' to '$async_path' (with import modifications)"
+    else
+        echo "Files identical: '$filename' - no action needed"
+    fi
+done
+rm -r $DIR2
 
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator

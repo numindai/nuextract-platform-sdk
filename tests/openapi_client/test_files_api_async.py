@@ -11,46 +11,29 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.invalid_information import InvalidInformation
+from numind.openapi_client.api_async.files_api import FilesApi
 
 
-class TestInvalidInformation(unittest.TestCase):
-    """InvalidInformation unit test stubs"""
+class TestFilesApi(unittest.IsolatedAsyncioTestCase):
+    """FilesApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = FilesApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> InvalidInformation:
-        """
-        Test InvalidInformation
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `InvalidInformation`
-        """
-        model = InvalidInformation()
-        if include_optional:
-            return InvalidInformation(
-                information = '',
-                error = '',
-                type = 'string'
-            )
-        else:
-            return InvalidInformation(
-                information = '',
-                error = '',
-                type = 'string',
-        )
-        """
+    async def test_get_api_files_fileid(self) -> None:
+        """Test case for get_api_files_fileid"""
 
-    def testInvalidInformation(self):
-        """Test InvalidInformation"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_get_api_files_fileid_content(self) -> None:
+        """Test case for get_api_files_fileid_content"""
+
+    async def test_post_api_files(self) -> None:
+        """Test case for post_api_files"""
+
+    async def test_post_api_files_fileid_convert_to_document(self) -> None:
+        """Test case for post_api_files_fileid_convert_to_document"""
 
 
 if __name__ == "__main__":

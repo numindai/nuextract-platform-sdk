@@ -11,42 +11,43 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.update_api_key import UpdateApiKey
+from numind.openapi_client.api_async.inference_api import InferenceApi
 
 
-class TestUpdateApiKey(unittest.TestCase):
-    """UpdateApiKey unit test stubs"""
+class TestInferenceApi(unittest.IsolatedAsyncioTestCase):
+    """InferenceApi unit test stubs"""
 
-    def setUp(self):
-        pass
+    async def asyncSetUp(self) -> None:
+        self.api = InferenceApi()
 
-    def tearDown(self):
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def make_instance(self, include_optional) -> UpdateApiKey:
-        """
-        Test UpdateApiKey
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `UpdateApiKey`
-        """
-        model = UpdateApiKey()
-        if include_optional:
-            return UpdateApiKey(
-                name = ''
-            )
-        else:
-            return UpdateApiKey(
-                name = '',
-        )
-        """
+    async def test_post_api_infer_template(self) -> None:
+        """Test case for post_api_infer_template"""
 
-    def testUpdateApiKey(self):
-        """Test UpdateApiKey"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    async def test_post_api_infer_template_async(self) -> None:
+        """Test case for post_api_infer_template_async"""
+
+    async def test_post_api_infer_template_document_documentid(self) -> None:
+        """Test case for post_api_infer_template_document_documentid"""
+
+    async def test_post_api_infer_template_file(self) -> None:
+        """Test case for post_api_infer_template_file"""
+
+    async def test_post_api_projects_projectid_infer_document_async_documentid(
+        self,
+    ) -> None:
+        """Test case for post_api_projects_projectid_infer_document_async_documentid"""
+
+    async def test_post_api_projects_projectid_infer_document_documentid(self) -> None:
+        """Test case for post_api_projects_projectid_infer_document_documentid"""
+
+    async def test_post_api_projects_projectid_infer_text(self) -> None:
+        """Test case for post_api_projects_projectid_infer_text"""
+
+    async def test_post_api_projects_projectid_infer_text_async(self) -> None:
+        """Test case for post_api_projects_projectid_infer_text_async"""
 
 
 if __name__ == "__main__":

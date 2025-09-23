@@ -11,48 +11,34 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.api.organizations_api import OrganizationsApi
+from numind.openapi_client.api_async.playground_api import PlaygroundApi
 
 
-class TestOrganizationsApi(unittest.IsolatedAsyncioTestCase):
-    """OrganizationsApi unit test stubs"""
+class TestPlaygroundApi(unittest.IsolatedAsyncioTestCase):
+    """PlaygroundApi unit test stubs"""
 
     async def asyncSetUp(self) -> None:
-        self.api = OrganizationsApi()
+        self.api = PlaygroundApi()
 
     async def asyncTearDown(self) -> None:
         await self.api.api_client.close()
 
-    async def test_delete_api_organizations_organizationid(self) -> None:
-        """Test case for delete_api_organizations_organizationid"""
-
-    async def test_delete_api_organizations_organizationid_members_invitations_invitationid(
+    async def test_delete_api_projects_projectid_playground_playgrounditemid(
         self,
     ) -> None:
-        """Test case for delete_api_organizations_organizationid_members_invitations_invitationid"""
+        """Test case for delete_api_projects_projectid_playground_playgrounditemid"""
 
-    async def test_delete_api_organizations_organizationid_members_userid(self) -> None:
-        """Test case for delete_api_organizations_organizationid_members_userid"""
+    async def test_get_api_projects_projectid_playground(self) -> None:
+        """Test case for get_api_projects_projectid_playground"""
 
-    async def test_get_api_organizations(self) -> None:
-        """Test case for get_api_organizations"""
+    async def test_get_api_projects_projectid_playground_playgrounditemid(self) -> None:
+        """Test case for get_api_projects_projectid_playground_playgrounditemid"""
 
-    async def test_get_api_organizations_organizationid_members(self) -> None:
-        """Test case for get_api_organizations_organizationid_members"""
+    async def test_post_api_projects_projectid_playground(self) -> None:
+        """Test case for post_api_projects_projectid_playground"""
 
-    async def test_get_api_organizations_organizationid_members_invitations(
-        self,
-    ) -> None:
-        """Test case for get_api_organizations_organizationid_members_invitations"""
-
-    async def test_post_api_organizations(self) -> None:
-        """Test case for post_api_organizations"""
-
-    async def test_post_api_organizations_organizationid_members(self) -> None:
-        """Test case for post_api_organizations_organizationid_members"""
-
-    async def test_put_api_organizations_organizationid(self) -> None:
-        """Test case for put_api_organizations_organizationid"""
+    async def test_put_api_projects_projectid_playground_playgrounditemid(self) -> None:
+        """Test case for put_api_projects_projectid_playground_playgrounditemid"""
 
 
 if __name__ == "__main__":

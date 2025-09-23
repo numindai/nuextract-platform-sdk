@@ -30,9 +30,19 @@ client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 You can create an **async** client by using the `NuMindAsync` class:
 
 ```python
+import asyncio
 from numind import NuMindAsync
 
 client = NuMindAsync(api_key="API_KEY")
+requests = [{}]
+
+async def main():
+    return [
+        await client.extract(project_id, **request_kwargs)
+        for request_kwargs in requests
+    ]
+
+responses = asyncio.run(main())
 ```
 
 The methods and their usages are the same as for the sync `NuMind` client except that API methods are coroutines that must be awaited.

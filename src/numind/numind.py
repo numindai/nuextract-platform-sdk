@@ -28,13 +28,29 @@ from .openapi_client import (
 )
 from .openapi_client_async import (
     ApiClient as ApiClientAsync,
+)
+from .openapi_client_async import (
     DocumentsApi as DocumentsApiAsync,
+)
+from .openapi_client_async import (
     ExamplesApi as ExamplesApiAsync,
+)
+from .openapi_client_async import (
     ExtractionApi as ExtractionApiAsync,
+)
+from .openapi_client_async import (
     FilesApi as FilesApiAsync,
+)
+from .openapi_client_async import (
     InferenceApi as InferenceApiAsync,
+)
+from .openapi_client_async import (
     JobsApi as JobsApiAsync,
+)
+from .openapi_client_async import (
     OrganizationsApi as OrganizationsApiAsync,
+)
+from .openapi_client_async import (
     ProjectManagementApi as ProjectManagementApiAsync,
 )
 

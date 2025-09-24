@@ -1,4 +1,4 @@
-"""Collate the project and generated client pyproject.toml for the complete package."""
+"""Collate the project and generated client pyproject.toml for the complete package."""  # noqa:INP001
 
 from pathlib import Path
 

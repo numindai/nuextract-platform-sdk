@@ -4,12 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.0.3"
+version = "0.1.0"
 description = "SDK to interact with the NuMind models API."
 requires-python = ">=3.9"
 keywords = [ "artificial intelligence", "deep learning", "structured",]
 classifiers = [ "Intended Audience :: Developers", "Intended Audience :: Science/Research", "Topic :: Scientific/Engineering :: Artificial Intelligence", "License :: OSI Approved :: MIT License", "Programming Language :: Python", "Programming Language :: Python :: 3 :: Only", "Programming Language :: Python :: 3.9", "Programming Language :: Python :: 3.10", "Programming Language :: Python :: 3.11", "Programming Language :: Python :: 3.12", "Programming Language :: Python :: 3.13", "Operating System :: OS Independent",]
-dependencies = [ "urllib3 >= 2.1.0, < 3.0.0", "python_dateutil >= 2.8.2", "pydantic >= 2", "typing-extensions >= 4.7.1", "lazy-imports >= 1, < 2",]
+dependencies = [ "urllib3 >= 2.1.0, < 3.0.0", "python_dateutil >= 2.8.2", "aiohttp >= 3.8.4", "aiohttp-retry >= 2.8.3", "pydantic >= 2", "typing-extensions >= 4.7.1", "lazy-imports >= 1, < 2",]
 [[project.authors]]
 name = "Nathan Fradet"
 email = "nathan@numind.ai"
@@ -23,7 +23,7 @@ file = "LICENSE"
 
 [project.optional-dependencies]
 build = [ "openapi-generator-cli", "uv", "PyYAML", "toml",]
-tests = [ "pytest-cov", "pytest-rerunfailures", "pytest-dependency",]
+tests = [ "pytest-asyncio", "pytest-cov", "pytest-rerunfailures", "pytest-dependency",]
 
 [project.urls]
 Homepage = "https://github.com/numindai/nuextract-platform-sdk"
@@ -35,7 +35,7 @@ Issues = "https://github.com/numindai/nuextract-platform-sdk/issues"
 target-version = "py39"
 
 [tool.mypy]
-files = [ "numind.openapi_client", "tests",]
+files = [ "numind.openapi_client_async", "tests",]
 warn_unused_configs = true
 warn_redundant_casts = true
 warn_unused_ignores = true
@@ -46,7 +46,7 @@ disallow_subclassing_any = true
 disallow_untyped_decorators = true
 disallow_any_generics = true
 [[tool.mypy.overrides]]
-module = [ "numind.openapi_client.configuration",]
+module = [ "numind.openapi_client_async.configuration",]
 warn_unused_ignores = true
 strict_equality = true
 extra_checks = true

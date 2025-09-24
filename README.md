@@ -25,6 +25,28 @@ from numind import NuMind
 client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 ```
 
+### Create an async client
+
+You can create an **async** client by using the `NuMindAsync` class:
+
+```python
+import asyncio
+from numind import NuMindAsync
+
+client = NuMindAsync(api_key="API_KEY")
+requests = [{}]
+
+async def main():
+    return [
+        await client.extract(project_id, **request_kwargs)
+        for request_kwargs in requests
+    ]
+
+responses = asyncio.run(main())
+```
+
+The methods and their usages are the same as for the sync `NuMind` client except that API methods are coroutines that must be awaited.
+
 ### Extract structured information "on the fly"
 
 If you want to extract structured information from data without projects but just by providing the input template, you can use the `extract` method which provides a more user-friendly way to interact with the API:

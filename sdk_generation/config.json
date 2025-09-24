@@ -1,7 +1,5 @@
 {
-  "packageName": "numind.openapi_client",
   "projectName": "numind",
-  "packageVersion": "1.0.0",
   "packageUrl": "https://github.com/numindai/numind",
   "setEnsureAsciiToFalse": true
 }

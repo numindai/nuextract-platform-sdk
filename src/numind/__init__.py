@@ -1,9 +1,9 @@
 """NuMind SDK package."""
 
-from .numind import NuMind
-from .openapi_client import Configuration
+from .numind import Configuration, NuMind, NuMindAsync
 
 __all__ = [
     "Configuration",
     "NuMind",
+    "NuMindAsync",
 ]

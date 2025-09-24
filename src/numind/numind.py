@@ -384,19 +384,25 @@ class NuMindAsync(
 def _prepare_client(
     api_key: str, configuration: Configuration, async_client: bool = False
 ) -> ApiClient | ApiClientAsync:
+    # Get api get from environment if argument is None
+    if api_key is None:
+        api_key = os.getenv(NUMIND_API_KEY_ENV_VAR_NAME, None)
+    if api_key is None:
+        msg = (
+            "The `NuMind` client must be initialized with either an"
+            "`api_key`, a `Configuration`, by setting the "
+            f"{NUMIND_API_KEY_ENV_VAR_NAME} environment variable or by "
+            "providing a `client` (`numind.openapi_client.ApiClient` "
+            "object)."
+        )
+        raise ValueError(msg)
+
+    # Create configuration if required or make sure the api key attribute is non-None
     if configuration is None:
-        if api_key is None:
-            api_key = os.getenv(NUMIND_API_KEY_ENV_VAR_NAME, None)
-        if api_key is None:
-            msg = (
-                "The `NuMind` client must be initialized with either an"
-                "`api_key`, a `Configuration`, by setting the "
-                f"{NUMIND_API_KEY_ENV_VAR_NAME} environment variable or by "
-                "providing a `client` (`numind.openapi_client.ApiClient` "
-                "object)."
-            )
-            raise ValueError(msg)
         configuration = Configuration(access_token=api_key)
+    elif configuration.access_token is None:
+        configuration.access_token = api_key
+
     return ApiClientAsync(configuration) if async_client else ApiClient(configuration)
 
 

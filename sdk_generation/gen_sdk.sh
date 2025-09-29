@@ -87,6 +87,8 @@ openapi-generator-cli generate \
 # Copy async tests
 mv src/test tests/openapi_client_async
 
+# TODO make both client packages use the same models: move package and update imports, in src and tests
+
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
 rm src/numind/__init__.py  # copy back base __init__.py file

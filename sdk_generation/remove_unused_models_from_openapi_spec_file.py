@@ -27,6 +27,8 @@ MODELS_TO_DELETE = {
     "InfoNode": None,
     "VerbatimStr": None,
     "BillingProfileResponse": None,
+    "BillingPeriod": None,
+    "FeatureCardResponse": None,
     "Plan": None,
     "StripePortalRequest": None,
     "StripePortalResponse": None,
@@ -34,6 +36,8 @@ MODELS_TO_DELETE = {
     "StripeSubscriptionResponse": None,
     "Subscription": None,
     "SubscriptionRequest": None,
+    "ActiveProfileResponse": None,
+    "InactiveProfileResponse": None,
 }
 _API_PREFIX = "/api"
 PATHS_TO_DELETE = {f"{_API_PREFIX}/billing"}

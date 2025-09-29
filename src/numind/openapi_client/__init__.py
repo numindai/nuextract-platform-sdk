@@ -37,9 +37,7 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
-    "ActiveProfileResponse",
     "ApiKeyResponse",
-    "BillingPeriod",
     "ConvertRequest",
     "CreateApiKey",
     "CreateOrUpdateExampleRequest",
@@ -51,11 +49,9 @@ __all__ = [
     "Error",
     "ExampleResponse",
     "ExtractionResponse",
-    "FeatureCardResponse",
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
-    "InactiveProfileResponse",
     "InferenceResponse",
     "InformationResponse",
     "InvalidInformation",
@@ -118,13 +114,9 @@ from numind.openapi_client.exceptions import ApiAttributeError as ApiAttributeEr
 from numind.openapi_client.exceptions import ApiException as ApiException
 
 # import models into sdk package
-from numind.openapi_client.models.active_profile_response import (
-    ActiveProfileResponse as ActiveProfileResponse,
-)
 from numind.openapi_client.models.api_key_response import (
     ApiKeyResponse as ApiKeyResponse,
 )
-from numind.openapi_client.models.billing_period import BillingPeriod as BillingPeriod
 from numind.openapi_client.models.convert_request import (
     ConvertRequest as ConvertRequest,
 )
@@ -152,17 +144,11 @@ from numind.openapi_client.models.example_response import (
 from numind.openapi_client.models.extraction_response import (
     ExtractionResponse as ExtractionResponse,
 )
-from numind.openapi_client.models.feature_card_response import (
-    FeatureCardResponse as FeatureCardResponse,
-)
 from numind.openapi_client.models.file_response import FileResponse as FileResponse
 from numind.openapi_client.models.health_response import (
     HealthResponse as HealthResponse,
 )
 from numind.openapi_client.models.image_info import ImageInfo as ImageInfo
-from numind.openapi_client.models.inactive_profile_response import (
-    InactiveProfileResponse as InactiveProfileResponse,
-)
 from numind.openapi_client.models.inference_response import (
     InferenceResponse as InferenceResponse,
 )

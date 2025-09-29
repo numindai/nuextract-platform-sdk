@@ -37,7 +37,9 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "ActiveProfileResponse",
     "ApiKeyResponse",
+    "BillingPeriod",
     "ConvertRequest",
     "CreateApiKey",
     "CreateOrUpdateExampleRequest",
@@ -49,9 +51,11 @@ __all__ = [
     "Error",
     "ExampleResponse",
     "ExtractionResponse",
+    "FeatureCardResponse",
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
+    "InactiveProfileResponse",
     "InferenceResponse",
     "InformationResponse",
     "InvalidInformation",
@@ -60,7 +64,6 @@ __all__ = [
     "JobIdResponse",
     "JobResponse",
     "MemberResponse",
-    "ModelUsageResponse",
     "OrganizationResponse",
     "PlaygroundItemResponse",
     "ProjectResponse",
@@ -121,8 +124,14 @@ from numind.openapi_client_async.exceptions import (
 from numind.openapi_client_async.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from numind.openapi_client_async.models.active_profile_response import (
+    ActiveProfileResponse as ActiveProfileResponse,
+)
 from numind.openapi_client_async.models.api_key_response import (
     ApiKeyResponse as ApiKeyResponse,
+)
+from numind.openapi_client_async.models.billing_period import (
+    BillingPeriod as BillingPeriod,
 )
 from numind.openapi_client_async.models.convert_request import (
     ConvertRequest as ConvertRequest,
@@ -155,6 +164,9 @@ from numind.openapi_client_async.models.example_response import (
 from numind.openapi_client_async.models.extraction_response import (
     ExtractionResponse as ExtractionResponse,
 )
+from numind.openapi_client_async.models.feature_card_response import (
+    FeatureCardResponse as FeatureCardResponse,
+)
 from numind.openapi_client_async.models.file_response import (
     FileResponse as FileResponse,
 )
@@ -162,6 +174,9 @@ from numind.openapi_client_async.models.health_response import (
     HealthResponse as HealthResponse,
 )
 from numind.openapi_client_async.models.image_info import ImageInfo as ImageInfo
+from numind.openapi_client_async.models.inactive_profile_response import (
+    InactiveProfileResponse as InactiveProfileResponse,
+)
 from numind.openapi_client_async.models.inference_response import (
     InferenceResponse as InferenceResponse,
 )
@@ -183,9 +198,6 @@ from numind.openapi_client_async.models.job_id_response import (
 from numind.openapi_client_async.models.job_response import JobResponse as JobResponse
 from numind.openapi_client_async.models.member_response import (
     MemberResponse as MemberResponse,
-)
-from numind.openapi_client_async.models.model_usage_response import (
-    ModelUsageResponse as ModelUsageResponse,
 )
 from numind.openapi_client_async.models.organization_response import (
     OrganizationResponse as OrganizationResponse,

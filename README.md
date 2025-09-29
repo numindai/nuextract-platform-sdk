@@ -336,7 +336,9 @@ Class | Method | HTTP request | Description
 
 ### Documentation For Models
 
+ - [ActiveProfileResponse](docs/ActiveProfileResponse.md)
  - [ApiKeyResponse](docs/ApiKeyResponse.md)
+ - [BillingPeriod](docs/BillingPeriod.md)
  - [ConvertRequest](docs/ConvertRequest.md)
  - [CreateApiKey](docs/CreateApiKey.md)
  - [CreateOrUpdateExampleRequest](docs/CreateOrUpdateExampleRequest.md)
@@ -348,9 +350,11 @@ Class | Method | HTTP request | Description
  - [Error](docs/Error.md)
  - [ExampleResponse](docs/ExampleResponse.md)
  - [ExtractionResponse](docs/ExtractionResponse.md)
+ - [FeatureCardResponse](docs/FeatureCardResponse.md)
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
+ - [InactiveProfileResponse](docs/InactiveProfileResponse.md)
  - [InferenceResponse](docs/InferenceResponse.md)
  - [InformationResponse](docs/InformationResponse.md)
  - [InvalidInformation](docs/InvalidInformation.md)
@@ -359,7 +363,6 @@ Class | Method | HTTP request | Description
  - [JobIdResponse](docs/JobIdResponse.md)
  - [JobResponse](docs/JobResponse.md)
  - [MemberResponse](docs/MemberResponse.md)
- - [ModelUsageResponse](docs/ModelUsageResponse.md)
  - [OrganizationResponse](docs/OrganizationResponse.md)
  - [PlaygroundItemResponse](docs/PlaygroundItemResponse.md)
  - [ProjectResponse](docs/ProjectResponse.md)

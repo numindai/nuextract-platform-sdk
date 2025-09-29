@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.model_usage_response import ModelUsageResponse
+from numind.openapi_client_async.models.billing_period import BillingPeriod
 
 
-class TestModelUsageResponse(unittest.TestCase):
-    """ModelUsageResponse unit test stubs"""
+class TestBillingPeriod(unittest.TestCase):
+    """BillingPeriod unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,32 +23,30 @@ class TestModelUsageResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> ModelUsageResponse:
+    def make_instance(self, include_optional) -> BillingPeriod:
         """
-        Test ModelUsageResponse
+        Test BillingPeriod
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `ModelUsageResponse`
+        # uncomment below to create an instance of `BillingPeriod`
         """
-        model = ModelUsageResponse()
+        model = BillingPeriod()
         if include_optional:
-            return ModelUsageResponse(
-                usage = 56,
-                balance = 56,
-                overage = 56
+            return BillingPeriod(
+                var_from = '',
+                to = ''
             )
         else:
-            return ModelUsageResponse(
-                usage = 56,
-                balance = 56,
-                overage = 56,
+            return BillingPeriod(
+                var_from = '',
+                to = '',
         )
         """
 
-    def testModelUsageResponse(self):
-        """Test ModelUsageResponse"""
+    def testBillingPeriod(self):
+        """Test BillingPeriod"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

@@ -16,19 +16,50 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictStr,
+    field_validator,
+)
 from typing_extensions import Self
 
+from numind.openapi_client.models.billing_period import BillingPeriod
+from numind.openapi_client.models.feature_card_response import FeatureCardResponse
 
-class ModelUsageResponse(BaseModel):
+
+class ActiveProfileResponse(BaseModel):
     """
-    ModelUsageResponse
+    ActiveProfileResponse
     """
 
-    usage: StrictInt
-    balance: StrictInt
-    overage: StrictInt
-    __properties: ClassVar[List[str]] = ["usage", "balance", "overage"]
+    plan_id: StrictStr = Field(alias="planId")
+    current_billing_period: Optional[BillingPeriod] = Field(
+        default=None, alias="currentBillingPeriod"
+    )
+    input_feature_card: FeatureCardResponse = Field(alias="inputFeatureCard")
+    output_feature_card: FeatureCardResponse = Field(alias="outputFeatureCard")
+    payment_connected: StrictBool = Field(alias="paymentConnected")
+    type: StrictStr
+    __properties: ClassVar[List[str]] = [
+        "planId",
+        "currentBillingPeriod",
+        "inputFeatureCard",
+        "outputFeatureCard",
+        "paymentConnected",
+        "type",
+    ]
+
+    @field_validator("type")
+    def type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(["ai.numind.extract.shared.ActiveProfileResponse"]):
+            raise ValueError(
+                "must be one of enum values ('ai.numind.extract.shared.ActiveProfileResponse')"
+            )
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -47,7 +78,7 @@ class ModelUsageResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ModelUsageResponse from a JSON string"""
+        """Create an instance of ActiveProfileResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -68,11 +99,20 @@ class ModelUsageResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of current_billing_period
+        if self.current_billing_period:
+            _dict["currentBillingPeriod"] = self.current_billing_period.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of input_feature_card
+        if self.input_feature_card:
+            _dict["inputFeatureCard"] = self.input_feature_card.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of output_feature_card
+        if self.output_feature_card:
+            _dict["outputFeatureCard"] = self.output_feature_card.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ModelUsageResponse from a dict"""
+        """Create an instance of ActiveProfileResponse from a dict"""
         if obj is None:
             return None
 
@@ -81,9 +121,24 @@ class ModelUsageResponse(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "usage": obj.get("usage"),
-                "balance": obj.get("balance"),
-                "overage": obj.get("overage"),
+                "planId": obj.get("planId"),
+                "currentBillingPeriod": BillingPeriod.from_dict(
+                    obj["currentBillingPeriod"]
+                )
+                if obj.get("currentBillingPeriod") is not None
+                else None,
+                "inputFeatureCard": FeatureCardResponse.from_dict(
+                    obj["inputFeatureCard"]
+                )
+                if obj.get("inputFeatureCard") is not None
+                else None,
+                "outputFeatureCard": FeatureCardResponse.from_dict(
+                    obj["outputFeatureCard"]
+                )
+                if obj.get("outputFeatureCard") is not None
+                else None,
+                "paymentConnected": obj.get("paymentConnected"),
+                "type": obj.get("type"),
             }
         )
         return _obj

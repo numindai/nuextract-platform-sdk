@@ -1633,6 +1633,12 @@ class ProjectManagementApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Destination organization id. If not specified, the project is copied to the user projects."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1648,10 +1654,12 @@ class ProjectManagementApi:
         """
         post_api_projects_projectid_duplicate
 
-         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the target organization is the same as the source, the project name is changed to \"Original Name (copy)\". - If the target organization is different from the source, all **Documents** associated with the **Project** are copied.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param organization_id: Destination organization id. If not specified, the project is copied to the user projects.
+        :type organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1675,6 +1683,7 @@ class ProjectManagementApi:
         """  # noqa: E501
         _param = self._post_api_projects_projectid_duplicate_serialize(
             project_id=project_id,
+            organization_id=organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1699,6 +1708,12 @@ class ProjectManagementApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Destination organization id. If not specified, the project is copied to the user projects."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1714,10 +1729,12 @@ class ProjectManagementApi:
         """
         post_api_projects_projectid_duplicate
 
-         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the target organization is the same as the source, the project name is changed to \"Original Name (copy)\". - If the target organization is different from the source, all **Documents** associated with the **Project** are copied.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param organization_id: Destination organization id. If not specified, the project is copied to the user projects.
+        :type organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1741,6 +1758,7 @@ class ProjectManagementApi:
         """  # noqa: E501
         _param = self._post_api_projects_projectid_duplicate_serialize(
             project_id=project_id,
+            organization_id=organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1765,6 +1783,12 @@ class ProjectManagementApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Destination organization id. If not specified, the project is copied to the user projects."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1780,10 +1804,12 @@ class ProjectManagementApi:
         """
         post_api_projects_projectid_duplicate
 
-         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - A new name is assigned (\"Original Name (copy)\").  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+         Create a copy of an existing **Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the target organization is the same as the source, the project name is changed to \"Original Name (copy)\". - If the target organization is different from the source, all **Documents** associated with the **Project** are copied.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param organization_id: Destination organization id. If not specified, the project is copied to the user projects.
+        :type organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1807,6 +1833,7 @@ class ProjectManagementApi:
         """  # noqa: E501
         _param = self._post_api_projects_projectid_duplicate_serialize(
             project_id=project_id,
+            organization_id=organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1824,6 +1851,7 @@ class ProjectManagementApi:
     def _post_api_projects_projectid_duplicate_serialize(
         self,
         project_id,
+        organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1846,6 +1874,9 @@ class ProjectManagementApi:
         if project_id is not None:
             _path_params["projectId"] = project_id
         # process the query parameters
+        if organization_id is not None:
+            _query_params.append(("organizationId", organization_id))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter

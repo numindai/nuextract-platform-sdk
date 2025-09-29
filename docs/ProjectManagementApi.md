@@ -548,7 +548,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_duplicate**
-> ProjectResponse post_api_projects_projectid_duplicate(project_id)
+> ProjectResponse post_api_projects_projectid_duplicate(project_id, organization_id=organization_id)
 
 
 Create a copy of an existing **Project**.
@@ -558,7 +558,8 @@ It is allowed to duplicate locked **Projects** and **Reference Projects**.
 
 #### Effect:
 - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**.
-- A new name is assigned ("Original Name (copy)").
+- If the target organization is the same as the source, the project name is changed to "Original Name (copy)".
+- If the target organization is different from the source, all **Documents** associated with the **Project** are copied.
 
 #### Response:
  The response contains a newly generated
@@ -599,9 +600,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ProjectManagementApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
+    organization_id = 'organization_id_example' # str | Destination organization id. If not specified, the project is copied to the user projects. (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_duplicate(project_id)
+        api_response = api_instance.post_api_projects_projectid_duplicate(project_id, organization_id=organization_id)
         print("The response of ProjectManagementApi->post_api_projects_projectid_duplicate:\n")
         pprint(api_response)
     except Exception as e:
@@ -616,6 +618,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **str**| Unique project identifier. | 
+ **organization_id** | **str**| Destination organization id. If not specified, the project is copied to the user projects. | [optional] 
 
 ### Return type
 

@@ -13,7 +13,11 @@ Do not edit the class manually.
 """  # noqa: E501
 
 # import models into model package
+from numind.openapi_client_async.models.active_profile_response import (
+    ActiveProfileResponse,
+)
 from numind.openapi_client_async.models.api_key_response import ApiKeyResponse
+from numind.openapi_client_async.models.billing_period import BillingPeriod
 from numind.openapi_client_async.models.convert_request import ConvertRequest
 from numind.openapi_client_async.models.create_api_key import CreateApiKey
 from numind.openapi_client_async.models.create_or_update_example_request import (
@@ -33,9 +37,13 @@ from numind.openapi_client_async.models.document_response import DocumentRespons
 from numind.openapi_client_async.models.error import Error
 from numind.openapi_client_async.models.example_response import ExampleResponse
 from numind.openapi_client_async.models.extraction_response import ExtractionResponse
+from numind.openapi_client_async.models.feature_card_response import FeatureCardResponse
 from numind.openapi_client_async.models.file_response import FileResponse
 from numind.openapi_client_async.models.health_response import HealthResponse
 from numind.openapi_client_async.models.image_info import ImageInfo
+from numind.openapi_client_async.models.inactive_profile_response import (
+    InactiveProfileResponse,
+)
 from numind.openapi_client_async.models.inference_response import InferenceResponse
 from numind.openapi_client_async.models.information_response import InformationResponse
 from numind.openapi_client_async.models.invalid_information import InvalidInformation
@@ -44,7 +52,6 @@ from numind.openapi_client_async.models.invite_member_request import InviteMembe
 from numind.openapi_client_async.models.job_id_response import JobIdResponse
 from numind.openapi_client_async.models.job_response import JobResponse
 from numind.openapi_client_async.models.member_response import MemberResponse
-from numind.openapi_client_async.models.model_usage_response import ModelUsageResponse
 from numind.openapi_client_async.models.organization_response import (
     OrganizationResponse,
 )

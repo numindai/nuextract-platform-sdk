@@ -451,13 +451,13 @@ class ApiClient:
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)
-        if klass == object:
+        if klass is object:
             return self.__deserialize_object(data)
-        if klass == datetime.date:
+        if klass is datetime.date:
             return self.__deserialize_date(data)
-        if klass == datetime.datetime:
+        if klass is datetime.datetime:
             return self.__deserialize_datetime(data)
-        if klass == decimal.Decimal:
+        if klass is decimal.Decimal:
             return decimal.Decimal(data)
         if issubclass(klass, Enum):
             return self.__deserialize_enum(data, klass)

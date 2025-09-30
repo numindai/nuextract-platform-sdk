@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.template_request import TemplateRequest
+from numind.models.template_request import TemplateRequest
 
 
 class TestTemplateRequest(unittest.TestCase):

@@ -24,7 +24,7 @@ from urllib.parse import quote
 from dateutil.parser import parse
 from pydantic import SecretStr
 
-import numind.openapi_client.models
+import numind.models
 from numind.openapi_client import rest
 from numind.openapi_client.api_response import ApiResponse
 from numind.openapi_client.api_response import T as ApiResponseT
@@ -447,7 +447,7 @@ class ApiClient:
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(numind.openapi_client.models, klass)
+                klass = getattr(numind.models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)

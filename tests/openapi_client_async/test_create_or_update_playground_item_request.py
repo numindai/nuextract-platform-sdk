@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.create_or_update_playground_item_request import (
+from numind.models.create_or_update_playground_item_request import (
     CreateOrUpdatePlaygroundItemRequest,
 )
 

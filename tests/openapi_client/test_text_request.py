@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.text_request import TextRequest
+from numind.models.text_request import TextRequest
 
 
 class TestTextRequest(unittest.TestCase):

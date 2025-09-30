@@ -84,7 +84,7 @@ No authorization required
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.health_response import HealthResponse
+from numind.models.health_response import HealthResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -203,7 +203,7 @@ No authorization required
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.version_response import VersionResponse
+from numind.models.version_response import VersionResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

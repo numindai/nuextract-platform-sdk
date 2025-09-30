@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.create_api_key import CreateApiKey
+from numind.models.create_api_key import CreateApiKey
 
 
 class TestCreateApiKey(unittest.TestCase):

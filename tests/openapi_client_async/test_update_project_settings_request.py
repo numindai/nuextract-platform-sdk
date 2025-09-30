@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.update_project_settings_request import (
-    UpdateProjectSettingsRequest,
-)
+from numind.models.update_project_settings_request import UpdateProjectSettingsRequest
 
 
 class TestUpdateProjectSettingsRequest(unittest.TestCase):

@@ -13,17 +13,13 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, validate_call
 
+from numind.models.create_project_request import CreateProjectRequest
+from numind.models.project_response import ProjectResponse
+from numind.models.update_project_request import UpdateProjectRequest
+from numind.models.update_project_settings_request import UpdateProjectSettingsRequest
+from numind.models.update_project_template_request import UpdateProjectTemplateRequest
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.api_response import ApiResponse
-from numind.openapi_client.models.create_project_request import CreateProjectRequest
-from numind.openapi_client.models.project_response import ProjectResponse
-from numind.openapi_client.models.update_project_request import UpdateProjectRequest
-from numind.openapi_client.models.update_project_settings_request import (
-    UpdateProjectSettingsRequest,
-)
-from numind.openapi_client.models.update_project_template_request import (
-    UpdateProjectTemplateRequest,
-)
 from numind.openapi_client.rest import RESTResponseType
 
 

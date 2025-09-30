@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.member_response import MemberResponse
+from numind.models.member_response import MemberResponse
 
 
 class TestMemberResponse(unittest.TestCase):

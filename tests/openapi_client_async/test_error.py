@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.error import Error
+from numind.models.error import Error
 
 
 class TestError(unittest.TestCase):

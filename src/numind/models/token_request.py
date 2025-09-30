@@ -23,23 +23,23 @@ from pydantic import (
 )
 from typing_extensions import Self
 
-from numind.openapi_client.models.image_info import ImageInfo
-from numind.openapi_client.models.text_info import TextInfo
+from numind.models.token_code_request import TokenCodeRequest
+from numind.models.token_refresh_request import TokenRefreshRequest
 
-DOCUMENTINFO_ONE_OF_SCHEMAS = ["ImageInfo", "TextInfo"]
+TOKENREQUEST_ONE_OF_SCHEMAS = ["TokenCodeRequest", "TokenRefreshRequest"]
 
 
-class DocumentInfo(BaseModel):
+class TokenRequest(BaseModel):
     """
-    DocumentInfo
+    TokenRequest
     """
 
-    # data type: ImageInfo
-    oneof_schema_1_validator: Optional[ImageInfo] = None
-    # data type: TextInfo
-    oneof_schema_2_validator: Optional[TextInfo] = None
-    actual_instance: Optional[Union[ImageInfo, TextInfo]] = None
-    one_of_schemas: Set[str] = {"ImageInfo", "TextInfo"}
+    # data type: TokenCodeRequest
+    oneof_schema_1_validator: Optional[TokenCodeRequest] = None
+    # data type: TokenRefreshRequest
+    oneof_schema_2_validator: Optional[TokenRefreshRequest] = None
+    actual_instance: Optional[Union[TokenCodeRequest, TokenRefreshRequest]] = None
+    one_of_schemas: Set[str] = {"TokenCodeRequest", "TokenRefreshRequest"}
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -64,29 +64,33 @@ class DocumentInfo(BaseModel):
 
     @field_validator("actual_instance")
     def actual_instance_must_validate_oneof(cls, v):
-        instance = DocumentInfo.model_construct()
+        instance = TokenRequest.model_construct()
         error_messages = []
         match = 0
-        # validate data type: ImageInfo
-        if not isinstance(v, ImageInfo):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `ImageInfo`")
+        # validate data type: TokenCodeRequest
+        if not isinstance(v, TokenCodeRequest):
+            error_messages.append(
+                f"Error! Input type `{type(v)}` is not `TokenCodeRequest`"
+            )
         else:
             match += 1
-        # validate data type: TextInfo
-        if not isinstance(v, TextInfo):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `TextInfo`")
+        # validate data type: TokenRefreshRequest
+        if not isinstance(v, TokenRefreshRequest):
+            error_messages.append(
+                f"Error! Input type `{type(v)}` is not `TokenRefreshRequest`"
+            )
         else:
             match += 1
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when setting `actual_instance` in DocumentInfo with oneOf schemas: ImageInfo, TextInfo. Details: "
+                "Multiple matches found when setting `actual_instance` in TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
                 + ", ".join(error_messages)
             )
         if match == 0:
             # no match
             raise ValueError(
-                "No match found when setting `actual_instance` in DocumentInfo with oneOf schemas: ImageInfo, TextInfo. Details: "
+                "No match found when setting `actual_instance` in TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
                 + ", ".join(error_messages)
             )
         return v
@@ -102,15 +106,15 @@ class DocumentInfo(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into ImageInfo
+        # deserialize data into TokenCodeRequest
         try:
-            instance.actual_instance = ImageInfo.from_json(json_str)
+            instance.actual_instance = TokenCodeRequest.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into TextInfo
+        # deserialize data into TokenRefreshRequest
         try:
-            instance.actual_instance = TextInfo.from_json(json_str)
+            instance.actual_instance = TokenRefreshRequest.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
@@ -118,13 +122,13 @@ class DocumentInfo(BaseModel):
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when deserializing the JSON string into DocumentInfo with oneOf schemas: ImageInfo, TextInfo. Details: "
+                "Multiple matches found when deserializing the JSON string into TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
                 + ", ".join(error_messages)
             )
         if match == 0:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into DocumentInfo with oneOf schemas: ImageInfo, TextInfo. Details: "
+                "No match found when deserializing the JSON string into TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
                 + ", ".join(error_messages)
             )
         return instance
@@ -140,7 +144,9 @@ class DocumentInfo(BaseModel):
             return self.actual_instance.to_json()
         return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], ImageInfo, TextInfo]]:
+    def to_dict(
+        self,
+    ) -> Optional[Union[Dict[str, Any], TokenCodeRequest, TokenRefreshRequest]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

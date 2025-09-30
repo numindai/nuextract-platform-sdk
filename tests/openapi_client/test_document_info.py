@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.document_info import DocumentInfo
+from numind.models.document_info import DocumentInfo
 
 
 class TestDocumentInfo(unittest.TestCase):

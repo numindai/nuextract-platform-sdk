@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.project_response import ProjectResponse
+from numind.models.project_response import ProjectResponse
 
 
 class TestProjectResponse(unittest.TestCase):
@@ -38,14 +38,14 @@ class TestProjectResponse(unittest.TestCase):
                 id = '',
                 name = '',
                 description = '',
-                template = numind.openapi_client.models.schema_response.SchemaResponse(),
+                template = numind.models.schema_response.SchemaResponse(),
                 owner_user = '',
                 owner_organization = '',
                 created_at = '',
                 updated_at = '',
                 lock_state = True,
                 shared = True,
-                settings = numind.openapi_client.models.project_settings_response.ProjectSettingsResponse(
+                settings = numind.models.project_settings_response.ProjectSettingsResponse(
                     temperature = 0.0, 
                     rasterization_dpi = 56, 
                     max_output_tokens = 56, 
@@ -57,13 +57,13 @@ class TestProjectResponse(unittest.TestCase):
                 id = '',
                 name = '',
                 description = '',
-                template = numind.openapi_client.models.schema_response.SchemaResponse(),
+                template = numind.models.schema_response.SchemaResponse(),
                 owner_user = '',
                 created_at = '',
                 updated_at = '',
                 lock_state = True,
                 shared = True,
-                settings = numind.openapi_client.models.project_settings_response.ProjectSettingsResponse(
+                settings = numind.models.project_settings_response.ProjectSettingsResponse(
                     temperature = 0.0, 
                     rasterization_dpi = 56, 
                     max_output_tokens = 56, 

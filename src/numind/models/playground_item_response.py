@@ -16,54 +16,62 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing_extensions import Self
 
+from numind.models.document_info import DocumentInfo
+from numind.models.information_response import InformationResponse
 
-class JobResponse(BaseModel):
+
+class PlaygroundItemResponse(BaseModel):
     """
-    JobResponse
+    PlaygroundItemResponse
     """
 
-    id: StrictStr = Field(description="Unique job identifier.")
-    job_type: StrictStr = Field(description="Job type.", alias="jobType")
-    status: StrictStr = Field(description="Job status.")
-    owner_user: StrictStr = Field(description="Job owner.", alias="ownerUser")
-    owner_organization: Optional[StrictStr] = Field(
-        default=None,
-        description="Job owning organization (if any).",
-        alias="ownerOrganization",
+    id: StrictStr = Field(description="Unique playground item identifier.")
+    project_id: StrictStr = Field(
+        description="Unique project identifier.", alias="projectId"
     )
-    input_data: StrictStr = Field(description="Job input data.", alias="inputData")
-    output_data: Optional[StrictStr] = Field(
-        default=None, description="Job output data (if completed).", alias="outputData"
+    owner_user: StrictStr = Field(
+        description="Playground item owner.", alias="ownerUser"
     )
-    error_message: Optional[StrictStr] = Field(
-        default=None, description="Error message (if failed).", alias="errorMessage"
+    document_info: DocumentInfo = Field(
+        description="Basic information on the document used for inference.",
+        alias="documentInfo",
     )
-    started_at: StrictStr = Field(description="Job start time.", alias="startedAt")
-    completed_at: Optional[StrictStr] = Field(
-        default=None,
-        description="Job completion time (if completed).",
-        alias="completedAt",
+    result: InformationResponse = Field(description="Inference result.")
+    created_at: StrictStr = Field(
+        description="Playground item creation date.", alias="createdAt"
     )
-    created_at: StrictStr = Field(description="Job creation date.", alias="createdAt")
     updated_at: StrictStr = Field(
-        description="Job last update date.", alias="updatedAt"
+        description="Playground item last update date.", alias="updatedAt"
+    )
+    total_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Total number of tokens used for inference (input + output).",
+        alias="totalTokens",
+    )
+    completion_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Completion tokens used for inference (output).",
+        alias="completionTokens",
+    )
+    prompt_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Prompt tokens used for inference (input).",
+        alias="promptTokens",
     )
     __properties: ClassVar[List[str]] = [
         "id",
-        "jobType",
-        "status",
+        "projectId",
         "ownerUser",
-        "ownerOrganization",
-        "inputData",
-        "outputData",
-        "errorMessage",
-        "startedAt",
-        "completedAt",
+        "documentInfo",
+        "result",
         "createdAt",
         "updatedAt",
+        "totalTokens",
+        "completionTokens",
+        "promptTokens",
     ]
 
     model_config = ConfigDict(
@@ -83,7 +91,7 @@ class JobResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of JobResponse from a JSON string"""
+        """Create an instance of PlaygroundItemResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -104,11 +112,17 @@ class JobResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of document_info
+        if self.document_info:
+            _dict["documentInfo"] = self.document_info.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of result
+        if self.result:
+            _dict["result"] = self.result.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of JobResponse from a dict"""
+        """Create an instance of PlaygroundItemResponse from a dict"""
         if obj is None:
             return None
 
@@ -118,17 +132,19 @@ class JobResponse(BaseModel):
         _obj = cls.model_validate(
             {
                 "id": obj.get("id"),
-                "jobType": obj.get("jobType"),
-                "status": obj.get("status"),
+                "projectId": obj.get("projectId"),
                 "ownerUser": obj.get("ownerUser"),
-                "ownerOrganization": obj.get("ownerOrganization"),
-                "inputData": obj.get("inputData"),
-                "outputData": obj.get("outputData"),
-                "errorMessage": obj.get("errorMessage"),
-                "startedAt": obj.get("startedAt"),
-                "completedAt": obj.get("completedAt"),
+                "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
+                if obj.get("documentInfo") is not None
+                else None,
+                "result": InformationResponse.from_dict(obj["result"])
+                if obj.get("result") is not None
+                else None,
                 "createdAt": obj.get("createdAt"),
                 "updatedAt": obj.get("updatedAt"),
+                "totalTokens": obj.get("totalTokens"),
+                "completionTokens": obj.get("completionTokens"),
+                "promptTokens": obj.get("promptTokens"),
             }
         )
         return _obj

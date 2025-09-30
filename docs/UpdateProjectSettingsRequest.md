@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.update_project_settings_request import UpdateProjectSettingsRequest
+from numind.models.update_project_settings_request import UpdateProjectSettingsRequest
 
 # TODO update the JSON string below
 json = "{}"

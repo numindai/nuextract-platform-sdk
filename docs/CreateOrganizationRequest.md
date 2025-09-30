@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.create_organization_request import CreateOrganizationRequest
+from numind.models.create_organization_request import CreateOrganizationRequest
 
 # TODO update the JSON string below
 json = "{}"

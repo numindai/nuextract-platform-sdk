@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.create_project_request import CreateProjectRequest
+from numind.models.create_project_request import CreateProjectRequest
 
 # TODO update the JSON string below
 json = "{}"

@@ -29,7 +29,7 @@ Method | HTTP request | Description
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.document_response import DocumentResponse
+from numind.models.document_response import DocumentResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -191,8 +191,8 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.document_response import DocumentResponse
-from numind.openapi_client.models.text_request import TextRequest
+from numind.models.document_response import DocumentResponse
+from numind.models.text_request import TextRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

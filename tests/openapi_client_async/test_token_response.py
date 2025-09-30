@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.token_response import TokenResponse
+from numind.models.token_response import TokenResponse
 
 
 class TestTokenResponse(unittest.TestCase):

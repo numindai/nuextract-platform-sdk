@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.job_id_response import JobIdResponse
+from numind.models.job_id_response import JobIdResponse
 
 
 class TestJobIdResponse(unittest.TestCase):

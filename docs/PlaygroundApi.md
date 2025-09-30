@@ -108,7 +108,7 @@ Return a list of **Playground Items** associated to the specified **Project**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.playground_item_response import PlaygroundItemResponse
+from numind.models.playground_item_response import PlaygroundItemResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -188,7 +188,7 @@ Return a specific **Playground Item**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.playground_item_response import PlaygroundItemResponse
+from numind.models.playground_item_response import PlaygroundItemResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -270,8 +270,8 @@ Create a new **Playground Item** associated to the specified **Project**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_or_update_playground_item_request import CreateOrUpdatePlaygroundItemRequest
-from numind.openapi_client.models.playground_item_response import PlaygroundItemResponse
+from numind.models.create_or_update_playground_item_request import CreateOrUpdatePlaygroundItemRequest
+from numind.models.playground_item_response import PlaygroundItemResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -354,8 +354,8 @@ Update a specific **Playground Item**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_or_update_playground_item_request import CreateOrUpdatePlaygroundItemRequest
-from numind.openapi_client.models.playground_item_response import PlaygroundItemResponse
+from numind.models.create_or_update_playground_item_request import CreateOrUpdatePlaygroundItemRequest
+from numind.models.playground_item_response import PlaygroundItemResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

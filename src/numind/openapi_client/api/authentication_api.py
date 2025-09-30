@@ -13,14 +13,14 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
+from numind.models.api_key_response import ApiKeyResponse
+from numind.models.create_api_key import CreateApiKey
+from numind.models.token_request import TokenRequest
+from numind.models.token_response import TokenResponse
+from numind.models.update_api_key import UpdateApiKey
+from numind.models.user import User
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.api_response import ApiResponse
-from numind.openapi_client.models.api_key_response import ApiKeyResponse
-from numind.openapi_client.models.create_api_key import CreateApiKey
-from numind.openapi_client.models.token_request import TokenRequest
-from numind.openapi_client.models.token_response import TokenResponse
-from numind.openapi_client.models.update_api_key import UpdateApiKey
-from numind.openapi_client.models.user import User
 from numind.openapi_client.rest import RESTResponseType
 
 

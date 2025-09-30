@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.image_info import ImageInfo
+from numind.models.image_info import ImageInfo
 
 
 class TestImageInfo(unittest.TestCase):

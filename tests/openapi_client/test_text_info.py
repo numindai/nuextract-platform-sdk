@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.text_info import TextInfo
+from numind.models.text_info import TextInfo
 
 
 class TestTextInfo(unittest.TestCase):

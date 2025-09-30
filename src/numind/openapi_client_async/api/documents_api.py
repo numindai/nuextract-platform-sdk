@@ -13,10 +13,10 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
+from numind.models.document_response import DocumentResponse
+from numind.models.text_request import TextRequest
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.api_response import ApiResponse
-from numind.openapi_client_async.models.document_response import DocumentResponse
-from numind.openapi_client_async.models.text_request import TextRequest
 from numind.openapi_client_async.rest import RESTResponseType
 
 

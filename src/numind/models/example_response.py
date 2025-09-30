@@ -16,49 +16,43 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
+from numind.models.document_info import DocumentInfo
+from numind.models.information_response import InformationResponse
 
-class TextInfo(BaseModel):
+
+class ExampleResponse(BaseModel):
     """
-    TextInfo
+    ExampleResponse
     """
 
-    document_id: StrictStr = Field(
-        description="Unique document identifier.", alias="documentId"
+    id: StrictStr = Field(description="Unique example identifier.")
+    project_id: StrictStr = Field(
+        description="Unique project identifier.", alias="projectId"
     )
-    file_id: StrictStr = Field(
-        description="Unique file identifier of the file used to generate this document.",
-        alias="fileId",
+    owner_user: StrictStr = Field(description="Example owner.", alias="ownerUser")
+    document_info: DocumentInfo = Field(
+        description="Basic information on the document used to create this example.",
+        alias="documentInfo",
     )
-    file_name: Optional[StrictStr] = Field(
-        default=None,
-        description="Filename of the initial file if any.     **None** for text input.",
-        alias="fileName",
+    result: InformationResponse = Field(description="Expected inference result.")
+    created_at: StrictStr = Field(
+        description="Example creation date.", alias="createdAt"
     )
-    text: StrictStr = Field(description="The text content of the document.")
-    possible_transformations: Optional[List[StrictStr]] = Field(
-        default=None,
-        description="Possible transformations that can be done with this document.",
-        alias="possibleTransformations",
+    updated_at: StrictStr = Field(
+        description="Example last update date.", alias="updatedAt"
     )
-    type: StrictStr
     __properties: ClassVar[List[str]] = [
-        "documentId",
-        "fileId",
-        "fileName",
-        "text",
-        "possibleTransformations",
-        "type",
+        "id",
+        "projectId",
+        "ownerUser",
+        "documentInfo",
+        "result",
+        "createdAt",
+        "updatedAt",
     ]
-
-    @field_validator("type")
-    def type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(["text"]):
-            raise ValueError("must be one of enum values ('text')")
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,7 +71,7 @@ class TextInfo(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of TextInfo from a JSON string"""
+        """Create an instance of ExampleResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -98,11 +92,17 @@ class TextInfo(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of document_info
+        if self.document_info:
+            _dict["documentInfo"] = self.document_info.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of result
+        if self.result:
+            _dict["result"] = self.result.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of TextInfo from a dict"""
+        """Create an instance of ExampleResponse from a dict"""
         if obj is None:
             return None
 
@@ -111,12 +111,17 @@ class TextInfo(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "documentId": obj.get("documentId"),
-                "fileId": obj.get("fileId"),
-                "fileName": obj.get("fileName"),
-                "text": obj.get("text"),
-                "possibleTransformations": obj.get("possibleTransformations"),
-                "type": obj.get("type"),
+                "id": obj.get("id"),
+                "projectId": obj.get("projectId"),
+                "ownerUser": obj.get("ownerUser"),
+                "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
+                if obj.get("documentInfo") is not None
+                else None,
+                "result": InformationResponse.from_dict(obj["result"])
+                if obj.get("result") is not None
+                else None,
+                "createdAt": obj.get("createdAt"),
+                "updatedAt": obj.get("updatedAt"),
             }
         )
         return _obj

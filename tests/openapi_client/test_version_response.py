@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.version_response import VersionResponse
+from numind.models.version_response import VersionResponse
 
 
 class TestVersionResponse(unittest.TestCase):

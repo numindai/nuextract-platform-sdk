@@ -23,8 +23,8 @@ from pydantic import (
 )
 from typing_extensions import Self
 
-from numind.openapi_client_async.models.image_info import ImageInfo
-from numind.openapi_client_async.models.text_info import TextInfo
+from numind.models.image_info import ImageInfo
+from numind.models.text_info import TextInfo
 
 DOCUMENTINFO_ONE_OF_SCHEMAS = ["ImageInfo", "TextInfo"]
 

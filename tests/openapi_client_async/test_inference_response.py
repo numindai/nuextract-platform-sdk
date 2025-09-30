@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.inference_response import InferenceResponse
+from numind.models.inference_response import InferenceResponse
 
 
 class TestInferenceResponse(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestInferenceResponse(unittest.TestCase):
         if include_optional:
             return InferenceResponse(
                 result = None,
-                raw_result = numind.openapi_client_async.models.raw_result.RawResult(
+                raw_result = numind.models.raw_result.RawResult(
                     result = '', 
                     error = '', ),
                 document_info = None,

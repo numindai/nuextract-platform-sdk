@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.invite_member_request import InviteMemberRequest
+from numind.models.invite_member_request import InviteMemberRequest
 
 
 class TestInviteMemberRequest(unittest.TestCase):

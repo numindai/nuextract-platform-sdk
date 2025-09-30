@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.create_project_request import (
-    CreateProjectRequest,
-)
+from numind.models.create_project_request import CreateProjectRequest
 
 
 class TestCreateProjectRequest(unittest.TestCase):

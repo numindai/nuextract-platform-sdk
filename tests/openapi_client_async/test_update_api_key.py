@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.update_api_key import UpdateApiKey
+from numind.models.update_api_key import UpdateApiKey
 
 
 class TestUpdateApiKey(unittest.TestCase):

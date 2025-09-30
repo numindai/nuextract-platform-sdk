@@ -35,7 +35,7 @@ Method | HTTP request | Description
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.template_request import TemplateRequest
+from numind.models.template_request import TemplateRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -119,8 +119,8 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.job_id_response import JobIdResponse
-from numind.openapi_client.models.template_request import TemplateRequest
+from numind.models.job_id_response import JobIdResponse
+from numind.models.template_request import TemplateRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -359,7 +359,7 @@ Start document inference as async job
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.job_id_response import JobIdResponse
+from numind.models.job_id_response import JobIdResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -449,7 +449,7 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.inference_response import InferenceResponse
+from numind.models.inference_response import InferenceResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -542,8 +542,8 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.inference_response import InferenceResponse
-from numind.openapi_client.models.text_request import TextRequest
+from numind.models.inference_response import InferenceResponse
+from numind.models.text_request import TextRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -619,8 +619,8 @@ Start text inference as async job
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.job_id_response import JobIdResponse
-from numind.openapi_client.models.text_request import TextRequest
+from numind.models.job_id_response import JobIdResponse
+from numind.models.text_request import TextRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

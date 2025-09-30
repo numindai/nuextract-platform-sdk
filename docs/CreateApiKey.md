@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.create_api_key import CreateApiKey
+from numind.models.create_api_key import CreateApiKey
 
 # TODO update the JSON string below
 json = "{}"

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.token_refresh_request import TokenRefreshRequest
+from numind.models.token_refresh_request import TokenRefreshRequest
 
 # TODO update the JSON string below
 json = "{}"

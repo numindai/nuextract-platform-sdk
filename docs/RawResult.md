@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.raw_result import RawResult
+from numind.models.raw_result import RawResult
 
 # TODO update the JSON string below
 json = "{}"

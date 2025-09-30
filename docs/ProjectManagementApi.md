@@ -119,7 +119,7 @@ Return a list of **Projects** accessible to the authenticated user.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
+from numind.models.project_response import ProjectResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -202,7 +202,7 @@ Return the details of a specific **Project**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
+from numind.models.project_response import ProjectResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -288,8 +288,8 @@ To modify these states, use the lock/unlock and share/unshare project endpoints.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
-from numind.openapi_client.models.update_project_request import UpdateProjectRequest
+from numind.models.project_response import ProjectResponse
+from numind.models.update_project_request import UpdateProjectRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -375,8 +375,8 @@ Update the settings of an existing **Project**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
-from numind.openapi_client.models.update_project_settings_request import UpdateProjectSettingsRequest
+from numind.models.project_response import ProjectResponse
+from numind.models.update_project_settings_request import UpdateProjectSettingsRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -483,8 +483,8 @@ When created, a **Project** is not locked and is owned by the authenticated user
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_project_request import CreateProjectRequest
-from numind.openapi_client.models.project_response import ProjectResponse
+from numind.models.create_project_request import CreateProjectRequest
+from numind.models.project_response import ProjectResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -578,7 +578,7 @@ It is allowed to duplicate locked **Projects** and **Reference Projects**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
+from numind.models.project_response import ProjectResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -755,7 +755,7 @@ Default values are:
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
+from numind.models.project_response import ProjectResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -1095,8 +1095,8 @@ Update the template of an existing **Project**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.project_response import ProjectResponse
-from numind.openapi_client.models.update_project_template_request import UpdateProjectTemplateRequest
+from numind.models.project_response import ProjectResponse
+from numind.models.update_project_template_request import UpdateProjectTemplateRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

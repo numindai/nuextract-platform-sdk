@@ -155,7 +155,7 @@ No authorization required
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.api_key_response import ApiKeyResponse
+from numind.models.api_key_response import ApiKeyResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -222,7 +222,7 @@ This endpoint does not need any parameter.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.user import User
+from numind.models.user import User
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -289,8 +289,8 @@ This endpoint does not need any parameter.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.api_key_response import ApiKeyResponse
-from numind.openapi_client.models.create_api_key import CreateApiKey
+from numind.models.api_key_response import ApiKeyResponse
+from numind.models.create_api_key import CreateApiKey
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -432,8 +432,8 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.token_request import TokenRequest
-from numind.openapi_client.models.token_response import TokenResponse
+from numind.models.token_request import TokenRequest
+from numind.models.token_response import TokenResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -499,8 +499,8 @@ No authorization required
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.api_key_response import ApiKeyResponse
-from numind.openapi_client.models.update_api_key import UpdateApiKey
+from numind.models.api_key_response import ApiKeyResponse
+from numind.models.update_api_key import UpdateApiKey
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

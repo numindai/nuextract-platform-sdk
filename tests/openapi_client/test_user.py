@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.user import User
+from numind.models.user import User
 
 
 class TestUser(unittest.TestCase):
@@ -38,7 +38,7 @@ class TestUser(unittest.TestCase):
                 email = '',
                 is_admin = True,
                 organizations = [
-                    numind.openapi_client.models.organization_response.OrganizationResponse(
+                    numind.models.organization_response.OrganizationResponse(
                         id = '', 
                         name = '', )
                     ]

@@ -14,49 +14,23 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set, Union
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing_extensions import Self
 
-from numind.openapi_client.models.raw_result import RawResult
+from numind.models.organization_response import OrganizationResponse
 
 
-class ExtractionResponse(BaseModel):
+class User(BaseModel):
     """
-    ExtractionResponse
+    User
     """
 
-    result: Dict[str, Any] = Field(
-        description="Extraction result conforming to the template."
-    )
-    raw_result: Optional[RawResult] = Field(
-        default=None,
-        description="Extraction result if not conforming to the template.",
-        alias="rawResult",
-    )
-    completion_tokens: StrictInt = Field(
-        description="Completion tokens used for extraction (output).",
-        alias="completionTokens",
-    )
-    prompt_tokens: StrictInt = Field(
-        description="Prompt tokens used for extraction (input).", alias="promptTokens"
-    )
-    total_tokens: StrictInt = Field(
-        description="Total number of tokens used for extraction (input + output).",
-        alias="totalTokens",
-    )
-    logprobs: Union[StrictFloat, StrictInt] = Field(
-        description="Logprob of the extraction result (sum of logprobs of all tokens)."
-    )
-    __properties: ClassVar[List[str]] = [
-        "result",
-        "rawResult",
-        "completionTokens",
-        "promptTokens",
-        "totalTokens",
-        "logprobs",
-    ]
+    email: StrictStr
+    is_admin: StrictBool = Field(alias="isAdmin")
+    organizations: Optional[List[OrganizationResponse]] = None
+    __properties: ClassVar[List[str]] = ["email", "isAdmin", "organizations"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -75,7 +49,7 @@ class ExtractionResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ExtractionResponse from a JSON string"""
+        """Create an instance of User from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -96,14 +70,18 @@ class ExtractionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of raw_result
-        if self.raw_result:
-            _dict["rawResult"] = self.raw_result.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in organizations (list)
+        _items = []
+        if self.organizations:
+            for _item_organizations in self.organizations:
+                if _item_organizations:
+                    _items.append(_item_organizations.to_dict())
+            _dict["organizations"] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ExtractionResponse from a dict"""
+        """Create an instance of User from a dict"""
         if obj is None:
             return None
 
@@ -112,14 +90,14 @@ class ExtractionResponse(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "result": obj.get("result"),
-                "rawResult": RawResult.from_dict(obj["rawResult"])
-                if obj.get("rawResult") is not None
+                "email": obj.get("email"),
+                "isAdmin": obj.get("isAdmin"),
+                "organizations": [
+                    OrganizationResponse.from_dict(_item)
+                    for _item in obj["organizations"]
+                ]
+                if obj.get("organizations") is not None
                 else None,
-                "completionTokens": obj.get("completionTokens"),
-                "promptTokens": obj.get("promptTokens"),
-                "totalTokens": obj.get("totalTokens"),
-                "logprobs": obj.get("logprobs"),
             }
         )
         return _obj

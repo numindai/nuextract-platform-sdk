@@ -16,42 +16,54 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing_extensions import Self
 
-from numind.openapi_client.models.document_info import DocumentInfo
-from numind.openapi_client.models.information_response import InformationResponse
+from numind.models.project_settings_response import ProjectSettingsResponse
 
 
-class ExampleResponse(BaseModel):
+class ProjectResponse(BaseModel):
     """
-    ExampleResponse
+    ProjectResponse
     """
 
-    id: StrictStr = Field(description="Unique example identifier.")
-    project_id: StrictStr = Field(
-        description="Unique project identifier.", alias="projectId"
+    id: StrictStr = Field(description="Unique project identifier.")
+    name: StrictStr = Field(description="Project name.")
+    description: StrictStr = Field(description="A brief explanation of the project.")
+    template: Dict[str, Any] = Field(
+        description="Extraction template (NuExtract format)."
     )
-    owner_user: StrictStr = Field(description="Example owner.", alias="ownerUser")
-    document_info: DocumentInfo = Field(
-        description="Basic information on the document used to create this example.",
-        alias="documentInfo",
+    owner_user: StrictStr = Field(description="Project owner.", alias="ownerUser")
+    owner_organization: Optional[StrictStr] = Field(
+        default=None,
+        description="Project owning organization (if any).",
+        alias="ownerOrganization",
     )
-    result: InformationResponse = Field(description="Expected inference result.")
     created_at: StrictStr = Field(
-        description="Example creation date.", alias="createdAt"
+        description="Project creation date.", alias="createdAt"
     )
     updated_at: StrictStr = Field(
-        description="Example last update date.", alias="updatedAt"
+        description="Project last update date.", alias="updatedAt"
     )
+    lock_state: StrictBool = Field(
+        description="The lock state of the project.", alias="lockState"
+    )
+    shared: StrictBool = Field(
+        description="The shared (reference) state of the project."
+    )
+    settings: ProjectSettingsResponse
     __properties: ClassVar[List[str]] = [
         "id",
-        "projectId",
+        "name",
+        "description",
+        "template",
         "ownerUser",
-        "documentInfo",
-        "result",
+        "ownerOrganization",
         "createdAt",
         "updatedAt",
+        "lockState",
+        "shared",
+        "settings",
     ]
 
     model_config = ConfigDict(
@@ -71,7 +83,7 @@ class ExampleResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ExampleResponse from a JSON string"""
+        """Create an instance of ProjectResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -92,17 +104,14 @@ class ExampleResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of document_info
-        if self.document_info:
-            _dict["documentInfo"] = self.document_info.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of result
-        if self.result:
-            _dict["result"] = self.result.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of settings
+        if self.settings:
+            _dict["settings"] = self.settings.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ExampleResponse from a dict"""
+        """Create an instance of ProjectResponse from a dict"""
         if obj is None:
             return None
 
@@ -112,16 +121,18 @@ class ExampleResponse(BaseModel):
         _obj = cls.model_validate(
             {
                 "id": obj.get("id"),
-                "projectId": obj.get("projectId"),
+                "name": obj.get("name"),
+                "description": obj.get("description"),
+                "template": obj.get("template"),
                 "ownerUser": obj.get("ownerUser"),
-                "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
-                if obj.get("documentInfo") is not None
-                else None,
-                "result": InformationResponse.from_dict(obj["result"])
-                if obj.get("result") is not None
-                else None,
+                "ownerOrganization": obj.get("ownerOrganization"),
                 "createdAt": obj.get("createdAt"),
                 "updatedAt": obj.get("updatedAt"),
+                "lockState": obj.get("lockState"),
+                "shared": obj.get("shared"),
+                "settings": ProjectSettingsResponse.from_dict(obj["settings"])
+                if obj.get("settings") is not None
+                else None,
             }
         )
         return _obj

@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.update_organization_request import (
-    UpdateOrganizationRequest,
-)
+from numind.models.update_organization_request import UpdateOrganizationRequest
 
 
 class TestUpdateOrganizationRequest(unittest.TestCase):

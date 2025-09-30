@@ -13,20 +13,14 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
+from numind.models.create_organization_request import CreateOrganizationRequest
+from numind.models.invitation_response import InvitationResponse
+from numind.models.invite_member_request import InviteMemberRequest
+from numind.models.member_response import MemberResponse
+from numind.models.organization_response import OrganizationResponse
+from numind.models.update_organization_request import UpdateOrganizationRequest
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.api_response import ApiResponse
-from numind.openapi_client_async.models.create_organization_request import (
-    CreateOrganizationRequest,
-)
-from numind.openapi_client_async.models.invitation_response import InvitationResponse
-from numind.openapi_client_async.models.invite_member_request import InviteMemberRequest
-from numind.openapi_client_async.models.member_response import MemberResponse
-from numind.openapi_client_async.models.organization_response import (
-    OrganizationResponse,
-)
-from numind.openapi_client_async.models.update_organization_request import (
-    UpdateOrganizationRequest,
-)
 from numind.openapi_client_async.rest import RESTResponseType
 
 

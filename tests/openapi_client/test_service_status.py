@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.service_status import ServiceStatus
+from numind.models.service_status import ServiceStatus
 
 
 class TestServiceStatus(unittest.TestCase):

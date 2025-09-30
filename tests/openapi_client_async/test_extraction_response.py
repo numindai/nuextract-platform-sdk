@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.extraction_response import ExtractionResponse
+from numind.models.extraction_response import ExtractionResponse
 
 
 class TestExtractionResponse(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestExtractionResponse(unittest.TestCase):
         if include_optional:
             return ExtractionResponse(
                 result = None,
-                raw_result = numind.openapi_client_async.models.raw_result.RawResult(
+                raw_result = numind.models.raw_result.RawResult(
                     result = '', 
                     error = '', ),
                 completion_tokens = 56,

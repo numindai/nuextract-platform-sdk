@@ -32,6 +32,12 @@ python sdk_generation/remove_unused_models_from_openapi_spec_file.py --openapi-f
 if [ -d src/numind/openapi_client ]; then
   rm -r src/numind/openapi_client
 fi
+if [ -d src/numind/openapi_client_async ]; then
+  rm -r src/numind/openapi_client_async
+fi
+if [ -d src/numind/models ]; then
+  rm -r src/numind/models
+fi
 if [ -d tests/openapi_client ]; then
   rm -r tests/openapi_client
 fi
@@ -98,6 +104,24 @@ rm src/pyproject.toml
 rm src/*requirements.txt
 rm src/README.md  # already used the one from sync client gen
 rm -r src/docs  # already used the one from sync client gen
+
+# Move the models package to its parent directory to avoid redundant models in sync and
+# async clients.
+# Rename the imports paths in all files in the package, including tests and docs.
+mv src/numind/openapi_client/models src/numind/models
+rm -r src/numind/openapi_client_async/models
+# Find all Python and Markdown files, starting search from the current directory (.), recursively.
+# Exclude files within the new 'sdk/models' directory.
+find src docs tests -type f \( -name "*.py" -o -name "*.md" \) \
+  -o \( -type f -name "README.md" \) | while read -r file; do
+  # echo "Processing $file..."
+  # Replace 'numind.openapi_client.models' with 'numind.models'
+  sed -i.bak 's/numind.openapi_client.models/numind.models/g' "$file"
+  # Replace 'numind.openapi_client_async.models' with 'numind.models'
+  sed -i.bak 's/numind.openapi_client_async.models/numind.models/g' "$file"
+  # Remove backup file created by sed
+  rm -f "${file}.bak"
+done
 
 # TODO rewrite the package version in the pyproject as in the config.json, or find an
 #  other way to fetch the define and fetch the package version in one place

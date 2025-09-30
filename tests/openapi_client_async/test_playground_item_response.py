@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.playground_item_response import (
-    PlaygroundItemResponse,
-)
+from numind.models.playground_item_response import PlaygroundItemResponse
 
 
 class TestPlaygroundItemResponse(unittest.TestCase):

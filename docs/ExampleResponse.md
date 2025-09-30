@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.example_response import ExampleResponse
+from numind.models.example_response import ExampleResponse
 
 # TODO update the JSON string below
 json = "{}"

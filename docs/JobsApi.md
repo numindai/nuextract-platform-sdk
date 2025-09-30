@@ -20,7 +20,7 @@ List all jobs for the authenticated user
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.job_response import JobResponse
+from numind.models.job_response import JobResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -93,7 +93,7 @@ Get details of a specific job
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.job_response import JobResponse
+from numind.models.job_response import JobResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

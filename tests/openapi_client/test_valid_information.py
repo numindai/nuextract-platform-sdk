@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.valid_information import ValidInformation
+from numind.models.valid_information import ValidInformation
 
 
 class TestValidInformation(unittest.TestCase):
@@ -35,12 +35,12 @@ class TestValidInformation(unittest.TestCase):
         model = ValidInformation()
         if include_optional:
             return ValidInformation(
-                information = numind.openapi_client.models.information.information(),
+                information = numind.models.information.information(),
                 type = 'information'
             )
         else:
             return ValidInformation(
-                information = numind.openapi_client.models.information.information(),
+                information = numind.models.information.information(),
                 type = 'information',
         )
         """

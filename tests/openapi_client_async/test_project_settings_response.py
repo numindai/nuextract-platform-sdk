@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.project_settings_response import (
-    ProjectSettingsResponse,
-)
+from numind.models.project_settings_response import ProjectSettingsResponse
 
 
 class TestProjectSettingsResponse(unittest.TestCase):

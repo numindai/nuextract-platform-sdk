@@ -23,23 +23,23 @@ from pydantic import (
 )
 from typing_extensions import Self
 
-from numind.openapi_client.models.token_code_request import TokenCodeRequest
-from numind.openapi_client.models.token_refresh_request import TokenRefreshRequest
+from numind.models.invalid_information import InvalidInformation
+from numind.models.valid_information import ValidInformation
 
-TOKENREQUEST_ONE_OF_SCHEMAS = ["TokenCodeRequest", "TokenRefreshRequest"]
+INFORMATIONRESPONSE_ONE_OF_SCHEMAS = ["InvalidInformation", "ValidInformation"]
 
 
-class TokenRequest(BaseModel):
+class InformationResponse(BaseModel):
     """
-    TokenRequest
+    InformationResponse
     """
 
-    # data type: TokenCodeRequest
-    oneof_schema_1_validator: Optional[TokenCodeRequest] = None
-    # data type: TokenRefreshRequest
-    oneof_schema_2_validator: Optional[TokenRefreshRequest] = None
-    actual_instance: Optional[Union[TokenCodeRequest, TokenRefreshRequest]] = None
-    one_of_schemas: Set[str] = {"TokenCodeRequest", "TokenRefreshRequest"}
+    # data type: InvalidInformation
+    oneof_schema_1_validator: Optional[InvalidInformation] = None
+    # data type: ValidInformation
+    oneof_schema_2_validator: Optional[ValidInformation] = None
+    actual_instance: Optional[Union[InvalidInformation, ValidInformation]] = None
+    one_of_schemas: Set[str] = {"InvalidInformation", "ValidInformation"}
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -64,33 +64,33 @@ class TokenRequest(BaseModel):
 
     @field_validator("actual_instance")
     def actual_instance_must_validate_oneof(cls, v):
-        instance = TokenRequest.model_construct()
+        instance = InformationResponse.model_construct()
         error_messages = []
         match = 0
-        # validate data type: TokenCodeRequest
-        if not isinstance(v, TokenCodeRequest):
+        # validate data type: InvalidInformation
+        if not isinstance(v, InvalidInformation):
             error_messages.append(
-                f"Error! Input type `{type(v)}` is not `TokenCodeRequest`"
+                f"Error! Input type `{type(v)}` is not `InvalidInformation`"
             )
         else:
             match += 1
-        # validate data type: TokenRefreshRequest
-        if not isinstance(v, TokenRefreshRequest):
+        # validate data type: ValidInformation
+        if not isinstance(v, ValidInformation):
             error_messages.append(
-                f"Error! Input type `{type(v)}` is not `TokenRefreshRequest`"
+                f"Error! Input type `{type(v)}` is not `ValidInformation`"
             )
         else:
             match += 1
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when setting `actual_instance` in TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
+                "Multiple matches found when setting `actual_instance` in InformationResponse with oneOf schemas: InvalidInformation, ValidInformation. Details: "
                 + ", ".join(error_messages)
             )
         if match == 0:
             # no match
             raise ValueError(
-                "No match found when setting `actual_instance` in TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
+                "No match found when setting `actual_instance` in InformationResponse with oneOf schemas: InvalidInformation, ValidInformation. Details: "
                 + ", ".join(error_messages)
             )
         return v
@@ -106,15 +106,15 @@ class TokenRequest(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into TokenCodeRequest
+        # deserialize data into InvalidInformation
         try:
-            instance.actual_instance = TokenCodeRequest.from_json(json_str)
+            instance.actual_instance = InvalidInformation.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into TokenRefreshRequest
+        # deserialize data into ValidInformation
         try:
-            instance.actual_instance = TokenRefreshRequest.from_json(json_str)
+            instance.actual_instance = ValidInformation.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
@@ -122,13 +122,13 @@ class TokenRequest(BaseModel):
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when deserializing the JSON string into TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
+                "Multiple matches found when deserializing the JSON string into InformationResponse with oneOf schemas: InvalidInformation, ValidInformation. Details: "
                 + ", ".join(error_messages)
             )
         if match == 0:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into TokenRequest with oneOf schemas: TokenCodeRequest, TokenRefreshRequest. Details: "
+                "No match found when deserializing the JSON string into InformationResponse with oneOf schemas: InvalidInformation, ValidInformation. Details: "
                 + ", ".join(error_messages)
             )
         return instance
@@ -146,7 +146,7 @@ class TokenRequest(BaseModel):
 
     def to_dict(
         self,
-    ) -> Optional[Union[Dict[str, Any], TokenCodeRequest, TokenRefreshRequest]]:
+    ) -> Optional[Union[Dict[str, Any], InvalidInformation, ValidInformation]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

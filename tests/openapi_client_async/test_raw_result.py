@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.raw_result import RawResult
+from numind.models.raw_result import RawResult
 
 
 class TestRawResult(unittest.TestCase):

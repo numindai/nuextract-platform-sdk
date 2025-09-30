@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.invalid_information import InvalidInformation
+from numind.models.invalid_information import InvalidInformation
 
 
 class TestInvalidInformation(unittest.TestCase):

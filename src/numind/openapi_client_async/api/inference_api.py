@@ -20,12 +20,12 @@ from pydantic import (
     validate_call,
 )
 
+from numind.models.inference_response import InferenceResponse
+from numind.models.job_id_response import JobIdResponse
+from numind.models.template_request import TemplateRequest
+from numind.models.text_request import TextRequest
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.api_response import ApiResponse
-from numind.openapi_client_async.models.inference_response import InferenceResponse
-from numind.openapi_client_async.models.job_id_response import JobIdResponse
-from numind.openapi_client_async.models.template_request import TemplateRequest
-from numind.openapi_client_async.models.text_request import TextRequest
 from numind.openapi_client_async.rest import RESTResponseType
 
 

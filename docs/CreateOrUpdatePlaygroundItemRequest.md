@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.create_or_update_playground_item_request import CreateOrUpdatePlaygroundItemRequest
+from numind.models.create_or_update_playground_item_request import CreateOrUpdatePlaygroundItemRequest
 
 # TODO update the JSON string below
 json = "{}"

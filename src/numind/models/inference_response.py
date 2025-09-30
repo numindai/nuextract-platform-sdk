@@ -14,21 +14,55 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing_extensions import Self
 
-from numind.openapi_client.models.service_status import ServiceStatus
+from numind.models.document_info import DocumentInfo
+from numind.models.raw_result import RawResult
 
 
-class HealthResponse(BaseModel):
+class InferenceResponse(BaseModel):
     """
-    HealthResponse
+    InferenceResponse
     """
 
-    services: Optional[List[ServiceStatus]] = None
-    __properties: ClassVar[List[str]] = ["services"]
+    result: Dict[str, Any] = Field(
+        description="Inference result conforming to the template."
+    )
+    raw_result: Optional[RawResult] = Field(
+        default=None,
+        description="Inference result if not conforming to the template.",
+        alias="rawResult",
+    )
+    document_info: DocumentInfo = Field(
+        description="Basic information on the document used for inference.",
+        alias="documentInfo",
+    )
+    completion_tokens: StrictInt = Field(
+        description="Completion tokens used for inference (output).",
+        alias="completionTokens",
+    )
+    prompt_tokens: StrictInt = Field(
+        description="Prompt tokens used for inference (input).", alias="promptTokens"
+    )
+    total_tokens: StrictInt = Field(
+        description="Total number of tokens used for inference (input + output).",
+        alias="totalTokens",
+    )
+    logprobs: Union[StrictFloat, StrictInt] = Field(
+        description="Logprob of the inference result (sum of logprobs of all tokens)."
+    )
+    __properties: ClassVar[List[str]] = [
+        "result",
+        "rawResult",
+        "documentInfo",
+        "completionTokens",
+        "promptTokens",
+        "totalTokens",
+        "logprobs",
+    ]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -47,7 +81,7 @@ class HealthResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of HealthResponse from a JSON string"""
+        """Create an instance of InferenceResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -68,18 +102,17 @@ class HealthResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in services (list)
-        _items = []
-        if self.services:
-            for _item_services in self.services:
-                if _item_services:
-                    _items.append(_item_services.to_dict())
-            _dict["services"] = _items
+        # override the default output from pydantic by calling `to_dict()` of raw_result
+        if self.raw_result:
+            _dict["rawResult"] = self.raw_result.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of document_info
+        if self.document_info:
+            _dict["documentInfo"] = self.document_info.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of HealthResponse from a dict"""
+        """Create an instance of InferenceResponse from a dict"""
         if obj is None:
             return None
 
@@ -88,11 +121,17 @@ class HealthResponse(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "services": [
-                    ServiceStatus.from_dict(_item) for _item in obj["services"]
-                ]
-                if obj.get("services") is not None
-                else None
+                "result": obj.get("result"),
+                "rawResult": RawResult.from_dict(obj["rawResult"])
+                if obj.get("rawResult") is not None
+                else None,
+                "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
+                if obj.get("documentInfo") is not None
+                else None,
+                "completionTokens": obj.get("completionTokens"),
+                "promptTokens": obj.get("promptTokens"),
+                "totalTokens": obj.get("totalTokens"),
+                "logprobs": obj.get("logprobs"),
             }
         )
         return _obj

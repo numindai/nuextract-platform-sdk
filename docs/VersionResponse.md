@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.version_response import VersionResponse
+from numind.models.version_response import VersionResponse
 
 # TODO update the JSON string below
 json = "{}"

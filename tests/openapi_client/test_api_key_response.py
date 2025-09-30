@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.api_key_response import ApiKeyResponse
+from numind.models.api_key_response import ApiKeyResponse
 
 
 class TestApiKeyResponse(unittest.TestCase):

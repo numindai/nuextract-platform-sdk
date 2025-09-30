@@ -110,7 +110,7 @@ Return a list of **Examples** associated to the specified **Project**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.example_response import ExampleResponse
+from numind.models.example_response import ExampleResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -190,7 +190,7 @@ Return a specific **Example**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.example_response import ExampleResponse
+from numind.models.example_response import ExampleResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -286,8 +286,8 @@ In such cases, the **Example** will be skipped.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_or_update_example_request import CreateOrUpdateExampleRequest
-from numind.openapi_client.models.example_response import ExampleResponse
+from numind.models.create_or_update_example_request import CreateOrUpdateExampleRequest
+from numind.models.example_response import ExampleResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -372,8 +372,8 @@ Update a specific **Example**.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_or_update_example_request import CreateOrUpdateExampleRequest
-from numind.openapi_client.models.example_response import ExampleResponse
+from numind.models.create_or_update_example_request import CreateOrUpdateExampleRequest
+from numind.models.example_response import ExampleResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

@@ -36,7 +36,7 @@ Returns a JSON representing the extracted information.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.extraction_response import ExtractionResponse
+from numind.models.extraction_response import ExtractionResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -122,7 +122,7 @@ Start file extraction as async job
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.job_id_response import JobIdResponse
+from numind.models.job_id_response import JobIdResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

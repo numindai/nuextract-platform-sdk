@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.information_response import InformationResponse
+from numind.models.information_response import InformationResponse
 
 
 class TestInformationResponse(unittest.TestCase):
@@ -35,13 +35,13 @@ class TestInformationResponse(unittest.TestCase):
         model = InformationResponse()
         if include_optional:
             return InformationResponse(
-                information = numind.openapi_client.models.information.information(),
+                information = numind.models.information.information(),
                 error = '',
                 type = 'string'
             )
         else:
             return InformationResponse(
-                information = numind.openapi_client.models.information.information(),
+                information = numind.models.information.information(),
                 error = '',
                 type = 'string',
         )

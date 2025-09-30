@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from numind.openapi_client.models import CreateProjectRequest
+from numind.models import CreateProjectRequest
 
 from .conftest import EXTRACT_KWARGS, TEST_CASES
 

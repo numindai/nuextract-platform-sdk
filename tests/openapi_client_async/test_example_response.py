@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.example_response import ExampleResponse
+from numind.models.example_response import ExampleResponse
 
 
 class TestExampleResponse(unittest.TestCase):

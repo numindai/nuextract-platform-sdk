@@ -20,11 +20,11 @@ from pydantic import (
     validate_call,
 )
 
+from numind.models.convert_request import ConvertRequest
+from numind.models.document_response import DocumentResponse
+from numind.models.file_response import FileResponse
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.api_response import ApiResponse
-from numind.openapi_client_async.models.convert_request import ConvertRequest
-from numind.openapi_client_async.models.document_response import DocumentResponse
-from numind.openapi_client_async.models.file_response import FileResponse
 from numind.openapi_client_async.rest import RESTResponseType
 
 

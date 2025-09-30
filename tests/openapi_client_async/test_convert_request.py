@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.convert_request import ConvertRequest
+from numind.models.convert_request import ConvertRequest
 
 
 class TestConvertRequest(unittest.TestCase):

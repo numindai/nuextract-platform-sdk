@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.health_response import HealthResponse
+from numind.models.health_response import HealthResponse
 
 
 class TestHealthResponse(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestHealthResponse(unittest.TestCase):
         if include_optional:
             return HealthResponse(
                 services = [
-                    numind.openapi_client.models.service_status.ServiceStatus(
+                    numind.models.service_status.ServiceStatus(
                         name = '', 
                         status = '', 
                         count = 56, )

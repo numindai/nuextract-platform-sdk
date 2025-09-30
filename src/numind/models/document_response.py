@@ -16,28 +16,39 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
+from numind.models.document_info import DocumentInfo
 
-class TokenCodeRequest(BaseModel):
+
+class DocumentResponse(BaseModel):
     """
-    TokenCodeRequest
+    DocumentResponse
     """
 
-    code: StrictStr
-    redirect_uri: StrictStr = Field(alias="redirectUri")
-    type: StrictStr
-    __properties: ClassVar[List[str]] = ["code", "redirectUri", "type"]
-
-    @field_validator("type")
-    def type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(["ai.numind.extract.shared.TokenCodeRequest"]):
-            raise ValueError(
-                "must be one of enum values ('ai.numind.extract.shared.TokenCodeRequest')"
-            )
-        return value
+    doc_info: DocumentInfo = Field(
+        description="Basic document information.", alias="docInfo"
+    )
+    owner_user: StrictStr = Field(description="Document owner.", alias="ownerUser")
+    owner_organization: Optional[StrictStr] = Field(
+        default=None,
+        description="Document owning organization (if any).",
+        alias="ownerOrganization",
+    )
+    content_type: StrictStr = Field(
+        description="Mime type of the document.", alias="contentType"
+    )
+    created_at: StrictStr = Field(
+        description="Document creation date.", alias="createdAt"
+    )
+    __properties: ClassVar[List[str]] = [
+        "docInfo",
+        "ownerUser",
+        "ownerOrganization",
+        "contentType",
+        "createdAt",
+    ]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -56,7 +67,7 @@ class TokenCodeRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of TokenCodeRequest from a JSON string"""
+        """Create an instance of DocumentResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,11 +88,14 @@ class TokenCodeRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of doc_info
+        if self.doc_info:
+            _dict["docInfo"] = self.doc_info.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of TokenCodeRequest from a dict"""
+        """Create an instance of DocumentResponse from a dict"""
         if obj is None:
             return None
 
@@ -90,9 +104,13 @@ class TokenCodeRequest(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "code": obj.get("code"),
-                "redirectUri": obj.get("redirectUri"),
-                "type": obj.get("type"),
+                "docInfo": DocumentInfo.from_dict(obj["docInfo"])
+                if obj.get("docInfo") is not None
+                else None,
+                "ownerUser": obj.get("ownerUser"),
+                "ownerOrganization": obj.get("ownerOrganization"),
+                "contentType": obj.get("contentType"),
+                "createdAt": obj.get("createdAt"),
             }
         )
         return _obj

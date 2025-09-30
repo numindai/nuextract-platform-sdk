@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client.models.update_project_template_request import (
-    UpdateProjectTemplateRequest,
-)
+from numind.models.update_project_template_request import UpdateProjectTemplateRequest
 
 
 class TestUpdateProjectTemplateRequest(unittest.TestCase):

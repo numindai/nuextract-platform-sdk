@@ -120,121 +120,75 @@ from numind.openapi_client_async.exceptions import (
 from numind.openapi_client_async.exceptions import ApiException as ApiException
 
 # import models into sdk package
-from numind.openapi_client_async.models.api_key_response import (
-    ApiKeyResponse as ApiKeyResponse,
-)
-from numind.openapi_client_async.models.convert_request import (
-    ConvertRequest as ConvertRequest,
-)
-from numind.openapi_client_async.models.create_api_key import (
-    CreateApiKey as CreateApiKey,
-)
-from numind.openapi_client_async.models.create_or_update_example_request import (
+from numind.models.api_key_response import ApiKeyResponse as ApiKeyResponse
+from numind.models.convert_request import ConvertRequest as ConvertRequest
+from numind.models.create_api_key import CreateApiKey as CreateApiKey
+from numind.models.create_or_update_example_request import (
     CreateOrUpdateExampleRequest as CreateOrUpdateExampleRequest,
 )
-from numind.openapi_client_async.models.create_or_update_playground_item_request import (
+from numind.models.create_or_update_playground_item_request import (
     CreateOrUpdatePlaygroundItemRequest as CreateOrUpdatePlaygroundItemRequest,
 )
-from numind.openapi_client_async.models.create_organization_request import (
+from numind.models.create_organization_request import (
     CreateOrganizationRequest as CreateOrganizationRequest,
 )
-from numind.openapi_client_async.models.create_project_request import (
+from numind.models.create_project_request import (
     CreateProjectRequest as CreateProjectRequest,
 )
-from numind.openapi_client_async.models.document_info import (
-    DocumentInfo as DocumentInfo,
-)
-from numind.openapi_client_async.models.document_response import (
-    DocumentResponse as DocumentResponse,
-)
-from numind.openapi_client_async.models.error import Error as Error
-from numind.openapi_client_async.models.example_response import (
-    ExampleResponse as ExampleResponse,
-)
-from numind.openapi_client_async.models.extraction_response import (
-    ExtractionResponse as ExtractionResponse,
-)
-from numind.openapi_client_async.models.file_response import (
-    FileResponse as FileResponse,
-)
-from numind.openapi_client_async.models.health_response import (
-    HealthResponse as HealthResponse,
-)
-from numind.openapi_client_async.models.image_info import ImageInfo as ImageInfo
-from numind.openapi_client_async.models.inference_response import (
-    InferenceResponse as InferenceResponse,
-)
-from numind.openapi_client_async.models.information_response import (
+from numind.models.document_info import DocumentInfo as DocumentInfo
+from numind.models.document_response import DocumentResponse as DocumentResponse
+from numind.models.error import Error as Error
+from numind.models.example_response import ExampleResponse as ExampleResponse
+from numind.models.extraction_response import ExtractionResponse as ExtractionResponse
+from numind.models.file_response import FileResponse as FileResponse
+from numind.models.health_response import HealthResponse as HealthResponse
+from numind.models.image_info import ImageInfo as ImageInfo
+from numind.models.inference_response import InferenceResponse as InferenceResponse
+from numind.models.information_response import (
     InformationResponse as InformationResponse,
 )
-from numind.openapi_client_async.models.invalid_information import (
-    InvalidInformation as InvalidInformation,
-)
-from numind.openapi_client_async.models.invitation_response import (
-    InvitationResponse as InvitationResponse,
-)
-from numind.openapi_client_async.models.invite_member_request import (
+from numind.models.invalid_information import InvalidInformation as InvalidInformation
+from numind.models.invitation_response import InvitationResponse as InvitationResponse
+from numind.models.invite_member_request import (
     InviteMemberRequest as InviteMemberRequest,
 )
-from numind.openapi_client_async.models.job_id_response import (
-    JobIdResponse as JobIdResponse,
-)
-from numind.openapi_client_async.models.job_response import JobResponse as JobResponse
-from numind.openapi_client_async.models.member_response import (
-    MemberResponse as MemberResponse,
-)
-from numind.openapi_client_async.models.organization_response import (
+from numind.models.job_id_response import JobIdResponse as JobIdResponse
+from numind.models.job_response import JobResponse as JobResponse
+from numind.models.member_response import MemberResponse as MemberResponse
+from numind.models.organization_response import (
     OrganizationResponse as OrganizationResponse,
 )
-from numind.openapi_client_async.models.playground_item_response import (
+from numind.models.playground_item_response import (
     PlaygroundItemResponse as PlaygroundItemResponse,
 )
-from numind.openapi_client_async.models.project_response import (
-    ProjectResponse as ProjectResponse,
-)
-from numind.openapi_client_async.models.project_settings_response import (
+from numind.models.project_response import ProjectResponse as ProjectResponse
+from numind.models.project_settings_response import (
     ProjectSettingsResponse as ProjectSettingsResponse,
 )
-from numind.openapi_client_async.models.raw_result import RawResult as RawResult
-from numind.openapi_client_async.models.service_status import (
-    ServiceStatus as ServiceStatus,
-)
-from numind.openapi_client_async.models.template_request import (
-    TemplateRequest as TemplateRequest,
-)
-from numind.openapi_client_async.models.text_info import TextInfo as TextInfo
-from numind.openapi_client_async.models.text_request import TextRequest as TextRequest
-from numind.openapi_client_async.models.token_code_request import (
-    TokenCodeRequest as TokenCodeRequest,
-)
-from numind.openapi_client_async.models.token_refresh_request import (
+from numind.models.raw_result import RawResult as RawResult
+from numind.models.service_status import ServiceStatus as ServiceStatus
+from numind.models.template_request import TemplateRequest as TemplateRequest
+from numind.models.text_info import TextInfo as TextInfo
+from numind.models.text_request import TextRequest as TextRequest
+from numind.models.token_code_request import TokenCodeRequest as TokenCodeRequest
+from numind.models.token_refresh_request import (
     TokenRefreshRequest as TokenRefreshRequest,
 )
-from numind.openapi_client_async.models.token_request import (
-    TokenRequest as TokenRequest,
-)
-from numind.openapi_client_async.models.token_response import (
-    TokenResponse as TokenResponse,
-)
-from numind.openapi_client_async.models.update_api_key import (
-    UpdateApiKey as UpdateApiKey,
-)
-from numind.openapi_client_async.models.update_organization_request import (
+from numind.models.token_request import TokenRequest as TokenRequest
+from numind.models.token_response import TokenResponse as TokenResponse
+from numind.models.update_api_key import UpdateApiKey as UpdateApiKey
+from numind.models.update_organization_request import (
     UpdateOrganizationRequest as UpdateOrganizationRequest,
 )
-from numind.openapi_client_async.models.update_project_request import (
+from numind.models.update_project_request import (
     UpdateProjectRequest as UpdateProjectRequest,
 )
-from numind.openapi_client_async.models.update_project_settings_request import (
+from numind.models.update_project_settings_request import (
     UpdateProjectSettingsRequest as UpdateProjectSettingsRequest,
 )
-from numind.openapi_client_async.models.update_project_template_request import (
+from numind.models.update_project_template_request import (
     UpdateProjectTemplateRequest as UpdateProjectTemplateRequest,
 )
-from numind.openapi_client_async.models.user import User as User
-from numind.openapi_client_async.models.valid_information import (
-    ValidInformation as ValidInformation,
-)
-from numind.openapi_client_async.models.version_response import (
-    VersionResponse as VersionResponse,
-)
+from numind.models.user import User as User
+from numind.models.valid_information import ValidInformation as ValidInformation
+from numind.models.version_response import VersionResponse as VersionResponse

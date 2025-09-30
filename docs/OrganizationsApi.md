@@ -261,7 +261,7 @@ Returns the organizations for the current user. Calling this method with an api 
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.organization_response import OrganizationResponse
+from numind.models.organization_response import OrganizationResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -335,7 +335,7 @@ List the members of an organization. Calling this method with an api key will re
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.member_response import MemberResponse
+from numind.models.member_response import MemberResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -413,7 +413,7 @@ List all the pending invitations for a given organization. Calling this method w
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.invitation_response import InvitationResponse
+from numind.models.invitation_response import InvitationResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -492,8 +492,8 @@ The name does not need to be unique. Calling this method with an api key will re
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.create_organization_request import CreateOrganizationRequest
-from numind.openapi_client.models.organization_response import OrganizationResponse
+from numind.models.create_organization_request import CreateOrganizationRequest
+from numind.models.organization_response import OrganizationResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -575,7 +575,7 @@ she will be added once the account is activated.
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.invite_member_request import InviteMemberRequest
+from numind.models.invite_member_request import InviteMemberRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -656,8 +656,8 @@ Update a specific organization. Calling this method with an api key will result 
 
 ```python
 import numind.openapi_client
-from numind.openapi_client.models.organization_response import OrganizationResponse
-from numind.openapi_client.models.update_organization_request import UpdateOrganizationRequest
+from numind.models.organization_response import OrganizationResponse
+from numind.models.update_organization_request import UpdateOrganizationRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 

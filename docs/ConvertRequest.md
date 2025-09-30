@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.openapi_client.models.convert_request import ConvertRequest
+from numind.models.convert_request import ConvertRequest
 
 # TODO update the JSON string below
 json = "{}"

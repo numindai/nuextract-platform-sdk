@@ -11,9 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.create_or_update_example_request import (
-    CreateOrUpdateExampleRequest,
-)
+from numind.models.create_or_update_example_request import CreateOrUpdateExampleRequest
 
 
 class TestCreateOrUpdateExampleRequest(unittest.TestCase):

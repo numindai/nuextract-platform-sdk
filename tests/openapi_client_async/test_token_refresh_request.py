@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.models.token_refresh_request import TokenRefreshRequest
+from numind.models.token_refresh_request import TokenRefreshRequest
 
 
 class TestTokenRefreshRequest(unittest.TestCase):

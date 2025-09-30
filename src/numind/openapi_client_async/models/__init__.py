@@ -44,7 +44,6 @@ from numind.openapi_client_async.models.invite_member_request import InviteMembe
 from numind.openapi_client_async.models.job_id_response import JobIdResponse
 from numind.openapi_client_async.models.job_response import JobResponse
 from numind.openapi_client_async.models.member_response import MemberResponse
-from numind.openapi_client_async.models.model_usage_response import ModelUsageResponse
 from numind.openapi_client_async.models.organization_response import (
     OrganizationResponse,
 )

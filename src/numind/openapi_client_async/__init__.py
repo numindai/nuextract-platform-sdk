@@ -60,7 +60,6 @@ __all__ = [
     "JobIdResponse",
     "JobResponse",
     "MemberResponse",
-    "ModelUsageResponse",
     "OrganizationResponse",
     "PlaygroundItemResponse",
     "ProjectResponse",
@@ -183,9 +182,6 @@ from numind.openapi_client_async.models.job_id_response import (
 from numind.openapi_client_async.models.job_response import JobResponse as JobResponse
 from numind.openapi_client_async.models.member_response import (
     MemberResponse as MemberResponse,
-)
-from numind.openapi_client_async.models.model_usage_response import (
-    ModelUsageResponse as ModelUsageResponse,
 )
 from numind.openapi_client_async.models.organization_response import (
     OrganizationResponse as OrganizationResponse,

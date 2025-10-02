@@ -29,6 +29,9 @@ class TestInferenceApi(unittest.TestCase):
     def test_post_api_infer_template_async(self) -> None:
         """Test case for post_api_infer_template_async"""
 
+    def test_post_api_infer_template_async_document_documentid(self) -> None:
+        """Test case for post_api_infer_template_async_document_documentid"""
+
     def test_post_api_infer_template_document_documentid(self) -> None:
         """Test case for post_api_infer_template_document_documentid"""
 

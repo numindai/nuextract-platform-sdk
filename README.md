@@ -292,6 +292,7 @@ Class | Method | HTTP request | Description
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
 *InferenceApi* | [**post_api_infer_template**](docs/InferenceApi.md#post_api_infer_template) | **POST** /api/infer-template | 
 *InferenceApi* | [**post_api_infer_template_async**](docs/InferenceApi.md#post_api_infer_template_async) | **POST** /api/infer-template-async | 
+*InferenceApi* | [**post_api_infer_template_async_document_documentid**](docs/InferenceApi.md#post_api_infer_template_async_document_documentid) | **POST** /api/infer-template-async/document/{documentId} | 
 *InferenceApi* | [**post_api_infer_template_document_documentid**](docs/InferenceApi.md#post_api_infer_template_document_documentid) | **POST** /api/infer-template/document/{documentId} | 
 *InferenceApi* | [**post_api_infer_template_file**](docs/InferenceApi.md#post_api_infer_template_file) | **POST** /api/infer-template/file | 
 *InferenceApi* | [**post_api_projects_projectid_infer_document_async_documentid**](docs/InferenceApi.md#post_api_projects_projectid_infer_document_async_documentid) | **POST** /api/projects/{projectId}/infer-document-async/{documentId} | 

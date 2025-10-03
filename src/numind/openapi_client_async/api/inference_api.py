@@ -300,6 +300,10 @@ class InferenceApi:
     async def post_api_infer_template_async(
         self,
         template_request: TemplateRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -319,6 +323,8 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -342,6 +348,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_infer_template_async_serialize(
             template_request=template_request,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -365,6 +372,10 @@ class InferenceApi:
     async def post_api_infer_template_async_with_http_info(
         self,
         template_request: TemplateRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -384,6 +395,8 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -407,6 +420,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_infer_template_async_serialize(
             template_request=template_request,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -430,6 +444,10 @@ class InferenceApi:
     async def post_api_infer_template_async_without_preload_content(
         self,
         template_request: TemplateRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -449,6 +467,8 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -472,6 +492,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_infer_template_async_serialize(
             template_request=template_request,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -490,6 +511,7 @@ class InferenceApi:
     def _post_api_infer_template_async_serialize(
         self,
         template_request,
+        timeout,
         _request_auth,
         _content_type,
         _headers,
@@ -510,6 +532,9 @@ class InferenceApi:
 
         # process the path parameters
         # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -556,6 +581,10 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -575,6 +604,8 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -598,6 +629,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_infer_template_async_document_documentid_serialize(
             document_id=document_id,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -622,6 +654,10 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -641,6 +677,8 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -664,6 +702,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_infer_template_async_document_documentid_serialize(
             document_id=document_id,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -688,6 +727,10 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -707,6 +750,8 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -730,6 +775,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_infer_template_async_document_documentid_serialize(
             document_id=document_id,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -747,6 +793,7 @@ class InferenceApi:
     def _post_api_infer_template_async_document_documentid_serialize(
         self,
         document_id,
+        timeout,
         _request_auth,
         _content_type,
         _headers,
@@ -769,6 +816,9 @@ class InferenceApi:
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -1346,6 +1396,10 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1367,6 +1421,8 @@ class InferenceApi:
         :type project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1392,6 +1448,7 @@ class InferenceApi:
             self._post_api_projects_projectid_infer_document_async_documentid_serialize(
                 project_id=project_id,
                 document_id=document_id,
+                timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
                 _headers=_headers,
@@ -1420,6 +1477,10 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1441,6 +1502,8 @@ class InferenceApi:
         :type project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1466,6 +1529,7 @@ class InferenceApi:
             self._post_api_projects_projectid_infer_document_async_documentid_serialize(
                 project_id=project_id,
                 document_id=document_id,
+                timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
                 _headers=_headers,
@@ -1494,6 +1558,10 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1515,6 +1583,8 @@ class InferenceApi:
         :type project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1540,6 +1610,7 @@ class InferenceApi:
             self._post_api_projects_projectid_infer_document_async_documentid_serialize(
                 project_id=project_id,
                 document_id=document_id,
+                timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
                 _headers=_headers,
@@ -1559,6 +1630,7 @@ class InferenceApi:
         self,
         project_id,
         document_id,
+        timeout,
         _request_auth,
         _content_type,
         _headers,
@@ -1583,6 +1655,9 @@ class InferenceApi:
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2161,6 +2236,10 @@ class InferenceApi:
             StrictStr, Field(description="Unique project identifier.")
         ],
         text_request: TextRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2182,6 +2261,8 @@ class InferenceApi:
         :type project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2206,6 +2287,7 @@ class InferenceApi:
         _param = self._post_api_projects_projectid_infer_text_async_serialize(
             project_id=project_id,
             text_request=text_request,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2232,6 +2314,10 @@ class InferenceApi:
             StrictStr, Field(description="Unique project identifier.")
         ],
         text_request: TextRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2253,6 +2339,8 @@ class InferenceApi:
         :type project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2277,6 +2365,7 @@ class InferenceApi:
         _param = self._post_api_projects_projectid_infer_text_async_serialize(
             project_id=project_id,
             text_request=text_request,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2303,6 +2392,10 @@ class InferenceApi:
             StrictStr, Field(description="Unique project identifier.")
         ],
         text_request: TextRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2324,6 +2417,8 @@ class InferenceApi:
         :type project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2348,6 +2443,7 @@ class InferenceApi:
         _param = self._post_api_projects_projectid_infer_text_async_serialize(
             project_id=project_id,
             text_request=text_request,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2367,6 +2463,7 @@ class InferenceApi:
         self,
         project_id,
         text_request,
+        timeout,
         _request_auth,
         _content_type,
         _headers,
@@ -2389,6 +2486,9 @@ class InferenceApi:
         if project_id is not None:
             _path_params["projectId"] = project_id
         # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter

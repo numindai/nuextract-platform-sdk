@@ -112,7 +112,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_extract_async**
-> JobIdResponse post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
+> JobIdResponse post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example, timeout=timeout)
 
 Start file extraction as async job
 
@@ -150,9 +150,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
     degraded_mode = 'degraded_mode_example' # str | Controls whether a response is returned when smart example is not functionning. Rejects by default. (optional)
     max_tokens_smart_example = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
+    timeout = 'timeout_example' # str | max time to wait for the processing completion (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
+        api_response = api_instance.post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example, timeout=timeout)
         print("The response of ExtractionApi->post_api_projects_projectid_extract_async:\n")
         pprint(api_response)
     except Exception as e:
@@ -173,6 +174,7 @@ Name | Type | Description  | Notes
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
  **degraded_mode** | **str**| Controls whether a response is returned when smart example is not functionning. Rejects by default. | [optional] 
  **max_tokens_smart_example** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
+ **timeout** | **str**| max time to wait for the processing completion | [optional] 
 
 ### Return type
 

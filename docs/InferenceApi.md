@@ -100,7 +100,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_infer_template_async**
-> JobIdResponse post_api_infer_template_async(template_request)
+> JobIdResponse post_api_infer_template_async(template_request, timeout=timeout)
 
 
  Derive a template from the provided natural language description.
@@ -143,9 +143,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.InferenceApi(api_client)
     template_request = {description=[EXAMPLE ONLY] Create a template that extracts key information from an order confirmation email. The template should be able to pull details like the order ID, customer ID, date and time of the order, status, total amount, currency, item details (product ID, quantity, and unit price), shipping address, any customer requests or delivery preferences, and the estimated delivery date.} # TemplateRequest | 
+    timeout = 'timeout_example' # str | max time to wait for the processing completion (optional)
 
     try:
-        api_response = api_instance.post_api_infer_template_async(template_request)
+        api_response = api_instance.post_api_infer_template_async(template_request, timeout=timeout)
         print("The response of InferenceApi->post_api_infer_template_async:\n")
         pprint(api_response)
     except Exception as e:
@@ -160,6 +161,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **template_request** | [**TemplateRequest**](TemplateRequest.md)|  | 
+ **timeout** | **str**| max time to wait for the processing completion | [optional] 
 
 ### Return type
 
@@ -185,7 +187,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_infer_template_async_document_documentid**
-> JobIdResponse post_api_infer_template_async_document_documentid(document_id)
+> JobIdResponse post_api_infer_template_async_document_documentid(document_id, timeout=timeout)
 
 
  Derive a template from the provided **Document**.
@@ -225,9 +227,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.InferenceApi(api_client)
     document_id = 'document_id_example' # str | Unique document identifier.
+    timeout = 'timeout_example' # str | max time to wait for the processing completion (optional)
 
     try:
-        api_response = api_instance.post_api_infer_template_async_document_documentid(document_id)
+        api_response = api_instance.post_api_infer_template_async_document_documentid(document_id, timeout=timeout)
         print("The response of InferenceApi->post_api_infer_template_async_document_documentid:\n")
         pprint(api_response)
     except Exception as e:
@@ -242,6 +245,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **document_id** | **str**| Unique document identifier. | 
+ **timeout** | **str**| max time to wait for the processing completion | [optional] 
 
 ### Return type
 
@@ -431,7 +435,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_infer_document_async_documentid**
-> JobIdResponse post_api_projects_projectid_infer_document_async_documentid(project_id, document_id)
+> JobIdResponse post_api_projects_projectid_infer_document_async_documentid(project_id, document_id, timeout=timeout)
 
 Start document inference as async job
 
@@ -464,9 +468,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.InferenceApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
     document_id = 'document_id_example' # str | Unique document identifier.
+    timeout = 'timeout_example' # str | max time to wait for the processing completion (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_infer_document_async_documentid(project_id, document_id)
+        api_response = api_instance.post_api_projects_projectid_infer_document_async_documentid(project_id, document_id, timeout=timeout)
         print("The response of InferenceApi->post_api_projects_projectid_infer_document_async_documentid:\n")
         pprint(api_response)
     except Exception as e:
@@ -482,6 +487,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **str**| Unique project identifier. | 
  **document_id** | **str**| Unique document identifier. | 
+ **timeout** | **str**| max time to wait for the processing completion | [optional] 
 
 ### Return type
 
@@ -691,7 +697,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_infer_text_async**
-> JobIdResponse post_api_projects_projectid_infer_text_async(project_id, text_request)
+> JobIdResponse post_api_projects_projectid_infer_text_async(project_id, text_request, timeout=timeout)
 
 Start text inference as async job
 
@@ -725,9 +731,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.InferenceApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
     text_request = {text=[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.} # TextRequest | 
+    timeout = 'timeout_example' # str | max time to wait for the processing completion (optional)
 
     try:
-        api_response = api_instance.post_api_projects_projectid_infer_text_async(project_id, text_request)
+        api_response = api_instance.post_api_projects_projectid_infer_text_async(project_id, text_request, timeout=timeout)
         print("The response of InferenceApi->post_api_projects_projectid_infer_text_async:\n")
         pprint(api_response)
     except Exception as e:
@@ -743,6 +750,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **str**| Unique project identifier. | 
  **text_request** | [**TextRequest**](TextRequest.md)|  | 
+ **timeout** | **str**| max time to wait for the processing completion | [optional] 
 
 ### Return type
 

@@ -535,6 +535,10 @@ class ExtractionApi:
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
         ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -566,6 +570,8 @@ class ExtractionApi:
         :type degraded_mode: str
         :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
         :type max_tokens_smart_example: int
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -595,6 +601,7 @@ class ExtractionApi:
             max_output_tokens=max_output_tokens,
             degraded_mode=degraded_mode,
             max_tokens_smart_example=max_tokens_smart_example,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -656,6 +663,10 @@ class ExtractionApi:
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
         ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -687,6 +698,8 @@ class ExtractionApi:
         :type degraded_mode: str
         :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
         :type max_tokens_smart_example: int
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -716,6 +729,7 @@ class ExtractionApi:
             max_output_tokens=max_output_tokens,
             degraded_mode=degraded_mode,
             max_tokens_smart_example=max_tokens_smart_example,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -777,6 +791,10 @@ class ExtractionApi:
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
         ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(description="max time to wait for the processing completion"),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -808,6 +826,8 @@ class ExtractionApi:
         :type degraded_mode: str
         :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
         :type max_tokens_smart_example: int
+        :param timeout: max time to wait for the processing completion
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -837,6 +857,7 @@ class ExtractionApi:
             max_output_tokens=max_output_tokens,
             degraded_mode=degraded_mode,
             max_tokens_smart_example=max_tokens_smart_example,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -861,6 +882,7 @@ class ExtractionApi:
         max_output_tokens,
         degraded_mode,
         max_tokens_smart_example,
+        timeout,
         _request_auth,
         _content_type,
         _headers,
@@ -897,6 +919,9 @@ class ExtractionApi:
 
         if max_tokens_smart_example is not None:
             _query_params.append(("maxTokensSmartExample", max_tokens_smart_example))
+
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
 
         # process the header parameters
         # process the form parameters

@@ -268,6 +268,7 @@ All URIs are relative to *https://nuextract.ai*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AuthenticationApi* | [**delete_api_auth_account**](docs/AuthenticationApi.md#delete_api_auth_account) | **DELETE** /api/auth/account | 
 *AuthenticationApi* | [**delete_api_auth_api_keys_apikeyid**](docs/AuthenticationApi.md#delete_api_auth_api_keys_apikeyid) | **DELETE** /api/auth/api-keys/{apiKeyId} | 
 *AuthenticationApi* | [**get_api_auth**](docs/AuthenticationApi.md#get_api_auth) | **GET** /api/auth | 
 *AuthenticationApi* | [**get_api_auth_api_keys**](docs/AuthenticationApi.md#get_api_auth_api_keys) | **GET** /api/auth/api-keys | 

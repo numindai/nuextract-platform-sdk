@@ -23,6 +23,9 @@ class TestAuthenticationApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_delete_api_auth_account(self) -> None:
+        """Test case for delete_api_auth_account"""
+
     def test_delete_api_auth_api_keys_apikeyid(self) -> None:
         """Test case for delete_api_auth_api_keys_apikeyid"""
 

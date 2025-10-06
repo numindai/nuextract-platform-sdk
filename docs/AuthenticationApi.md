@@ -4,6 +4,7 @@ All URIs are relative to *https://nuextract.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**delete_api_auth_account**](AuthenticationApi.md#delete_api_auth_account) | **DELETE** /api/auth/account | 
 [**delete_api_auth_api_keys_apikeyid**](AuthenticationApi.md#delete_api_auth_api_keys_apikeyid) | **DELETE** /api/auth/api-keys/{apiKeyId} | 
 [**get_api_auth**](AuthenticationApi.md#get_api_auth) | **GET** /api/auth | 
 [**get_api_auth_api_keys**](AuthenticationApi.md#get_api_auth_api_keys) | **GET** /api/auth/api-keys | 
@@ -13,6 +14,74 @@ Method | HTTP request | Description
 [**post_api_auth_token**](AuthenticationApi.md#post_api_auth_token) | **POST** /api/auth/token | 
 [**put_api_auth_api_keys_apikeyid**](AuthenticationApi.md#put_api_auth_api_keys_apikeyid) | **PUT** /api/auth/api-keys/{apiKeyId} | 
 
+
+# **delete_api_auth_account**
+> delete_api_auth_account()
+
+
+Deletes the current user account and all its associated objects.
+
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.AuthenticationApi(api_client)
+
+    try:
+        api_instance.delete_api_auth_account()
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->delete_api_auth_account: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_api_auth_api_keys_apikeyid**
 > delete_api_auth_api_keys_apikeyid(api_key_id)

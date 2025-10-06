@@ -23,6 +23,9 @@ class TestAuthenticationApi(unittest.IsolatedAsyncioTestCase):
     async def asyncTearDown(self) -> None:
         await self.api.api_client.close()
 
+    async def test_delete_api_auth_account(self) -> None:
+        """Test case for delete_api_auth_account"""
+
     async def test_delete_api_auth_api_keys_apikeyid(self) -> None:
         """Test case for delete_api_auth_api_keys_apikeyid"""
 

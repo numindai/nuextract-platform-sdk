@@ -1,7 +1,6 @@
 # flake8: noqa
 
 # import apis into api package
-from numind.openapi_client_async.api.authentication_api import AuthenticationApi
 from numind.openapi_client_async.api.documents_api import DocumentsApi
 from numind.openapi_client_async.api.examples_api import ExamplesApi
 from numind.openapi_client_async.api.extraction_api import ExtractionApi

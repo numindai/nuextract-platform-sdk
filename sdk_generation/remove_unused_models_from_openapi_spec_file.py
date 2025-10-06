@@ -40,7 +40,7 @@ MODELS_TO_DELETE = {
     "InactiveProfileResponse": None,
 }
 _API_PREFIX = "/api"
-PATHS_TO_DELETE = {f"{_API_PREFIX}/billing"}
+PATHS_TO_DELETE = {f"{_API_PREFIX}/billing", f"{_API_PREFIX}/auth"}
 API_BASE_URL = "https://nuextract.ai"
 
 

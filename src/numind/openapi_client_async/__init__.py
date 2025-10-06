@@ -17,7 +17,6 @@ __version__ = "1.0.0"
 
 # Define package exports
 __all__ = [
-    "AuthenticationApi",
     "DocumentsApi",
     "ExamplesApi",
     "ExtractionApi",
@@ -84,9 +83,6 @@ __all__ = [
 ]
 
 # import apis into sdk package
-from numind.openapi_client_async.api.authentication_api import (
-    AuthenticationApi as AuthenticationApi,
-)
 from numind.openapi_client_async.api.documents_api import DocumentsApi as DocumentsApi
 from numind.openapi_client_async.api.examples_api import ExamplesApi as ExamplesApi
 from numind.openapi_client_async.api.extraction_api import (

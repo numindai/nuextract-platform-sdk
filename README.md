@@ -268,14 +268,6 @@ All URIs are relative to *https://nuextract.ai*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthenticationApi* | [**delete_api_auth_api_keys_apikeyid**](docs/AuthenticationApi.md#delete_api_auth_api_keys_apikeyid) | **DELETE** /api/auth/api-keys/{apiKeyId} | 
-*AuthenticationApi* | [**get_api_auth**](docs/AuthenticationApi.md#get_api_auth) | **GET** /api/auth | 
-*AuthenticationApi* | [**get_api_auth_api_keys**](docs/AuthenticationApi.md#get_api_auth_api_keys) | **GET** /api/auth/api-keys | 
-*AuthenticationApi* | [**get_api_auth_me**](docs/AuthenticationApi.md#get_api_auth_me) | **GET** /api/auth/me | 
-*AuthenticationApi* | [**post_api_auth_api_keys**](docs/AuthenticationApi.md#post_api_auth_api_keys) | **POST** /api/auth/api-keys | 
-*AuthenticationApi* | [**post_api_auth_logout**](docs/AuthenticationApi.md#post_api_auth_logout) | **POST** /api/auth/logout | 
-*AuthenticationApi* | [**post_api_auth_token**](docs/AuthenticationApi.md#post_api_auth_token) | **POST** /api/auth/token | 
-*AuthenticationApi* | [**put_api_auth_api_keys_apikeyid**](docs/AuthenticationApi.md#put_api_auth_api_keys_apikeyid) | **PUT** /api/auth/api-keys/{apiKeyId} | 
 *DocumentsApi* | [**get_api_documents_documentid**](docs/DocumentsApi.md#get_api_documents_documentid) | **GET** /api/documents/{documentId} | 
 *DocumentsApi* | [**get_api_documents_documentid_content**](docs/DocumentsApi.md#get_api_documents_documentid_content) | **GET** /api/documents/{documentId}/content | 
 *DocumentsApi* | [**post_api_documents_text**](docs/DocumentsApi.md#post_api_documents_text) | **POST** /api/documents/text | 

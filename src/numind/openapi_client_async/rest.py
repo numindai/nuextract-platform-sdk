@@ -18,7 +18,7 @@ from typing import Optional, Union
 import aiohttp
 import aiohttp_retry
 
-from numind.openapi_client_async.exceptions import ApiException, ApiValueError
+from numind.exceptions import ApiException, ApiValueError
 
 RESTResponseType = aiohttp.ClientResponse
 

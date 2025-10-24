@@ -103,17 +103,15 @@ from numind.openapi_client_async.api.project_management_api import (
 from numind.openapi_client_async.api.default_api import DefaultApi as DefaultApi
 
 # import ApiClient
-from numind.openapi_client_async.api_response import ApiResponse as ApiResponse
+from numind.api_response import ApiResponse as ApiResponse
 from numind.openapi_client_async.api_client import ApiClient as ApiClient
 from numind.openapi_client_async.configuration import Configuration as Configuration
-from numind.openapi_client_async.exceptions import OpenApiException as OpenApiException
-from numind.openapi_client_async.exceptions import ApiTypeError as ApiTypeError
-from numind.openapi_client_async.exceptions import ApiValueError as ApiValueError
-from numind.openapi_client_async.exceptions import ApiKeyError as ApiKeyError
-from numind.openapi_client_async.exceptions import (
-    ApiAttributeError as ApiAttributeError,
-)
-from numind.openapi_client_async.exceptions import ApiException as ApiException
+from numind.exceptions import OpenApiException as OpenApiException
+from numind.exceptions import ApiTypeError as ApiTypeError
+from numind.exceptions import ApiValueError as ApiValueError
+from numind.exceptions import ApiKeyError as ApiKeyError
+from numind.exceptions import ApiAttributeError as ApiAttributeError
+from numind.exceptions import ApiException as ApiException
 
 # import models into sdk package
 from numind.models.api_key_response import ApiKeyResponse as ApiKeyResponse

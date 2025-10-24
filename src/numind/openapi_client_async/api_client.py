@@ -25,14 +25,14 @@ from dateutil.parser import parse
 from pydantic import SecretStr
 
 import numind.models
-from numind.openapi_client_async import rest
-from numind.openapi_client_async.api_response import ApiResponse
-from numind.openapi_client_async.api_response import T as ApiResponseT
-from numind.openapi_client_async.configuration import Configuration
-from numind.openapi_client_async.exceptions import (
+from numind.api_response import ApiResponse
+from numind.api_response import T as ApiResponseT
+from numind.exceptions import (
     ApiException,
     ApiValueError,
 )
+from numind.openapi_client_async import rest
+from numind.openapi_client_async.configuration import Configuration
 
 RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 

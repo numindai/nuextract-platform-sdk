@@ -110,6 +110,10 @@ rm -r src/docs  # already used the one from sync client gen
 # Rename the imports paths in all files in the package, including tests and docs.
 mv src/numind/openapi_client/models src/numind/models
 rm -r src/numind/openapi_client_async/models
+# Move exceptions.py and api_response.py
+mv src/numind/openapi_client/api_response.py src/numind
+mv src/numind/openapi_client/exceptions.py src/numind
+rm src/numind/openapi_client_async/api_response.py src/numind/openapi_client_async/exceptions.py
 # Find all Python and Markdown files, starting search from the current directory (.), recursively.
 # Exclude files within the new 'sdk/models' directory.
 find src docs tests -type f \( -name "*.py" -o -name "*.md" \) \
@@ -119,6 +123,11 @@ find src docs tests -type f \( -name "*.py" -o -name "*.md" \) \
   sed -i.bak 's/numind.openapi_client.models/numind.models/g' "$file"
   # Replace 'numind.openapi_client_async.models' with 'numind.models'
   sed -i.bak 's/numind.openapi_client_async.models/numind.models/g' "$file"
+  # Replace imports of api_response and exceptions
+  sed -i.bak 's/numind.openapi_client.api_response/numind.api_response/g' "$file"
+  sed -i.bak 's/numind.openapi_client_async.api_response/numind.api_response/g' "$file"
+  sed -i.bak 's/numind.openapi_client.exceptions/numind.exceptions/g' "$file"
+  sed -i.bak 's/numind.openapi_client_async.exceptions/numind.exceptions/g' "$file"
   # Remove backup file created by sed
   rm -f "${file}.bak"
 done

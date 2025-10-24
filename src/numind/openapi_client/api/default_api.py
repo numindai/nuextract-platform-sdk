@@ -13,10 +13,10 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
+from numind.api_response import ApiResponse
 from numind.models.health_response import HealthResponse
 from numind.models.version_response import VersionResponse
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
-from numind.openapi_client.api_response import ApiResponse
 from numind.openapi_client.rest import RESTResponseType
 
 

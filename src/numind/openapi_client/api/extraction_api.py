@@ -20,10 +20,10 @@ from pydantic import (
     validate_call,
 )
 
+from numind.api_response import ApiResponse
 from numind.models.extraction_response import ExtractionResponse
 from numind.models.job_id_response import JobIdResponse
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
-from numind.openapi_client.api_response import ApiResponse
 from numind.openapi_client.rest import RESTResponseType
 
 

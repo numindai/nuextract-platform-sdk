@@ -110,7 +110,7 @@ rm -r src/docs  # already used the one from sync client gen
 # Rename the imports paths in all files in the package, including tests and docs.
 mv src/numind/openapi_client/models src/numind/models
 rm -r src/numind/openapi_client_async/models
-# TODO Move exceptions.py and api_response.py
+# Move exceptions.py and api_response.py
 mv src/numind/openapi_client/api_response.py src/numind
 mv src/numind/openapi_client/exceptions.py src/numind
 rm src/numind/openapi_client_async/api_response.py src/numind/openapi_client_async/exceptions.py

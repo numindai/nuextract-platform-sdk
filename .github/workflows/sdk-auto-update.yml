@@ -68,7 +68,7 @@ jobs:
       # Step 5: Setup Python
       - name: Set up Python
         if: steps.check_pr.outputs.pr_exists == 'false'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.x"
 

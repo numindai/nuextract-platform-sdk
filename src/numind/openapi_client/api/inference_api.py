@@ -302,7 +302,9 @@ class InferenceApi:
         template_request: TemplateRequest,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -323,7 +325,7 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -374,7 +376,9 @@ class InferenceApi:
         template_request: TemplateRequest,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -395,7 +399,7 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -446,7 +450,9 @@ class InferenceApi:
         template_request: TemplateRequest,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -467,7 +473,7 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -583,7 +589,9 @@ class InferenceApi:
         ],
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -604,7 +612,7 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -656,7 +664,9 @@ class InferenceApi:
         ],
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -677,7 +687,7 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -729,7 +739,9 @@ class InferenceApi:
         ],
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -750,7 +762,7 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1398,7 +1410,9 @@ class InferenceApi:
         ],
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -1421,7 +1435,7 @@ class InferenceApi:
         :type project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1443,7 +1457,7 @@ class InferenceApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = (
             self._post_api_projects_projectid_infer_document_async_documentid_serialize(
                 project_id=project_id,
@@ -1479,7 +1493,9 @@ class InferenceApi:
         ],
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -1502,7 +1518,7 @@ class InferenceApi:
         :type project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1524,7 +1540,7 @@ class InferenceApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = (
             self._post_api_projects_projectid_infer_document_async_documentid_serialize(
                 project_id=project_id,
@@ -1560,7 +1576,9 @@ class InferenceApi:
         ],
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -1583,7 +1601,7 @@ class InferenceApi:
         :type project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1605,7 +1623,7 @@ class InferenceApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = (
             self._post_api_projects_projectid_infer_document_async_documentid_serialize(
                 project_id=project_id,
@@ -2238,7 +2256,9 @@ class InferenceApi:
         text_request: TextRequest,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -2261,7 +2281,7 @@ class InferenceApi:
         :type project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2283,7 +2303,7 @@ class InferenceApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_projects_projectid_infer_text_async_serialize(
             project_id=project_id,
             text_request=text_request,
@@ -2316,7 +2336,9 @@ class InferenceApi:
         text_request: TextRequest,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -2339,7 +2361,7 @@ class InferenceApi:
         :type project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2361,7 +2383,7 @@ class InferenceApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_projects_projectid_infer_text_async_serialize(
             project_id=project_id,
             text_request=text_request,
@@ -2394,7 +2416,9 @@ class InferenceApi:
         text_request: TextRequest,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -2417,7 +2441,7 @@ class InferenceApi:
         :type project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2439,7 +2463,7 @@ class InferenceApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_projects_projectid_infer_text_async_serialize(
             project_id=project_id,
             text_request=text_request,

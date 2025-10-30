@@ -43,6 +43,7 @@ class TestJobResponse(unittest.TestCase):
                 input_data = '',
                 output_data = '',
                 error_message = '',
+                error_code = '',
                 started_at = '',
                 completed_at = '',
                 created_at = '',

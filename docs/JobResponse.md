@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **input_data** | **str** | Job input data. | 
 **output_data** | **str** | Job output data (if completed). | [optional] 
 **error_message** | **str** | Error message (if failed). | [optional] 
+**error_code** | **str** | Error code (if failed). | [optional] 
 **started_at** | **str** | Job start time. | 
 **completed_at** | **str** | Job completion time (if completed). | [optional] 
 **created_at** | **str** | Job creation date. | 

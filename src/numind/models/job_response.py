@@ -41,6 +41,9 @@ class JobResponse(BaseModel):
     error_message: Optional[StrictStr] = Field(
         default=None, description="Error message (if failed).", alias="errorMessage"
     )
+    error_code: Optional[StrictStr] = Field(
+        default=None, description="Error code (if failed).", alias="errorCode"
+    )
     started_at: StrictStr = Field(description="Job start time.", alias="startedAt")
     completed_at: Optional[StrictStr] = Field(
         default=None,
@@ -60,6 +63,7 @@ class JobResponse(BaseModel):
         "inputData",
         "outputData",
         "errorMessage",
+        "errorCode",
         "startedAt",
         "completedAt",
         "createdAt",
@@ -125,6 +129,7 @@ class JobResponse(BaseModel):
                 "inputData": obj.get("inputData"),
                 "outputData": obj.get("outputData"),
                 "errorMessage": obj.get("errorMessage"),
+                "errorCode": obj.get("errorCode"),
                 "startedAt": obj.get("startedAt"),
                 "completedAt": obj.get("completedAt"),
                 "createdAt": obj.get("createdAt"),

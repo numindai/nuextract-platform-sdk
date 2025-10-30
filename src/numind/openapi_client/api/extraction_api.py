@@ -537,7 +537,9 @@ class ExtractionApi:
         ] = None,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -570,7 +572,7 @@ class ExtractionApi:
         :type degraded_mode: str
         :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
         :type max_tokens_smart_example: int
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -665,7 +667,9 @@ class ExtractionApi:
         ] = None,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -698,7 +702,7 @@ class ExtractionApi:
         :type degraded_mode: str
         :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
         :type max_tokens_smart_example: int
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -793,7 +797,9 @@ class ExtractionApi:
         ] = None,
         timeout: Annotated[
             Optional[StrictStr],
-            Field(description="max time to wait for the processing completion"),
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
         ] = None,
         _request_timeout: Union[
             None,
@@ -826,7 +832,7 @@ class ExtractionApi:
         :type degraded_mode: str
         :param max_tokens_smart_example: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
         :type max_tokens_smart_example: int
-        :param timeout: max time to wait for the processing completion
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

@@ -17,6 +17,9 @@ from numind.api_response import ApiResponse
 from numind.models.create_or_update_playground_item_request import (
     CreateOrUpdatePlaygroundItemRequest,
 )
+from numind.models.paginated_response_playground_item_response import (
+    PaginatedResponsePlaygroundItemResponse,
+)
 from numind.models.playground_item_response import PlaygroundItemResponse
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.rest import RESTResponseType
@@ -315,6 +318,18 @@ class PlaygroundApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(
+                description="Number of playground items to skip. Min: 0. Default: 0."
+            ),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of playground items per page. Min: 1. Max: 100. Default: 30."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -326,14 +341,18 @@ class PlaygroundApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[PlaygroundItemResponse]:
+    ) -> PaginatedResponsePlaygroundItemResponse:
         """
         get_api_projects_projectid_playground
 
-         Return a list of **Playground Items** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Playground Items** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param skip: Number of playground items to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of playground items per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -357,6 +376,8 @@ class PlaygroundApi:
         """  # noqa: E501
         _param = self._get_api_projects_projectid_playground_serialize(
             project_id=project_id,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -364,7 +385,8 @@ class PlaygroundApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[PlaygroundItemResponse]",
+            "200": "PaginatedResponsePlaygroundItemResponse",
+            "400": "str",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -381,6 +403,18 @@ class PlaygroundApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(
+                description="Number of playground items to skip. Min: 0. Default: 0."
+            ),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of playground items per page. Min: 1. Max: 100. Default: 30."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -392,14 +426,18 @@ class PlaygroundApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[PlaygroundItemResponse]]:
+    ) -> ApiResponse[PaginatedResponsePlaygroundItemResponse]:
         """
         get_api_projects_projectid_playground
 
-         Return a list of **Playground Items** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Playground Items** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param skip: Number of playground items to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of playground items per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -423,6 +461,8 @@ class PlaygroundApi:
         """  # noqa: E501
         _param = self._get_api_projects_projectid_playground_serialize(
             project_id=project_id,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -430,7 +470,8 @@ class PlaygroundApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[PlaygroundItemResponse]",
+            "200": "PaginatedResponsePlaygroundItemResponse",
+            "400": "str",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -447,6 +488,18 @@ class PlaygroundApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(
+                description="Number of playground items to skip. Min: 0. Default: 0."
+            ),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of playground items per page. Min: 1. Max: 100. Default: 30."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -462,10 +515,14 @@ class PlaygroundApi:
         """
         get_api_projects_projectid_playground
 
-         Return a list of **Playground Items** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Playground Items** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param skip: Number of playground items to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of playground items per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -489,6 +546,8 @@ class PlaygroundApi:
         """  # noqa: E501
         _param = self._get_api_projects_projectid_playground_serialize(
             project_id=project_id,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -496,7 +555,8 @@ class PlaygroundApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[PlaygroundItemResponse]",
+            "200": "PaginatedResponsePlaygroundItemResponse",
+            "400": "str",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -506,6 +566,8 @@ class PlaygroundApi:
     def _get_api_projects_projectid_playground_serialize(
         self,
         project_id,
+        skip,
+        per_page,
         _request_auth,
         _content_type,
         _headers,
@@ -528,6 +590,12 @@ class PlaygroundApi:
         if project_id is not None:
             _path_params["projectId"] = project_id
         # process the query parameters
+        if skip is not None:
+            _query_params.append(("skip", skip))
+
+        if per_page is not None:
+            _query_params.append(("perPage", per_page))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -535,7 +603,7 @@ class PlaygroundApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
+                ["application/json", "text/plain"]
             )
 
         # authentication setting

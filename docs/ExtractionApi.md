@@ -114,7 +114,26 @@ Name | Type | Description  | Notes
 # **post_api_projects_projectid_extract_async**
 > JobIdResponse post_api_projects_projectid_extract_async(project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example, timeout=timeout)
 
-Start file extraction as async job
+
+ Extract information from the provided text or file as an async job. Some files are converted to images -
+ the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,
+ **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,
+ they are set to their project-setting values.
+
+#### Response:
+ Returns a JSON containing the job ID that can be used to retrieve the job status and results.
+
+ If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.
+ The ***result*** field is guaranteed to conform to the template via post-processing
+ of the raw model output. In the event that the raw model output did not conform to the template,
+ it is included in the ***rawResponse*** field, together with the corresponding error message,
+ and an HTTP code 206 is returned.
+
+#### Error Responses:
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+   
 
 ### Example
 

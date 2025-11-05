@@ -23,11 +23,15 @@ Method | HTTP request | Description
  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.
  The resulting template is a JSON object that can be used as a project template.
 
-
 #### Response:
  Returns a JSON representing the derived template.
- The response is an empty template if the derivation fails.
+ In case the derivation fails, an empty template and HTTP code 206 is returned.
 
+
+#### Error Responses:
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
    
 
 ### Example
@@ -103,15 +107,20 @@ Name | Type | Description  | Notes
 > JobIdResponse post_api_infer_template_async(template_request, timeout=timeout)
 
 
- Derive a template from the provided natural language description.
+ Derive a template from the provided natural language description as an async job.
  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.
  The resulting template is a JSON object that can be used as a project template.
 
-
 #### Response:
- Returns a JSON representing the derived template.
+ Returns a JSON containing the job ID that can be used to retrieve the job status and results.
+
+ If the job is completed successfully, the job's output data will contain the derived template.
  The response is an empty template if the derivation fails.
 
+#### Error Responses:
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
    
 
 ### Example
@@ -190,13 +199,20 @@ Name | Type | Description  | Notes
 > JobIdResponse post_api_infer_template_async_document_documentid(document_id, timeout=timeout)
 
 
- Derive a template from the provided **Document**.
-
+ Derive a template from the provided **Document** as an async job.
+ Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.
+ The resulting template is a JSON object that can be used as a project template.
 
 #### Response:
- Returns a JSON representing the derived template.
+ Returns a JSON containing the job ID that can be used to retrieve the job status and results.
+
+ If the job is completed successfully, the job's output data will contain the derived template.
  The response is an empty template if the derivation fails.
 
+#### Error Responses:
+`404 Not Found` - If a **Document** with the specified `documentId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Document**.
    
 
 ### Example
@@ -274,12 +290,17 @@ Name | Type | Description  | Notes
 
 
  Derive a template from the provided **Document**.
-
+ Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.
+ The resulting template is a JSON object that can be used as a project template.
 
 #### Response:
  Returns a JSON representing the derived template.
- The response is an empty template if the derivation fails.
+ In case the derivation fails, an empty template and HTTP code 206 is returned.
 
+#### Error Responses:
+`404 Not Found` - If a **Document** with the specified `documentId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Document**.
    
 
 ### Example
@@ -354,14 +375,13 @@ Name | Type | Description  | Notes
 
 
  Derive a template from the provided **File**.
+ Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.
  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).
  The resulting template is a JSON object that can be used as a project template.
 
-
 #### Response:
  Returns a JSON representing the derived template.
- The response is an empty template if the derivation fails.
-
+ In case the derivation fails, an empty template and HTTP code 206 is returned.
    
 
 ### Example
@@ -437,7 +457,26 @@ Name | Type | Description  | Notes
 # **post_api_projects_projectid_infer_document_async_documentid**
 > JobIdResponse post_api_projects_projectid_infer_document_async_documentid(project_id, document_id, timeout=timeout)
 
-Start document inference as async job
+
+ Perform information extraction inference on the provided document as an async job.
+ The document must be compatible with the template of the project.
+ When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,
+ they are set to their project-setting values.
+
+#### Response:
+ Returns a JSON containing the job ID that can be used to retrieve the job status and results.
+
+ If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.
+ The ***result*** field is guaranteed to conform to the template.
+ If the model returns an invalid response, the ***result*** contains an empty template.
+ In this case, the raw response is additionally included in ***rawResponse*** field,
+ together with the error message.
+
+#### Error Responses:
+`404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**.
+   
 
 ### Example
 
@@ -699,7 +738,27 @@ Name | Type | Description  | Notes
 # **post_api_projects_projectid_infer_text_async**
 > JobIdResponse post_api_projects_projectid_infer_text_async(project_id, text_request, timeout=timeout)
 
-Start text inference as async job
+
+ Perform information extraction inference on the provided text as an async job.
+ The text content must be compatible with the template of the project.
+ When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,
+ they are set to their project-setting values.
+
+#### Response:
+ Returns a JSON containing the job ID that can be used to retrieve the job status and results.
+
+ If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.
+ The ***result*** field is guaranteed to conform to the template.
+ If the model returns an invalid response, the ***result*** contains an empty template.
+ In this case, the raw response is additionally included in ***rawResponse*** field,
+ together with the error message.
+ Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.
+
+#### Error Responses:
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+   
 
 ### Example
 

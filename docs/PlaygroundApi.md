@@ -91,10 +91,10 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_projects_projectid_playground**
-> List[PlaygroundItemResponse] get_api_projects_projectid_playground(project_id)
+> PaginatedResponsePlaygroundItemResponse get_api_projects_projectid_playground(project_id, skip=skip, per_page=per_page)
 
 
-Return a list of **Playground Items** associated to the specified **Project**.
+Return a list of **Playground Items** associated to the specified **Project** with pagination support.
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
@@ -108,7 +108,7 @@ Return a list of **Playground Items** associated to the specified **Project**.
 
 ```python
 import numind.openapi_client
-from numind.models.playground_item_response import PlaygroundItemResponse
+from numind.models.paginated_response_playground_item_response import PaginatedResponsePlaygroundItemResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -130,9 +130,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.PlaygroundApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
+    skip = 56 # int | Number of playground items to skip. Min: 0. Default: 0. (optional)
+    per_page = 56 # int | Number of playground items per page. Min: 1. Max: 100. Default: 30. (optional)
 
     try:
-        api_response = api_instance.get_api_projects_projectid_playground(project_id)
+        api_response = api_instance.get_api_projects_projectid_playground(project_id, skip=skip, per_page=per_page)
         print("The response of PlaygroundApi->get_api_projects_projectid_playground:\n")
         pprint(api_response)
     except Exception as e:
@@ -147,10 +149,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **str**| Unique project identifier. | 
+ **skip** | **int**| Number of playground items to skip. Min: 0. Default: 0. | [optional] 
+ **per_page** | **int**| Number of playground items per page. Min: 1. Max: 100. Default: 30. | [optional] 
 
 ### Return type
 
-[**List[PlaygroundItemResponse]**](PlaygroundItemResponse.md)
+[**PaginatedResponsePlaygroundItemResponse**](PaginatedResponsePlaygroundItemResponse.md)
 
 ### Authorization
 
@@ -159,13 +163,14 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/json, text/plain
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
+**400** | Invalid value for: query parameter skip, Invalid value for: query parameter perPage |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

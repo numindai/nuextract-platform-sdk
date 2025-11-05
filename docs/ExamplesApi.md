@@ -93,10 +93,10 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_projects_projectid_examples**
-> List[ExampleResponse] get_api_projects_projectid_examples(project_id)
+> PaginatedResponseExampleResponse get_api_projects_projectid_examples(project_id, skip=skip, per_page=per_page)
 
 
-Return a list of **Examples** associated to the specified **Project**.
+Return a list of **Examples** associated to the specified **Project** with pagination support.
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
@@ -110,7 +110,7 @@ Return a list of **Examples** associated to the specified **Project**.
 
 ```python
 import numind.openapi_client
-from numind.models.example_response import ExampleResponse
+from numind.models.paginated_response_example_response import PaginatedResponseExampleResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -132,9 +132,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ExamplesApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
+    skip = 56 # int | Number of examples to skip. Min: 0. Default: 0.  (optional)
+    per_page = 56 # int | Number of examples per page. Min: 1. Max: 100. Default: 30.  (optional)
 
     try:
-        api_response = api_instance.get_api_projects_projectid_examples(project_id)
+        api_response = api_instance.get_api_projects_projectid_examples(project_id, skip=skip, per_page=per_page)
         print("The response of ExamplesApi->get_api_projects_projectid_examples:\n")
         pprint(api_response)
     except Exception as e:
@@ -149,10 +151,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **project_id** | **str**| Unique project identifier. | 
+ **skip** | **int**| Number of examples to skip. Min: 0. Default: 0.  | [optional] 
+ **per_page** | **int**| Number of examples per page. Min: 1. Max: 100. Default: 30.  | [optional] 
 
 ### Return type
 
-[**List[ExampleResponse]**](ExampleResponse.md)
+[**PaginatedResponseExampleResponse**](PaginatedResponseExampleResponse.md)
 
 ### Authorization
 
@@ -161,13 +165,14 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/json, text/plain
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
+**400** | Invalid value for: query parameter skip, Invalid value for: query parameter perPage |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -15,6 +15,7 @@ from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
 from numind.models.job_response import JobResponse
+from numind.models.paginated_response_job_response import PaginatedResponseJobResponse
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
 
@@ -36,6 +37,16 @@ class JobsApi:
     async def get_api_jobs(
         self,
         organization: Optional[StrictStr] = None,
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(description="Number of jobs to skip. Min: 0. Default: 0."),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of jobs per page. Min: 1. Max: 100. Default: 30."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47,14 +58,18 @@ class JobsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[JobResponse]:
+    ) -> PaginatedResponseJobResponse:
         """
         get_api_jobs
 
-        List all jobs for the authenticated user
+          List all jobs for the authenticated user with pagination support.  This endpoint returns a paginated list of all jobs owned by the current user.   Each job object contains the same information as returned by the get job endpoint.
 
         :param organization:
         :type organization: str
+        :param skip: Number of jobs to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of jobs per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75,9 +90,11 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_serialize(
             organization=organization,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -85,7 +102,8 @@ class JobsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[JobResponse]",
+            "200": "PaginatedResponseJobResponse",
+            "400": "str",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -100,6 +118,16 @@ class JobsApi:
     async def get_api_jobs_with_http_info(
         self,
         organization: Optional[StrictStr] = None,
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(description="Number of jobs to skip. Min: 0. Default: 0."),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of jobs per page. Min: 1. Max: 100. Default: 30."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -111,14 +139,18 @@ class JobsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[JobResponse]]:
+    ) -> ApiResponse[PaginatedResponseJobResponse]:
         """
         get_api_jobs
 
-        List all jobs for the authenticated user
+          List all jobs for the authenticated user with pagination support.  This endpoint returns a paginated list of all jobs owned by the current user.   Each job object contains the same information as returned by the get job endpoint.
 
         :param organization:
         :type organization: str
+        :param skip: Number of jobs to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of jobs per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -139,9 +171,11 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_serialize(
             organization=organization,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -149,7 +183,8 @@ class JobsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[JobResponse]",
+            "200": "PaginatedResponseJobResponse",
+            "400": "str",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -164,6 +199,16 @@ class JobsApi:
     async def get_api_jobs_without_preload_content(
         self,
         organization: Optional[StrictStr] = None,
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(description="Number of jobs to skip. Min: 0. Default: 0."),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of jobs per page. Min: 1. Max: 100. Default: 30."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -179,10 +224,14 @@ class JobsApi:
         """
         get_api_jobs
 
-        List all jobs for the authenticated user
+          List all jobs for the authenticated user with pagination support.  This endpoint returns a paginated list of all jobs owned by the current user.   Each job object contains the same information as returned by the get job endpoint.
 
         :param organization:
         :type organization: str
+        :param skip: Number of jobs to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of jobs per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -203,9 +252,11 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_serialize(
             organization=organization,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -213,7 +264,8 @@ class JobsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[JobResponse]",
+            "200": "PaginatedResponseJobResponse",
+            "400": "str",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -223,6 +275,8 @@ class JobsApi:
     def _get_api_jobs_serialize(
         self,
         organization,
+        skip,
+        per_page,
         _request_auth,
         _content_type,
         _headers,
@@ -246,6 +300,12 @@ class JobsApi:
         if organization is not None:
             _query_params.append(("organization", organization))
 
+        if skip is not None:
+            _query_params.append(("skip", skip))
+
+        if per_page is not None:
+            _query_params.append(("perPage", per_page))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -253,7 +313,7 @@ class JobsApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
+                ["application/json", "text/plain"]
             )
 
         # authentication setting
@@ -293,7 +353,7 @@ class JobsApi:
         """
         get_api_jobs_jobid
 
-        Get details of a specific job
+          Get details of a specific job by its unique identifier.  This endpoint retrieves the complete information about an asynchronous job, including its status, input data, and output results if completed.  #### Response:  For completed inference jobs, the output data will contain what would normally be returned by the corresponding non-async endpoint,  such as extraction results for inference jobs.  #### Error Responses: `404 Not Found` - If a job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
@@ -317,7 +377,7 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_jobid_serialize(
             job_id=job_id,
             _request_auth=_request_auth,
@@ -357,7 +417,7 @@ class JobsApi:
         """
         get_api_jobs_jobid
 
-        Get details of a specific job
+          Get details of a specific job by its unique identifier.  This endpoint retrieves the complete information about an asynchronous job, including its status, input data, and output results if completed.  #### Response:  For completed inference jobs, the output data will contain what would normally be returned by the corresponding non-async endpoint,  such as extraction results for inference jobs.  #### Error Responses: `404 Not Found` - If a job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
@@ -381,7 +441,7 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_jobid_serialize(
             job_id=job_id,
             _request_auth=_request_auth,
@@ -421,7 +481,7 @@ class JobsApi:
         """
         get_api_jobs_jobid
 
-        Get details of a specific job
+          Get details of a specific job by its unique identifier.  This endpoint retrieves the complete information about an asynchronous job, including its status, input data, and output results if completed.  #### Response:  For completed inference jobs, the output data will contain what would normally be returned by the corresponding non-async endpoint,  such as extraction results for inference jobs.  #### Error Responses: `404 Not Found` - If a job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
@@ -445,7 +505,7 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_jobid_serialize(
             job_id=job_id,
             _request_auth=_request_auth,
@@ -534,7 +594,7 @@ class JobsApi:
         """
         get_api_jobs_jobid_stream
 
-        Stream job result via Server-Sent Events
+          Stream job result via Server-Sent Events (SSE). This endpoint allows real-time monitoring of job progress and retrieval of results  as soon as they become available.   The endpoint uses the SSE protocol to maintain a persistent connection with the client. It will either:  - Return the job result immediately if the job is already completed  - Stream the job result when it completes. Send periodic ping events to keep the connection alive. Timeout after 5 minutes if the job doesn't complete within that timeframe  #### SSE Event Types:  - **result**: Contains the complete job response data when the job completes (either successfully, or with an error)  - **ping**: Empty data events sent every 30 seconds to keep the connection alive  - **error**: Sent when an error occurs (internal error or timeout)  #### Event Format:  Each SSE event follows this format:  ```  event: <event_type>  data: <JSON data>  ```   For **result** events, the data contains the complete JobResponse object (same as returned by the get job endpoint).  For **error** events, the data contains an error object with code and message fields.  For **ping** events, the data field is empty.  #### Timeout Behavior:  If the job doesn't complete within 5 minutes, the stream will end with an error event containing the code `JobTimeout`.  Clients should handle this by either polling the job status endpoint or initiating a new stream connection.  #### Error Responses: `404 Not Found` - If a job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
@@ -558,7 +618,7 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_jobid_stream_serialize(
             job_id=job_id,
             _request_auth=_request_auth,
@@ -598,7 +658,7 @@ class JobsApi:
         """
         get_api_jobs_jobid_stream
 
-        Stream job result via Server-Sent Events
+          Stream job result via Server-Sent Events (SSE). This endpoint allows real-time monitoring of job progress and retrieval of results  as soon as they become available.   The endpoint uses the SSE protocol to maintain a persistent connection with the client. It will either:  - Return the job result immediately if the job is already completed  - Stream the job result when it completes. Send periodic ping events to keep the connection alive. Timeout after 5 minutes if the job doesn't complete within that timeframe  #### SSE Event Types:  - **result**: Contains the complete job response data when the job completes (either successfully, or with an error)  - **ping**: Empty data events sent every 30 seconds to keep the connection alive  - **error**: Sent when an error occurs (internal error or timeout)  #### Event Format:  Each SSE event follows this format:  ```  event: <event_type>  data: <JSON data>  ```   For **result** events, the data contains the complete JobResponse object (same as returned by the get job endpoint).  For **error** events, the data contains an error object with code and message fields.  For **ping** events, the data field is empty.  #### Timeout Behavior:  If the job doesn't complete within 5 minutes, the stream will end with an error event containing the code `JobTimeout`.  Clients should handle this by either polling the job status endpoint or initiating a new stream connection.  #### Error Responses: `404 Not Found` - If a job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
@@ -622,7 +682,7 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_jobid_stream_serialize(
             job_id=job_id,
             _request_auth=_request_auth,
@@ -662,7 +722,7 @@ class JobsApi:
         """
         get_api_jobs_jobid_stream
 
-        Stream job result via Server-Sent Events
+          Stream job result via Server-Sent Events (SSE). This endpoint allows real-time monitoring of job progress and retrieval of results  as soon as they become available.   The endpoint uses the SSE protocol to maintain a persistent connection with the client. It will either:  - Return the job result immediately if the job is already completed  - Stream the job result when it completes. Send periodic ping events to keep the connection alive. Timeout after 5 minutes if the job doesn't complete within that timeframe  #### SSE Event Types:  - **result**: Contains the complete job response data when the job completes (either successfully, or with an error)  - **ping**: Empty data events sent every 30 seconds to keep the connection alive  - **error**: Sent when an error occurs (internal error or timeout)  #### Event Format:  Each SSE event follows this format:  ```  event: <event_type>  data: <JSON data>  ```   For **result** events, the data contains the complete JobResponse object (same as returned by the get job endpoint).  For **error** events, the data contains an error object with code and message fields.  For **ping** events, the data field is empty.  #### Timeout Behavior:  If the job doesn't complete within 5 minutes, the stream will end with an error event containing the code `JobTimeout`.  Clients should handle this by either polling the job status endpoint or initiating a new stream connection.  #### Error Responses: `404 Not Found` - If a job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
@@ -686,7 +746,7 @@ class JobsApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._get_api_jobs_jobid_stream_serialize(
             job_id=job_id,
             _request_auth=_request_auth,

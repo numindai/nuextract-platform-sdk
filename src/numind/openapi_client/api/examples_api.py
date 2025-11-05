@@ -16,6 +16,9 @@ from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 from numind.api_response import ApiResponse
 from numind.models.create_or_update_example_request import CreateOrUpdateExampleRequest
 from numind.models.example_response import ExampleResponse
+from numind.models.paginated_response_example_response import (
+    PaginatedResponseExampleResponse,
+)
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.rest import RESTResponseType
 
@@ -307,6 +310,16 @@ class ExamplesApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(description="Number of examples to skip. Min: 0. Default: 0. "),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of examples per page. Min: 1. Max: 100. Default: 30. "
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -318,14 +331,18 @@ class ExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ExampleResponse]:
+    ) -> PaginatedResponseExampleResponse:
         """
         get_api_projects_projectid_examples
 
-         Return a list of **Examples** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Examples** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param skip: Number of examples to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of examples per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -349,6 +366,8 @@ class ExamplesApi:
         """  # noqa: E501
         _param = self._get_api_projects_projectid_examples_serialize(
             project_id=project_id,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -356,7 +375,8 @@ class ExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[ExampleResponse]",
+            "200": "PaginatedResponseExampleResponse",
+            "400": "str",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -373,6 +393,16 @@ class ExamplesApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(description="Number of examples to skip. Min: 0. Default: 0. "),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of examples per page. Min: 1. Max: 100. Default: 30. "
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -384,14 +414,18 @@ class ExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ExampleResponse]]:
+    ) -> ApiResponse[PaginatedResponseExampleResponse]:
         """
         get_api_projects_projectid_examples
 
-         Return a list of **Examples** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Examples** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param skip: Number of examples to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of examples per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -415,6 +449,8 @@ class ExamplesApi:
         """  # noqa: E501
         _param = self._get_api_projects_projectid_examples_serialize(
             project_id=project_id,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -422,7 +458,8 @@ class ExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[ExampleResponse]",
+            "200": "PaginatedResponseExampleResponse",
+            "400": "str",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -439,6 +476,16 @@ class ExamplesApi:
         project_id: Annotated[
             StrictStr, Field(description="Unique project identifier.")
         ],
+        skip: Annotated[
+            Optional[Annotated[int, Field(strict=True, ge=0)]],
+            Field(description="Number of examples to skip. Min: 0. Default: 0. "),
+        ] = None,
+        per_page: Annotated[
+            Optional[Annotated[int, Field(le=300, strict=True, ge=1)]],
+            Field(
+                description="Number of examples per page. Min: 1. Max: 100. Default: 30. "
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -454,10 +501,14 @@ class ExamplesApi:
         """
         get_api_projects_projectid_examples
 
-         Return a list of **Examples** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Examples** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
+        :param skip: Number of examples to skip. Min: 0. Default: 0.
+        :type skip: int
+        :param per_page: Number of examples per page. Min: 1. Max: 100. Default: 30.
+        :type per_page: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -481,6 +532,8 @@ class ExamplesApi:
         """  # noqa: E501
         _param = self._get_api_projects_projectid_examples_serialize(
             project_id=project_id,
+            skip=skip,
+            per_page=per_page,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -488,7 +541,8 @@ class ExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[ExampleResponse]",
+            "200": "PaginatedResponseExampleResponse",
+            "400": "str",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -498,6 +552,8 @@ class ExamplesApi:
     def _get_api_projects_projectid_examples_serialize(
         self,
         project_id,
+        skip,
+        per_page,
         _request_auth,
         _content_type,
         _headers,
@@ -520,6 +576,12 @@ class ExamplesApi:
         if project_id is not None:
             _path_params["projectId"] = project_id
         # process the query parameters
+        if skip is not None:
+            _query_params.append(("skip", skip))
+
+        if per_page is not None:
+            _query_params.append(("perPage", per_page))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -527,7 +589,7 @@ class ExamplesApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
+                ["application/json", "text/plain"]
             )
 
         # authentication setting

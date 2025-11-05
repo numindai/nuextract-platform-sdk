@@ -10,9 +10,14 @@ Method | HTTP request | Description
 
 
 # **get_api_jobs**
-> List[JobResponse] get_api_jobs(organization=organization)
+> PaginatedResponseJobResponse get_api_jobs(organization=organization, skip=skip, per_page=per_page)
 
-List all jobs for the authenticated user
+
+ List all jobs for the authenticated user with pagination support.
+ This endpoint returns a paginated list of all jobs owned by the current user.
+
+ Each job object contains the same information as returned by the get job endpoint.
+   
 
 ### Example
 
@@ -20,7 +25,7 @@ List all jobs for the authenticated user
 
 ```python
 import numind.openapi_client
-from numind.models.job_response import JobResponse
+from numind.models.paginated_response_job_response import PaginatedResponseJobResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -42,9 +47,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.JobsApi(api_client)
     organization = 'organization_example' # str |  (optional)
+    skip = 56 # int | Number of jobs to skip. Min: 0. Default: 0. (optional)
+    per_page = 56 # int | Number of jobs per page. Min: 1. Max: 100. Default: 30. (optional)
 
     try:
-        api_response = api_instance.get_api_jobs(organization=organization)
+        api_response = api_instance.get_api_jobs(organization=organization, skip=skip, per_page=per_page)
         print("The response of JobsApi->get_api_jobs:\n")
         pprint(api_response)
     except Exception as e:
@@ -59,10 +66,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **organization** | **str**|  | [optional] 
+ **skip** | **int**| Number of jobs to skip. Min: 0. Default: 0. | [optional] 
+ **per_page** | **int**| Number of jobs per page. Min: 1. Max: 100. Default: 30. | [optional] 
 
 ### Return type
 
-[**List[JobResponse]**](JobResponse.md)
+[**PaginatedResponseJobResponse**](PaginatedResponseJobResponse.md)
 
 ### Authorization
 
@@ -71,13 +80,14 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/json, text/plain
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
+**400** | Invalid value for: query parameter skip, Invalid value for: query parameter perPage |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -85,7 +95,19 @@ Name | Type | Description  | Notes
 # **get_api_jobs_jobid**
 > JobResponse get_api_jobs_jobid(job_id)
 
-Get details of a specific job
+
+ Get details of a specific job by its unique identifier.
+ This endpoint retrieves the complete information about an asynchronous job, including its status, input data, and output results if completed.
+
+#### Response:
+ For completed inference jobs, the output data will contain what would normally be returned by the corresponding non-async endpoint,
+ such as extraction results for inference jobs.
+
+#### Error Responses:
+`404 Not Found` - If a job with the specified ID does not exist.
+
+`403 Forbidden` - If the user does not have permission to access this job.
+   
 
 ### Example
 
@@ -158,7 +180,39 @@ Name | Type | Description  | Notes
 # **get_api_jobs_jobid_stream**
 > str get_api_jobs_jobid_stream(job_id)
 
-Stream job result via Server-Sent Events
+
+ Stream job result via Server-Sent Events (SSE). This endpoint allows real-time monitoring of job progress and retrieval of results
+ as soon as they become available.
+
+ The endpoint uses the SSE protocol to maintain a persistent connection with the client. It will either:
+ - Return the job result immediately if the job is already completed
+ - Stream the job result when it completes. Send periodic ping events to keep the connection alive. Timeout after 5 minutes if the job doesn't complete within that timeframe
+
+#### SSE Event Types:
+ - **result**: Contains the complete job response data when the job completes (either successfully, or with an error)
+ - **ping**: Empty data events sent every 30 seconds to keep the connection alive
+ - **error**: Sent when an error occurs (internal error or timeout)
+
+#### Event Format:
+ Each SSE event follows this format:
+ ```
+ event: <event_type>
+ data: <JSON data>
+ ```
+
+ For **result** events, the data contains the complete JobResponse object (same as returned by the get job endpoint).
+ For **error** events, the data contains an error object with code and message fields.
+ For **ping** events, the data field is empty.
+
+#### Timeout Behavior:
+ If the job doesn't complete within 5 minutes, the stream will end with an error event containing the code `JobTimeout`.
+ Clients should handle this by either polling the job status endpoint or initiating a new stream connection.
+
+#### Error Responses:
+`404 Not Found` - If a job with the specified ID does not exist.
+
+`403 Forbidden` - If the user does not have permission to access this job.
+   
 
 ### Example
 

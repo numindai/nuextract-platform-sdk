@@ -556,7 +556,7 @@ class ExtractionApi:
         """
         post_api_projects_projectid_extract_async
 
-        Start file extraction as async job
+          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -686,7 +686,7 @@ class ExtractionApi:
         """
         post_api_projects_projectid_extract_async
 
-        Start file extraction as async job
+          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -816,7 +816,7 @@ class ExtractionApi:
         """
         post_api_projects_projectid_extract_async
 
-        Start file extraction as async job
+          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project**.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str

@@ -36,12 +36,14 @@ class TestRawResult(unittest.TestCase):
         if include_optional:
             return RawResult(
                 result = '',
-                error = ''
+                error = '',
+                inference_error = 'NotConformingToTemplate'
             )
         else:
             return RawResult(
                 result = '',
                 error = '',
+                inference_error = 'NotConformingToTemplate',
         )
         """
 

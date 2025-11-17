@@ -344,6 +344,7 @@ Class | Method | HTTP request | Description
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
+ - [InferenceError](docs/InferenceError.md)
  - [InferenceResponse](docs/InferenceResponse.md)
  - [InformationResponse](docs/InformationResponse.md)
  - [InvalidInformation](docs/InvalidInformation.md)

@@ -38,7 +38,8 @@ class TestInferenceResponse(unittest.TestCase):
                 result = None,
                 raw_result = numind.models.raw_result.RawResult(
                     result = '', 
-                    error = '', ),
+                    error = '', 
+                    inference_error = 'NotConformingToTemplate', ),
                 document_info = None,
                 completion_tokens = 56,
                 prompt_tokens = 56,

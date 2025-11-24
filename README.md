@@ -1,6 +1,6 @@
-# NuExtract SDK
+# NuMind SDK
 
-Python SDK to interact with NuMind's [**NuExtract**](https://nuextract.ai) API.
+Python SDK to interact with NuMind's models API: [**NuExtract**](https://nuextract.ai) and [**NuMarkdown**](https://huggingface.co/numind/NuMarkdown-8B-Thinking).
 
 ## Installation
 
@@ -12,7 +12,7 @@ pip install numind
 
 ### Create a client
 
-You must first get an API key on [NuExtract](https://nuextract.ai/app/user?content=api).
+You must first get an API key on the [NuExtract platform](https://nuextract.ai/app/user?content=api).
 
 ```python
 import os
@@ -47,7 +47,7 @@ responses = asyncio.run(main())
 
 The methods and their usages are the same as for the sync `NuMind` client except that API methods are coroutines that must be awaited.
 
-### Extract structured information "on the fly"
+### NuExtract: Extract structured information "on the fly"
 
 If you want to extract structured information from data without projects but just by providing the input template, you can use the `extract` method which provides a more user-friendly way to interact with the API:
 
@@ -189,6 +189,17 @@ file_path = Path("document.odt")
 with file_path.open("rb") as file:
     input_file = file.read()
 output_schema = client.extract(project_id, input_file=input_file)
+```
+
+### NuMarkdown: Convert a document to a RAG-ready Markdown
+
+```python
+from pathlib import Path
+
+file_path = Path("document.pdf")
+with file_path.open("rb") as file:
+    input_file = file.read()
+markdown = client.numarkdown(input_file)
 ```
 
 # Documentation

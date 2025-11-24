@@ -22,6 +22,7 @@ from .openapi_client import (
     FilesApi,
     InferenceApi,
     JobsApi,
+    MarkdownApi,
     OrganizationsApi,
     ProjectManagementApi,
     TextRequest,
@@ -48,6 +49,9 @@ from .openapi_client_async import (
     JobsApi as JobsApiAsync,
 )
 from .openapi_client_async import (
+    MarkdownApi as MarkdownApiAsync,
+)
+from .openapi_client_async import (
     OrganizationsApi as OrganizationsApiAsync,
 )
 from .openapi_client_async import (
@@ -64,6 +68,7 @@ class NuMind(
     FilesApi,
     InferenceApi,
     JobsApi,
+    MarkdownApi,
     OrganizationsApi,
     ProjectManagementApi,
 ):
@@ -217,6 +222,18 @@ class NuMind(
 
         return files_ids, documents_ids
 
+    def numarkdown(self, input_file: Path | str | bytes | None = None) -> str:
+        input_, _ = _parse_input_file(input_file)
+        job_id_response = self.post_api_markdown_infer_async(input_)
+        job_output = self.get_api_jobs_jobid_stream(
+            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
+        )
+        messages = _parse_sse_string(job_output)
+        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
+        # output = json.loads(json.loads(messages[-1]["data"])["outputData"])
+        return messages[-1]["data"]
+
 
 class NuMindAsync(
     DocumentsApiAsync,
@@ -225,6 +242,7 @@ class NuMindAsync(
     FilesApiAsync,
     InferenceApiAsync,
     JobsApiAsync,
+    MarkdownApiAsync,
     OrganizationsApiAsync,
     ProjectManagementApiAsync,
 ):
@@ -379,6 +397,19 @@ class NuMindAsync(
             )
 
         return files_ids, documents_ids
+
+    async def numarkdown(self, input_file: Path | str | bytes | None = None) -> str:
+        input_, _ = _parse_input_file(input_file)
+        job_id_response = await self.post_api_markdown_infer_async(input_)
+        job_output = await self.get_api_jobs_jobid_stream(
+            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
+        )
+        messages = _parse_sse_string(job_output)
+        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
+        # output = json.loads(json.loads(messages[-1]["data"])["outputData"])
+        # TODO add NuMarkdownResponse object when available
+        return messages[-1]["data"]
 
 
 def _prepare_client(

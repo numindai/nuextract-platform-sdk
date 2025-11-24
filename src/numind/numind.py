@@ -58,7 +58,7 @@ from .openapi_client_async import (
     ProjectManagementApi as ProjectManagementApiAsync,
 )
 
-JOB_STATUS_COMPLETED = "completed"
+JOB_STATUS_COMPLETED = "result"
 
 
 class NuMind(

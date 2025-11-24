@@ -10,13 +10,13 @@ import pytest
 
 from numind.models import CreateProjectRequest
 
-from .conftest import EXTRACT_KWARGS, TEST_CASES
+from .conftest import EXTRACT_KWARGS, TEST_CASES_NUEXTRACT
 
 if TYPE_CHECKING:
     from numind import NuMind, NuMindAsync
 
 
-@pytest.fixture(params=TEST_CASES, ids=lambda tc: f"project_{tc[0]}", scope="session")
+@pytest.fixture(params=TEST_CASES_NUEXTRACT, ids=lambda tc: f"project_{tc[0]}", scope="session")
 def test_case(
     request: pytest.FixtureRequest,
 ) -> tuple[str, dict, list[str], list[Path]]:
@@ -108,6 +108,7 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         file_path = Path(file_path)
         with file_path.open("rb") as file:
             intput_file = file.read()
+        # TODO test async route, check status is among the expected ones
         _ = numind_client.post_api_projects_projectid_extract(
             project_id, intput_file, **EXTRACT_KWARGS
         )

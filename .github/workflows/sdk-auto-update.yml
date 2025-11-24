@@ -22,7 +22,7 @@ jobs:
     steps:
       # Step 1: Check out the repository's code
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Step 2: Fetch the latest buildVersion from the API
       - name: Fetch latest API version

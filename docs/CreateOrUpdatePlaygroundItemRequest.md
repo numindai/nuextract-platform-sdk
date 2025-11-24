@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **document_id** | **str** | Unique document identifier. | 
 **result** | **object** | Inference result. | 
 **total_tokens** | **int** | Total number of tokens used for inference (input + output). | [optional] 
-**completion_tokens** | **int** | Completion tokens used for extraction (output). | [optional] 
-**prompt_tokens** | **int** | Prompt tokens used for extraction (input). | [optional] 
+**output_tokens** | **int** | Output tokens used for inference. | [optional] 
+**input_tokens** | **int** | Input tokens used for inference. | [optional] 
 
 ## Example
 

@@ -31,7 +31,7 @@ Method | HTTP request | Description
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -120,7 +120,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -212,7 +212,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Document**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -300,7 +300,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Document**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -382,6 +382,9 @@ Name | Type | Description  | Notes
 #### Response:
  Returns a JSON representing the derived template.
  In case the derivation fails, an empty template and HTTP code 206 is returned.
+
+#### Error Responses:
+`403 Forbidden` - If the user's billing quota is exceeded.
    
 
 ### Example
@@ -411,7 +414,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.InferenceApi(api_client)
     body = None # bytearray | 
-    rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 DPI is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+    rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored. (optional)
 
     try:
         api_response = api_instance.post_api_infer_template_file(body, rasterization_dpi=rasterization_dpi)
@@ -429,7 +432,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bytearray**|  | 
- **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 DPI is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
+ **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
 
 ### Return type
 
@@ -475,7 +478,8 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,
+ or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -551,7 +555,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_infer_document_documentid**
-> InferenceResponse post_api_projects_projectid_infer_document_documentid(project_id, document_id)
+> ExtractionResponse post_api_projects_projectid_infer_document_documentid(project_id, document_id)
 
 
  Performs information extraction inference on a specific **Document**.
@@ -567,7 +571,8 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**,
+ or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -576,7 +581,7 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.models.inference_response import InferenceResponse
+from numind.models.extraction_response import ExtractionResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -620,7 +625,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InferenceResponse**](InferenceResponse.md)
+[**ExtractionResponse**](ExtractionResponse.md)
 
 ### Authorization
 
@@ -641,7 +646,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_projects_projectid_infer_text**
-> InferenceResponse post_api_projects_projectid_infer_text(project_id, text_request)
+> ExtractionResponse post_api_projects_projectid_infer_text(project_id, text_request)
 
 
  Perform information extraction inference on the provided text.
@@ -660,7 +665,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -669,7 +674,7 @@ Name | Type | Description  | Notes
 
 ```python
 import numind.openapi_client
-from numind.models.inference_response import InferenceResponse
+from numind.models.extraction_response import ExtractionResponse
 from numind.models.text_request import TextRequest
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
@@ -714,7 +719,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InferenceResponse**](InferenceResponse.md)
+[**ExtractionResponse**](ExtractionResponse.md)
 
 ### Authorization
 
@@ -757,7 +762,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
    
 
 ### Example

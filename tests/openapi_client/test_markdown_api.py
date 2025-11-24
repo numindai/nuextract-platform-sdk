@@ -11,56 +11,20 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.inference_response import InferenceResponse
+from numind.openapi_client.api.markdown_api import MarkdownApi
 
 
-class TestInferenceResponse(unittest.TestCase):
-    """InferenceResponse unit test stubs"""
+class TestMarkdownApi(unittest.TestCase):
+    """MarkdownApi unit test stubs"""
 
-    def setUp(self):
+    def setUp(self) -> None:
+        self.api = MarkdownApi()
+
+    def tearDown(self) -> None:
         pass
 
-    def tearDown(self):
-        pass
-
-    def make_instance(self, include_optional) -> InferenceResponse:
-        """
-        Test InferenceResponse
-        include_optional is a boolean, when False only required
-        params are included, when True both required and
-        optional params are included
-        """
-        # uncomment below to create an instance of `InferenceResponse`
-        """
-        model = InferenceResponse()
-        if include_optional:
-            return InferenceResponse(
-                result = None,
-                raw_result = numind.models.raw_result.RawResult(
-                    result = '', 
-                    error = '', 
-                    inference_error = 'NotConformingToTemplate', ),
-                document_info = None,
-                completion_tokens = 56,
-                prompt_tokens = 56,
-                total_tokens = 56,
-                logprobs = 1.337
-            )
-        else:
-            return InferenceResponse(
-                result = None,
-                document_info = None,
-                completion_tokens = 56,
-                prompt_tokens = 56,
-                total_tokens = 56,
-                logprobs = 1.337,
-        )
-        """
-
-    def testInferenceResponse(self):
-        """Test InferenceResponse"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    def test_post_api_markdown_infer_async(self) -> None:
+        """Test case for post_api_markdown_infer_async"""
 
 
 if __name__ == "__main__":

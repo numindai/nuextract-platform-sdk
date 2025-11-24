@@ -211,7 +211,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a job with the specified ID does not exist.
 
-`403 Forbidden` - If the user does not have permission to access this job.
+`403 Forbidden` - If the user does not have permission to access this job or if the user's billing quota is exceeded.
    
 
 ### Example

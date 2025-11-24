@@ -294,6 +294,7 @@ Class | Method | HTTP request | Description
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
 *JobsApi* | [**get_api_jobs_jobid**](docs/JobsApi.md#get_api_jobs_jobid) | **GET** /api/jobs/{jobId} | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
+*MarkdownApi* | [**post_api_markdown_infer_async**](docs/MarkdownApi.md#post_api_markdown_infer_async) | **POST** /api/markdown/infer-async | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid) | **DELETE** /api/organizations/{organizationId} | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid_members_invitations_invitationid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid_members_invitations_invitationid) | **DELETE** /api/organizations/{organizationId}/members/invitations/{invitationId} | 
 *OrganizationsApi* | [**delete_api_organizations_organizationid_members_userid**](docs/OrganizationsApi.md#delete_api_organizations_organizationid_members_userid) | **DELETE** /api/organizations/{organizationId}/members/{userId} | 
@@ -345,7 +346,6 @@ Class | Method | HTTP request | Description
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
  - [InferenceError](docs/InferenceError.md)
- - [InferenceResponse](docs/InferenceResponse.md)
  - [InformationResponse](docs/InformationResponse.md)
  - [InvalidInformation](docs/InvalidInformation.md)
  - [InvitationResponse](docs/InvitationResponse.md)

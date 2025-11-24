@@ -5,12 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**result** | **object** | Extraction result conforming to the template. | 
-**raw_result** | [**RawResult**](RawResult.md) | Extraction result if not conforming to the template. | [optional] 
-**completion_tokens** | **int** | Completion tokens used for extraction (output). | 
-**prompt_tokens** | **int** | Prompt tokens used for extraction (input). | 
-**total_tokens** | **int** | Total number of tokens used for extraction (input + output). | 
-**logprobs** | **float** | Logprob of the extraction result (sum of logprobs of all tokens). | 
+**result** | **object** | Inference result conforming to the template. | 
+**raw_result** | [**RawResult**](RawResult.md) |  | [optional] 
+**document_info** | [**DocumentInfo**](DocumentInfo.md) | Basic information on the document used for inference. | [optional] 
+**output_tokens** | **int** | Output tokens used for inference. | 
+**input_tokens** | **int** | Input tokens used for inference. | 
+**total_tokens** | **int** | Total number of tokens used for inference (input + output). | 
+**logprobs** | **float** | Logprob of the inference result (sum of logprobs of all tokens). | 
 
 ## Example
 

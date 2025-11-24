@@ -51,15 +51,15 @@ class PlaygroundItemResponse(BaseModel):
         description="Total number of tokens used for inference (input + output).",
         alias="totalTokens",
     )
-    completion_tokens: Optional[StrictInt] = Field(
+    output_tokens: Optional[StrictInt] = Field(
         default=None,
-        description="Completion tokens used for inference (output).",
-        alias="completionTokens",
+        description="Output tokens used for inference.",
+        alias="outputTokens",
     )
-    prompt_tokens: Optional[StrictInt] = Field(
+    input_tokens: Optional[StrictInt] = Field(
         default=None,
-        description="Prompt tokens used for inference (input).",
-        alias="promptTokens",
+        description="Input tokens used for inference.",
+        alias="inputTokens",
     )
     __properties: ClassVar[List[str]] = [
         "id",
@@ -70,8 +70,8 @@ class PlaygroundItemResponse(BaseModel):
         "createdAt",
         "updatedAt",
         "totalTokens",
-        "completionTokens",
-        "promptTokens",
+        "outputTokens",
+        "inputTokens",
     ]
 
     model_config = ConfigDict(
@@ -143,8 +143,8 @@ class PlaygroundItemResponse(BaseModel):
                 "createdAt": obj.get("createdAt"),
                 "updatedAt": obj.get("updatedAt"),
                 "totalTokens": obj.get("totalTokens"),
-                "completionTokens": obj.get("completionTokens"),
-                "promptTokens": obj.get("promptTokens"),
+                "outputTokens": obj.get("outputTokens"),
+                "inputTokens": obj.get("inputTokens"),
             }
         )
         return _obj

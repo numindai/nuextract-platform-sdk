@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
  Extract information from the provided text or file. Some files are converted to images - 
-the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**, 
+the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,
 **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified, 
 they are set to their project-setting values.
 
@@ -27,7 +27,7 @@ Returns a JSON representing the extracted information.
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
    
 
 ### Example
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to run inference on this **Project**.
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
    
 
 ### Example

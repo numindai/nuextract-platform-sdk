@@ -23,6 +23,7 @@ __all__ = [
     "FilesApi",
     "InferenceApi",
     "JobsApi",
+    "MarkdownApi",
     "OrganizationsApi",
     "PlaygroundApi",
     "ProjectManagementApi",
@@ -52,7 +53,6 @@ __all__ = [
     "HealthResponse",
     "ImageInfo",
     "InferenceError",
-    "InferenceResponse",
     "InformationResponse",
     "InvalidInformation",
     "InvitationResponse",
@@ -93,6 +93,7 @@ from numind.openapi_client.api.extraction_api import ExtractionApi as Extraction
 from numind.openapi_client.api.files_api import FilesApi as FilesApi
 from numind.openapi_client.api.inference_api import InferenceApi as InferenceApi
 from numind.openapi_client.api.jobs_api import JobsApi as JobsApi
+from numind.openapi_client.api.markdown_api import MarkdownApi as MarkdownApi
 from numind.openapi_client.api.organizations_api import (
     OrganizationsApi as OrganizationsApi,
 )
@@ -138,7 +139,6 @@ from numind.models.file_response import FileResponse as FileResponse
 from numind.models.health_response import HealthResponse as HealthResponse
 from numind.models.image_info import ImageInfo as ImageInfo
 from numind.models.inference_error import InferenceError as InferenceError
-from numind.models.inference_response import InferenceResponse as InferenceResponse
 from numind.models.information_response import (
     InformationResponse as InformationResponse,
 )

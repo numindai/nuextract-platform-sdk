@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **created_at** | **str** | Playground item creation date. | 
 **updated_at** | **str** | Playground item last update date. | 
 **total_tokens** | **int** | Total number of tokens used for inference (input + output). | [optional] 
-**completion_tokens** | **int** | Completion tokens used for inference (output). | [optional] 
-**prompt_tokens** | **int** | Prompt tokens used for inference (input). | [optional] 
+**output_tokens** | **int** | Output tokens used for inference. | [optional] 
+**input_tokens** | **int** | Input tokens used for inference. | [optional] 
 
 ## Example
 

@@ -19,6 +19,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing_extensions import Self
 
+from numind.models.document_info import DocumentInfo
 from numind.models.raw_result import RawResult
 
 
@@ -28,32 +29,33 @@ class ExtractionResponse(BaseModel):
     """
 
     result: Dict[str, Any] = Field(
-        description="Extraction result conforming to the template."
+        description="Inference result conforming to the template."
     )
-    raw_result: Optional[RawResult] = Field(
+    raw_result: Optional[RawResult] = Field(default=None, alias="rawResult")
+    document_info: Optional[DocumentInfo] = Field(
         default=None,
-        description="Extraction result if not conforming to the template.",
-        alias="rawResult",
+        description="Basic information on the document used for inference.",
+        alias="documentInfo",
     )
-    completion_tokens: StrictInt = Field(
-        description="Completion tokens used for extraction (output).",
-        alias="completionTokens",
+    output_tokens: StrictInt = Field(
+        description="Output tokens used for inference.", alias="outputTokens"
     )
-    prompt_tokens: StrictInt = Field(
-        description="Prompt tokens used for extraction (input).", alias="promptTokens"
+    input_tokens: StrictInt = Field(
+        description="Input tokens used for inference.", alias="inputTokens"
     )
     total_tokens: StrictInt = Field(
-        description="Total number of tokens used for extraction (input + output).",
+        description="Total number of tokens used for inference (input + output).",
         alias="totalTokens",
     )
     logprobs: Union[StrictFloat, StrictInt] = Field(
-        description="Logprob of the extraction result (sum of logprobs of all tokens)."
+        description="Logprob of the inference result (sum of logprobs of all tokens)."
     )
     __properties: ClassVar[List[str]] = [
         "result",
         "rawResult",
-        "completionTokens",
-        "promptTokens",
+        "documentInfo",
+        "outputTokens",
+        "inputTokens",
         "totalTokens",
         "logprobs",
     ]
@@ -99,6 +101,9 @@ class ExtractionResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of raw_result
         if self.raw_result:
             _dict["rawResult"] = self.raw_result.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of document_info
+        if self.document_info:
+            _dict["documentInfo"] = self.document_info.to_dict()
         return _dict
 
     @classmethod
@@ -116,8 +121,11 @@ class ExtractionResponse(BaseModel):
                 "rawResult": RawResult.from_dict(obj["rawResult"])
                 if obj.get("rawResult") is not None
                 else None,
-                "completionTokens": obj.get("completionTokens"),
-                "promptTokens": obj.get("promptTokens"),
+                "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
+                if obj.get("documentInfo") is not None
+                else None,
+                "outputTokens": obj.get("outputTokens"),
+                "inputTokens": obj.get("inputTokens"),
                 "totalTokens": obj.get("totalTokens"),
                 "logprobs": obj.get("logprobs"),
             }

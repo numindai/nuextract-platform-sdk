@@ -43,8 +43,8 @@ class TestPlaygroundItemResponse(unittest.TestCase):
                 created_at = '',
                 updated_at = '',
                 total_tokens = 56,
-                completion_tokens = 56,
-                prompt_tokens = 56
+                output_tokens = 56,
+                input_tokens = 56
             )
         else:
             return PlaygroundItemResponse(

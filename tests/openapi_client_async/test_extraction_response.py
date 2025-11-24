@@ -40,16 +40,17 @@ class TestExtractionResponse(unittest.TestCase):
                     result = '', 
                     error = '', 
                     inference_error = 'NotConformingToTemplate', ),
-                completion_tokens = 56,
-                prompt_tokens = 56,
+                document_info = None,
+                output_tokens = 56,
+                input_tokens = 56,
                 total_tokens = 56,
                 logprobs = 1.337
             )
         else:
             return ExtractionResponse(
                 result = None,
-                completion_tokens = 56,
-                prompt_tokens = 56,
+                output_tokens = 56,
+                input_tokens = 56,
                 total_tokens = 56,
                 logprobs = 1.337,
         )

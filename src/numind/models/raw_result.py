@@ -24,7 +24,7 @@ from numind.models.inference_error import InferenceError
 
 class RawResult(BaseModel):
     """
-    RawResult
+    Inference result if not conforming to the template.
     """
 
     result: StrictStr = Field(

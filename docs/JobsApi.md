@@ -186,7 +186,9 @@ Name | Type | Description  | Notes
 
  The endpoint uses the SSE protocol to maintain a persistent connection with the client. It will either:
  - Return the job result immediately if the job is already completed
- - Stream the job result when it completes. Send periodic ping events to keep the connection alive. Timeout after 5 minutes if the job doesn't complete within that timeframe
+ - Stream the job result when it completes. Send periodic ping events to keep the connection alive.
+
+ The stream will timeout after the job execution timeout if the job doesn't complete within that timeframe.
 
 #### SSE Event Types:
  - **result**: Contains the complete job response data when the job completes (either successfully, or with an error)
@@ -205,8 +207,7 @@ Name | Type | Description  | Notes
  For **ping** events, the data field is empty.
 
 #### Timeout Behavior:
- If the job doesn't complete within 5 minutes, the stream will end with an error event containing the code `JobTimeout`.
- Clients should handle this by either polling the job status endpoint or initiating a new stream connection.
+ If the job doesn't complete within the job execution timeout, the stream will end with an error event containing the code `JobTimeout`.
 
 #### Error Responses:
 `404 Not Found` - If a job with the specified ID does not exist.

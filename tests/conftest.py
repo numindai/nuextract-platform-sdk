@@ -6,12 +6,14 @@ Doc: https://docs.pytest.org/en/latest/reference/reference.html.
 
 from __future__ import annotations
 
+import asyncio
 import csv
 import json
 import os
 from pathlib import Path
 
 import pytest
+import pytest_asyncio
 
 from numind import NuMind, NuMindAsync
 
@@ -36,7 +38,7 @@ def _read_test_case_examples(
     return examples
 
 
-TEST_CASES = []  # (test_name, schema, string_list, file_paths_list)
+TEST_CASES_NUEXTRACT = []  # (test_name, schema, string_list, file_paths_list)
 for dir_path in Path("tests", "test_cases").iterdir():
     with (dir_path / "schema.json").open() as file_:
         schema = json.load(file_)
@@ -49,9 +51,18 @@ for dir_path in Path("tests", "test_cases").iterdir():
         if not file_path.name.startswith(".")
     ]
     examples_ = _read_test_case_examples(dir_path / "examples.csv")
-    TEST_CASES.append(
+    TEST_CASES_NUEXTRACT.append(
         (f"{TESTS_NAME_PREFIX}-{dir_path.name}", schema, texts, file_paths, examples_)
     )
+
+
+TEST_CASES_NUMARKDOWN = []  # (file_paths_list)
+for dir_path in Path("tests", "test_cases").iterdir():
+    TEST_CASES_NUMARKDOWN += [
+        file_path
+        for file_path in (dir_path / "files").iterdir()
+        if not file_path.name.startswith(".")
+    ]
 
 
 @pytest.fixture(scope="session")
@@ -82,11 +93,22 @@ def numind_client(api_key: str) -> NuMind:
     return NuMind(api_key=api_key)
 
 
-@pytest.fixture(scope="session")
-def numind_client_async(api_key: str) -> NuMindAsync:
-    """
-    Get the NuMind api_key from the environment variable.
+@pytest_asyncio.fixture(scope="session")
+def event_loop():
+    """Create an instance of the default event loop for the test session."""
+    policy = asyncio.get_event_loop_policy()
+    loop = policy.new_event_loop()
+    yield loop
+    loop.close()
 
-    If the variable is not set, the test using this fixture will be skipped.
-    """
-    return NuMindAsync(api_key=api_key)
+
+@pytest_asyncio.fixture(scope="function")
+async def numind_client_async(api_key: str):
+    """Get the NuMindAsync client."""
+    client = NuMindAsync(api_key=api_key)
+    yield client
+    # If NuMindAsync has a close method, call it
+    if hasattr(client, "close"):
+        await client.close()
+    elif hasattr(client, "aclose"):
+        await client.aclose()

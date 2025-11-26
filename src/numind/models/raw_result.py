@@ -19,8 +19,6 @@ from typing import Any, ClassVar, Dict, List, Optional, Set
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
-from numind.models.inference_error import InferenceError
-
 
 class RawResult(BaseModel):
     """
@@ -33,7 +31,9 @@ class RawResult(BaseModel):
     error: StrictStr = Field(
         description="Error message explaining why the inference result is invalid."
     )
-    inference_error: InferenceError = Field(alias="inferenceError")
+    inference_error: StrictStr = Field(
+        description="Inference error code.", alias="inferenceError"
+    )
     __properties: ClassVar[List[str]] = ["result", "error", "inferenceError"]
 
     model_config = ConfigDict(

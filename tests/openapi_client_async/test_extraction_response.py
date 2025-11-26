@@ -39,7 +39,7 @@ class TestExtractionResponse(unittest.TestCase):
                 raw_result = numind.models.raw_result.RawResult(
                     result = '', 
                     error = '', 
-                    inference_error = 'NotConformingToTemplate', ),
+                    inference_error = '', ),
                 document_info = None,
                 output_tokens = 56,
                 input_tokens = 56,

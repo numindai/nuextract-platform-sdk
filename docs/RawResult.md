@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **result** | **str** | Inference result not conforming to the template. | 
 **error** | **str** | Error message explaining why the inference result is invalid. | 
-**inference_error** | [**InferenceError**](InferenceError.md) |  | 
+**inference_error** | **str** | Inference error code. | 
 
 ## Example
 

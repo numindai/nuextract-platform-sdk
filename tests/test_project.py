@@ -16,7 +16,9 @@ if TYPE_CHECKING:
     from numind import NuMind, NuMindAsync
 
 
-@pytest.fixture(params=TEST_CASES_NUEXTRACT, ids=lambda tc: f"project_{tc[0]}", scope="session")
+@pytest.fixture(
+    params=TEST_CASES_NUEXTRACT, ids=lambda tc: f"project_{tc[0]}", scope="session"
+)
 def test_case(
     request: pytest.FixtureRequest,
 ) -> tuple[str, dict, list[str], list[Path]]:

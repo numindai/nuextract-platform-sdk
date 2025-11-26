@@ -6,12 +6,14 @@ Doc: https://docs.pytest.org/en/latest/reference/reference.html.
 
 from __future__ import annotations
 
+import asyncio
 import csv
 import json
 import os
 from pathlib import Path
 
 import pytest
+import pytest_asyncio
 
 from numind import NuMind, NuMindAsync
 
@@ -91,11 +93,22 @@ def numind_client(api_key: str) -> NuMind:
     return NuMind(api_key=api_key)
 
 
-@pytest.fixture(scope="session")
-def numind_client_async(api_key: str) -> NuMindAsync:
-    """
-    Get the NuMind api_key from the environment variable.
+@pytest_asyncio.fixture(scope="session")
+def event_loop():
+    """Create an instance of the default event loop for the test session."""
+    policy = asyncio.get_event_loop_policy()
+    loop = policy.new_event_loop()
+    yield loop
+    loop.close()
 
-    If the variable is not set, the test using this fixture will be skipped.
-    """
-    return NuMindAsync(api_key=api_key)
+
+@pytest_asyncio.fixture(scope="function")
+async def numind_client_async(api_key: str):
+    """Get the NuMindAsync client."""
+    client = NuMindAsync(api_key=api_key)
+    yield client
+    # If NuMindAsync has a close method, call it
+    if hasattr(client, "close"):
+        await client.close()
+    elif hasattr(client, "aclose"):
+        await client.aclose()

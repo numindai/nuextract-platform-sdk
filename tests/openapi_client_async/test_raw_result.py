@@ -37,13 +37,13 @@ class TestRawResult(unittest.TestCase):
             return RawResult(
                 result = '',
                 error = '',
-                inference_error = 'NotConformingToTemplate'
+                inference_error = ''
             )
         else:
             return RawResult(
                 result = '',
                 error = '',
-                inference_error = 'NotConformingToTemplate',
+                inference_error = '',
         )
         """
 

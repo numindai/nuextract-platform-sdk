@@ -13,11 +13,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.14"]
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-
-    env:
-      NUMIND_API_KEY_TESTS: ${{ secrets.NUMIND_API_KEY_TESTS }}
 
     steps:
       - uses: actions/checkout@v6
@@ -32,6 +29,8 @@ jobs:
         run: uv sync --extra tests
 
       - name: Run tests
+        env:
+          NUMIND_API_KEY_TESTS: ${{ secrets.NUMIND_API_KEY_TESTS }}
         run: uv run pytest tests --cov=./ --cov-report=xml --durations=0 --reruns=3
 
       #- name: Codecov

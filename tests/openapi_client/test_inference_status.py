@@ -11,32 +11,44 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.openapi_client_async.api.default_api import DefaultApi
+from numind.models.inference_status import InferenceStatus
 
 
-class TestDefaultApi(unittest.IsolatedAsyncioTestCase):
-    """DefaultApi unit test stubs"""
+class TestInferenceStatus(unittest.TestCase):
+    """InferenceStatus unit test stubs"""
 
-    async def asyncSetUp(self) -> None:
-        self.api = DefaultApi()
+    def setUp(self):
+        pass
 
-    async def asyncTearDown(self) -> None:
-        await self.api.api_client.close()
+    def tearDown(self):
+        pass
 
-    async def test_get_api_debug_status_code(self) -> None:
-        """Test case for get_api_debug_status_code"""
+    def make_instance(self, include_optional) -> InferenceStatus:
+        """
+        Test InferenceStatus
+        include_optional is a boolean, when False only required
+        params are included, when True both required and
+        optional params are included
+        """
+        # uncomment below to create an instance of `InferenceStatus`
+        """
+        model = InferenceStatus()
+        if include_optional:
+            return InferenceStatus(
+                running = 56,
+                waiting = 56
+            )
+        else:
+            return InferenceStatus(
+                running = 56,
+                waiting = 56,
+        )
+        """
 
-    async def test_get_api_health(self) -> None:
-        """Test case for get_api_health"""
-
-    async def test_get_api_inference_status(self) -> None:
-        """Test case for get_api_inference_status"""
-
-    async def test_get_api_ping(self) -> None:
-        """Test case for get_api_ping"""
-
-    async def test_get_api_version(self) -> None:
-        """Test case for get_api_version"""
+    def testInferenceStatus(self):
+        """Test InferenceStatus"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 
 if __name__ == "__main__":

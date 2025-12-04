@@ -52,6 +52,7 @@ __all__ = [
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
+    "InferenceStatus",
     "InformationResponse",
     "InvalidInformation",
     "InvitationResponse",
@@ -141,6 +142,7 @@ from numind.models.extraction_response import ExtractionResponse as ExtractionRe
 from numind.models.file_response import FileResponse as FileResponse
 from numind.models.health_response import HealthResponse as HealthResponse
 from numind.models.image_info import ImageInfo as ImageInfo
+from numind.models.inference_status import InferenceStatus as InferenceStatus
 from numind.models.information_response import (
     InformationResponse as InformationResponse,
 )

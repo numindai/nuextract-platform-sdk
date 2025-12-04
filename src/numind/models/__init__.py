@@ -30,6 +30,7 @@ from numind.models.extraction_response import ExtractionResponse
 from numind.models.file_response import FileResponse
 from numind.models.health_response import HealthResponse
 from numind.models.image_info import ImageInfo
+from numind.models.inference_status import InferenceStatus
 from numind.models.information_response import InformationResponse
 from numind.models.invalid_information import InvalidInformation
 from numind.models.invitation_response import InvitationResponse

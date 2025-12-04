@@ -29,6 +29,9 @@ class TestDefaultApi(unittest.TestCase):
     def test_get_api_health(self) -> None:
         """Test case for get_api_health"""
 
+    def test_get_api_inference_status(self) -> None:
+        """Test case for get_api_inference_status"""
+
     def test_get_api_ping(self) -> None:
         """Test case for get_api_ping"""
 

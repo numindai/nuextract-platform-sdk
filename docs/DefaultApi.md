@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_api_debug_status_code**](DefaultApi.md#get_api_debug_status_code) | **GET** /api/debug/status/{code} | 
 [**get_api_health**](DefaultApi.md#get_api_health) | **GET** /api/health | 
+[**get_api_inference_status**](DefaultApi.md#get_api_inference_status) | **GET** /api/inference-status | 
 [**get_api_ping**](DefaultApi.md#get_api_ping) | **GET** /api/ping | 
 [**get_api_version**](DefaultApi.md#get_api_version) | **GET** /api/version | 
 
@@ -117,6 +118,66 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**HealthResponse**](HealthResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_api_inference_status**
+> Dict[str, InferenceStatus] get_api_inference_status()
+
+### Example
+
+
+```python
+import numind.openapi_client
+from numind.models.inference_status import InferenceStatus
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.DefaultApi(api_client)
+
+    try:
+        api_response = api_instance.get_api_inference_status()
+        print("The response of DefaultApi->get_api_inference_status:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_api_inference_status: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Dict[str, InferenceStatus]**](InferenceStatus.md)
 
 ### Authorization
 

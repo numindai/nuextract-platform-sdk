@@ -335,6 +335,7 @@ Class | Method | HTTP request | Description
 *ProjectManagementApi* | [**put_api_projects_projectid_template**](docs/ProjectManagementApi.md#put_api_projects_projectid_template) | **PUT** /api/projects/{projectId}/template | 
 *DefaultApi* | [**get_api_debug_status_code**](docs/DefaultApi.md#get_api_debug_status_code) | **GET** /api/debug/status/{code} | 
 *DefaultApi* | [**get_api_health**](docs/DefaultApi.md#get_api_health) | **GET** /api/health | 
+*DefaultApi* | [**get_api_inference_status**](docs/DefaultApi.md#get_api_inference_status) | **GET** /api/inference-status | 
 *DefaultApi* | [**get_api_ping**](docs/DefaultApi.md#get_api_ping) | **GET** /api/ping | 
 *DefaultApi* | [**get_api_version**](docs/DefaultApi.md#get_api_version) | **GET** /api/version | 
 
@@ -356,6 +357,7 @@ Class | Method | HTTP request | Description
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
+ - [InferenceStatus](docs/InferenceStatus.md)
  - [InformationResponse](docs/InformationResponse.md)
  - [InvalidInformation](docs/InvalidInformation.md)
  - [InvitationResponse](docs/InvitationResponse.md)

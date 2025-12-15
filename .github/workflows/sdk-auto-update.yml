@@ -89,7 +89,7 @@ jobs:
       - name: Create Pull Request
         id: create_pr
         if: steps.check_pr.outputs.pr_exists == 'false'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "feat(sdk): Regenerate SDK for API version ${{ steps.fetch_version.outputs.version }}"

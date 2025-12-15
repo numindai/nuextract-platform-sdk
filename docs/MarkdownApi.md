@@ -55,7 +55,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.MarkdownApi(api_client)
     file = None # bytearray | 
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used. (optional)
-    rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used. (optional)
+    rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file** | **bytearray**|  | 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used. | [optional] 
- **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used. | [optional] 
+ **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 

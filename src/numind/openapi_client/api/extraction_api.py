@@ -77,7 +77,7 @@ class ExtractionApi:
             ),
         ] = None,
         max_tokens_smart_example: Annotated[
-            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
@@ -198,7 +198,7 @@ class ExtractionApi:
             ),
         ] = None,
         max_tokens_smart_example: Annotated[
-            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
@@ -319,7 +319,7 @@ class ExtractionApi:
             ),
         ] = None,
         max_tokens_smart_example: Annotated[
-            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
@@ -530,7 +530,7 @@ class ExtractionApi:
             ),
         ] = None,
         max_tokens_smart_example: Annotated[
-            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
@@ -660,7 +660,7 @@ class ExtractionApi:
             ),
         ] = None,
         max_tokens_smart_example: Annotated[
-            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),
@@ -790,7 +790,7 @@ class ExtractionApi:
             ),
         ] = None,
         max_tokens_smart_example: Annotated[
-            Optional[Annotated[int, Field(le=32000, strict=True, ge=0)]],
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
             ),

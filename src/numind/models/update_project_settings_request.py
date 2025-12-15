@@ -47,7 +47,7 @@ class UpdateProjectSettingsRequest(BaseModel):
         alias="degradedMode",
     )
     max_tokens_smart_example: Optional[
-        Annotated[int, Field(le=32000, strict=True, ge=0)]
+        Annotated[int, Field(le=130000, strict=True, ge=0)]
     ] = Field(
         default=None,
         description="Maximum number of output tokens for smart examples (optional). Must be positive.",

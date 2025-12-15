@@ -41,7 +41,7 @@ class ProjectSettingsResponse(BaseModel):
         description="Controls whether a response is returned when smart example is not functionning. Rejects by default.",
         alias="degradedMode",
     )
-    max_tokens_smart_example: Annotated[int, Field(le=32000, strict=True, ge=0)] = (
+    max_tokens_smart_example: Annotated[int, Field(le=130000, strict=True, ge=0)] = (
         Field(
             description="Maximum number of output tokens for smart examples (optional). Must be positive.",
             alias="maxTokensSmartExample",

@@ -57,7 +57,7 @@ class MarkdownApi:
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -93,7 +93,7 @@ class MarkdownApi:
         :type file: bytearray
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default.
         :type max_output_tokens: int
@@ -163,7 +163,7 @@ class MarkdownApi:
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -199,7 +199,7 @@ class MarkdownApi:
         :type file: bytearray
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default.
         :type max_output_tokens: int
@@ -269,7 +269,7 @@ class MarkdownApi:
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -305,7 +305,7 @@ class MarkdownApi:
         :type file: bytearray
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default.
         :type max_output_tokens: int

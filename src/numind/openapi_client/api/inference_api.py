@@ -1113,7 +1113,7 @@ class InferenceApi:
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         _request_timeout: Union[
@@ -1135,7 +1135,7 @@ class InferenceApi:
 
         :param body: (required)
         :type body: bytearray
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
         :type rasterization_dpi: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1187,7 +1187,7 @@ class InferenceApi:
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         _request_timeout: Union[
@@ -1209,7 +1209,7 @@ class InferenceApi:
 
         :param body: (required)
         :type body: bytearray
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
         :type rasterization_dpi: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1261,7 +1261,7 @@ class InferenceApi:
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         _request_timeout: Union[
@@ -1283,7 +1283,7 @@ class InferenceApi:
 
         :param body: (required)
         :type body: bytearray
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 115 dpi is used.   If the file is already an image or a text, this parameter is ignored.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
         :type rasterization_dpi: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

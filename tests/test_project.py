@@ -39,7 +39,7 @@ def test_create_project(
     for idx in range(len(examples)):  # convert Path to str
         if isinstance(examples[idx][0], Path):
             examples[idx] = (str(examples[idx][0]), examples[idx][1])
-    project_id = numind_client.post_api_projects(
+    project_id = numind_client.post_api_structured_extraction(
         CreateProjectRequest(name=project_name, description="", template=schema)
     ).id
     request.config.cache.set("project_id", project_id)
@@ -55,7 +55,7 @@ def test_get_existing_projects(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
-    projects = numind_client.get_api_projects()
+    projects = numind_client.get_api_structured_extraction()
     assert project_id in {project.id for project in projects}
 
 
@@ -80,9 +80,7 @@ def test_infer_text(numind_client: NuMind, request: pytest.FixtureRequest) -> No
     project_id = request.config.cache.get("project_id", None)
     text_cases = request.config.cache.get("text_cases", None)
     for input_text in text_cases:
-        _ = numind_client.post_api_projects_projectid_extract(
-            project_id, input_text.encode()
-        )
+        _ = numind_client.extract(project_id, input_text=input_text)
 
 
 @pytest.mark.asyncio
@@ -94,9 +92,7 @@ async def test_infer_text_async(
     text_cases = request.config.cache.get("text_cases", None)
 
     tasks = [
-        numind_client_async.post_api_projects_projectid_extract(
-            project_id, input_text.encode()
-        )
+        numind_client_async.extract(project_id, input_text=input_text)
         for input_text in text_cases
     ]
     await asyncio.gather(*tasks)
@@ -109,10 +105,10 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
     for file_path in file_cases:
         file_path = Path(file_path)
         with file_path.open("rb") as file:
-            intput_file = file.read()
+            input_file = file.read()
         # TODO test async route, check status is among the expected ones
-        _ = numind_client.post_api_projects_projectid_extract(
-            project_id, intput_file, **EXTRACT_KWARGS
+        _ = numind_client.extract(
+            project_id, input_file=input_file, **EXTRACT_KWARGS
         )
 
 
@@ -122,6 +118,6 @@ def test_delete_project_and_has_been_deleted(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
-    numind_client.delete_api_projects_projectid(project_id)
-    projects = numind_client.get_api_projects()
+    numind_client.delete_api_structured_extraction_structuredextractionprojectid(project_id)
+    projects = numind_client.get_api_structured_extraction()
     assert project_id not in {project.id for project in projects}

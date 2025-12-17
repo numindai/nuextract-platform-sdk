@@ -65,6 +65,7 @@ from .openapi_client_async import (
 from .openapi_client_async import (
     TemplateGenerationApi as TemplateGenerationApiAsync,
 )
+from .models import MarkdownResponse
 
 JOB_STATUS_COMPLETED = "result"
 
@@ -128,7 +129,8 @@ class NuMind(
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
         :param kwargs: additional keyword arguments to pass to the
-            ``post_api_projects_projectid_extract`` method, such as ``temperature``.
+            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
+            method, such as ``temperature``.
         :return: the API response.
         """
         if bool(input_text is None) ^ bool(input_file is not None):
@@ -162,7 +164,7 @@ class NuMind(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = self.post_api_projects_projectid_extract_async(
+        job_id_response = self.post_api_structured_extraction_structuredextractionprojectid_jobs(
             project_id, input_, **kwargs
         )
         job_output = self.get_api_jobs_jobid_stream(
@@ -238,17 +240,16 @@ class NuMind(
 
         return files_ids, documents_ids
 
-    def numarkdown(self, input_file: Path | str | bytes | None = None) -> str:
+    def numarkdown(self, input_file: Path | str | bytes | None = None) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
-        job_id_response = self.post_api_markdown_infer_async(input_)
+        job_id_response = self.post_api_content_extraction_jobs(input_)
         job_output = self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        # output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        return messages[-1]["data"]
+        return MarkdownResponse(**json.loads(json.loads(messages[-1]["data"])["outputData"]))
 
 
 class NuMindAsync(
@@ -310,7 +311,8 @@ class NuMindAsync(
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
         :param kwargs: additional keyword arguments to pass to the
-            ``post_api_projects_projectid_extract`` method, such as ``temperature``.
+            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
+            method, such as ``temperature``.
         :return: the API response.
         """
         if bool(input_text is None) ^ bool(input_file is not None):
@@ -348,7 +350,7 @@ class NuMindAsync(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = await self.post_api_projects_projectid_extract_async(
+        job_id_response = await self.post_api_structured_extraction_structuredextractionprojectid_jobs(
             project_id, input_, **kwargs
         )
         job_output = await self.get_api_jobs_jobid_stream(
@@ -426,18 +428,16 @@ class NuMindAsync(
 
         return files_ids, documents_ids
 
-    async def numarkdown(self, input_file: Path | str | bytes | None = None) -> str:
+    async def numarkdown(self, input_file: Path | str | bytes | None = None) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
-        job_id_response = await self.post_api_markdown_infer_async(input_)
+        job_id_response = await self.post_api_content_extraction_jobs(input_)
         job_output = await self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        # output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        # TODO add NuMarkdownResponse object when available
-        return messages[-1]["data"]
+        return MarkdownResponse(**json.loads(json.loads(messages[-1]["data"])["outputData"]))
 
 
 def _prepare_client(

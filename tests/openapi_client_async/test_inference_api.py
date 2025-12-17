@@ -23,34 +23,26 @@ class TestInferenceApi(unittest.IsolatedAsyncioTestCase):
     async def asyncTearDown(self) -> None:
         await self.api.api_client.close()
 
-    async def test_post_api_infer_template(self) -> None:
-        """Test case for post_api_infer_template"""
-
-    async def test_post_api_infer_template_async(self) -> None:
-        """Test case for post_api_infer_template_async"""
-
-    async def test_post_api_infer_template_async_document_documentid(self) -> None:
-        """Test case for post_api_infer_template_async_document_documentid"""
-
-    async def test_post_api_infer_template_document_documentid(self) -> None:
-        """Test case for post_api_infer_template_document_documentid"""
-
-    async def test_post_api_infer_template_file(self) -> None:
-        """Test case for post_api_infer_template_file"""
-
-    async def test_post_api_projects_projectid_infer_document_async_documentid(
+    async def test_post_api_content_extraction_contentextractionprojectid_jobs_document_documentid(
         self,
     ) -> None:
-        """Test case for post_api_projects_projectid_infer_document_async_documentid"""
+        """Test case for post_api_content_extraction_contentextractionprojectid_jobs_document_documentid"""
 
-    async def test_post_api_projects_projectid_infer_document_documentid(self) -> None:
-        """Test case for post_api_projects_projectid_infer_document_documentid"""
+    async def test_post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid(
+        self,
+    ) -> None:
+        """Test case for post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid"""
 
-    async def test_post_api_projects_projectid_infer_text(self) -> None:
-        """Test case for post_api_projects_projectid_infer_text"""
+    async def test_post_api_structured_extraction_structuredextractionprojectid_jobs_text(
+        self,
+    ) -> None:
+        """Test case for post_api_structured_extraction_structuredextractionprojectid_jobs_text"""
 
-    async def test_post_api_projects_projectid_infer_text_async(self) -> None:
-        """Test case for post_api_projects_projectid_infer_text_async"""
+    async def test_post_api_template_generation_jobs_document_documentid(self) -> None:
+        """Test case for post_api_template_generation_jobs_document_documentid"""
+
+    async def test_post_api_template_generation_jobs_text(self) -> None:
+        """Test case for post_api_template_generation_jobs_text"""
 
 
 if __name__ == "__main__":

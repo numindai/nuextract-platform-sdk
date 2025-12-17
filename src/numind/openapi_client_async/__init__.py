@@ -17,17 +17,24 @@ __version__ = "1.0.0"
 
 # Define package exports
 __all__ = [
+    "ContentExtractionApi",
+    "ContentExtractionPlaygroundApi",
+    "ContentExtractionProjectManagementApi",
+    "DefaultApi",
     "DocumentsApi",
-    "ExamplesApi",
-    "ExtractionApi",
+    "ExamplesDeprecatedApi",
     "FilesApi",
     "InferenceApi",
+    "InferenceDeprecatedApi",
     "JobsApi",
-    "MarkdownApi",
-    "OrganizationsApi",
-    "PlaygroundApi",
-    "ProjectManagementApi",
-    "DefaultApi",
+    "OrganizationManagementApi",
+    "PlaygroundDeprecatedApi",
+    "ProjectManagementDeprecatedApi",
+    "StructuredDataExtractionApi",
+    "StructuredExtractionExamplesApi",
+    "StructuredExtractionPlaygroundApi",
+    "StructuredExtractionProjectManagementApi",
+    "TemplateGenerationApi",
     "ApiResponse",
     "ApiClient",
     "Configuration",
@@ -40,7 +47,9 @@ __all__ = [
     "ApiKeyResponse",
     "ConvertRequest",
     "CreateApiKey",
+    "CreateMarkdownProjectRequest",
     "CreateOrUpdateExampleRequest",
+    "CreateOrUpdateMarkdownPlaygroundItemRequest",
     "CreateOrUpdatePlaygroundItemRequest",
     "CreateOrganizationRequest",
     "CreateProjectRequest",
@@ -49,27 +58,38 @@ __all__ = [
     "Error",
     "ExampleResponse",
     "ExtractionResponse",
+    "ExtractionResponseDeprecated",
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
     "InferenceStatus",
+    "InferenceValidationError",
     "InformationResponse",
     "InvalidInformation",
     "InvitationResponse",
     "InviteMemberRequest",
     "JobIdResponse",
     "JobResponse",
+    "JobStatusResponse",
+    "MarkdownPlaygroundItemResponse",
+    "MarkdownProjectResponse",
+    "MarkdownProjectSettingsResponse",
+    "MarkdownResponse",
     "MemberResponse",
     "OrganizationResponse",
     "PaginatedResponseExampleResponse",
     "PaginatedResponseJobResponse",
+    "PaginatedResponseMarkdownPlaygroundItemResponse",
     "PaginatedResponsePlaygroundItemResponse",
     "PlaygroundItemResponse",
     "ProjectResponse",
+    "ProjectResponseDeprecated",
     "ProjectSettingsResponse",
+    "ProjectSettingsResponseDeprecated",
     "RawResult",
     "ServiceStatus",
     "TemplateRequest",
+    "TemplateResponse",
     "TextInfo",
     "TextRequest",
     "TokenCodeRequest",
@@ -77,6 +97,8 @@ __all__ = [
     "TokenRequest",
     "TokenResponse",
     "UpdateApiKey",
+    "UpdateMarkdownProjectRequest",
+    "UpdateMarkdownProjectSettingsRequest",
     "UpdateOrganizationRequest",
     "UpdateProjectRequest",
     "UpdateProjectSettingsRequest",
@@ -87,25 +109,50 @@ __all__ = [
 ]
 
 # import apis into sdk package
+from numind.openapi_client_async.api.content_extraction_api import (
+    ContentExtractionApi as ContentExtractionApi,
+)
+from numind.openapi_client_async.api.content_extraction_playground_api import (
+    ContentExtractionPlaygroundApi as ContentExtractionPlaygroundApi,
+)
+from numind.openapi_client_async.api.content_extraction_project_management_api import (
+    ContentExtractionProjectManagementApi as ContentExtractionProjectManagementApi,
+)
+from numind.openapi_client_async.api.default_api import DefaultApi as DefaultApi
 from numind.openapi_client_async.api.documents_api import DocumentsApi as DocumentsApi
-from numind.openapi_client_async.api.examples_api import ExamplesApi as ExamplesApi
-from numind.openapi_client_async.api.extraction_api import (
-    ExtractionApi as ExtractionApi,
+from numind.openapi_client_async.api.examples_deprecated_api import (
+    ExamplesDeprecatedApi as ExamplesDeprecatedApi,
 )
 from numind.openapi_client_async.api.files_api import FilesApi as FilesApi
 from numind.openapi_client_async.api.inference_api import InferenceApi as InferenceApi
+from numind.openapi_client_async.api.inference_deprecated_api import (
+    InferenceDeprecatedApi as InferenceDeprecatedApi,
+)
 from numind.openapi_client_async.api.jobs_api import JobsApi as JobsApi
-from numind.openapi_client_async.api.markdown_api import MarkdownApi as MarkdownApi
-from numind.openapi_client_async.api.organizations_api import (
-    OrganizationsApi as OrganizationsApi,
+from numind.openapi_client_async.api.organization_management_api import (
+    OrganizationManagementApi as OrganizationManagementApi,
 )
-from numind.openapi_client_async.api.playground_api import (
-    PlaygroundApi as PlaygroundApi,
+from numind.openapi_client_async.api.playground_deprecated_api import (
+    PlaygroundDeprecatedApi as PlaygroundDeprecatedApi,
 )
-from numind.openapi_client_async.api.project_management_api import (
-    ProjectManagementApi as ProjectManagementApi,
+from numind.openapi_client_async.api.project_management_deprecated_api import (
+    ProjectManagementDeprecatedApi as ProjectManagementDeprecatedApi,
 )
-from numind.openapi_client_async.api.default_api import DefaultApi as DefaultApi
+from numind.openapi_client_async.api.structured_data_extraction_api import (
+    StructuredDataExtractionApi as StructuredDataExtractionApi,
+)
+from numind.openapi_client_async.api.structured_extraction_examples_api import (
+    StructuredExtractionExamplesApi as StructuredExtractionExamplesApi,
+)
+from numind.openapi_client_async.api.structured_extraction_playground_api import (
+    StructuredExtractionPlaygroundApi as StructuredExtractionPlaygroundApi,
+)
+from numind.openapi_client_async.api.structured_extraction_project_management_api import (
+    StructuredExtractionProjectManagementApi as StructuredExtractionProjectManagementApi,
+)
+from numind.openapi_client_async.api.template_generation_api import (
+    TemplateGenerationApi as TemplateGenerationApi,
+)
 
 # import ApiClient
 from numind.api_response import ApiResponse as ApiResponse
@@ -122,8 +169,14 @@ from numind.exceptions import ApiException as ApiException
 from numind.models.api_key_response import ApiKeyResponse as ApiKeyResponse
 from numind.models.convert_request import ConvertRequest as ConvertRequest
 from numind.models.create_api_key import CreateApiKey as CreateApiKey
+from numind.models.create_markdown_project_request import (
+    CreateMarkdownProjectRequest as CreateMarkdownProjectRequest,
+)
 from numind.models.create_or_update_example_request import (
     CreateOrUpdateExampleRequest as CreateOrUpdateExampleRequest,
+)
+from numind.models.create_or_update_markdown_playground_item_request import (
+    CreateOrUpdateMarkdownPlaygroundItemRequest as CreateOrUpdateMarkdownPlaygroundItemRequest,
 )
 from numind.models.create_or_update_playground_item_request import (
     CreateOrUpdatePlaygroundItemRequest as CreateOrUpdatePlaygroundItemRequest,
@@ -139,10 +192,16 @@ from numind.models.document_response import DocumentResponse as DocumentResponse
 from numind.models.error import Error as Error
 from numind.models.example_response import ExampleResponse as ExampleResponse
 from numind.models.extraction_response import ExtractionResponse as ExtractionResponse
+from numind.models.extraction_response_deprecated import (
+    ExtractionResponseDeprecated as ExtractionResponseDeprecated,
+)
 from numind.models.file_response import FileResponse as FileResponse
 from numind.models.health_response import HealthResponse as HealthResponse
 from numind.models.image_info import ImageInfo as ImageInfo
 from numind.models.inference_status import InferenceStatus as InferenceStatus
+from numind.models.inference_validation_error import (
+    InferenceValidationError as InferenceValidationError,
+)
 from numind.models.information_response import (
     InformationResponse as InformationResponse,
 )
@@ -153,6 +212,17 @@ from numind.models.invite_member_request import (
 )
 from numind.models.job_id_response import JobIdResponse as JobIdResponse
 from numind.models.job_response import JobResponse as JobResponse
+from numind.models.job_status_response import JobStatusResponse as JobStatusResponse
+from numind.models.markdown_playground_item_response import (
+    MarkdownPlaygroundItemResponse as MarkdownPlaygroundItemResponse,
+)
+from numind.models.markdown_project_response import (
+    MarkdownProjectResponse as MarkdownProjectResponse,
+)
+from numind.models.markdown_project_settings_response import (
+    MarkdownProjectSettingsResponse as MarkdownProjectSettingsResponse,
+)
+from numind.models.markdown_response import MarkdownResponse as MarkdownResponse
 from numind.models.member_response import MemberResponse as MemberResponse
 from numind.models.organization_response import (
     OrganizationResponse as OrganizationResponse,
@@ -163,6 +233,9 @@ from numind.models.paginated_response_example_response import (
 from numind.models.paginated_response_job_response import (
     PaginatedResponseJobResponse as PaginatedResponseJobResponse,
 )
+from numind.models.paginated_response_markdown_playground_item_response import (
+    PaginatedResponseMarkdownPlaygroundItemResponse as PaginatedResponseMarkdownPlaygroundItemResponse,
+)
 from numind.models.paginated_response_playground_item_response import (
     PaginatedResponsePlaygroundItemResponse as PaginatedResponsePlaygroundItemResponse,
 )
@@ -170,12 +243,19 @@ from numind.models.playground_item_response import (
     PlaygroundItemResponse as PlaygroundItemResponse,
 )
 from numind.models.project_response import ProjectResponse as ProjectResponse
+from numind.models.project_response_deprecated import (
+    ProjectResponseDeprecated as ProjectResponseDeprecated,
+)
 from numind.models.project_settings_response import (
     ProjectSettingsResponse as ProjectSettingsResponse,
+)
+from numind.models.project_settings_response_deprecated import (
+    ProjectSettingsResponseDeprecated as ProjectSettingsResponseDeprecated,
 )
 from numind.models.raw_result import RawResult as RawResult
 from numind.models.service_status import ServiceStatus as ServiceStatus
 from numind.models.template_request import TemplateRequest as TemplateRequest
+from numind.models.template_response import TemplateResponse as TemplateResponse
 from numind.models.text_info import TextInfo as TextInfo
 from numind.models.text_request import TextRequest as TextRequest
 from numind.models.token_code_request import TokenCodeRequest as TokenCodeRequest
@@ -185,6 +265,12 @@ from numind.models.token_refresh_request import (
 from numind.models.token_request import TokenRequest as TokenRequest
 from numind.models.token_response import TokenResponse as TokenResponse
 from numind.models.update_api_key import UpdateApiKey as UpdateApiKey
+from numind.models.update_markdown_project_request import (
+    UpdateMarkdownProjectRequest as UpdateMarkdownProjectRequest,
+)
+from numind.models.update_markdown_project_settings_request import (
+    UpdateMarkdownProjectSettingsRequest as UpdateMarkdownProjectSettingsRequest,
+)
 from numind.models.update_organization_request import (
     UpdateOrganizationRequest as UpdateOrganizationRequest,
 )

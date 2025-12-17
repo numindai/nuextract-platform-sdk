@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing_extensions import Self
 
 
@@ -37,22 +37,15 @@ class ProjectSettingsResponse(BaseModel):
         description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.",
         alias="maxOutputTokens",
     )
-    degraded_mode: StrictStr = Field(
-        description="Controls whether a response is returned when smart example is not functionning. Rejects by default.",
-        alias="degradedMode",
-    )
-    max_tokens_smart_example: Annotated[int, Field(le=130000, strict=True, ge=0)] = (
-        Field(
-            description="Maximum number of output tokens for smart examples (optional). Must be positive.",
-            alias="maxTokensSmartExample",
-        )
+    example_token_limit: Annotated[int, Field(le=130000, strict=True, ge=0)] = Field(
+        description="Maximum number of output tokens for smart examples (optional). Must be positive.",
+        alias="exampleTokenLimit",
     )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
         "maxOutputTokens",
-        "degradedMode",
-        "maxTokensSmartExample",
+        "exampleTokenLimit",
     ]
 
     model_config = ConfigDict(
@@ -109,8 +102,7 @@ class ProjectSettingsResponse(BaseModel):
                 "temperature": obj.get("temperature"),
                 "rasterizationDPI": obj.get("rasterizationDPI"),
                 "maxOutputTokens": obj.get("maxOutputTokens"),
-                "degradedMode": obj.get("degradedMode"),
-                "maxTokensSmartExample": obj.get("maxTokensSmartExample"),
+                "exampleTokenLimit": obj.get("exampleTokenLimit"),
             }
         )
         return _obj

@@ -11,17 +11,9 @@ Do not edit the class manually.
 
 from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
-from pydantic import (
-    Field,
-    StrictBytes,
-    StrictFloat,
-    StrictInt,
-    StrictStr,
-    validate_call,
-)
+from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
-from numind.models.extraction_response import ExtractionResponse
 from numind.models.job_id_response import JobIdResponse
 from numind.models.template_request import TemplateRequest
 from numind.models.text_request import TextRequest
@@ -43,1367 +35,11 @@ class InferenceApi:
         self.api_client = api_client
 
     @validate_call
-    async def post_api_infer_template(
+    async def post_api_content_extraction_contentextractionprojectid_jobs_document_documentid(
         self,
-        template_request: TemplateRequest,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
-        """
-        post_api_infer_template
-
-          Derive a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param template_request: (required)
-        :type template_request: TemplateRequest
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_serialize(
-            template_request=template_request,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    async def post_api_infer_template_with_http_info(
-        self,
-        template_request: TemplateRequest,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
-        """
-        post_api_infer_template
-
-          Derive a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param template_request: (required)
-        :type template_request: TemplateRequest
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_serialize(
-            template_request=template_request,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    async def post_api_infer_template_without_preload_content(
-        self,
-        template_request: TemplateRequest,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_infer_template
-
-          Derive a template from the provided natural language description.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param template_request: (required)
-        :type template_request: TemplateRequest
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_serialize(
-            template_request=template_request,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_infer_template_serialize(
-        self,
-        template_request,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if template_request is not None:
-            _body_params = template_request
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json", "text/plain"]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params["Content-Type"] = _content_type
-        else:
-            _default_content_type = self.api_client.select_header_content_type(
-                ["application/json"]
-            )
-            if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/infer-template",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    async def post_api_infer_template_async(
-        self,
-        template_request: TemplateRequest,
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> JobIdResponse:
-        """
-        post_api_infer_template_async
-
-          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param template_request: (required)
-        :type template_request: TemplateRequest
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_async_serialize(
-            template_request=template_request,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    async def post_api_infer_template_async_with_http_info(
-        self,
-        template_request: TemplateRequest,
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[JobIdResponse]:
-        """
-        post_api_infer_template_async
-
-          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param template_request: (required)
-        :type template_request: TemplateRequest
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_async_serialize(
-            template_request=template_request,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    async def post_api_infer_template_async_without_preload_content(
-        self,
-        template_request: TemplateRequest,
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_infer_template_async
-
-          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param template_request: (required)
-        :type template_request: TemplateRequest
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_async_serialize(
-            template_request=template_request,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_infer_template_async_serialize(
-        self,
-        template_request,
-        timeout,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        if timeout is not None:
-            _query_params.append(("timeout", timeout))
-
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if template_request is not None:
-            _body_params = template_request
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json", "text/plain"]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params["Content-Type"] = _content_type
-        else:
-            _default_content_type = self.api_client.select_header_content_type(
-                ["application/json"]
-            )
-            if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/infer-template-async",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    async def post_api_infer_template_async_document_documentid(
-        self,
-        document_id: Annotated[
-            StrictStr, Field(description="Unique document identifier.")
-        ],
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> JobIdResponse:
-        """
-        post_api_infer_template_async_document_documentid
-
-          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
-
-        :param document_id: Unique document identifier. (required)
-        :type document_id: str
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_async_document_documentid_serialize(
-            document_id=document_id,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    async def post_api_infer_template_async_document_documentid_with_http_info(
-        self,
-        document_id: Annotated[
-            StrictStr, Field(description="Unique document identifier.")
-        ],
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[JobIdResponse]:
-        """
-        post_api_infer_template_async_document_documentid
-
-          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
-
-        :param document_id: Unique document identifier. (required)
-        :type document_id: str
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_async_document_documentid_serialize(
-            document_id=document_id,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    async def post_api_infer_template_async_document_documentid_without_preload_content(
-        self,
-        document_id: Annotated[
-            StrictStr, Field(description="Unique document identifier.")
-        ],
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_infer_template_async_document_documentid
-
-          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
-
-        :param document_id: Unique document identifier. (required)
-        :type document_id: str
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_async_document_documentid_serialize(
-            document_id=document_id,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_infer_template_async_document_documentid_serialize(
-        self,
-        document_id,
-        timeout,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if document_id is not None:
-            _path_params["documentId"] = document_id
-        # process the query parameters
-        if timeout is not None:
-            _query_params.append(("timeout", timeout))
-
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
-            )
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/infer-template-async/document/{documentId}",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    async def post_api_infer_template_document_documentid(
-        self,
-        document_id: Annotated[
-            StrictStr, Field(description="Unique document identifier.")
-        ],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
-        """
-        post_api_infer_template_document_documentid
-
-          Derive a template from the provided **Document**.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
-
-        :param document_id: Unique document identifier. (required)
-        :type document_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_document_documentid_serialize(
-            document_id=document_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    async def post_api_infer_template_document_documentid_with_http_info(
-        self,
-        document_id: Annotated[
-            StrictStr, Field(description="Unique document identifier.")
-        ],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
-        """
-        post_api_infer_template_document_documentid
-
-          Derive a template from the provided **Document**.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
-
-        :param document_id: Unique document identifier. (required)
-        :type document_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_document_documentid_serialize(
-            document_id=document_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    async def post_api_infer_template_document_documentid_without_preload_content(
-        self,
-        document_id: Annotated[
-            StrictStr, Field(description="Unique document identifier.")
-        ],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_infer_template_document_documentid
-
-          Derive a template from the provided **Document**.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
-
-        :param document_id: Unique document identifier. (required)
-        :type document_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_document_documentid_serialize(
-            document_id=document_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_infer_template_document_documentid_serialize(
-        self,
-        document_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if document_id is not None:
-            _path_params["documentId"] = document_id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
-            )
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/infer-template/document/{documentId}",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    async def post_api_infer_template_file(
-        self,
-        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
-            Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
-        """
-        post_api_infer_template_file
-
-          Derive a template from the provided **File**.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
-
-        :param body: (required)
-        :type body: bytearray
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_file_serialize(
-            body=body,
-            rasterization_dpi=rasterization_dpi,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    async def post_api_infer_template_file_with_http_info(
-        self,
-        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
-            Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
-        """
-        post_api_infer_template_file
-
-          Derive a template from the provided **File**.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
-
-        :param body: (required)
-        :type body: bytearray
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_file_serialize(
-            body=body,
-            rasterization_dpi=rasterization_dpi,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    async def post_api_infer_template_file_without_preload_content(
-        self,
-        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
-            Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_infer_template_file
-
-          Derive a template from the provided **File**.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON representing the derived template.  In case the derivation fails, an empty template and HTTP code 206 is returned.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
-
-        :param body: (required)
-        :type body: bytearray
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_infer_template_file_serialize(
-            body=body,
-            rasterization_dpi=rasterization_dpi,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_infer_template_file_serialize(
-        self,
-        body,
-        rasterization_dpi,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        if rasterization_dpi is not None:
-            _query_params.append(("rasterizationDPI", rasterization_dpi))
-
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if body is not None:
-            # convert to byte array if the input is a file name (str)
-            if isinstance(body, str):
-                with open(body, "rb") as _fp:
-                    _body_params = _fp.read()
-            elif isinstance(body, tuple):
-                # drop the filename from the tuple
-                _body_params = body[1]
-            else:
-                _body_params = body
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json", "text/plain"]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params["Content-Type"] = _content_type
-        else:
-            _default_content_type = self.api_client.select_header_content_type(
-                ["application/octet-stream"]
-            )
-            if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/infer-template/file",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    async def post_api_projects_projectid_infer_document_async_documentid(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        content_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique content extraction project identifier."),
         ],
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
@@ -1427,12 +63,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> JobIdResponse:
         """
-        post_api_projects_projectid_infer_document_async_documentid
+        post_api_content_extraction_contentextractionprojectid_jobs_document_documentid
 
-          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract markdown from the provided document using NuMarkdown model as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param content_extraction_project_id: Unique content extraction project identifier. (required)
+        :type content_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1458,16 +94,14 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = (
-            self._post_api_projects_projectid_infer_document_async_documentid_serialize(
-                project_id=project_id,
-                document_id=document_id,
-                timeout=timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
+            content_extraction_project_id=content_extraction_project_id,
+            document_id=document_id,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
@@ -1483,10 +117,11 @@ class InferenceApi:
         ).data
 
     @validate_call
-    async def post_api_projects_projectid_infer_document_async_documentid_with_http_info(
+    async def post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_with_http_info(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        content_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique content extraction project identifier."),
         ],
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
@@ -1510,12 +145,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_projects_projectid_infer_document_async_documentid
+        post_api_content_extraction_contentextractionprojectid_jobs_document_documentid
 
-          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract markdown from the provided document using NuMarkdown model as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param content_extraction_project_id: Unique content extraction project identifier. (required)
+        :type content_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1541,16 +176,14 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = (
-            self._post_api_projects_projectid_infer_document_async_documentid_serialize(
-                project_id=project_id,
-                document_id=document_id,
-                timeout=timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
+            content_extraction_project_id=content_extraction_project_id,
+            document_id=document_id,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
@@ -1566,10 +199,11 @@ class InferenceApi:
         )
 
     @validate_call
-    async def post_api_projects_projectid_infer_document_async_documentid_without_preload_content(
+    async def post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_without_preload_content(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        content_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique content extraction project identifier."),
         ],
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
@@ -1593,12 +227,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_projects_projectid_infer_document_async_documentid
+        post_api_content_extraction_contentextractionprojectid_jobs_document_documentid
 
-          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract markdown from the provided document using NuMarkdown model as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param content_extraction_project_id: Unique content extraction project identifier. (required)
+        :type content_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1624,16 +258,14 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = (
-            self._post_api_projects_projectid_infer_document_async_documentid_serialize(
-                project_id=project_id,
-                document_id=document_id,
-                timeout=timeout,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
+            content_extraction_project_id=content_extraction_project_id,
+            document_id=document_id,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
@@ -1644,9 +276,9 @@ class InferenceApi:
         )
         return response_data.response
 
-    def _post_api_projects_projectid_infer_document_async_documentid_serialize(
+    def _post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
         self,
-        project_id,
+        content_extraction_project_id,
         document_id,
         timeout,
         _request_auth,
@@ -1668,8 +300,8 @@ class InferenceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if project_id is not None:
-            _path_params["projectId"] = project_id
+        if content_extraction_project_id is not None:
+            _path_params["contentExtractionProjectId"] = content_extraction_project_id
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
@@ -1691,7 +323,7 @@ class InferenceApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/projects/{projectId}/infer-document-async/{documentId}",
+            resource_path="/api/content-extraction/{contentExtractionProjectId}/jobs/document/{documentId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1705,14 +337,44 @@ class InferenceApi:
         )
 
     @validate_call
-    async def post_api_projects_projectid_infer_document_documentid(
+    async def post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        structured_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
         ],
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        example_token_limit: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1724,16 +386,24 @@ class InferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExtractionResponse:
+    ) -> JobIdResponse:
         """
-        post_api_projects_projectid_infer_document_documentid
+        post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid
 
-          Performs information extraction inference on a specific **Document**.  The **Document** content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**,  or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
+        :type structured_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type example_token_limit: int
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1755,9 +425,13 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_document_documentid_serialize(
-            project_id=project_id,
+        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
+            structured_extraction_project_id=structured_extraction_project_id,
             document_id=document_id,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            example_token_limit=example_token_limit,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1765,7 +439,8 @@ class InferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "JobIdResponse",
+            "400": "str",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1777,14 +452,44 @@ class InferenceApi:
         ).data
 
     @validate_call
-    async def post_api_projects_projectid_infer_document_documentid_with_http_info(
+    async def post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_with_http_info(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        structured_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
         ],
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        example_token_limit: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1796,16 +501,24 @@ class InferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExtractionResponse]:
+    ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_projects_projectid_infer_document_documentid
+        post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid
 
-          Performs information extraction inference on a specific **Document**.  The **Document** content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**,  or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
+        :type structured_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type example_token_limit: int
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1827,9 +540,13 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_document_documentid_serialize(
-            project_id=project_id,
+        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
+            structured_extraction_project_id=structured_extraction_project_id,
             document_id=document_id,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            example_token_limit=example_token_limit,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1837,7 +554,8 @@ class InferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "JobIdResponse",
+            "400": "str",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1849,14 +567,44 @@ class InferenceApi:
         )
 
     @validate_call
-    async def post_api_projects_projectid_infer_document_documentid_without_preload_content(
+    async def post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_without_preload_content(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        structured_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
         ],
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        example_token_limit: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1870,14 +618,22 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_projects_projectid_infer_document_documentid
+        post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid
 
-          Performs information extraction inference on a specific **Document**.  The **Document** content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.  #### Error Responses: `404 Not Found` - If a **Document** with the given `documentId`, or a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to use this **Document** or run inference on this **Project**,  or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
+        :type structured_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type example_token_limit: int
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1899,9 +655,13 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_document_documentid_serialize(
-            project_id=project_id,
+        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
+            structured_extraction_project_id=structured_extraction_project_id,
             document_id=document_id,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            example_token_limit=example_token_limit,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1909,17 +669,22 @@ class InferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "JobIdResponse",
+            "400": "str",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
 
-    def _post_api_projects_projectid_infer_document_documentid_serialize(
+    def _post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
         self,
-        project_id,
+        structured_extraction_project_id,
         document_id,
+        temperature,
+        max_output_tokens,
+        example_token_limit,
+        timeout,
         _request_auth,
         _content_type,
         _headers,
@@ -1939,11 +704,25 @@ class InferenceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if project_id is not None:
-            _path_params["projectId"] = project_id
+        if structured_extraction_project_id is not None:
+            _path_params["structuredExtractionProjectId"] = (
+                structured_extraction_project_id
+            )
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
+        if temperature is not None:
+            _query_params.append(("temperature", temperature))
+
+        if max_output_tokens is not None:
+            _query_params.append(("maxOutputTokens", max_output_tokens))
+
+        if example_token_limit is not None:
+            _query_params.append(("exampleTokenLimit", example_token_limit))
+
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -1951,7 +730,7 @@ class InferenceApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
+                ["application/json", "text/plain"]
             )
 
         # authentication setting
@@ -1959,7 +738,7 @@ class InferenceApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/projects/{projectId}/infer-document/{documentId}",
+            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/jobs/document/{documentId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1973,12 +752,42 @@ class InferenceApi:
         )
 
     @validate_call
-    async def post_api_projects_projectid_infer_text(
+    async def post_api_structured_extraction_structuredextractionprojectid_jobs_text(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        structured_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
         ],
         text_request: TextRequest,
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        example_token_limit: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1990,16 +799,24 @@ class InferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExtractionResponse:
+    ) -> JobIdResponse:
         """
-        post_api_projects_projectid_infer_text
+        post_api_structured_extraction_structuredextractionprojectid_jobs_text
 
-          Perform information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a JSON representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **exampleTokenLimit**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
+        :type structured_extraction_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type example_token_limit: int
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2021,9 +838,13 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_text_serialize(
-            project_id=project_id,
+        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
+            structured_extraction_project_id=structured_extraction_project_id,
             text_request=text_request,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            example_token_limit=example_token_limit,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2031,7 +852,7 @@ class InferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "JobIdResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -2044,12 +865,42 @@ class InferenceApi:
         ).data
 
     @validate_call
-    async def post_api_projects_projectid_infer_text_with_http_info(
+    async def post_api_structured_extraction_structuredextractionprojectid_jobs_text_with_http_info(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        structured_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
         ],
         text_request: TextRequest,
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        example_token_limit: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2061,16 +912,24 @@ class InferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExtractionResponse]:
+    ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_projects_projectid_infer_text
+        post_api_structured_extraction_structuredextractionprojectid_jobs_text
 
-          Perform information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a JSON representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **exampleTokenLimit**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
+        :type structured_extraction_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type example_token_limit: int
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2092,9 +951,13 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_text_serialize(
-            project_id=project_id,
+        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
+            structured_extraction_project_id=structured_extraction_project_id,
             text_request=text_request,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            example_token_limit=example_token_limit,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2102,7 +965,7 @@ class InferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "JobIdResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -2115,12 +978,42 @@ class InferenceApi:
         )
 
     @validate_call
-    async def post_api_projects_projectid_infer_text_without_preload_content(
+    async def post_api_structured_extraction_structuredextractionprojectid_jobs_text_without_preload_content(
         self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
+        structured_extraction_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
         ],
         text_request: TextRequest,
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        example_token_limit: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2134,14 +1027,22 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_projects_projectid_infer_text
+        post_api_structured_extraction_structuredextractionprojectid_jobs_text
 
-          Perform information extraction inference on the provided text.  The text content must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.   #### Response:  Returns a JSON representing the inference result.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.   In this case, the raw response is additionally included in ***rawResponse*** field,   together with the error message.   Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **exampleTokenLimit**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
+        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
+        :type structured_extraction_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type example_token_limit: int
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2163,9 +1064,13 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_text_serialize(
-            project_id=project_id,
+        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
+            structured_extraction_project_id=structured_extraction_project_id,
             text_request=text_request,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            example_token_limit=example_token_limit,
+            timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2173,7 +1078,7 @@ class InferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "JobIdResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -2181,312 +1086,13 @@ class InferenceApi:
         )
         return response_data.response
 
-    def _post_api_projects_projectid_infer_text_serialize(
+    def _post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
         self,
-        project_id,
+        structured_extraction_project_id,
         text_request,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {}
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if project_id is not None:
-            _path_params["projectId"] = project_id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if text_request is not None:
-            _body_params = text_request
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json", "text/plain"]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params["Content-Type"] = _content_type
-        else:
-            _default_content_type = self.api_client.select_header_content_type(
-                ["application/json"]
-            )
-            if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = ["oauth2Auth"]
-
-        return self.api_client.param_serialize(
-            method="POST",
-            resource_path="/api/projects/{projectId}/infer-text",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    async def post_api_projects_projectid_infer_text_async(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
-        ],
-        text_request: TextRequest,
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> JobIdResponse:
-        """
-        post_api_projects_projectid_infer_text_async
-
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
-        :param text_request: (required)
-        :type text_request: TextRequest
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_text_async_serialize(
-            project_id=project_id,
-            text_request=text_request,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    async def post_api_projects_projectid_infer_text_async_with_http_info(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
-        ],
-        text_request: TextRequest,
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[JobIdResponse]:
-        """
-        post_api_projects_projectid_infer_text_async
-
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
-        :param text_request: (required)
-        :type text_request: TextRequest
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_text_async_serialize(
-            project_id=project_id,
-            text_request=text_request,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        await response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    async def post_api_projects_projectid_infer_text_async_without_preload_content(
-        self,
-        project_id: Annotated[
-            StrictStr, Field(description="Unique project identifier.")
-        ],
-        text_request: TextRequest,
-        timeout: Annotated[
-            Optional[StrictStr],
-            Field(
-                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
-            ),
-        ] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-            ],
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """
-        post_api_projects_projectid_infer_text_async
-
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  When **temperature**, **maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
-
-        :param project_id: Unique project identifier. (required)
-        :type project_id: str
-        :param text_request: (required)
-        :type text_request: TextRequest
-        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
-        :type timeout: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """  # noqa: E501
-        _param = self._post_api_projects_projectid_infer_text_async_serialize(
-            project_id=project_id,
-            text_request=text_request,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            "200": "JobIdResponse",
-            "400": "str",
-        }
-        response_data = await self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _post_api_projects_projectid_infer_text_async_serialize(
-        self,
-        project_id,
-        text_request,
+        temperature,
+        max_output_tokens,
+        example_token_limit,
         timeout,
         _request_auth,
         _content_type,
@@ -2507,9 +1113,20 @@ class InferenceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if project_id is not None:
-            _path_params["projectId"] = project_id
+        if structured_extraction_project_id is not None:
+            _path_params["structuredExtractionProjectId"] = (
+                structured_extraction_project_id
+            )
         # process the query parameters
+        if temperature is not None:
+            _query_params.append(("temperature", temperature))
+
+        if max_output_tokens is not None:
+            _query_params.append(("maxOutputTokens", max_output_tokens))
+
+        if example_token_limit is not None:
+            _query_params.append(("exampleTokenLimit", example_token_limit))
+
         if timeout is not None:
             _query_params.append(("timeout", timeout))
 
@@ -2540,7 +1157,570 @@ class InferenceApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/projects/{projectId}/infer-text-async",
+            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/jobs/text",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    async def post_api_template_generation_jobs_document_documentid(
+        self,
+        document_id: Annotated[
+            StrictStr, Field(description="Unique document identifier.")
+        ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> JobIdResponse:
+        """
+        post_api_template_generation_jobs_document_documentid
+
+          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
+
+        :param document_id: Unique document identifier. (required)
+        :type document_id: str
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_template_generation_jobs_document_documentid_serialize(
+            document_id=document_id,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    async def post_api_template_generation_jobs_document_documentid_with_http_info(
+        self,
+        document_id: Annotated[
+            StrictStr, Field(description="Unique document identifier.")
+        ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[JobIdResponse]:
+        """
+        post_api_template_generation_jobs_document_documentid
+
+          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
+
+        :param document_id: Unique document identifier. (required)
+        :type document_id: str
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_template_generation_jobs_document_documentid_serialize(
+            document_id=document_id,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    async def post_api_template_generation_jobs_document_documentid_without_preload_content(
+        self,
+        document_id: Annotated[
+            StrictStr, Field(description="Unique document identifier.")
+        ],
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        post_api_template_generation_jobs_document_documentid
+
+          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
+
+        :param document_id: Unique document identifier. (required)
+        :type document_id: str
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_template_generation_jobs_document_documentid_serialize(
+            document_id=document_id,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _post_api_template_generation_jobs_document_documentid_serialize(
+        self,
+        document_id,
+        timeout,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if document_id is not None:
+            _path_params["documentId"] = document_id
+        # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/api/template-generation/jobs/document/{documentId}",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    async def post_api_template_generation_jobs_text(
+        self,
+        template_request: TemplateRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> JobIdResponse:
+        """
+        post_api_template_generation_jobs_text
+
+          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+
+        :param template_request: (required)
+        :type template_request: TemplateRequest
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_template_generation_jobs_text_serialize(
+            template_request=template_request,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    async def post_api_template_generation_jobs_text_with_http_info(
+        self,
+        template_request: TemplateRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[JobIdResponse]:
+        """
+        post_api_template_generation_jobs_text
+
+          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+
+        :param template_request: (required)
+        :type template_request: TemplateRequest
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_template_generation_jobs_text_serialize(
+            template_request=template_request,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    async def post_api_template_generation_jobs_text_without_preload_content(
+        self,
+        template_request: TemplateRequest,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        post_api_template_generation_jobs_text
+
+          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+
+        :param template_request: (required)
+        :type template_request: TemplateRequest
+        :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_template_generation_jobs_text_serialize(
+            template_request=template_request,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _post_api_template_generation_jobs_text_serialize(
+        self,
+        template_request,
+        timeout,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if template_request is not None:
+            _body_params = template_request
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json", "text/plain"]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params["Content-Type"] = _content_type
+        else:
+            _default_content_type = self.api_client.select_header_content_type(
+                ["application/json"]
+            )
+            if _default_content_type is not None:
+                _header_params["Content-Type"] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/api/template-generation/jobs/text",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -6,7 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **result** | **object** | Inference result conforming to the template. | 
-**raw_result** | [**RawResult**](RawResult.md) |  | [optional] 
+**raw_model_output** | **str** | Raw inference result as returned by the model. | 
+**error** | [**InferenceValidationError**](InferenceValidationError.md) | Inference result validation error if the result does not conform to the template. | [optional] 
 **document_info** | [**DocumentInfo**](DocumentInfo.md) | Basic information on the document used for inference. | [optional] 
 **output_tokens** | **int** | Output tokens used for inference. | 
 **input_tokens** | **int** | Input tokens used for inference. | 

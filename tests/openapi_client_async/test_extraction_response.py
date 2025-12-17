@@ -36,10 +36,10 @@ class TestExtractionResponse(unittest.TestCase):
         if include_optional:
             return ExtractionResponse(
                 result = None,
-                raw_result = numind.models.raw_result.RawResult(
-                    result = '', 
-                    error = '', 
-                    inference_error = '', ),
+                raw_model_output = '',
+                error = numind.models.inference_validation_error.InferenceValidationError(
+                    message = '', 
+                    error_code = '', ),
                 document_info = None,
                 output_tokens = 56,
                 input_tokens = 56,
@@ -49,6 +49,7 @@ class TestExtractionResponse(unittest.TestCase):
         else:
             return ExtractionResponse(
                 result = None,
+                raw_model_output = '',
                 output_tokens = 56,
                 input_tokens = 56,
                 total_tokens = 56,

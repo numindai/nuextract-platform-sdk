@@ -9,8 +9,7 @@ Name | Type | Description | Notes
 **temperature** | **float** | Model temperature. | 
 **rasterization_dpi** | **int** | Resolution used to convert formatted documents to images. | 
 **max_output_tokens** | **int** | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | 
-**degraded_mode** | **str** | Controls whether a response is returned when smart example is not functionning. Rejects by default. | 
-**max_tokens_smart_example** | **int** | Maximum number of output tokens for smart examples (optional). Must be positive. | 
+**example_token_limit** | **int** | Maximum number of output tokens for smart examples (optional). Must be positive. | 
 
 ## Example
 

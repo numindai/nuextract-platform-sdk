@@ -39,7 +39,7 @@ class TestUpdateProjectSettingsRequest(unittest.TestCase):
                 rasterization_dpi = 56,
                 max_output_tokens = 56,
                 degraded_mode = '',
-                max_tokens_smart_example = 0
+                example_token_limit = 0
             )
         else:
             return UpdateProjectSettingsRequest(

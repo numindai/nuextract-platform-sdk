@@ -26,7 +26,7 @@ class RawResult(BaseModel):
     """
 
     result: StrictStr = Field(
-        description="Inference result not conforming to the template."
+        description="Inference result not conforming to the format."
     )
     error: StrictStr = Field(
         description="Error message explaining why the inference result is invalid."

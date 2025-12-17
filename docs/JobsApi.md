@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_api_jobs**](JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
 [**get_api_jobs_jobid**](JobsApi.md#get_api_jobs_jobid) | **GET** /api/jobs/{jobId} | 
+[**get_api_jobs_jobid_status**](JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 [**get_api_jobs_jobid_stream**](JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 
 
@@ -96,7 +97,7 @@ Name | Type | Description  | Notes
 > JobResponse get_api_jobs_jobid(job_id)
 
 
- Get details of a specific job by its unique identifier.
+ Get details of a specific job by its unique identifier together with input data and results.
  This endpoint retrieves the complete information about an asynchronous job, including its status, input data, and output results if completed.
 
 #### Response:
@@ -158,6 +159,87 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**JobResponse**](JobResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_api_jobs_jobid_status**
+> JobStatusResponse get_api_jobs_jobid_status(job_id)
+
+
+ Get details of a specific job by its unique identifier.
+ This endpoint retrieves the metadata about an asynchronous job.
+
+#### Error Responses:
+`404 Not Found` - If a job with the specified ID does not exist.
+
+`403 Forbidden` - If the user does not have permission to access this job.
+   
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.models.job_status_response import JobStatusResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.JobsApi(api_client)
+    job_id = 'job_id_example' # str | Unique job identifier.
+
+    try:
+        api_response = api_instance.get_api_jobs_jobid_status(job_id)
+        print("The response of JobsApi->get_api_jobs_jobid_status:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling JobsApi->get_api_jobs_jobid_status: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **job_id** | **str**| Unique job identifier. | 
+
+### Return type
+
+[**JobStatusResponse**](JobStatusResponse.md)
 
 ### Authorization
 

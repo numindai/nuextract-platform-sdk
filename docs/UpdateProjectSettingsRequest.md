@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **rasterization_dpi** | **int** | Resolution used to convert formatted documents to images (optional). | [optional] 
 **max_output_tokens** | **int** | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | [optional] 
 **degraded_mode** | **str** | Controls whether a response is returned when smart example is not functionning. Rejects by default. | [optional] 
-**max_tokens_smart_example** | **int** | Maximum number of output tokens for smart examples (optional). Must be positive. | [optional] 
+**example_token_limit** | **int** | Maximum number of output tokens for smart examples (optional). Must be positive. | [optional] 
 
 ## Example
 

@@ -16,11 +16,11 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing_extensions import Self
 
 from numind.models.document_info import DocumentInfo
-from numind.models.raw_result import RawResult
+from numind.models.inference_validation_error import InferenceValidationError
 
 
 class ExtractionResponse(BaseModel):
@@ -31,7 +31,14 @@ class ExtractionResponse(BaseModel):
     result: Dict[str, Any] = Field(
         description="Inference result conforming to the template."
     )
-    raw_result: Optional[RawResult] = Field(default=None, alias="rawResult")
+    raw_model_output: StrictStr = Field(
+        description="Raw inference result as returned by the model.",
+        alias="rawModelOutput",
+    )
+    error: Optional[InferenceValidationError] = Field(
+        default=None,
+        description="Inference result validation error if the result does not conform to the template.",
+    )
     document_info: Optional[DocumentInfo] = Field(
         default=None,
         description="Basic information on the document used for inference.",
@@ -52,7 +59,8 @@ class ExtractionResponse(BaseModel):
     )
     __properties: ClassVar[List[str]] = [
         "result",
-        "rawResult",
+        "rawModelOutput",
+        "error",
         "documentInfo",
         "outputTokens",
         "inputTokens",
@@ -98,9 +106,9 @@ class ExtractionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of raw_result
-        if self.raw_result:
-            _dict["rawResult"] = self.raw_result.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of error
+        if self.error:
+            _dict["error"] = self.error.to_dict()
         # override the default output from pydantic by calling `to_dict()` of document_info
         if self.document_info:
             _dict["documentInfo"] = self.document_info.to_dict()
@@ -118,8 +126,9 @@ class ExtractionResponse(BaseModel):
         _obj = cls.model_validate(
             {
                 "result": obj.get("result"),
-                "rawResult": RawResult.from_dict(obj["rawResult"])
-                if obj.get("rawResult") is not None
+                "rawModelOutput": obj.get("rawModelOutput"),
+                "error": InferenceValidationError.from_dict(obj["error"])
+                if obj.get("error") is not None
                 else None,
                 "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
                 if obj.get("documentInfo") is not None

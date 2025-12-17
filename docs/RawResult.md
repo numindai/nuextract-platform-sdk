@@ -6,7 +6,7 @@ Inference result if not conforming to the template.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**result** | **str** | Inference result not conforming to the template. | 
+**result** | **str** | Inference result not conforming to the format. | 
 **error** | **str** | Error message explaining why the inference result is invalid. | 
 **inference_error** | **str** | Inference error code. | 
 

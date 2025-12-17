@@ -46,19 +46,19 @@ class UpdateProjectSettingsRequest(BaseModel):
         description="Controls whether a response is returned when smart example is not functionning. Rejects by default.",
         alias="degradedMode",
     )
-    max_tokens_smart_example: Optional[
+    example_token_limit: Optional[
         Annotated[int, Field(le=130000, strict=True, ge=0)]
     ] = Field(
         default=None,
         description="Maximum number of output tokens for smart examples (optional). Must be positive.",
-        alias="maxTokensSmartExample",
+        alias="exampleTokenLimit",
     )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
         "maxOutputTokens",
         "degradedMode",
-        "maxTokensSmartExample",
+        "exampleTokenLimit",
     ]
 
     model_config = ConfigDict(
@@ -116,7 +116,7 @@ class UpdateProjectSettingsRequest(BaseModel):
                 "rasterizationDPI": obj.get("rasterizationDPI"),
                 "maxOutputTokens": obj.get("maxOutputTokens"),
                 "degradedMode": obj.get("degradedMode"),
-                "maxTokensSmartExample": obj.get("maxTokensSmartExample"),
+                "exampleTokenLimit": obj.get("exampleTokenLimit"),
             }
         )
         return _obj

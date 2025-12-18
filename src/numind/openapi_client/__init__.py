@@ -62,6 +62,7 @@ __all__ = [
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
+    "InferenceExample",
     "InferenceStatus",
     "InferenceValidationError",
     "InformationResponse",
@@ -198,6 +199,7 @@ from numind.models.extraction_response_deprecated import (
 from numind.models.file_response import FileResponse as FileResponse
 from numind.models.health_response import HealthResponse as HealthResponse
 from numind.models.image_info import ImageInfo as ImageInfo
+from numind.models.inference_example import InferenceExample as InferenceExample
 from numind.models.inference_status import InferenceStatus as InferenceStatus
 from numind.models.inference_validation_error import (
     InferenceValidationError as InferenceValidationError,

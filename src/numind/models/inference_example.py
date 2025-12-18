@@ -19,60 +19,30 @@ from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing_extensions import Self
 
-from numind.models.document_info import DocumentInfo
-from numind.models.inference_example import InferenceExample
-from numind.models.inference_validation_error import InferenceValidationError
 
-
-class ExtractionResponse(BaseModel):
+class InferenceExample(BaseModel):
     """
-    ExtractionResponse
+    InferenceExample
     """
 
-    result: Dict[str, Any] = Field(
-        description="Inference result conforming to the template."
+    example_id: StrictStr = Field(
+        description="Unique example identifier.", alias="exampleId"
     )
-    raw_model_output: StrictStr = Field(
-        description="Raw inference result as returned by the model.",
-        alias="rawModelOutput",
+    example_name: StrictStr = Field(
+        description="Example name (filename if any, or the beginning of the text).",
+        alias="exampleName",
     )
-    error: Optional[InferenceValidationError] = Field(
-        default=None,
-        description="Inference result validation error if the result does not conform to the template.",
+    tokens_count: StrictInt = Field(
+        description="Tokens count of the example.", alias="tokensCount"
     )
-    document_info: Optional[DocumentInfo] = Field(
-        default=None,
-        description="Basic information on the document used for inference.",
-        alias="documentInfo",
-    )
-    output_tokens: StrictInt = Field(
-        description="Output tokens used for inference.", alias="outputTokens"
-    )
-    input_tokens: StrictInt = Field(
-        description="Input tokens used for inference.", alias="inputTokens"
-    )
-    total_tokens: StrictInt = Field(
-        description="Total number of tokens used for inference (input + output).",
-        alias="totalTokens",
-    )
-    logprobs: Union[StrictFloat, StrictInt] = Field(
-        description="Logprob of the inference result (sum of logprobs of all tokens)."
-    )
-    selected_examples: Optional[List[InferenceExample]] = Field(
-        default=None,
-        description="Examples selected for inference.",
-        alias="selectedExamples",
+    similarity: Union[StrictFloat, StrictInt] = Field(
+        description="Similarity between the document and the example."
     )
     __properties: ClassVar[List[str]] = [
-        "result",
-        "rawModelOutput",
-        "error",
-        "documentInfo",
-        "outputTokens",
-        "inputTokens",
-        "totalTokens",
-        "logprobs",
-        "selectedExamples",
+        "exampleId",
+        "exampleName",
+        "tokensCount",
+        "similarity",
     ]
 
     model_config = ConfigDict(
@@ -92,7 +62,7 @@ class ExtractionResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ExtractionResponse from a JSON string"""
+        """Create an instance of InferenceExample from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -113,24 +83,11 @@ class ExtractionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of error
-        if self.error:
-            _dict["error"] = self.error.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of document_info
-        if self.document_info:
-            _dict["documentInfo"] = self.document_info.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in selected_examples (list)
-        _items = []
-        if self.selected_examples:
-            for _item_selected_examples in self.selected_examples:
-                if _item_selected_examples:
-                    _items.append(_item_selected_examples.to_dict())
-            _dict["selectedExamples"] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ExtractionResponse from a dict"""
+        """Create an instance of InferenceExample from a dict"""
         if obj is None:
             return None
 
@@ -139,24 +96,10 @@ class ExtractionResponse(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "result": obj.get("result"),
-                "rawModelOutput": obj.get("rawModelOutput"),
-                "error": InferenceValidationError.from_dict(obj["error"])
-                if obj.get("error") is not None
-                else None,
-                "documentInfo": DocumentInfo.from_dict(obj["documentInfo"])
-                if obj.get("documentInfo") is not None
-                else None,
-                "outputTokens": obj.get("outputTokens"),
-                "inputTokens": obj.get("inputTokens"),
-                "totalTokens": obj.get("totalTokens"),
-                "logprobs": obj.get("logprobs"),
-                "selectedExamples": [
-                    InferenceExample.from_dict(_item)
-                    for _item in obj["selectedExamples"]
-                ]
-                if obj.get("selectedExamples") is not None
-                else None,
+                "exampleId": obj.get("exampleId"),
+                "exampleName": obj.get("exampleName"),
+                "tokensCount": obj.get("tokensCount"),
+                "similarity": obj.get("similarity"),
             }
         )
         return _obj

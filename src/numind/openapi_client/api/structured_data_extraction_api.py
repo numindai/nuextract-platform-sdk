@@ -1284,10 +1284,27 @@ class StructuredDataExtractionApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -1311,7 +1328,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_jobs
 
-          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **exampleTokenLimit** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -1323,8 +1340,12 @@ class StructuredDataExtractionApi:
         :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1354,7 +1375,9 @@ class StructuredDataExtractionApi:
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1406,10 +1429,27 @@ class StructuredDataExtractionApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -1433,7 +1473,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_jobs
 
-          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **exampleTokenLimit** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -1445,8 +1485,12 @@ class StructuredDataExtractionApi:
         :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1476,7 +1520,9 @@ class StructuredDataExtractionApi:
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1528,10 +1574,27 @@ class StructuredDataExtractionApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -1555,7 +1618,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_jobs
 
-          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **exampleTokenLimit** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -1567,8 +1630,12 @@ class StructuredDataExtractionApi:
         :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1598,7 +1665,9 @@ class StructuredDataExtractionApi:
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1622,7 +1691,9 @@ class StructuredDataExtractionApi:
         temperature,
         dpi,
         max_output_tokens,
-        example_token_limit,
+        max_example_token_number,
+        max_example_number,
+        min_example_similarity,
         timeout,
         _request_auth,
         _content_type,
@@ -1657,8 +1728,14 @@ class StructuredDataExtractionApi:
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
 
-        if example_token_limit is not None:
-            _query_params.append(("exampleTokenLimit", example_token_limit))
+        if max_example_token_number is not None:
+            _query_params.append(("maxExampleTokenNumber", max_example_token_number))
+
+        if max_example_number is not None:
+            _query_params.append(("maxExampleNumber", max_example_number))
+
+        if min_example_similarity is not None:
+            _query_params.append(("minExampleSimilarity", min_example_similarity))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

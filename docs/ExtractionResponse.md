@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **input_tokens** | **int** | Input tokens used for inference. | 
 **total_tokens** | **int** | Total number of tokens used for inference (input + output). | 
 **logprobs** | **float** | Logprob of the inference result (sum of logprobs of all tokens). | 
+**selected_examples** | [**List[InferenceExample]**](InferenceExample.md) | Examples selected for inference. | [optional] 
 
 ## Example
 

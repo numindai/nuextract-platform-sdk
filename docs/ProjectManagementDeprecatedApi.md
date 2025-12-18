@@ -398,7 +398,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ProjectManagementDeprecatedApi(api_client)
     project_id = 'project_id_example' # str | Unique project identifier.
-    update_project_settings_request = {temperature=0, rasterizationDPI=170, maxOutputTokens=0, degradedMode=Reject, exampleTokenLimit=90000} # UpdateProjectSettingsRequest | 
+    update_project_settings_request = {temperature=0, rasterizationDPI=170, maxOutputTokens=0, degradedMode=Reject, maxExampleTokenNumber=90000, maxExampleNumber=0, minExampleSimilarity=0} # UpdateProjectSettingsRequest | 
 
     try:
         api_response = api_instance.patch_api_projects_projectid_settings(project_id, update_project_settings_request)
@@ -464,8 +464,8 @@ A **Project** is created with default settings:
  `temperature` | 0.0 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
- `degradedMode` (deprecated) | Reject |
- `exampleTokenLimit` (former `maxTokensSmartExample`) | 90000|
+ `degradedMode` (deprecated) | Reject|
+ `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 
 
 If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user.
@@ -739,7 +739,7 @@ Default values are:
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
  `degradedMode`  (deprecated) | Reject| 
- `exampleTokenLimit` (former `maxTokensSmartExample`) | 90000|
+ `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.

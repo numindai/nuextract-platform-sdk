@@ -404,6 +404,7 @@ Class | Method | HTTP request | Description
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
+ - [InferenceExample](docs/InferenceExample.md)
  - [InferenceStatus](docs/InferenceStatus.md)
  - [InferenceValidationError](docs/InferenceValidationError.md)
  - [InformationResponse](docs/InformationResponse.md)

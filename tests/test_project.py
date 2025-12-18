@@ -107,9 +107,7 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         with file_path.open("rb") as file:
             input_file = file.read()
         # TODO test async route, check status is among the expected ones
-        _ = numind_client.extract(
-            project_id, input_file=input_file, **EXTRACT_KWARGS
-        )
+        _ = numind_client.extract(project_id, input_file=input_file, **EXTRACT_KWARGS)
 
 
 # TODO remove dependency, make it run whether these tests failed or not
@@ -118,6 +116,8 @@ def test_delete_project_and_has_been_deleted(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
-    numind_client.delete_api_structured_extraction_structuredextractionprojectid(project_id)
+    numind_client.delete_api_structured_extraction_structuredextractionprojectid(
+        project_id
+    )
     projects = numind_client.get_api_structured_extraction()
     assert project_id not in {project.id for project in projects}

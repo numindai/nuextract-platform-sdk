@@ -12,32 +12,34 @@ from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
 from .openapi_client import (
     ApiClient,
     Configuration,
+    ContentExtractionApi,
+    ContentExtractionProjectManagementApi,
     ConvertRequest,
     CreateOrUpdateExampleRequest,
     CreateProjectRequest,
     DocumentsApi,
-    ExamplesApi,
-    ExtractionApi,
     ExtractionResponse,
     FilesApi,
     InferenceApi,
     JobsApi,
-    MarkdownApi,
-    OrganizationsApi,
-    ProjectManagementApi,
+    OrganizationManagementApi,
+    StructuredDataExtractionApi,
+    StructuredExtractionExamplesApi,
+    StructuredExtractionProjectManagementApi,
+    TemplateGenerationApi,
     TextRequest,
 )
 from .openapi_client_async import (
     ApiClient as ApiClientAsync,
 )
 from .openapi_client_async import (
+    ContentExtractionApi as ContentExtractionApiAsync,
+)
+from .openapi_client_async import (
+    ContentExtractionProjectManagementApi as ContentExtractionProjectManagementApiAsync,
+)
+from .openapi_client_async import (
     DocumentsApi as DocumentsApiAsync,
-)
-from .openapi_client_async import (
-    ExamplesApi as ExamplesApiAsync,
-)
-from .openapi_client_async import (
-    ExtractionApi as ExtractionApiAsync,
 )
 from .openapi_client_async import (
     FilesApi as FilesApiAsync,
@@ -49,28 +51,37 @@ from .openapi_client_async import (
     JobsApi as JobsApiAsync,
 )
 from .openapi_client_async import (
-    MarkdownApi as MarkdownApiAsync,
+    OrganizationManagementApi as OrganizationManagementApiAsync,
 )
 from .openapi_client_async import (
-    OrganizationsApi as OrganizationsApiAsync,
+    StructuredDataExtractionApi as StructuredDataExtractionApiAsync,
 )
 from .openapi_client_async import (
-    ProjectManagementApi as ProjectManagementApiAsync,
+    StructuredExtractionExamplesApi as StructuredExtractionExamplesApiAsync,
 )
+from .openapi_client_async import (
+    StructuredExtractionProjectManagementApi as StructuredExtractionProjectManagementApiAsync,
+)
+from .openapi_client_async import (
+    TemplateGenerationApi as TemplateGenerationApiAsync,
+)
+from .models import MarkdownResponse
 
 JOB_STATUS_COMPLETED = "result"
 
 
 class NuMind(
     DocumentsApi,
-    ExamplesApi,
-    ExtractionApi,
+    StructuredExtractionExamplesApi,
+    StructuredDataExtractionApi,
+    ContentExtractionProjectManagementApi,
+    TemplateGenerationApi,
     FilesApi,
     InferenceApi,
     JobsApi,
-    MarkdownApi,
-    OrganizationsApi,
-    ProjectManagementApi,
+    ContentExtractionApi,
+    OrganizationManagementApi,
+    StructuredExtractionProjectManagementApi,
 ):
     """NuMind API client."""
 
@@ -118,7 +129,8 @@ class NuMind(
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
         :param kwargs: additional keyword arguments to pass to the
-            ``post_api_projects_projectid_extract`` method, such as ``temperature``.
+            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
+            method, such as ``temperature``.
         :return: the API response.
         """
         if bool(input_text is None) ^ bool(input_file is not None):
@@ -134,7 +146,7 @@ class NuMind(
                 msg = "Either a `project_id` or `template` as to be provided."
                 raise ValueError(msg)
             template = _parse_template(template)
-            project_id = self.post_api_projects(
+            project_id = self.post_api_structured_extraction(
                 CreateProjectRequest(
                     name=TMP_PROJECT_NAME, description="", template=template
                 )
@@ -152,7 +164,7 @@ class NuMind(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = self.post_api_projects_projectid_extract_async(
+        job_id_response = self.post_api_structured_extraction_structuredextractionprojectid_jobs(
             project_id, input_, **kwargs
         )
         job_output = self.get_api_jobs_jobid_stream(
@@ -168,7 +180,9 @@ class NuMind(
 
         # Delete temporary project if necessary
         if not project_id_provided:
-            self.delete_api_projects_projectid(project_id)
+            self.delete_api_structured_extraction_structuredextractionprojectid(
+                project_id
+            )
 
         return output
 
@@ -191,7 +205,11 @@ class NuMind(
         """
         files_ids, documents_ids = [], []
         if convert_request is None:
-            project_info = self.get_api_projects_projectid(project_id=project_id)
+            project_info = (
+                self.get_api_structured_extraction_structuredextractionprojectid(
+                    structured_extraction_project_id=project_id
+                )
+            )
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
             )
@@ -213,7 +231,7 @@ class NuMind(
             documents_ids.append(document_id)
 
             # Add the example to the project
-            self.post_api_projects_projectid_examples(
+            self.post_api_structured_extraction_structuredextractionprojectid_examples(
                 project_id,
                 CreateOrUpdateExampleRequest(
                     documentId=StrictStr(document_id), result=example_output
@@ -222,29 +240,30 @@ class NuMind(
 
         return files_ids, documents_ids
 
-    def numarkdown(self, input_file: Path | str | bytes | None = None) -> str:
+    def numarkdown(self, input_file: Path | str | bytes | None = None) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
-        job_id_response = self.post_api_markdown_infer_async(input_)
+        job_id_response = self.post_api_content_extraction_jobs(input_)
         job_output = self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        # output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        return messages[-1]["data"]
+        return MarkdownResponse(**json.loads(json.loads(messages[-1]["data"])["outputData"]))
 
 
 class NuMindAsync(
     DocumentsApiAsync,
-    ExamplesApiAsync,
-    ExtractionApiAsync,
+    ContentExtractionProjectManagementApiAsync,
+    TemplateGenerationApiAsync,
+    StructuredExtractionExamplesApiAsync,
+    StructuredDataExtractionApiAsync,
     FilesApiAsync,
     InferenceApiAsync,
     JobsApiAsync,
-    MarkdownApiAsync,
-    OrganizationsApiAsync,
-    ProjectManagementApiAsync,
+    ContentExtractionApiAsync,
+    OrganizationManagementApiAsync,
+    StructuredExtractionProjectManagementApiAsync,
 ):
     """NuMind API client."""
 
@@ -292,7 +311,8 @@ class NuMindAsync(
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
         :param kwargs: additional keyword arguments to pass to the
-            ``post_api_projects_projectid_extract`` method, such as ``temperature``.
+            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
+            method, such as ``temperature``.
         :return: the API response.
         """
         if bool(input_text is None) ^ bool(input_file is not None):
@@ -308,9 +328,11 @@ class NuMindAsync(
                 msg = "Either a `project_id` or `template` as to be provided."
                 raise ValueError(msg)
             template = _parse_template(template)
-            project_id = await self.post_api_projects(
-                CreateProjectRequest(
-                    name=TMP_PROJECT_NAME, description="", template=template
+            project_id = (
+                await self.post_api_structured_extraction(
+                    CreateProjectRequest(
+                        name=TMP_PROJECT_NAME, description="", template=template
+                    )
                 )
             ).id
 
@@ -328,7 +350,7 @@ class NuMindAsync(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = await self.post_api_projects_projectid_extract_async(
+        job_id_response = await self.post_api_structured_extraction_structuredextractionprojectid_jobs(
             project_id, input_, **kwargs
         )
         job_output = await self.get_api_jobs_jobid_stream(
@@ -344,7 +366,9 @@ class NuMindAsync(
 
         # Delete temporary project if necessary
         if not project_id_provided:
-            await self.delete_api_projects_projectid(project_id)
+            await self.delete_api_structured_extraction_structuredextractionprojectid(
+                project_id
+            )
 
         return output
 
@@ -367,7 +391,11 @@ class NuMindAsync(
         """
         files_ids, documents_ids = [], []
         if convert_request is None:
-            project_info = await self.get_api_projects_projectid(project_id=project_id)
+            project_info = (
+                await self.get_api_structured_extraction_structuredextractionprojectid(
+                    structured_extraction_project_id=project_id
+                )
+            )
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
             )
@@ -376,20 +404,22 @@ class NuMindAsync(
             example_output = _parse_template(example_output)
             if isinstance(example_input, (Path, bytes)):
                 example_input, file_name = _parse_input_file(example_input)
-                file_id = await self.post_api_files(file_name, example_input).file_id
-                document_id = await self.post_api_files_fileid_convert_to_document(
-                    file_id, convert_request
+                file_id = (await self.post_api_files(file_name, example_input)).file_id
+                document_id = (
+                    await self.post_api_files_fileid_convert_to_document(
+                        file_id, convert_request
+                    )
                 ).doc_info.actual_instance.document_id
             else:
                 file_id = None
-                document_id = await self.post_api_documents_text(
-                    TextRequest(text=example_input)
+                document_id = (
+                    await self.post_api_documents_text(TextRequest(text=example_input))
                 ).doc_info.actual_instance.document_id
             files_ids.append(file_id)
             documents_ids.append(document_id)
 
             # Add the example to the project
-            await self.post_api_projects_projectid_examples(
+            await self.post_api_structured_extraction_structuredextractionprojectid_examples(
                 project_id,
                 CreateOrUpdateExampleRequest(
                     documentId=StrictStr(document_id), result=example_output
@@ -398,18 +428,16 @@ class NuMindAsync(
 
         return files_ids, documents_ids
 
-    async def numarkdown(self, input_file: Path | str | bytes | None = None) -> str:
+    async def numarkdown(self, input_file: Path | str | bytes | None = None) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
-        job_id_response = await self.post_api_markdown_infer_async(input_)
+        job_id_response = await self.post_api_content_extraction_jobs(input_)
         job_output = await self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        # output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        # TODO add NuMarkdownResponse object when available
-        return messages[-1]["data"]
+        return MarkdownResponse(**json.loads(json.loads(messages[-1]["data"])["outputData"]))
 
 
 def _prepare_client(

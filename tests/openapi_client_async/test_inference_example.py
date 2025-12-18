@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.project_settings_response import ProjectSettingsResponse
+from numind.models.inference_example import InferenceExample
 
 
-class TestProjectSettingsResponse(unittest.TestCase):
-    """ProjectSettingsResponse unit test stubs"""
+class TestInferenceExample(unittest.TestCase):
+    """InferenceExample unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,38 +23,34 @@ class TestProjectSettingsResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> ProjectSettingsResponse:
+    def make_instance(self, include_optional) -> InferenceExample:
         """
-        Test ProjectSettingsResponse
+        Test InferenceExample
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `ProjectSettingsResponse`
+        # uncomment below to create an instance of `InferenceExample`
         """
-        model = ProjectSettingsResponse()
+        model = InferenceExample()
         if include_optional:
-            return ProjectSettingsResponse(
-                temperature = 0.0,
-                rasterization_dpi = 56,
-                max_output_tokens = 56,
-                max_example_token_number = 0,
-                max_example_number = 56,
-                min_example_similarity = 0.0
+            return InferenceExample(
+                example_id = '',
+                example_name = '',
+                tokens_count = 56,
+                similarity = 1.337
             )
         else:
-            return ProjectSettingsResponse(
-                temperature = 0.0,
-                rasterization_dpi = 56,
-                max_output_tokens = 56,
-                max_example_token_number = 0,
-                max_example_number = 56,
-                min_example_similarity = 0.0,
+            return InferenceExample(
+                example_id = '',
+                example_name = '',
+                tokens_count = 56,
+                similarity = 1.337,
         )
         """
 
-    def testProjectSettingsResponse(self):
-        """Test ProjectSettingsResponse"""
+    def testInferenceExample(self):
+        """Test InferenceExample"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

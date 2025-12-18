@@ -9,6 +9,7 @@ from pathlib import Path
 from pydantic import BaseModel, StrictStr
 
 from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
+from .models import MarkdownResponse
 from .openapi_client import (
     ApiClient,
     Configuration,
@@ -65,7 +66,6 @@ from .openapi_client_async import (
 from .openapi_client_async import (
     TemplateGenerationApi as TemplateGenerationApiAsync,
 )
-from .models import MarkdownResponse
 
 JOB_STATUS_COMPLETED = "result"
 
@@ -164,8 +164,10 @@ class NuMind(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = self.post_api_structured_extraction_structuredextractionprojectid_jobs(
-            project_id, input_, **kwargs
+        job_id_response = (
+            self.post_api_structured_extraction_structuredextractionprojectid_jobs(
+                project_id, input_, **kwargs
+            )
         )
         job_output = self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
@@ -240,7 +242,9 @@ class NuMind(
 
         return files_ids, documents_ids
 
-    def numarkdown(self, input_file: Path | str | bytes | None = None) -> MarkdownResponse:
+    def numarkdown(
+        self, input_file: Path | str | bytes | None = None
+    ) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
         job_id_response = self.post_api_content_extraction_jobs(input_)
         job_output = self.get_api_jobs_jobid_stream(
@@ -249,7 +253,9 @@ class NuMind(
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return MarkdownResponse(**json.loads(json.loads(messages[-1]["data"])["outputData"]))
+        return MarkdownResponse(
+            **json.loads(json.loads(messages[-1]["data"])["outputData"])
+        )
 
 
 class NuMindAsync(
@@ -428,7 +434,9 @@ class NuMindAsync(
 
         return files_ids, documents_ids
 
-    async def numarkdown(self, input_file: Path | str | bytes | None = None) -> MarkdownResponse:
+    async def numarkdown(
+        self, input_file: Path | str | bytes | None = None
+    ) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
         job_id_response = await self.post_api_content_extraction_jobs(input_)
         job_output = await self.get_api_jobs_jobid_stream(
@@ -437,7 +445,9 @@ class NuMindAsync(
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return MarkdownResponse(**json.loads(json.loads(messages[-1]["data"])["outputData"]))
+        return MarkdownResponse(
+            **json.loads(json.loads(messages[-1]["data"])["outputData"])
+        )
 
 
 def _prepare_client(

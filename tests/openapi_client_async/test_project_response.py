@@ -49,7 +49,9 @@ class TestProjectResponse(unittest.TestCase):
                     temperature = 0.0, 
                     rasterization_dpi = 56, 
                     max_output_tokens = 56, 
-                    example_token_limit = 0, )
+                    max_example_token_number = 0, 
+                    max_example_number = 56, 
+                    min_example_similarity = 0.0, )
             )
         else:
             return ProjectResponse(
@@ -66,7 +68,9 @@ class TestProjectResponse(unittest.TestCase):
                     temperature = 0.0, 
                     rasterization_dpi = 56, 
                     max_output_tokens = 56, 
-                    example_token_limit = 0, ),
+                    max_example_token_number = 0, 
+                    max_example_number = 56, 
+                    min_example_similarity = 0.0, ),
         )
         """
 

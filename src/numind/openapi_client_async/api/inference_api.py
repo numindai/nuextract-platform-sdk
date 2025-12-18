@@ -363,10 +363,27 @@ class InferenceApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -400,8 +417,12 @@ class InferenceApi:
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -430,7 +451,9 @@ class InferenceApi:
             document_id=document_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -478,10 +501,27 @@ class InferenceApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -515,8 +555,12 @@ class InferenceApi:
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -545,7 +589,9 @@ class InferenceApi:
             document_id=document_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -593,10 +639,27 @@ class InferenceApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -630,8 +693,12 @@ class InferenceApi:
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -660,7 +727,9 @@ class InferenceApi:
             document_id=document_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -683,7 +752,9 @@ class InferenceApi:
         document_id,
         temperature,
         max_output_tokens,
-        example_token_limit,
+        max_example_token_number,
+        max_example_number,
+        min_example_similarity,
         timeout,
         _request_auth,
         _content_type,
@@ -717,8 +788,14 @@ class InferenceApi:
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
 
-        if example_token_limit is not None:
-            _query_params.append(("exampleTokenLimit", example_token_limit))
+        if max_example_token_number is not None:
+            _query_params.append(("maxExampleTokenNumber", max_example_token_number))
+
+        if max_example_number is not None:
+            _query_params.append(("maxExampleNumber", max_example_number))
+
+        if min_example_similarity is not None:
+            _query_params.append(("minExampleSimilarity", min_example_similarity))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
@@ -776,10 +853,27 @@ class InferenceApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -803,7 +897,7 @@ class InferenceApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_jobs_text
 
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **exampleTokenLimit**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -813,8 +907,12 @@ class InferenceApi:
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -843,7 +941,9 @@ class InferenceApi:
             text_request=text_request,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -889,10 +989,27 @@ class InferenceApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -916,7 +1033,7 @@ class InferenceApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_jobs_text
 
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **exampleTokenLimit**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -926,8 +1043,12 @@ class InferenceApi:
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -956,7 +1077,9 @@ class InferenceApi:
             text_request=text_request,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1002,10 +1125,27 @@ class InferenceApi:
                 description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
             ),
         ] = None,
-        example_token_limit: Annotated[
+        max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
                 description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         timeout: Annotated[
@@ -1029,7 +1169,7 @@ class InferenceApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_jobs_text
 
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **exampleTokenLimit**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -1039,8 +1179,12 @@ class InferenceApi:
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
-        :param example_token_limit: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
-        :type example_token_limit: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1069,7 +1213,9 @@ class InferenceApi:
             text_request=text_request,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
-            example_token_limit=example_token_limit,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1092,7 +1238,9 @@ class InferenceApi:
         text_request,
         temperature,
         max_output_tokens,
-        example_token_limit,
+        max_example_token_number,
+        max_example_number,
+        min_example_similarity,
         timeout,
         _request_auth,
         _content_type,
@@ -1124,8 +1272,14 @@ class InferenceApi:
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
 
-        if example_token_limit is not None:
-            _query_params.append(("exampleTokenLimit", example_token_limit))
+        if max_example_token_number is not None:
+            _query_params.append(("maxExampleTokenNumber", max_example_token_number))
+
+        if max_example_number is not None:
+            _query_params.append(("maxExampleNumber", max_example_number))
+
+        if min_example_similarity is not None:
+            _query_params.append(("minExampleSimilarity", min_example_similarity))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

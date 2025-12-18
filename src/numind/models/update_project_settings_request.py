@@ -46,19 +46,36 @@ class UpdateProjectSettingsRequest(BaseModel):
         description="Controls whether a response is returned when smart example is not functionning. Rejects by default.",
         alias="degradedMode",
     )
-    example_token_limit: Optional[
+    max_example_token_number: Optional[
         Annotated[int, Field(le=130000, strict=True, ge=0)]
     ] = Field(
         default=None,
         description="Maximum number of output tokens for smart examples (optional). Must be positive.",
-        alias="exampleTokenLimit",
+        alias="maxExampleTokenNumber",
+    )
+    max_example_number: Optional[StrictInt] = Field(
+        default=None,
+        description="Maximum number of examples to use (optional). Must be positive. Set to 0 for no limit.",
+        alias="maxExampleNumber",
+    )
+    min_example_similarity: Optional[
+        Union[
+            Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = Field(
+        default=None,
+        description="Minimum similarity between the document and the examples (optional). Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.",
+        alias="minExampleSimilarity",
     )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
         "maxOutputTokens",
         "degradedMode",
-        "exampleTokenLimit",
+        "maxExampleTokenNumber",
+        "maxExampleNumber",
+        "minExampleSimilarity",
     ]
 
     model_config = ConfigDict(
@@ -116,7 +133,9 @@ class UpdateProjectSettingsRequest(BaseModel):
                 "rasterizationDPI": obj.get("rasterizationDPI"),
                 "maxOutputTokens": obj.get("maxOutputTokens"),
                 "degradedMode": obj.get("degradedMode"),
-                "exampleTokenLimit": obj.get("exampleTokenLimit"),
+                "maxExampleTokenNumber": obj.get("maxExampleTokenNumber"),
+                "maxExampleNumber": obj.get("maxExampleNumber"),
+                "minExampleSimilarity": obj.get("minExampleSimilarity"),
             }
         )
         return _obj

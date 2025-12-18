@@ -44,7 +44,14 @@ class TestExtractionResponse(unittest.TestCase):
                 output_tokens = 56,
                 input_tokens = 56,
                 total_tokens = 56,
-                logprobs = 1.337
+                logprobs = 1.337,
+                selected_examples = [
+                    numind.models.inference_example.InferenceExample(
+                        example_id = '', 
+                        example_name = '', 
+                        tokens_count = 56, 
+                        similarity = 1.337, )
+                    ]
             )
         else:
             return ExtractionResponse(

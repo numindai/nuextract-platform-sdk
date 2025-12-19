@@ -72,7 +72,9 @@ def test_add_examples_to_project(
                 examples[idx] = (example_path, examples[idx][1])
         except (OSError, RuntimeError):
             continue
-    _ = numind_client.add_examples_to_structured_extraction_project(project_id, examples)
+    _ = numind_client.add_examples_to_structured_extraction_project(
+        project_id, examples
+    )
 
 
 @pytest.mark.dependency(name="infer_text", depends=["create_project"])
@@ -107,7 +109,9 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         with file_path.open("rb") as file:
             input_file = file.read()
         # TODO test async route, check status is among the expected ones
-        _ = numind_client.extract_structured_data(project_id, input_file=input_file, **EXTRACT_KWARGS)
+        _ = numind_client.extract_structured_data(
+            project_id, input_file=input_file, **EXTRACT_KWARGS
+        )
 
 
 # TODO remove dependency, make it run whether these tests failed or not

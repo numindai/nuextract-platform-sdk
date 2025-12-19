@@ -155,7 +155,9 @@ class NuMind(
             # Add examples to the project, only when project_id is not provided so to
             # prevent users from adding examples with this method.
             if examples is not None and len(examples) > 0:
-                self.add_examples_to_structured_extraction_project(project_id, examples, convert_request)
+                self.add_examples_to_structured_extraction_project(
+                    project_id, examples, convert_request
+                )
 
         # Determine input
         if input_text is not None:

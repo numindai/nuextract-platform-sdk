@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 @pytest.mark.parametrize("file_path", TEST_CASES_NUMARKDOWN, ids=lambda p: p.name)
 def test_numarkdown(numind_client: NuMind, file_path: Path) -> None:
-    _ = numind_client.numarkdown(file_path)
+    _ = numind_client.extract_content(file_path)
 
 
 @pytest.mark.asyncio
@@ -24,4 +24,4 @@ async def test_numarkdown_async(
     numind_client_async: NuMindAsync,
     file_path: Path,
 ) -> None:
-    _ = await numind_client_async.numarkdown(file_path)
+    _ = await numind_client_async.extract_content(file_path)

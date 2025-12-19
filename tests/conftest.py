@@ -40,6 +40,8 @@ def _read_test_case_examples(
 
 TEST_CASES_NUEXTRACT = []  # (test_name, schema, string_list, file_paths_list)
 for dir_path in Path("tests", "test_cases").iterdir():
+    if not dir_path.is_dir() or dir_path.name.startswith("."):
+        continue
     with (dir_path / "schema.json").open() as file_:
         schema = json.load(file_)
     with (dir_path / "texts.csv").open(encoding="utf-8") as file_:
@@ -58,6 +60,8 @@ for dir_path in Path("tests", "test_cases").iterdir():
 
 TEST_CASES_NUMARKDOWN = []  # (file_paths_list)
 for dir_path in Path("tests", "test_cases").iterdir():
+    if not dir_path.is_dir() or dir_path.name.startswith("."):
+        continue
     TEST_CASES_NUMARKDOWN += [
         file_path
         for file_path in (dir_path / "files").iterdir()

@@ -95,7 +95,7 @@ class NuMind(
             client = _prepare_client(api_key, configuration)
         super().__init__(client)
 
-    def extract(
+    def extract_structured_data(
         self,
         project_id: str | None = None,
         template: dict | BaseModel | str | None = None,
@@ -155,7 +155,7 @@ class NuMind(
             # Add examples to the project, only when project_id is not provided so to
             # prevent users from adding examples with this method.
             if examples is not None and len(examples) > 0:
-                self.add_examples_to_project(project_id, examples, convert_request)
+                self.add_examples_to_structured_extraction_project(project_id, examples, convert_request)
 
         # Determine input
         if input_text is not None:
@@ -188,7 +188,7 @@ class NuMind(
 
         return output
 
-    def add_examples_to_project(
+    def add_examples_to_structured_extraction_project(
         self,
         project_id: str,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
@@ -242,7 +242,7 @@ class NuMind(
 
         return files_ids, documents_ids
 
-    def numarkdown(
+    def extract_content(
         self, input_file: Path | str | bytes | None = None
     ) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)
@@ -283,7 +283,7 @@ class NuMindAsync(
             client = _prepare_client(api_key, configuration, async_client=True)
         super().__init__(client)
 
-    async def extract(
+    async def extract_structured_data(
         self,
         project_id: str | None = None,
         template: dict | BaseModel | str | None = None,
@@ -345,7 +345,7 @@ class NuMindAsync(
             # Add examples to the project, only when project_id is not provided so to
             # prevent users from adding examples with this method.
             if examples is not None and len(examples) > 0:
-                await self.add_examples_to_project(
+                await self.add_examples_to_structured_extraction_project(
                     project_id, examples, convert_request
                 )
 
@@ -378,7 +378,7 @@ class NuMindAsync(
 
         return output
 
-    async def add_examples_to_project(
+    async def add_examples_to_structured_extraction_project(
         self,
         project_id: str,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
@@ -434,7 +434,7 @@ class NuMindAsync(
 
         return files_ids, documents_ids
 
-    async def numarkdown(
+    async def extract_content(
         self, input_file: Path | str | bytes | None = None
     ) -> MarkdownResponse:
         input_, _ = _parse_input_file(input_file)

@@ -299,6 +299,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**get_api_version**](docs/DefaultApi.md#get_api_version) | **GET** /api/version | 
 *DocumentsApi* | [**get_api_documents_documentid**](docs/DocumentsApi.md#get_api_documents_documentid) | **GET** /api/documents/{documentId} | 
 *DocumentsApi* | [**get_api_documents_documentid_content**](docs/DocumentsApi.md#get_api_documents_documentid_content) | **GET** /api/documents/{documentId}/content | 
+*DocumentsApi* | [**post_api_documents_documentid_new_owner**](docs/DocumentsApi.md#post_api_documents_documentid_new_owner) | **POST** /api/documents/{documentId}/new-owner | 
 *DocumentsApi* | [**post_api_documents_text**](docs/DocumentsApi.md#post_api_documents_text) | **POST** /api/documents/text | 
 *ExamplesDeprecatedApi* | [**delete_api_projects_projectid_examples_exampleid**](docs/ExamplesDeprecatedApi.md#delete_api_projects_projectid_examples_exampleid) | **DELETE** /api/projects/{projectId}/examples/{exampleId} | 
 *ExamplesDeprecatedApi* | [**get_api_projects_projectid_examples**](docs/ExamplesDeprecatedApi.md#get_api_projects_projectid_examples) | **GET** /api/projects/{projectId}/examples | 

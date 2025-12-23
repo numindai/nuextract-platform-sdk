@@ -263,10 +263,13 @@ Name | Type | Description  | Notes
 
 Create a new **Playground Item** associated to the specified **Project**.
 
+#### Note:
+ If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** creation will fail.
+
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+`403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
   
 
 ### Example
@@ -347,10 +350,13 @@ Name | Type | Description  | Notes
 
 Update a specific **Playground Item**.
 
+#### Note:
+ If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** update will fail.
+
 #### Error Responses:
 `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.
 
-`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+`403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
   
 
 ### Example

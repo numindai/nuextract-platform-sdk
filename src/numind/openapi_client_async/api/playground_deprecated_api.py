@@ -960,7 +960,7 @@ class PlaygroundDeprecatedApi:
         """
         (Deprecated) post_api_projects_projectid_playground
 
-         Create a new **Playground Item** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+         Create a new **Playground Item** associated to the specified **Project**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** creation will fail.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1036,7 +1036,7 @@ class PlaygroundDeprecatedApi:
         """
         (Deprecated) post_api_projects_projectid_playground
 
-         Create a new **Playground Item** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+         Create a new **Playground Item** associated to the specified **Project**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** creation will fail.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1112,7 +1112,7 @@ class PlaygroundDeprecatedApi:
         """
         (Deprecated) post_api_projects_projectid_playground
 
-         Create a new **Playground Item** associated to the specified **Project**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+         Create a new **Playground Item** associated to the specified **Project**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** creation will fail.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1253,7 +1253,7 @@ class PlaygroundDeprecatedApi:
         """
         (Deprecated) put_api_projects_projectid_playground_playgrounditemid
 
-         Update a specific **Playground Item**.  #### Error Responses: `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+         Update a specific **Playground Item**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** update will fail.  #### Error Responses: `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1335,7 +1335,7 @@ class PlaygroundDeprecatedApi:
         """
         (Deprecated) put_api_projects_projectid_playground_playgrounditemid
 
-         Update a specific **Playground Item**.  #### Error Responses: `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+         Update a specific **Playground Item**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** update will fail.  #### Error Responses: `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -1417,7 +1417,7 @@ class PlaygroundDeprecatedApi:
         """
         (Deprecated) put_api_projects_projectid_playground_playgrounditemid
 
-         Update a specific **Playground Item**.  #### Error Responses: `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+         Update a specific **Playground Item**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Playground Item** update will fail.  #### Error Responses: `404 Not Found` - If a **Playground Item** with the specified `playgroundItemId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str

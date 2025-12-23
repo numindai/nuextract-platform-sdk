@@ -95,11 +95,6 @@ Name | Type | Description  | Notes
 
 
 Update an existing **NuMarkdown Project**.
-
-#### Body Fields:
-
-* `name`: (Optional) New name of the project
-* `description`: (Optional) New description of the project
     
 
 ### Example
@@ -263,12 +258,6 @@ Name | Type | Description  | Notes
 
 
 Create a new **NuMarkdown Project** to define a markdown generation task.
-
-#### Body Fields:
-
-* `name`: Name of the project
-* `description`: Description of the project
-* `ownerOrganization`: (Optional) Organization that will own the project
     
 
 ### Example

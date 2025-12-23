@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_api_documents_documentid**](DocumentsApi.md#get_api_documents_documentid) | **GET** /api/documents/{documentId} | 
 [**get_api_documents_documentid_content**](DocumentsApi.md#get_api_documents_documentid_content) | **GET** /api/documents/{documentId}/content | 
+[**post_api_documents_documentid_new_owner**](DocumentsApi.md#post_api_documents_documentid_new_owner) | **POST** /api/documents/{documentId}/new-owner | 
 [**post_api_documents_text**](DocumentsApi.md#post_api_documents_text) | **POST** /api/documents/text | 
 
 
@@ -166,6 +167,90 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  * Content-Type - MIME type of document content <br>  * Cache-Control -  <br>  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_api_documents_documentid_new_owner**
+> DocumentResponse post_api_documents_documentid_new_owner(document_id, x_organization=x_organization)
+
+
+ Transfer the ownership of a **Document** to another user or organization. Since documents are immutable,
+ a new document with a new DocumentId, as well as a new File with a new FileId will be created.
+ If the document already belongs to the specified user or organization, the initial document will be returned.
+
+#### Error Responses:
+`404 Not Found` - If a **Document** with the specified `documentId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to read this **Document** or is not a member of the specified Organization.
+   
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.models.document_response import DocumentResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.DocumentsApi(api_client)
+    document_id = 'document_id_example' # str | Unique document identifier.
+    x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
+
+    try:
+        api_response = api_instance.post_api_documents_documentid_new_owner(document_id, x_organization=x_organization)
+        print("The response of DocumentsApi->post_api_documents_documentid_new_owner:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DocumentsApi->post_api_documents_documentid_new_owner: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **document_id** | **str**| Unique document identifier. | 
+ **x_organization** | **str**| The id of the current organization. This organization will own created resources | [optional] 
+
+### Return type
+
+[**DocumentResponse**](DocumentResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

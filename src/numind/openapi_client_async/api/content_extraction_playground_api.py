@@ -930,7 +930,7 @@ class ContentExtractionPlaygroundApi:
         """
         post_api_content_extraction_contentextractionprojectid_playground
 
-         Create a new **NuMarkdown Playground Item** associated with a specific **NuMarkdown Project**.  #### Body Fields:  * `ownerOrganization`: (Optional) Organization that will own the playground item * `documentId`: Unique identifier of the document used as input * `result`: Markdown result * `thinking`: Thinking/reasoning process * `totalTokens`: (Optional) Total number of tokens used for inference * `outputTokens`: (Optional) Output tokens used for inference * `inputTokens`: (Optional) Input tokens used for inference
+         Create a new **NuMarkdown Playground Item** associated with a specific **NuMarkdown Project**.  #### Note:  If the **Document** ownership scope does not match the **Markdown Project** ownership scope, the **Playground Item** creation will fail.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**, use the specified **Document**, or the **Document** ownership scope does not match **Markdown Project** ownership scope.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -1002,7 +1002,7 @@ class ContentExtractionPlaygroundApi:
         """
         post_api_content_extraction_contentextractionprojectid_playground
 
-         Create a new **NuMarkdown Playground Item** associated with a specific **NuMarkdown Project**.  #### Body Fields:  * `ownerOrganization`: (Optional) Organization that will own the playground item * `documentId`: Unique identifier of the document used as input * `result`: Markdown result * `thinking`: Thinking/reasoning process * `totalTokens`: (Optional) Total number of tokens used for inference * `outputTokens`: (Optional) Output tokens used for inference * `inputTokens`: (Optional) Input tokens used for inference
+         Create a new **NuMarkdown Playground Item** associated with a specific **NuMarkdown Project**.  #### Note:  If the **Document** ownership scope does not match the **Markdown Project** ownership scope, the **Playground Item** creation will fail.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**, use the specified **Document**, or the **Document** ownership scope does not match **Markdown Project** ownership scope.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -1074,7 +1074,7 @@ class ContentExtractionPlaygroundApi:
         """
         post_api_content_extraction_contentextractionprojectid_playground
 
-         Create a new **NuMarkdown Playground Item** associated with a specific **NuMarkdown Project**.  #### Body Fields:  * `ownerOrganization`: (Optional) Organization that will own the playground item * `documentId`: Unique identifier of the document used as input * `result`: Markdown result * `thinking`: Thinking/reasoning process * `totalTokens`: (Optional) Total number of tokens used for inference * `outputTokens`: (Optional) Output tokens used for inference * `inputTokens`: (Optional) Input tokens used for inference
+         Create a new **NuMarkdown Playground Item** associated with a specific **NuMarkdown Project**.  #### Note:  If the **Document** ownership scope does not match the **Markdown Project** ownership scope, the **Playground Item** creation will fail.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**, use the specified **Document**, or the **Document** ownership scope does not match **Markdown Project** ownership scope.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -1212,7 +1212,7 @@ class ContentExtractionPlaygroundApi:
         """
         put_api_content_extraction_contentextractionprojectid_playground_contentextractionplaygrounditemid
 
-         Update an existing **NuMarkdown Playground Item**.  #### Body Fields:  * `ownerOrganization`: (Optional) Organization that will own the playground item * `documentId`: Unique identifier of the document used as input * `result`: Markdown result * `thinking`: Thinking/reasoning process * `totalTokens`: (Optional) Total number of tokens used for inference * `outputTokens`: (Optional) Output tokens used for inference * `inputTokens`: (Optional) Input tokens used for inference
+         Update an existing **NuMarkdown Playground Item**.  #### Note:  If the **Document** ownership scope does not match the **Markdown Project** ownership scope, the **Playground Item** update will fail.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**, use the specified **Document**, or the **Document** ownership scope does not match **Markdown Project** ownership scope.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -1291,7 +1291,7 @@ class ContentExtractionPlaygroundApi:
         """
         put_api_content_extraction_contentextractionprojectid_playground_contentextractionplaygrounditemid
 
-         Update an existing **NuMarkdown Playground Item**.  #### Body Fields:  * `ownerOrganization`: (Optional) Organization that will own the playground item * `documentId`: Unique identifier of the document used as input * `result`: Markdown result * `thinking`: Thinking/reasoning process * `totalTokens`: (Optional) Total number of tokens used for inference * `outputTokens`: (Optional) Output tokens used for inference * `inputTokens`: (Optional) Input tokens used for inference
+         Update an existing **NuMarkdown Playground Item**.  #### Note:  If the **Document** ownership scope does not match the **Markdown Project** ownership scope, the **Playground Item** update will fail.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**, use the specified **Document**, or the **Document** ownership scope does not match **Markdown Project** ownership scope.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -1370,7 +1370,7 @@ class ContentExtractionPlaygroundApi:
         """
         put_api_content_extraction_contentextractionprojectid_playground_contentextractionplaygrounditemid
 
-         Update an existing **NuMarkdown Playground Item**.  #### Body Fields:  * `ownerOrganization`: (Optional) Organization that will own the playground item * `documentId`: Unique identifier of the document used as input * `result`: Markdown result * `thinking`: Thinking/reasoning process * `totalTokens`: (Optional) Total number of tokens used for inference * `outputTokens`: (Optional) Output tokens used for inference * `inputTokens`: (Optional) Input tokens used for inference
+         Update an existing **NuMarkdown Playground Item**.  #### Note:  If the **Document** ownership scope does not match the **Markdown Project** ownership scope, the **Playground Item** update will fail.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**, use the specified **Document**, or the **Document** ownership scope does not match **Markdown Project** ownership scope.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str

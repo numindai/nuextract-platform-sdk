@@ -269,7 +269,9 @@ To obtain a `documentId`, use the endpoints under the ***documents*** tag.
 Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template.
 In such cases, the **Example** will be skipped.
 
-
+#### Note:
+ If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.
+ If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.
 
 #### Effect:
  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.
@@ -280,7 +282,7 @@ In such cases, the **Example** will be skipped.
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+`403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope
 
 `403 Locked` - If the **Project** is locked.
   
@@ -363,10 +365,13 @@ Name | Type | Description  | Notes
 
 Update a specific **Example**.
 
+#### Note:
+ If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** update will fail.
+
 #### Error Responses:
 `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.
 
-`403 Forbidden` - If the user does not have permission to update this **Project** or use the specified **Document**.
+`403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.
 
 `403 Locked` - If the **Project** is locked.
   

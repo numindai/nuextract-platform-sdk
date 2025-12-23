@@ -317,7 +317,7 @@ class ContentExtractionProjectManagementApi:
         """
         patch_api_content_extraction_contentextractionprojectid
 
-         Update an existing **NuMarkdown Project**.  #### Body Fields:  * `name`: (Optional) New name of the project * `description`: (Optional) New description of the project
+         Update an existing **NuMarkdown Project**.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -391,7 +391,7 @@ class ContentExtractionProjectManagementApi:
         """
         patch_api_content_extraction_contentextractionprojectid
 
-         Update an existing **NuMarkdown Project**.  #### Body Fields:  * `name`: (Optional) New name of the project * `description`: (Optional) New description of the project
+         Update an existing **NuMarkdown Project**.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -465,7 +465,7 @@ class ContentExtractionProjectManagementApi:
         """
         patch_api_content_extraction_contentextractionprojectid
 
-         Update an existing **NuMarkdown Project**.  #### Body Fields:  * `name`: (Optional) New name of the project * `description`: (Optional) New description of the project
+         Update an existing **NuMarkdown Project**.
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
@@ -875,7 +875,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **NuMarkdown Project** to define a markdown generation task.  #### Body Fields:  * `name`: Name of the project * `description`: Description of the project * `ownerOrganization`: (Optional) Organization that will own the project
+         Create a new **NuMarkdown Project** to define a markdown generation task.
 
         :param create_markdown_project_request: (required)
         :type create_markdown_project_request: CreateMarkdownProjectRequest
@@ -899,7 +899,7 @@ class ContentExtractionProjectManagementApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """
         _param = self._post_api_content_extraction_serialize(
             create_markdown_project_request=create_markdown_project_request,
             _request_auth=_request_auth,
@@ -940,7 +940,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **NuMarkdown Project** to define a markdown generation task.  #### Body Fields:  * `name`: Name of the project * `description`: Description of the project * `ownerOrganization`: (Optional) Organization that will own the project
+         Create a new **NuMarkdown Project** to define a markdown generation task.
 
         :param create_markdown_project_request: (required)
         :type create_markdown_project_request: CreateMarkdownProjectRequest
@@ -964,7 +964,7 @@ class ContentExtractionProjectManagementApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """
         _param = self._post_api_content_extraction_serialize(
             create_markdown_project_request=create_markdown_project_request,
             _request_auth=_request_auth,
@@ -1005,7 +1005,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **NuMarkdown Project** to define a markdown generation task.  #### Body Fields:  * `name`: Name of the project * `description`: Description of the project * `ownerOrganization`: (Optional) Organization that will own the project
+         Create a new **NuMarkdown Project** to define a markdown generation task.
 
         :param create_markdown_project_request: (required)
         :type create_markdown_project_request: CreateMarkdownProjectRequest
@@ -1029,7 +1029,7 @@ class ContentExtractionProjectManagementApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """  # noqa: E501
+        """
         _param = self._post_api_content_extraction_serialize(
             create_markdown_project_request=create_markdown_project_request,
             _request_auth=_request_auth,

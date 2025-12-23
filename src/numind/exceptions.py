@@ -132,7 +132,7 @@ class ApiException(OpenApiException):
                     self.body = http_resp.data.decode("utf-8")
                 except Exception:
                     pass
-            self.headers = http_resp.getheaders()
+            self.headers = http_resp.headers
 
     @classmethod
     def from_response(
@@ -173,8 +173,11 @@ class ApiException(OpenApiException):
         if self.headers:
             error_message += f"HTTP response headers: {self.headers}\n"
 
-        if self.data or self.body:
-            error_message += f"HTTP response body: {self.data or self.body}\n"
+        if self.body:
+            error_message += f"HTTP response body: {self.body}\n"
+
+        if self.data:
+            error_message += f"HTTP response data: {self.data}\n"
 
         return error_message
 

@@ -498,6 +498,7 @@ class Configuration:
         password = ""
         if self.password is not None:
             password = self.password
+
         return urllib3.util.make_headers(basic_auth=username + ":" + password).get(
             "authorization"
         )
@@ -578,7 +579,11 @@ class Configuration:
         for variable_name, variable in server.get("variables", {}).items():
             used_value = variables.get(variable_name, variable["default_value"])
 
-            if "enum_values" in variable and used_value not in variable["enum_values"]:
+            if (
+                "enum_values" in variable
+                and variable["enum_values"]
+                and used_value not in variable["enum_values"]
+            ):
                 raise ValueError(
                     "The variable `{0}` in the host URL has invalid value "
                     "{1}. Must be {2}.".format(

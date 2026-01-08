@@ -45,7 +45,6 @@ class TestInferenceExample(unittest.TestCase):
                 example_id = '',
                 example_name = '',
                 tokens_count = 56,
-                similarity = 1.337,
         )
         """
 

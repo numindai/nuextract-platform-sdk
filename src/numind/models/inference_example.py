@@ -33,10 +33,10 @@ class InferenceExample(BaseModel):
         alias="exampleName",
     )
     tokens_count: StrictInt = Field(
-        description="Tokens count of the example.", alias="tokensCount"
+        description="Estimated tokens count of the example.", alias="tokensCount"
     )
-    similarity: Union[StrictFloat, StrictInt] = Field(
-        description="Similarity between the document and the example."
+    similarity: Optional[Union[StrictFloat, StrictInt]] = Field(
+        default=None, description="Similarity between the document and the example."
     )
     __properties: ClassVar[List[str]] = [
         "exampleId",

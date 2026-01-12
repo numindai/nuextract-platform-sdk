@@ -58,6 +58,10 @@ class ExtractionResponse(BaseModel):
     logprobs: Union[StrictFloat, StrictInt] = Field(
         description="Logprob of the inference result (sum of logprobs of all tokens)."
     )
+    output_token_probability: Union[StrictFloat, StrictInt] = Field(
+        description="Geometric mean of the output token probabilities.",
+        alias="outputTokenProbability",
+    )
     selected_examples: Optional[List[InferenceExample]] = Field(
         default=None,
         description="Examples selected for inference.",
@@ -72,6 +76,7 @@ class ExtractionResponse(BaseModel):
         "inputTokens",
         "totalTokens",
         "logprobs",
+        "outputTokenProbability",
         "selectedExamples",
     ]
 
@@ -151,6 +156,7 @@ class ExtractionResponse(BaseModel):
                 "inputTokens": obj.get("inputTokens"),
                 "totalTokens": obj.get("totalTokens"),
                 "logprobs": obj.get("logprobs"),
+                "outputTokenProbability": obj.get("outputTokenProbability"),
                 "selectedExamples": [
                     InferenceExample.from_dict(_item)
                     for _item in obj["selectedExamples"]

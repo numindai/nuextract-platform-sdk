@@ -41,7 +41,8 @@ class TestMarkdownResponse(unittest.TestCase):
                 output_tokens = 56,
                 input_tokens = 56,
                 total_tokens = 56,
-                logprobs = 1.337
+                logprobs = 1.337,
+                output_token_probability = 1.337
             )
         else:
             return MarkdownResponse(
@@ -50,6 +51,7 @@ class TestMarkdownResponse(unittest.TestCase):
                 input_tokens = 56,
                 total_tokens = 56,
                 logprobs = 1.337,
+                output_token_probability = 1.337,
         )
         """
 

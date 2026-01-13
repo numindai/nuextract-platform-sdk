@@ -2202,7 +2202,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_reset_settings
 
-         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|   `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -2269,7 +2269,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_reset_settings
 
-         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|   `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
@@ -2336,7 +2336,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredextractionprojectid_reset_settings
 
-         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|   `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str

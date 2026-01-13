@@ -7,8 +7,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **example_id** | **str** | Unique example identifier. | 
 **example_name** | **str** | Example name (filename if any, or the beginning of the text). | 
-**tokens_count** | **int** | Tokens count of the example. | 
-**similarity** | **float** | Similarity between the document and the example. | 
+**tokens_count** | **int** | Estimated tokens count of the example. | 
+**similarity** | **float** | Similarity between the document and the example. | [optional] 
 
 ## Example
 

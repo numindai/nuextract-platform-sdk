@@ -829,7 +829,7 @@ class DocumentsApi:
         """
         post_api_documents_text
 
-          Save the text as a **Document**.    Once saved, this **Document** can be used to perform inference,  create **Examples**, and/or save **Playground Items** with the text as input.    #### Response:  The response contains a `documentId`, which is required in order to access and use this **Document**.
+          Save the text as a **Document**.    Once saved, this **Document** can be used to perform inference,  create **Examples**, and/or save **Playground Items** with the text as input.   #### Response:  The response contains a `documentId`, which is required in order to access and use this **Document**.
 
         :param text_request: (required)
         :type text_request: TextRequest
@@ -903,7 +903,7 @@ class DocumentsApi:
         """
         post_api_documents_text
 
-          Save the text as a **Document**.    Once saved, this **Document** can be used to perform inference,  create **Examples**, and/or save **Playground Items** with the text as input.    #### Response:  The response contains a `documentId`, which is required in order to access and use this **Document**.
+          Save the text as a **Document**.    Once saved, this **Document** can be used to perform inference,  create **Examples**, and/or save **Playground Items** with the text as input.   #### Response:  The response contains a `documentId`, which is required in order to access and use this **Document**.
 
         :param text_request: (required)
         :type text_request: TextRequest
@@ -977,7 +977,7 @@ class DocumentsApi:
         """
         post_api_documents_text
 
-          Save the text as a **Document**.    Once saved, this **Document** can be used to perform inference,  create **Examples**, and/or save **Playground Items** with the text as input.    #### Response:  The response contains a `documentId`, which is required in order to access and use this **Document**.
+          Save the text as a **Document**.    Once saved, this **Document** can be used to perform inference,  create **Examples**, and/or save **Playground Items** with the text as input.   #### Response:  The response contains a `documentId`, which is required in order to access and use this **Document**.
 
         :param text_request: (required)
         :type text_request: TextRequest

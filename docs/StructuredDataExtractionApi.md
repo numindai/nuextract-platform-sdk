@@ -98,9 +98,9 @@ Name | Type | Description  | Notes
 > ExtractionResponseDeprecated post_api_projects_projectid_extract(project_id, body, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, degraded_mode=degraded_mode, max_tokens_smart_example=max_tokens_smart_example)
 
 
- Extract information from the provided text or file. Some files are converted to images - 
+ Extract information from the provided text or file. Some files are converted to images -
 the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,
-**maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified, 
+**maxOutputTokens**, **degradedMode** and **maxTokensSmartExample** parameters are not specified,
 they are set to their project-setting values.
 
 #### Response:

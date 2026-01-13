@@ -738,7 +738,7 @@ Default values are:
  `temperature` | 0.0 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
- `degradedMode`  (deprecated) | Reject| 
+ `degradedMode`  (deprecated) | Reject|
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 
 #### Error Responses:

@@ -45,6 +45,7 @@ class TestExtractionResponse(unittest.TestCase):
                 input_tokens = 56,
                 total_tokens = 56,
                 logprobs = 1.337,
+                output_token_probability = 1.337,
                 selected_examples = [
                     numind.models.inference_example.InferenceExample(
                         example_id = '', 
@@ -61,6 +62,7 @@ class TestExtractionResponse(unittest.TestCase):
                 input_tokens = 56,
                 total_tokens = 56,
                 logprobs = 1.337,
+                output_token_probability = 1.337,
         )
         """
 

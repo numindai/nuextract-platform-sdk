@@ -265,7 +265,7 @@ Name | Type | Description  | Notes
 
  Once saved, this **Document** can be used to perform inference,
  create **Examples**, and/or save **Playground Items** with the text as input.
- 
+
 #### Response:
  The response contains a `documentId`, which is required in order to access and use this **Document**.
 

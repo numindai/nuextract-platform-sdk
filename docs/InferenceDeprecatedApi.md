@@ -563,8 +563,8 @@ Name | Type | Description  | Notes
 
 #### Response:
  The ***result*** field is guaranteed to conform to the template.
- If the model returns an invalid response, the ***result*** contains an empty template. 
- In this case, the raw response is additionally included in ***rawResponse*** field, 
+ If the model returns an invalid response, the ***result*** contains an empty template.
+ In this case, the raw response is additionally included in ***rawResponse*** field,
  together with the error message.
 
 #### Error Responses:
@@ -656,9 +656,9 @@ Name | Type | Description  | Notes
 #### Response:
  Returns a JSON representing the inference result.
  The ***result*** field is guaranteed to conform to the template.
- If the model returns an invalid response, the ***result*** contains an empty template. 
- In this case, the raw response is additionally included in ***rawResponse*** field, 
- together with the error message. 
+ If the model returns an invalid response, the ***result*** contains an empty template.
+ In this case, the raw response is additionally included in ***rawResponse*** field,
+ together with the error message.
  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.
 
 #### Error Responses:

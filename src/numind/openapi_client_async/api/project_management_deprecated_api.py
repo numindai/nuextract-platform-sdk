@@ -2256,7 +2256,7 @@ class ProjectManagementDeprecatedApi:
         """
         (Deprecated) post_api_projects_projectid_reset_settings
 
-         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|   `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2327,7 +2327,7 @@ class ProjectManagementDeprecatedApi:
         """
         (Deprecated) post_api_projects_projectid_reset_settings
 
-         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|   `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str
@@ -2398,7 +2398,7 @@ class ProjectManagementDeprecatedApi:
         """
         (Deprecated) post_api_projects_projectid_reset_settings
 
-         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|   `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param project_id: Unique project identifier. (required)
         :type project_id: str

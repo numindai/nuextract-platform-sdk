@@ -38,6 +38,7 @@ class TestCreateProjectRequest(unittest.TestCase):
                 name = '',
                 description = '',
                 template = None,
+                instructions = '',
                 owner_organization = ''
             )
         else:
@@ -45,6 +46,7 @@ class TestCreateProjectRequest(unittest.TestCase):
                 name = '',
                 description = '',
                 template = None,
+                instructions = '',
         )
         """
 

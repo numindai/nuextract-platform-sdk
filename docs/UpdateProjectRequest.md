@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **name** | **str** | Project name (optional). | [optional] 
 **description** | **str** | A brief explanation of the project (optional). | [optional] 
 **template** | **object** | Extraction template (NuExtract format) (optional). | [optional] 
+**instructions** | **str** | Instructions to give more context (optional). | [optional] 
 
 ## Example
 

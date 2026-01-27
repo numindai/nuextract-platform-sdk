@@ -354,7 +354,6 @@ Class | Method | HTTP request | Description
 *ProjectManagementDeprecatedApi* | [**post_api_projects_projectid_share**](docs/ProjectManagementDeprecatedApi.md#post_api_projects_projectid_share) | **POST** /api/projects/{projectId}/share | 
 *ProjectManagementDeprecatedApi* | [**post_api_projects_projectid_unlock**](docs/ProjectManagementDeprecatedApi.md#post_api_projects_projectid_unlock) | **POST** /api/projects/{projectId}/unlock | 
 *ProjectManagementDeprecatedApi* | [**post_api_projects_projectid_unshare**](docs/ProjectManagementDeprecatedApi.md#post_api_projects_projectid_unshare) | **POST** /api/projects/{projectId}/unshare | 
-*ProjectManagementDeprecatedApi* | [**put_api_projects_projectid_template**](docs/ProjectManagementDeprecatedApi.md#put_api_projects_projectid_template) | **PUT** /api/projects/{projectId}/template | 
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
 *StructuredDataExtractionApi* | [**post_api_projects_projectid_extract**](docs/StructuredDataExtractionApi.md#post_api_projects_projectid_extract) | **POST** /api/projects/{projectId}/extract | 
 *StructuredDataExtractionApi* | [**post_api_projects_projectid_extract_async**](docs/StructuredDataExtractionApi.md#post_api_projects_projectid_extract_async) | **POST** /api/projects/{projectId}/extract-async | 
@@ -381,7 +380,6 @@ Class | Method | HTTP request | Description
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredextractionprojectid_share**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_share) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/share | 
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredextractionprojectid_unlock**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_unlock) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/unlock | 
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredextractionprojectid_unshare**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_unshare) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/unshare | 
-*StructuredExtractionProjectManagementApi* | [**put_api_structured_extraction_structuredextractionprojectid_template**](docs/StructuredExtractionProjectManagementApi.md#put_api_structured_extraction_structuredextractionprojectid_template) | **PUT** /api/structured-extraction/{structuredExtractionProjectId}/template | 
 *TemplateGenerationApi* | [**get_api_template_generation_jobs_templatejobid**](docs/TemplateGenerationApi.md#get_api_template_generation_jobs_templatejobid) | **GET** /api/template-generation/jobs/{templateJobId} | 
 *TemplateGenerationApi* | [**post_api_template_generation_jobs**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs) | **POST** /api/template-generation/jobs | 
 
@@ -447,7 +445,6 @@ Class | Method | HTTP request | Description
  - [UpdateOrganizationRequest](docs/UpdateOrganizationRequest.md)
  - [UpdateProjectRequest](docs/UpdateProjectRequest.md)
  - [UpdateProjectSettingsRequest](docs/UpdateProjectSettingsRequest.md)
- - [UpdateProjectTemplateRequest](docs/UpdateProjectTemplateRequest.md)
  - [User](docs/User.md)
  - [ValidInformation](docs/ValidInformation.md)
  - [VersionResponse](docs/VersionResponse.md)

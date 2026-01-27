@@ -33,6 +33,7 @@ class ProjectResponse(BaseModel):
     template: Dict[str, Any] = Field(
         description="Extraction template (NuExtract format)."
     )
+    instructions: StrictStr = Field(description="Instructions to give more context.")
     owner_user: StrictStr = Field(description="Project owner.", alias="ownerUser")
     owner_organization: Optional[StrictStr] = Field(
         default=None,
@@ -57,6 +58,7 @@ class ProjectResponse(BaseModel):
         "name",
         "description",
         "template",
+        "instructions",
         "ownerUser",
         "ownerOrganization",
         "createdAt",
@@ -124,6 +126,7 @@ class ProjectResponse(BaseModel):
                 "name": obj.get("name"),
                 "description": obj.get("description"),
                 "template": obj.get("template"),
+                "instructions": obj.get("instructions"),
                 "ownerUser": obj.get("ownerUser"),
                 "ownerOrganization": obj.get("ownerOrganization"),
                 "createdAt": obj.get("createdAt"),

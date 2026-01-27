@@ -79,11 +79,6 @@ class TestStructuredExtractionProjectManagementApi(unittest.TestCase):
     ) -> None:
         """Test case for post_api_structured_extraction_structuredextractionprojectid_unshare"""
 
-    def test_put_api_structured_extraction_structuredextractionprojectid_template(
-        self,
-    ) -> None:
-        """Test case for put_api_structured_extraction_structuredextractionprojectid_template"""
-
 
 if __name__ == "__main__":
     unittest.main()

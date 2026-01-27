@@ -103,7 +103,6 @@ __all__ = [
     "UpdateOrganizationRequest",
     "UpdateProjectRequest",
     "UpdateProjectSettingsRequest",
-    "UpdateProjectTemplateRequest",
     "User",
     "ValidInformation",
     "VersionResponse",
@@ -281,9 +280,6 @@ from numind.models.update_project_request import (
 )
 from numind.models.update_project_settings_request import (
     UpdateProjectSettingsRequest as UpdateProjectSettingsRequest,
-)
-from numind.models.update_project_template_request import (
-    UpdateProjectTemplateRequest as UpdateProjectTemplateRequest,
 )
 from numind.models.user import User as User
 from numind.models.valid_information import ValidInformation as ValidInformation

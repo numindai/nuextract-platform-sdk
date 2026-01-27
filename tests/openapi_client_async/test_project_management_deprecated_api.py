@@ -61,9 +61,6 @@ class TestProjectManagementDeprecatedApi(unittest.IsolatedAsyncioTestCase):
     async def test_post_api_projects_projectid_unshare(self) -> None:
         """Test case for post_api_projects_projectid_unshare"""
 
-    async def test_put_api_projects_projectid_template(self) -> None:
-        """Test case for put_api_projects_projectid_template"""
-
 
 if __name__ == "__main__":
     unittest.main()

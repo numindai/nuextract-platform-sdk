@@ -30,6 +30,7 @@ class CreateProjectRequest(BaseModel):
         description="Text description of the project (can be left empty)."
     )
     template: Dict[str, Any] = Field(description="Template of the project.")
+    instructions: StrictStr = Field(description="Instructions to give more context.")
     owner_organization: Optional[StrictStr] = Field(
         default=None,
         description="Optional organization identifier.   When specified, the project will belong to the given organization instead of being a personal project.",
@@ -39,6 +40,7 @@ class CreateProjectRequest(BaseModel):
         "name",
         "description",
         "template",
+        "instructions",
         "ownerOrganization",
     ]
 
@@ -96,6 +98,7 @@ class CreateProjectRequest(BaseModel):
                 "name": obj.get("name"),
                 "description": obj.get("description"),
                 "template": obj.get("template"),
+                "instructions": obj.get("instructions"),
                 "ownerOrganization": obj.get("ownerOrganization"),
             }
         )

@@ -90,7 +90,6 @@ from numind.models.update_markdown_project_settings_request import (
 from numind.models.update_organization_request import UpdateOrganizationRequest
 from numind.models.update_project_request import UpdateProjectRequest
 from numind.models.update_project_settings_request import UpdateProjectSettingsRequest
-from numind.models.update_project_template_request import UpdateProjectTemplateRequest
 from numind.models.user import User
 from numind.models.valid_information import ValidInformation
 from numind.models.version_response import VersionResponse

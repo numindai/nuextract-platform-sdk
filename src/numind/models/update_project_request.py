@@ -34,7 +34,15 @@ class UpdateProjectRequest(BaseModel):
     template: Optional[Dict[str, Any]] = Field(
         default=None, description="Extraction template (NuExtract format) (optional)."
     )
-    __properties: ClassVar[List[str]] = ["name", "description", "template"]
+    instructions: Optional[StrictStr] = Field(
+        default=None, description="Instructions to give more context (optional)."
+    )
+    __properties: ClassVar[List[str]] = [
+        "name",
+        "description",
+        "template",
+        "instructions",
+    ]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +98,7 @@ class UpdateProjectRequest(BaseModel):
                 "name": obj.get("name"),
                 "description": obj.get("description"),
                 "template": obj.get("template"),
+                "instructions": obj.get("instructions"),
             }
         )
         return _obj

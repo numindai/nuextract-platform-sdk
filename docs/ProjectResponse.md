@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **name** | **str** | Project name. | 
 **description** | **str** | A brief explanation of the project. | 
 **template** | **object** | Extraction template (NuExtract format). | 
+**instructions** | **str** | Instructions to give more context. | 
 **owner_user** | **str** | Project owner. | 
 **owner_organization** | **str** | Project owning organization (if any). | [optional] 
 **created_at** | **str** | Project creation date. | 

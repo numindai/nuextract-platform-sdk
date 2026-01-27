@@ -37,7 +37,8 @@ class TestUpdateProjectRequest(unittest.TestCase):
             return UpdateProjectRequest(
                 name = '',
                 description = '',
-                template = None
+                template = None,
+                instructions = ''
             )
         else:
             return UpdateProjectRequest(

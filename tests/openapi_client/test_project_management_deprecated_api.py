@@ -61,9 +61,6 @@ class TestProjectManagementDeprecatedApi(unittest.TestCase):
     def test_post_api_projects_projectid_unshare(self) -> None:
         """Test case for post_api_projects_projectid_unshare"""
 
-    def test_put_api_projects_projectid_template(self) -> None:
-        """Test case for put_api_projects_projectid_template"""
-
 
 if __name__ == "__main__":
     unittest.main()

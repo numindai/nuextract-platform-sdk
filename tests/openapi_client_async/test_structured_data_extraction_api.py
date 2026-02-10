@@ -30,12 +30,6 @@ class TestStructuredDataExtractionApi(unittest.IsolatedAsyncioTestCase):
     ) -> None:
         """Test case for get_api_structured_extraction_jobs_structuredextractionjobid"""
 
-    async def test_post_api_projects_projectid_extract(self) -> None:
-        """Test case for post_api_projects_projectid_extract"""
-
-    async def test_post_api_projects_projectid_extract_async(self) -> None:
-        """Test case for post_api_projects_projectid_extract_async"""
-
     async def test_post_api_structured_extraction_structuredextractionprojectid_jobs(
         self,
     ) -> None:

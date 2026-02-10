@@ -36,11 +36,19 @@ MODELS_TO_DELETE = {
     "StripeSubscriptionResponse": None,
     "Subscription": None,
     "SubscriptionRequest": None,
+    "TokenCodeRequest": None,
+    "TokenRefreshRequest": None,
+    "TokenAmount": None,
+    "UnlimitedTokenAmount": None,
+    "FixedTokenAmount": None,
     "ActiveProfileResponse": None,
     "InactiveProfileResponse": None,
 }
 _API_PREFIX = "/api"
-PATHS_TO_DELETE = {f"{_API_PREFIX}/billing", f"{_API_PREFIX}/auth"}
+PATHS_TO_DELETE = {
+    f"{_API_PREFIX}/{path}"
+    for path in ("billing", "auth", "organizations", "projects", "infer-template", "")
+}
 API_BASE_URL = "https://nuextract.ai"
 
 

@@ -27,7 +27,8 @@ MODELS_TO_DELETE = {
     "InfoNode": None,
 }
 PATHS_TO_DELETE = {
-    f"/api/{path}" for path in (
+    f"/api/{path}"
+    for path in (
         "jobs/{jobId}",
         "projects/{projectId}/extract",
         "projects/{projectId}/extract-async",
@@ -119,14 +120,20 @@ def remove_unused_models(content: dict[str, dict | list]) -> None:
 
     :param content: openapi specifications.
     """
-    models_in_paths = get_models_in_endpoints(content["paths"])
+    # Get models referenced in endpoints
+    models_in_paths = get_models_referenced(content["paths"])
+    # Recursively parses these models in the components to also gather models referenced
+    # by these models
+    models_used_all = get_models_referenced_components(
+        content["components"], models_in_paths
+    )
 
     for model_name in content["components"]["schemas"].copy():
-        if model_name not in models_in_paths:
+        if model_name not in models_used_all:
             del content["components"]["schemas"][model_name]
 
 
-def get_models_in_endpoints(data: dict | list) -> set[str]:
+def get_models_referenced(data: dict | list) -> set[str]:
     """
     Recursively returns the model names present in an OpenAPI paths dictionary.
 
@@ -139,7 +146,7 @@ def get_models_in_endpoints(data: dict | list) -> set[str]:
     if isinstance(data, list):
         for item in data:
             if isinstance(item, (dict, list)):
-                models.update(get_models_in_endpoints(item))
+                models.update(get_models_referenced(item))
         return models
 
     # Dictionary
@@ -152,9 +159,44 @@ def get_models_in_endpoints(data: dict | list) -> set[str]:
                     model_name = value.split("/")[-1]
                     models.add(model_name)
             elif isinstance(value, (dict, list)):
-                models.update(get_models_in_endpoints(value))
+                models.update(get_models_referenced(value))
 
     return models
+
+
+def get_models_referenced_components(
+    components: dict, model_names: set[str]
+) -> set[str]:
+    """
+    Recursively finds all models referenced by the given models in OpenAPI components.
+
+    :param components: The 'components' section of an OpenAPI specification
+    :param model_names: Set of model names to find references for
+    :return: Set of all model names referenced by the input models (including the input
+        models)
+    """
+    all_models = set(model_names)
+    models_to_process = set(model_names)
+    schemas = components.get("schemas", {})
+
+    while models_to_process:
+        current_model = models_to_process.pop()
+
+        # Get the schema for the current model
+        if current_model not in schemas:
+            continue
+
+        schema = schemas[current_model]
+
+        # Find all $ref references in this schema
+        referenced = get_models_referenced(schema)
+
+        # Add new models to process
+        new_models = referenced - all_models
+        models_to_process.update(new_models)
+        all_models.update(new_models)
+
+    return all_models
 
 
 def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
@@ -175,6 +217,7 @@ def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
 
     # Remove unwanted models from paths
     remove_unwanted_models(content["paths"])
+    remove_unwanted_models(content["components"])
 
     # Remove models from components that aren't found in paths
     remove_unused_models(content)

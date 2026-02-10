@@ -25,26 +25,30 @@ MODELS_TO_DELETE = {
     "Str1": None,
     "Integer": None,
     "InfoNode": None,
-    "VerbatimStr": None,
-    "BillingProfileResponse": None,
-    "BillingPeriod": None,
-    "FeatureCardResponse": None,
-    "Plan": None,
-    "StripePortalRequest": None,
-    "StripePortalResponse": None,
-    "StripeSubscriptionRequest": None,
-    "StripeSubscriptionResponse": None,
-    "Subscription": None,
-    "SubscriptionRequest": None,
-    "ActiveProfileResponse": None,
-    "InactiveProfileResponse": None,
 }
-_API_PREFIX = "/api"
-PATHS_TO_DELETE = {f"{_API_PREFIX}/billing", f"{_API_PREFIX}/auth"}
+PATHS_TO_DELETE = {
+    f"/api/{path}"
+    for path in (
+        "jobs/{jobId}",
+        "projects/{projectId}/extract",
+        "projects/{projectId}/extract-async",
+    )
+}
+TAGS_PATHS_TO_DELETE = {
+    "Structured Extraction Playground",
+    "Content Extraction Playground",
+    "Authentication",
+    "Organization Management",
+    "Billing",
+    "Project Management (Deprecated)",
+    "Examples (Deprecated)",
+    "Playground (Deprecated)",
+    "Inference (Deprecated)",
+}
 API_BASE_URL = "https://nuextract.ai"
 
 
-def edit_problematic_leaves(data: dict | list) -> None:
+def remove_unwanted_models(data: dict | list) -> None:
     """
     Recursively remove models to delete from a dictionary or list, inplace.
 
@@ -64,7 +68,7 @@ def edit_problematic_leaves(data: dict | list) -> None:
                     ):
                         del data[idx]
                         continue
-                edit_problematic_leaves(item)
+                remove_unwanted_models(item)
                 if len(item) == 0:
                     del data[idx]
         return
@@ -74,7 +78,7 @@ def edit_problematic_leaves(data: dict | list) -> None:
         if key in MODELS_TO_DELETE:
             del data[key]
         elif isinstance(value, (dict | list)):
-            edit_problematic_leaves(data[key])
+            remove_unwanted_models(data[key])
             if isinstance(value, list) and len(data[key]) == 0:
                 del data[key]
                 data["type"] = "object"
@@ -96,9 +100,103 @@ def remove_unwanted_paths(paths: dict[str, dict]) -> None:
 
     :param paths: dictionary of paths of OpenAPI specifications.
     """
-    for path in paths.copy():
-        if any(path.startswith(forbidden_path) for forbidden_path in PATHS_TO_DELETE):
+    for path, path_details in paths.copy().items():
+        # endpoints to delete based on their path
+        # TODO remove this step, should only be handled by tags
+        if path in PATHS_TO_DELETE:
             del paths[path]
+            continue
+        # Delete endpoints based on their tags
+        for method, details in path_details.copy().items():
+            if any(tag in TAGS_PATHS_TO_DELETE for tag in details["tags"]):
+                del paths[path][method]
+        if len(paths[path]) == 0:
+            del paths[path]
+
+
+def remove_unused_models(content: dict[str, dict | list]) -> None:
+    """
+    Remove paths from an OpenAPI paths dictionary.
+
+    :param content: openapi specifications.
+    """
+    # Get models referenced in endpoints
+    models_in_paths = get_models_referenced(content["paths"])
+    # Recursively parses these models in the components to also gather models referenced
+    # by these models
+    models_used_all = get_models_referenced_components(
+        content["components"], models_in_paths
+    )
+
+    for model_name in content["components"]["schemas"].copy():
+        if model_name not in models_used_all:
+            del content["components"]["schemas"][model_name]
+
+
+def get_models_referenced(data: dict | list) -> set[str]:
+    """
+    Recursively returns the model names present in an OpenAPI paths dictionary.
+
+    :param data: dictionary or list from an OpenAPI specification file.
+    :return: set of model names referenced in the paths
+    """
+    models = set()
+
+    # List --> recursively call the method on each item
+    if isinstance(data, list):
+        for item in data:
+            if isinstance(item, (dict, list)):
+                models.update(get_models_referenced(item))
+        return models
+
+    # Dictionary
+    if isinstance(data, dict):
+        for key, value in data.items():
+            # Check for $ref keys that point to models
+            if key == "$ref" and isinstance(value, str):
+                # Extract model name from reference like #/components/schemas/ModelName
+                if "/schemas/" in value:
+                    model_name = value.split("/")[-1]
+                    models.add(model_name)
+            elif isinstance(value, (dict, list)):
+                models.update(get_models_referenced(value))
+
+    return models
+
+
+def get_models_referenced_components(
+    components: dict, model_names: set[str]
+) -> set[str]:
+    """
+    Recursively finds all models referenced by the given models in OpenAPI components.
+
+    :param components: The 'components' section of an OpenAPI specification
+    :param model_names: Set of model names to find references for
+    :return: Set of all model names referenced by the input models (including the input
+        models)
+    """
+    all_models = set(model_names)
+    models_to_process = set(model_names)
+    schemas = components.get("schemas", {})
+
+    while models_to_process:
+        current_model = models_to_process.pop()
+
+        # Get the schema for the current model
+        if current_model not in schemas:
+            continue
+
+        schema = schemas[current_model]
+
+        # Find all $ref references in this schema
+        referenced = get_models_referenced(schema)
+
+        # Add new models to process
+        new_models = referenced - all_models
+        models_to_process.update(new_models)
+        all_models.update(new_models)
+
+    return all_models
 
 
 def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
@@ -111,9 +209,18 @@ def edit_openapi_file(openapi_file_path: Path, output_file_path: Path) -> None:
     with openapi_file_path.open() as file:
         content = yaml.full_load(file)
 
-    edit_problematic_leaves(content["paths"])
-    edit_problematic_leaves(content["components"])
+    # Filter out paths with unwanted tags
     remove_unwanted_paths(content["paths"])
+    for idx in reversed(range(len(content["tags"]))):
+        if content["tags"][idx]["name"] in TAGS_PATHS_TO_DELETE:
+            del content["tags"][idx]
+
+    # Remove unwanted models from paths
+    remove_unwanted_models(content["paths"])
+    remove_unwanted_models(content["components"])
+
+    # Remove models from components that aren't found in paths
+    remove_unused_models(content)
 
     # add server entry
     content["servers"] = [{"url": API_BASE_URL}]

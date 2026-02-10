@@ -23,7 +23,6 @@ from .openapi_client import (
     FilesApi,
     InferenceApi,
     JobsApi,
-    OrganizationManagementApi,
     StructuredDataExtractionApi,
     StructuredExtractionExamplesApi,
     StructuredExtractionProjectManagementApi,
@@ -52,9 +51,6 @@ from .openapi_client_async import (
     JobsApi as JobsApiAsync,
 )
 from .openapi_client_async import (
-    OrganizationManagementApi as OrganizationManagementApiAsync,
-)
-from .openapi_client_async import (
     StructuredDataExtractionApi as StructuredDataExtractionApiAsync,
 )
 from .openapi_client_async import (
@@ -80,7 +76,6 @@ class NuMind(
     InferenceApi,
     JobsApi,
     ContentExtractionApi,
-    OrganizationManagementApi,
     StructuredExtractionProjectManagementApi,
 ):
     """NuMind API client."""
@@ -99,6 +94,7 @@ class NuMind(
         self,
         project_id: str | None = None,
         template: dict | BaseModel | str | None = None,
+        instructions: str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
@@ -116,6 +112,8 @@ class NuMind(
         :param project_id: id of the associated project. (default: ``None``)
         :param template: template of the structured output describing the information to
             extract. (default: ``None``)
+        :param instructions: instructions the model should follow when extracting
+            structured data.
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
@@ -148,7 +146,10 @@ class NuMind(
             template = _parse_template(template)
             project_id = self.post_api_structured_extraction(
                 CreateProjectRequest(
-                    name=TMP_PROJECT_NAME, description="", template=template
+                    name=TMP_PROJECT_NAME,
+                    description="",
+                    template=template,
+                    instructions=instructions,
                 )
             ).id
 
@@ -203,9 +204,9 @@ class NuMind(
         :param examples: list of examples, to provided as a tuples of input and expected
             output. The inputs can be text (``str``) or files (``pathlib.Path`` or
             ``bytes``).
-        :param convert_request: ``ConvertRequest`` object holding the file conversion
-            configuration, such as the DPI. If ``None`` is provided, the project's
-            conversion configuration will be used. (default: ``None``)
+        :param convert_request: ``numind.models.ConvertRequest`` object holding the file
+            conversion configuration, such as the DPI. If ``None`` is provided, the
+            project's conversion configuration will be used. (default: ``None``)
         """
         files_ids, documents_ids = [], []
         if convert_request is None:
@@ -245,10 +246,19 @@ class NuMind(
         return files_ids, documents_ids
 
     def extract_content(
-        self, input_file: Path | str | bytes | None = None
+        self, input_file: Path | str | bytes | None = None, **kwargs
     ) -> MarkdownResponse:
+        """
+        Extract Markdown content from an input file.
+
+        :param input_file: input file to extract content from, provided as a
+            ``pathlib.Path`` or string path, or bytes.
+        :param kwargs: keyword arguments to pass to the
+            ``client.post_api_content_extraction_jobs`` method.
+        :return: ``numind.models.MarkdownResponse`` object.
+        """
         input_, _ = _parse_input_file(input_file)
-        job_id_response = self.post_api_content_extraction_jobs(input_)
+        job_id_response = self.post_api_content_extraction_jobs(input_, **kwargs)
         job_output = self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
@@ -270,7 +280,6 @@ class NuMindAsync(
     InferenceApiAsync,
     JobsApiAsync,
     ContentExtractionApiAsync,
-    OrganizationManagementApiAsync,
     StructuredExtractionProjectManagementApiAsync,
 ):
     """NuMind API client."""
@@ -289,6 +298,7 @@ class NuMindAsync(
         self,
         project_id: str | None = None,
         template: dict | BaseModel | str | None = None,
+        instructions: str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
@@ -306,6 +316,8 @@ class NuMindAsync(
         :param project_id: id of the associated project. (default: ``None``)
         :param template: template of the structured output describing the information to
             extract. (default: ``None``)
+        :param instructions: instructions the model should follow when extracting
+            structured data.
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
@@ -339,7 +351,10 @@ class NuMindAsync(
             project_id = (
                 await self.post_api_structured_extraction(
                     CreateProjectRequest(
-                        name=TMP_PROJECT_NAME, description="", template=template
+                        name=TMP_PROJECT_NAME,
+                        description="",
+                        template=template,
+                        instructions=instructions,
                     )
                 )
             ).id
@@ -393,9 +408,9 @@ class NuMindAsync(
         :param examples: list of examples, to provided as a tuples of input and expected
             output. The inputs can be text (``str``) or files (``pathlib.Path`` or
             ``bytes``).
-        :param convert_request: ``ConvertRequest`` object holding the file conversion
-            configuration, such as the DPI. If ``None`` is provided, the project's
-            conversion configuration will be used. (default: ``None``)
+        :param convert_request: ``numind.models.ConvertRequest`` object holding the file
+            conversion configuration, such as the DPI. If ``None`` is provided, the
+            project's conversion configuration will be used. (default: ``None``)
         """
         files_ids, documents_ids = [], []
         if convert_request is None:
@@ -437,10 +452,19 @@ class NuMindAsync(
         return files_ids, documents_ids
 
     async def extract_content(
-        self, input_file: Path | str | bytes | None = None
+        self, input_file: Path | str | bytes | None = None, **kwargs
     ) -> MarkdownResponse:
+        """
+        Extract Markdown content from an input file.
+
+        :param input_file: input file to extract content from, provided as a
+            ``pathlib.Path`` or string path, or bytes.
+        :param kwargs: keyword arguments to pass to the
+            ``client.post_api_content_extraction_jobs`` method.
+        :return: ``numind.models.MarkdownResponse`` object.
+        """
         input_, _ = _parse_input_file(input_file)
-        job_id_response = await self.post_api_content_extraction_jobs(input_)
+        job_id_response = await self.post_api_content_extraction_jobs(input_, **kwargs)
         job_output = await self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )

@@ -26,7 +26,13 @@ MODELS_TO_DELETE = {
     "Integer": None,
     "InfoNode": None,
 }
-PATHS_TO_DELETE = {f"/api/{path}" for path in ("jobs/{jobId}",)}
+PATHS_TO_DELETE = {
+    f"/api/{path}" for path in (
+        "jobs/{jobId}",
+        "projects/{projectId}/extract",
+        "projects/{projectId}/extract-async",
+    )
+}
 TAGS_PATHS_TO_DELETE = {
     "Structured Extraction Playground",
     "Content Extraction Playground",

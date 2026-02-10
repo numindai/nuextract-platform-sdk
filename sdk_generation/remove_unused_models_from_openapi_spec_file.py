@@ -26,7 +26,7 @@ MODELS_TO_DELETE = {
     "Integer": None,
     "InfoNode": None,
 }
-PATHS_TO_DELETE = {f"/api/{path}" for path in ("jobs",)}
+PATHS_TO_DELETE = {f"/api/{path}" for path in ("jobs/{jobId}",)}
 TAGS_PATHS_TO_DELETE = {
     "Structured Extraction Playground",
     "Content Extraction Playground",
@@ -96,7 +96,7 @@ def remove_unwanted_paths(paths: dict[str, dict]) -> None:
     for path, path_details in paths.copy().items():
         # endpoints to delete based on their path
         # TODO remove this step, should only be handled by tags
-        if any(path.startswith(forbidden_path) for forbidden_path in PATHS_TO_DELETE):
+        if path in PATHS_TO_DELETE:
             del paths[path]
             continue
         # Delete endpoints based on their tags

@@ -32,6 +32,9 @@ PATHS_TO_DELETE = {
         "jobs/{jobId}",
         "projects/{projectId}/extract",
         "projects/{projectId}/extract-async",
+        "structured-extraction/{structuredExtractionProjectId}/duplicate",
+        "structured-extraction/{structuredExtractionProjectId}/share",
+        "structured-extraction/{structuredExtractionProjectId}/unshare",
     )
 }
 TAGS_PATHS_TO_DELETE = {

@@ -51,11 +51,6 @@ class TestStructuredExtractionProjectManagementApi(unittest.IsolatedAsyncioTestC
     async def test_post_api_structured_extraction(self) -> None:
         """Test case for post_api_structured_extraction"""
 
-    async def test_post_api_structured_extraction_structuredextractionprojectid_duplicate(
-        self,
-    ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_duplicate"""
-
     async def test_post_api_structured_extraction_structuredextractionprojectid_lock(
         self,
     ) -> None:
@@ -66,20 +61,10 @@ class TestStructuredExtractionProjectManagementApi(unittest.IsolatedAsyncioTestC
     ) -> None:
         """Test case for post_api_structured_extraction_structuredextractionprojectid_reset_settings"""
 
-    async def test_post_api_structured_extraction_structuredextractionprojectid_share(
-        self,
-    ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_share"""
-
     async def test_post_api_structured_extraction_structuredextractionprojectid_unlock(
         self,
     ) -> None:
         """Test case for post_api_structured_extraction_structuredextractionprojectid_unlock"""
-
-    async def test_post_api_structured_extraction_structuredextractionprojectid_unshare(
-        self,
-    ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_unshare"""
 
 
 if __name__ == "__main__":

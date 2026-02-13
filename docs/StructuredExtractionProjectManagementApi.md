@@ -10,12 +10,9 @@ Method | HTTP request | Description
 [**patch_api_structured_extraction_structuredextractionprojectid**](StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredextractionprojectid) | **PATCH** /api/structured-extraction/{structuredExtractionProjectId} | 
 [**patch_api_structured_extraction_structuredextractionprojectid_settings**](StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredextractionprojectid_settings) | **PATCH** /api/structured-extraction/{structuredExtractionProjectId}/settings | 
 [**post_api_structured_extraction**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction) | **POST** /api/structured-extraction | 
-[**post_api_structured_extraction_structuredextractionprojectid_duplicate**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_duplicate) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/duplicate | 
 [**post_api_structured_extraction_structuredextractionprojectid_lock**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_lock) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/lock | 
 [**post_api_structured_extraction_structuredextractionprojectid_reset_settings**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_reset_settings) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/reset-settings | 
-[**post_api_structured_extraction_structuredextractionprojectid_share**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_share) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/share | 
 [**post_api_structured_extraction_structuredextractionprojectid_unlock**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_unlock) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/unlock | 
-[**post_api_structured_extraction_structuredextractionprojectid_unshare**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_unshare) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/unshare | 
 
 
 # **delete_api_structured_extraction_structuredextractionprojectid**
@@ -546,101 +543,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_api_structured_extraction_structuredextractionprojectid_duplicate**
-> ProjectResponse post_api_structured_extraction_structuredextractionprojectid_duplicate(structured_extraction_project_id, organization_id=organization_id)
-
-
-Create a copy of an existing **Project**.
-
-It is allowed to duplicate locked **Projects** and **Reference Projects**.
-
-
-#### Effect:
-- The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**.
-- If the target organization is the same as the source, the project name is changed to "Original Name (copy)".
-- If the target organization is different from the source, all **Documents** associated with the **Project** are copied.
-
-#### Response:
- The response contains a newly generated
- `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**
- are private and owned by the authenticated user.
-
-#### Error Responses:
-`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
-
-`403 Forbidden` - If the user does not have permission to duplicate this **Project**.
-
-
-### Example
-
-* OAuth Authentication (oauth2Auth):
-
-```python
-import numind.openapi_client
-from numind.models.project_response import ProjectResponse
-from numind.openapi_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://nuextract.ai
-# See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-configuration.access_token = os.environ["ACCESS_TOKEN"]
-
-# Enter a context with an instance of the API client
-with numind.openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(api_client)
-    structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
-    organization_id = 'organization_id_example' # str | Destination organization id. If not specified, the project is copied to the user projects. (optional)
-
-    try:
-        api_response = api_instance.post_api_structured_extraction_structuredextractionprojectid_duplicate(structured_extraction_project_id, organization_id=organization_id)
-        print("The response of StructuredExtractionProjectManagementApi->post_api_structured_extraction_structuredextractionprojectid_duplicate:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling StructuredExtractionProjectManagementApi->post_api_structured_extraction_structuredextractionprojectid_duplicate: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
- **organization_id** | **str**| Destination organization id. If not specified, the project is copied to the user projects. | [optional] 
-
-### Return type
-
-[**ProjectResponse**](ProjectResponse.md)
-
-### Authorization
-
-[oauth2Auth](../README.md#oauth2Auth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** |  |  -  |
-**0** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **post_api_structured_extraction_structuredextractionprojectid_lock**
 > post_api_structured_extraction_structuredextractionprojectid_lock(structured_extraction_project_id)
 
@@ -816,94 +718,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_api_structured_extraction_structuredextractionprojectid_share**
-> post_api_structured_extraction_structuredextractionprojectid_share(structured_extraction_project_id)
-
-
-Turn an existing **Project** into a **Reference Project**.
- Only NuMind administrators can share a **Project** with other users.
- Lock state does not prevent sharing. Likewise, sharing does not change the lock state.
-
-#### Effect:
-
-- **Reference Projects** are shared with the community (read access is granted to all users).
-- **Project Examples** and **Playground Items** are shared as well.
-- Only NuMind administrators can update or delete **Reference Projects**.
-- Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**.
-- The inference is allowed for all users.
-
-#### Error Responses:
-
-`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
-
-`403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
-
-
-### Example
-
-* OAuth Authentication (oauth2Auth):
-
-```python
-import numind.openapi_client
-from numind.openapi_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://nuextract.ai
-# See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-configuration.access_token = os.environ["ACCESS_TOKEN"]
-
-# Enter a context with an instance of the API client
-with numind.openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(api_client)
-    structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
-
-    try:
-        api_instance.post_api_structured_extraction_structuredextractionprojectid_share(structured_extraction_project_id)
-    except Exception as e:
-        print("Exception when calling StructuredExtractionProjectManagementApi->post_api_structured_extraction_structuredextractionprojectid_share: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[oauth2Auth](../README.md#oauth2Auth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** |  |  -  |
-**0** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **post_api_structured_extraction_structuredextractionprojectid_unlock**
 > post_api_structured_extraction_structuredextractionprojectid_unlock(structured_extraction_project_id)
 
@@ -952,94 +766,6 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         api_instance.post_api_structured_extraction_structuredextractionprojectid_unlock(structured_extraction_project_id)
     except Exception as e:
         print("Exception when calling StructuredExtractionProjectManagementApi->post_api_structured_extraction_structuredextractionprojectid_unlock: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[oauth2Auth](../README.md#oauth2Auth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** |  |  -  |
-**0** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **post_api_structured_extraction_structuredextractionprojectid_unshare**
-> post_api_structured_extraction_structuredextractionprojectid_unshare(structured_extraction_project_id)
-
-
-Unshare a **Reference Project** (makes it private).
-
- Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.
- The project owner is the initial owner, not the authenicated user.
-
-
-#### Effect:
-- The **Project** is no longer a **Reference Project** and is no longer shared with the community.
-- Read access is revoked for all users except the project owner.
-- **Examples** and **Playground Items** are no longer publicly accessible.
-- Only the project owner can manage or delete the project after unsharing.
-- Inference is restricted to the project owner.
-
-#### Error Responses:
-`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
-
-`403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
-
-
-### Example
-
-* OAuth Authentication (oauth2Auth):
-
-```python
-import numind.openapi_client
-from numind.openapi_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://nuextract.ai
-# See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-configuration.access_token = os.environ["ACCESS_TOKEN"]
-
-# Enter a context with an instance of the API client
-with numind.openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(api_client)
-    structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
-
-    try:
-        api_instance.post_api_structured_extraction_structuredextractionprojectid_unshare(structured_extraction_project_id)
-    except Exception as e:
-        print("Exception when calling StructuredExtractionProjectManagementApi->post_api_structured_extraction_structuredextractionprojectid_unshare: %s\n" % e)
 ```
 
 

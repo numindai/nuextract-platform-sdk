@@ -304,7 +304,7 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
@@ -410,7 +410,7 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
@@ -516,7 +516,7 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),

@@ -308,7 +308,7 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -453,7 +453,7 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -598,7 +598,7 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),

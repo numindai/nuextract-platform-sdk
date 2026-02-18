@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **description** | **str** | Text description of the project (can be left empty). | 
 **template** | **object** | Template of the project. | 
 **instructions** | **str** | Instructions to give more context. | 
-**owner_organization** | **str** | Optional organization identifier.   When specified, the project will belong to the given organization instead of being a personal project. | [optional] 
 
 ## Example
 

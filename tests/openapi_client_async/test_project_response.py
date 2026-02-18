@@ -48,7 +48,7 @@ class TestProjectResponse(unittest.TestCase):
                 shared = True,
                 settings = numind.models.project_settings_response.ProjectSettingsResponse(
                     temperature = 0.0, 
-                    rasterization_dpi = 56, 
+                    rasterization_dpi = 0, 
                     max_output_tokens = 56, 
                     max_example_token_number = 0, 
                     max_example_number = 56, 
@@ -68,7 +68,7 @@ class TestProjectResponse(unittest.TestCase):
                 shared = True,
                 settings = numind.models.project_settings_response.ProjectSettingsResponse(
                     temperature = 0.0, 
-                    rasterization_dpi = 56, 
+                    rasterization_dpi = 0, 
                     max_output_tokens = 56, 
                     max_example_token_number = 0, 
                     max_example_number = 56, 

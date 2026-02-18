@@ -46,6 +46,12 @@ class ContentExtractionApi:
         content_extraction_job_id: Annotated[
             StrictStr, Field(description="Unique content extraction job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65,6 +71,8 @@ class ContentExtractionApi:
 
         :param content_extraction_job_id: Unique content extraction job identifier. (required)
         :type content_extraction_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -88,6 +96,7 @@ class ContentExtractionApi:
         """  # noqa: E501
         _param = self._get_api_content_extraction_jobs_contentextractionjobid_serialize(
             content_extraction_job_id=content_extraction_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -112,6 +121,12 @@ class ContentExtractionApi:
         content_extraction_job_id: Annotated[
             StrictStr, Field(description="Unique content extraction job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -131,6 +146,8 @@ class ContentExtractionApi:
 
         :param content_extraction_job_id: Unique content extraction job identifier. (required)
         :type content_extraction_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -154,6 +171,7 @@ class ContentExtractionApi:
         """  # noqa: E501
         _param = self._get_api_content_extraction_jobs_contentextractionjobid_serialize(
             content_extraction_job_id=content_extraction_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -178,6 +196,12 @@ class ContentExtractionApi:
         content_extraction_job_id: Annotated[
             StrictStr, Field(description="Unique content extraction job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -197,6 +221,8 @@ class ContentExtractionApi:
 
         :param content_extraction_job_id: Unique content extraction job identifier. (required)
         :type content_extraction_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -220,6 +246,7 @@ class ContentExtractionApi:
         """  # noqa: E501
         _param = self._get_api_content_extraction_jobs_contentextractionjobid_serialize(
             content_extraction_job_id=content_extraction_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -237,6 +264,7 @@ class ContentExtractionApi:
     def _get_api_content_extraction_jobs_contentextractionjobid_serialize(
         self,
         content_extraction_job_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -261,6 +289,8 @@ class ContentExtractionApi:
             _path_params["contentExtractionJobId"] = content_extraction_job_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -292,6 +322,12 @@ class ContentExtractionApi:
     async def post_api_content_extraction_jobs(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -304,7 +340,7 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
@@ -340,6 +376,8 @@ class ContentExtractionApi:
 
         :param file: (required)
         :type file: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
@@ -371,6 +409,7 @@ class ContentExtractionApi:
         """  # noqa: E501
         _param = self._post_api_content_extraction_jobs_serialize(
             file=file,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
@@ -398,6 +437,12 @@ class ContentExtractionApi:
     async def post_api_content_extraction_jobs_with_http_info(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -410,7 +455,7 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
@@ -446,6 +491,8 @@ class ContentExtractionApi:
 
         :param file: (required)
         :type file: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
@@ -477,6 +524,7 @@ class ContentExtractionApi:
         """  # noqa: E501
         _param = self._post_api_content_extraction_jobs_serialize(
             file=file,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
@@ -504,6 +552,12 @@ class ContentExtractionApi:
     async def post_api_content_extraction_jobs_without_preload_content(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -516,7 +570,7 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
             ),
@@ -552,6 +606,8 @@ class ContentExtractionApi:
 
         :param file: (required)
         :type file: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
@@ -583,6 +639,7 @@ class ContentExtractionApi:
         """  # noqa: E501
         _param = self._post_api_content_extraction_jobs_serialize(
             file=file,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
@@ -605,6 +662,7 @@ class ContentExtractionApi:
     def _post_api_content_extraction_jobs_serialize(
         self,
         file,
+        x_organization_id,
         temperature,
         rasterization_dpi,
         max_output_tokens,
@@ -643,6 +701,8 @@ class ContentExtractionApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         if file is not None:
             _files["file"] = file

@@ -38,7 +38,7 @@ class TestUpdateMarkdownProjectSettingsRequest(unittest.TestCase):
         if include_optional:
             return UpdateMarkdownProjectSettingsRequest(
                 temperature = 0.0,
-                rasterization_dpi = 56,
+                rasterization_dpi = 0,
                 max_output_tokens = 56
             )
         else:

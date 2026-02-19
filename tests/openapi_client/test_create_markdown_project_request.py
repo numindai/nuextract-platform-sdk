@@ -36,8 +36,7 @@ class TestCreateMarkdownProjectRequest(unittest.TestCase):
         if include_optional:
             return CreateMarkdownProjectRequest(
                 name = '',
-                description = '',
-                owner_organization = ''
+                description = ''
             )
         else:
             return CreateMarkdownProjectRequest(

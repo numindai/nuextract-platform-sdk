@@ -35,11 +35,11 @@ class TestConvertRequest(unittest.TestCase):
         model = ConvertRequest()
         if include_optional:
             return ConvertRequest(
-                rasterization_dpi = 56
+                rasterization_dpi = 0
             )
         else:
             return ConvertRequest(
-                rasterization_dpi = 56,
+                rasterization_dpi = 0,
         )
         """
 

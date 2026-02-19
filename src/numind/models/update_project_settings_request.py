@@ -31,10 +31,12 @@ class UpdateProjectSettingsRequest(BaseModel):
             Annotated[int, Field(le=1, strict=True, ge=0)],
         ]
     ] = Field(default=None, description="Model temperature (optional).")
-    rasterization_dpi: Optional[Annotated[int, Field(le=300, strict=True)]] = Field(
-        default=None,
-        description="Resolution used to convert formatted documents to images (optional).",
-        alias="rasterizationDPI",
+    rasterization_dpi: Optional[Annotated[int, Field(le=300, strict=True, gt=0)]] = (
+        Field(
+            default=None,
+            description="Resolution used to convert formatted documents to images (optional).",
+            alias="rasterizationDPI",
+        )
     )
     max_output_tokens: Optional[StrictInt] = Field(
         default=None,

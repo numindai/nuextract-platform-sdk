@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **get_api_content_extraction**
-> List[MarkdownProjectResponse] get_api_content_extraction(organization_id=organization_id)
+> List[MarkdownProjectResponse] get_api_content_extraction(x_organization_id=x_organization_id)
 
 
 List all **NuMarkdown Projects** the authenticated user has access to.
@@ -49,10 +49,10 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    organization_id = 'organization_id_example' # str | Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects. (optional)
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_content_extraction(organization_id=organization_id)
+        api_response = api_instance.get_api_content_extraction(x_organization_id=x_organization_id)
         print("The response of ContentExtractionProjectManagementApi->get_api_content_extraction:\n")
         pprint(api_response)
     except Exception as e:
@@ -66,7 +66,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **organization_id** | **str**| Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects. | [optional] 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **patch_api_content_extraction_contentextractionprojectid**
-> MarkdownProjectResponse patch_api_content_extraction_contentextractionprojectid(content_extraction_project_id, update_markdown_project_request)
+> MarkdownProjectResponse patch_api_content_extraction_contentextractionprojectid(content_extraction_project_id, update_markdown_project_request, x_organization_id=x_organization_id)
 
 
 Update an existing **NuMarkdown Project**.
@@ -127,9 +127,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     content_extraction_project_id = 'content_extraction_project_id_example' # str | Unique content extraction project identifier.
     update_markdown_project_request = {"name":"New Project Name"} # UpdateMarkdownProjectRequest | 
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.patch_api_content_extraction_contentextractionprojectid(content_extraction_project_id, update_markdown_project_request)
+        api_response = api_instance.patch_api_content_extraction_contentextractionprojectid(content_extraction_project_id, update_markdown_project_request, x_organization_id=x_organization_id)
         print("The response of ContentExtractionProjectManagementApi->patch_api_content_extraction_contentextractionprojectid:\n")
         pprint(api_response)
     except Exception as e:
@@ -145,6 +146,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **content_extraction_project_id** | **str**| Unique content extraction project identifier. | 
  **update_markdown_project_request** | [**UpdateMarkdownProjectRequest**](UpdateMarkdownProjectRequest.md)|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -170,7 +172,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **patch_api_content_extraction_contentextractionprojectid_settings**
-> MarkdownProjectResponse patch_api_content_extraction_contentextractionprojectid_settings(content_extraction_project_id, update_markdown_project_settings_request)
+> MarkdownProjectResponse patch_api_content_extraction_contentextractionprojectid_settings(content_extraction_project_id, update_markdown_project_settings_request, x_organization_id=x_organization_id)
 
 
 Update the settings of an existing **Markdown Project**.
@@ -211,9 +213,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     content_extraction_project_id = 'content_extraction_project_id_example' # str | Unique content extraction project identifier.
     update_markdown_project_settings_request = {"temperature":0,"rasterizationDPI":170,"maxOutputTokens":0} # UpdateMarkdownProjectSettingsRequest | 
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.patch_api_content_extraction_contentextractionprojectid_settings(content_extraction_project_id, update_markdown_project_settings_request)
+        api_response = api_instance.patch_api_content_extraction_contentextractionprojectid_settings(content_extraction_project_id, update_markdown_project_settings_request, x_organization_id=x_organization_id)
         print("The response of ContentExtractionProjectManagementApi->patch_api_content_extraction_contentextractionprojectid_settings:\n")
         pprint(api_response)
     except Exception as e:
@@ -229,6 +232,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **content_extraction_project_id** | **str**| Unique content extraction project identifier. | 
  **update_markdown_project_settings_request** | [**UpdateMarkdownProjectSettingsRequest**](UpdateMarkdownProjectSettingsRequest.md)|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -254,7 +258,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_content_extraction**
-> MarkdownProjectResponse post_api_content_extraction(create_markdown_project_request)
+> MarkdownProjectResponse post_api_content_extraction(create_markdown_project_request, x_organization_id=x_organization_id)
 
 
 Create a new **NuMarkdown Project** to define a markdown generation task.
@@ -289,9 +293,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     create_markdown_project_request = {"name":"Example: Order Delivery Information Extraction","description":"Example: Automated extraction of order delivery details from emails and scanned documents"} # CreateMarkdownProjectRequest | 
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction(create_markdown_project_request)
+        api_response = api_instance.post_api_content_extraction(create_markdown_project_request, x_organization_id=x_organization_id)
         print("The response of ContentExtractionProjectManagementApi->post_api_content_extraction:\n")
         pprint(api_response)
     except Exception as e:
@@ -306,6 +311,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_markdown_project_request** | [**CreateMarkdownProjectRequest**](CreateMarkdownProjectRequest.md)|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -331,7 +337,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_content_extraction_contentextractionprojectid_reset_settings**
-> MarkdownProjectResponse post_api_content_extraction_contentextractionprojectid_reset_settings(content_extraction_project_id)
+> MarkdownProjectResponse post_api_content_extraction_contentextractionprojectid_reset_settings(content_extraction_project_id, x_organization_id=x_organization_id)
 
 
 Reset the settings of an existing **Markdown Project** to their default values.
@@ -378,9 +384,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     content_extraction_project_id = 'content_extraction_project_id_example' # str | Unique content extraction project identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction_contentextractionprojectid_reset_settings(content_extraction_project_id)
+        api_response = api_instance.post_api_content_extraction_contentextractionprojectid_reset_settings(content_extraction_project_id, x_organization_id=x_organization_id)
         print("The response of ContentExtractionProjectManagementApi->post_api_content_extraction_contentextractionprojectid_reset_settings:\n")
         pprint(api_response)
     except Exception as e:
@@ -395,6 +402,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **content_extraction_project_id** | **str**| Unique content extraction project identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 

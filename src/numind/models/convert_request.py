@@ -25,7 +25,7 @@ class ConvertRequest(BaseModel):
     ConvertRequest
     """
 
-    rasterization_dpi: Annotated[int, Field(le=300, strict=True)] = Field(
+    rasterization_dpi: Annotated[int, Field(le=300, strict=True, gt=0)] = Field(
         description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.   Ranges between 1 and 300.",
         alias="rasterizationDPI",
     )

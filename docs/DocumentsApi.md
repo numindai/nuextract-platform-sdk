@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **get_api_documents_documentid**
-> DocumentResponse get_api_documents_documentid(document_id)
+> DocumentResponse get_api_documents_documentid(document_id, x_organization_id=x_organization_id)
 
 
  Return meta information about a specific **Document**.
@@ -52,9 +52,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
     document_id = 'document_id_example' # str | Unique document identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_documents_documentid(document_id)
+        api_response = api_instance.get_api_documents_documentid(document_id, x_organization_id=x_organization_id)
         print("The response of DocumentsApi->get_api_documents_documentid:\n")
         pprint(api_response)
     except Exception as e:
@@ -69,6 +70,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **document_id** | **str**| Unique document identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -93,7 +95,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_documents_documentid_content**
-> bytearray get_api_documents_documentid_content(document_id)
+> bytearray get_api_documents_documentid_content(document_id, x_organization_id=x_organization_id)
 
 
  Return the content of a specific **Document**.
@@ -131,9 +133,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
     document_id = 'document_id_example' # str | Unique document identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_documents_documentid_content(document_id)
+        api_response = api_instance.get_api_documents_documentid_content(document_id, x_organization_id=x_organization_id)
         print("The response of DocumentsApi->get_api_documents_documentid_content:\n")
         pprint(api_response)
     except Exception as e:
@@ -148,6 +151,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **document_id** | **str**| Unique document identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -172,7 +176,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_documents_documentid_new_owner**
-> DocumentResponse post_api_documents_documentid_new_owner(document_id, x_organization=x_organization)
+> DocumentResponse post_api_documents_documentid_new_owner(document_id, x_organization_id=x_organization_id, x_organization=x_organization)
 
 
  Transfer the ownership of a **Document** to another user or organization. Since documents are immutable,
@@ -213,10 +217,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
     document_id = 'document_id_example' # str | Unique document identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
 
     try:
-        api_response = api_instance.post_api_documents_documentid_new_owner(document_id, x_organization=x_organization)
+        api_response = api_instance.post_api_documents_documentid_new_owner(document_id, x_organization_id=x_organization_id, x_organization=x_organization)
         print("The response of DocumentsApi->post_api_documents_documentid_new_owner:\n")
         pprint(api_response)
     except Exception as e:
@@ -231,6 +236,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **document_id** | **str**| Unique document identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **x_organization** | **str**| The id of the current organization. This organization will own created resources | [optional] 
 
 ### Return type
@@ -256,7 +262,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_documents_text**
-> DocumentResponse post_api_documents_text(text_request, x_organization=x_organization)
+> DocumentResponse post_api_documents_text(text_request, x_organization_id=x_organization_id)
 
 
  Save the text as a **Document**.
@@ -299,10 +305,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
     text_request = {"text":"[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: \"Leave package at the front door.\" Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC."} # TextRequest | 
-    x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_documents_text(text_request, x_organization=x_organization)
+        api_response = api_instance.post_api_documents_text(text_request, x_organization_id=x_organization_id)
         print("The response of DocumentsApi->post_api_documents_text:\n")
         pprint(api_response)
     except Exception as e:
@@ -317,7 +323,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **text_request** | [**TextRequest**](TextRequest.md)|  | 
- **x_organization** | **str**| The id of the current organization. This organization will own created resources | [optional] 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 

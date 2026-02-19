@@ -36,7 +36,7 @@ class TestUpdateProjectSettingsRequest(unittest.TestCase):
         if include_optional:
             return UpdateProjectSettingsRequest(
                 temperature = 0.0,
-                rasterization_dpi = 56,
+                rasterization_dpi = 0,
                 max_output_tokens = 56,
                 degraded_mode = '',
                 max_example_token_number = 0,

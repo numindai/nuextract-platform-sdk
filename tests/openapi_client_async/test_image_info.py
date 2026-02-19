@@ -41,7 +41,7 @@ class TestImageInfo(unittest.TestCase):
                 possible_transformations = [
                     ''
                     ],
-                dpi = 56,
+                dpi = 0,
                 type = 'image'
             )
         else:

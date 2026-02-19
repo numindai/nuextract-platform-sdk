@@ -39,6 +39,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58,6 +64,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -81,6 +89,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._get_api_documents_documentid_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -105,6 +114,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -124,6 +139,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -147,6 +164,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._get_api_documents_documentid_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -171,6 +189,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -190,6 +214,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -213,6 +239,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._get_api_documents_documentid_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -230,6 +257,7 @@ class DocumentsApi:
     def _get_api_documents_documentid_serialize(
         self,
         document_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -254,6 +282,8 @@ class DocumentsApi:
             _path_params["documentId"] = document_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -287,6 +317,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -306,6 +342,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -329,6 +367,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._get_api_documents_documentid_content_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -353,6 +392,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -372,6 +417,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -395,6 +442,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._get_api_documents_documentid_content_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -419,6 +467,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -438,6 +492,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -461,6 +517,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._get_api_documents_documentid_content_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -478,6 +535,7 @@ class DocumentsApi:
     def _get_api_documents_documentid_content_serialize(
         self,
         document_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -502,6 +560,8 @@ class DocumentsApi:
             _path_params["documentId"] = document_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -535,6 +595,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         x_organization: Annotated[
             Optional[StrictStr],
             Field(
@@ -560,6 +626,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param x_organization: The id of the current organization. This organization will own created resources
         :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -585,6 +653,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_documentid_new_owner_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -610,6 +679,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         x_organization: Annotated[
             Optional[StrictStr],
             Field(
@@ -635,6 +710,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param x_organization: The id of the current organization. This organization will own created resources
         :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -660,6 +737,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_documentid_new_owner_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -685,6 +763,12 @@ class DocumentsApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         x_organization: Annotated[
             Optional[StrictStr],
             Field(
@@ -710,6 +794,8 @@ class DocumentsApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param x_organization: The id of the current organization. This organization will own created resources
         :type x_organization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -735,6 +821,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_documentid_new_owner_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             x_organization=x_organization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -753,6 +840,7 @@ class DocumentsApi:
     def _post_api_documents_documentid_new_owner_serialize(
         self,
         document_id,
+        x_organization_id,
         x_organization,
         _request_auth,
         _content_type,
@@ -778,6 +866,8 @@ class DocumentsApi:
             _path_params["documentId"] = document_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         if x_organization is not None:
             _header_params["x-organization"] = x_organization
         # process the form parameters
@@ -811,10 +901,10 @@ class DocumentsApi:
     async def post_api_documents_text(
         self,
         text_request: TextRequest,
-        x_organization: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="The id of the current organization. This organization will own created resources"
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -836,8 +926,8 @@ class DocumentsApi:
 
         :param text_request: (required)
         :type text_request: TextRequest
-        :param x_organization: The id of the current organization. This organization will own created resources
-        :type x_organization: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -861,7 +951,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_text_serialize(
             text_request=text_request,
-            x_organization=x_organization,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -885,10 +975,10 @@ class DocumentsApi:
     async def post_api_documents_text_with_http_info(
         self,
         text_request: TextRequest,
-        x_organization: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="The id of the current organization. This organization will own created resources"
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -910,8 +1000,8 @@ class DocumentsApi:
 
         :param text_request: (required)
         :type text_request: TextRequest
-        :param x_organization: The id of the current organization. This organization will own created resources
-        :type x_organization: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -935,7 +1025,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_text_serialize(
             text_request=text_request,
-            x_organization=x_organization,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -959,10 +1049,10 @@ class DocumentsApi:
     async def post_api_documents_text_without_preload_content(
         self,
         text_request: TextRequest,
-        x_organization: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="The id of the current organization. This organization will own created resources"
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -984,8 +1074,8 @@ class DocumentsApi:
 
         :param text_request: (required)
         :type text_request: TextRequest
-        :param x_organization: The id of the current organization. This organization will own created resources
-        :type x_organization: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1009,7 +1099,7 @@ class DocumentsApi:
         """  # noqa: E501
         _param = self._post_api_documents_text_serialize(
             text_request=text_request,
-            x_organization=x_organization,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1028,7 +1118,7 @@ class DocumentsApi:
     def _post_api_documents_text_serialize(
         self,
         text_request,
-        x_organization,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1051,8 +1141,8 @@ class DocumentsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if x_organization is not None:
-            _header_params["x-organization"] = x_organization
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if text_request is not None:

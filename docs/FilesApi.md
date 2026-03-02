@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **get_api_files_fileid**
-> FileResponse get_api_files_fileid(file_id)
+> FileResponse get_api_files_fileid(file_id, x_organization_id=x_organization_id)
 
 
  Return meta information about a specific **File**.
@@ -50,9 +50,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
     file_id = 'file_id_example' # str | Unique file identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_files_fileid(file_id)
+        api_response = api_instance.get_api_files_fileid(file_id, x_organization_id=x_organization_id)
         print("The response of FilesApi->get_api_files_fileid:\n")
         pprint(api_response)
     except Exception as e:
@@ -67,6 +68,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file_id** | **str**| Unique file identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -91,7 +93,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_files_fileid_content**
-> bytearray get_api_files_fileid_content(file_id)
+> bytearray get_api_files_fileid_content(file_id, x_organization_id=x_organization_id)
 
 
  Return the content of a specific **File**.
@@ -129,9 +131,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
     file_id = 'file_id_example' # str | Unique file identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_files_fileid_content(file_id)
+        api_response = api_instance.get_api_files_fileid_content(file_id, x_organization_id=x_organization_id)
         print("The response of FilesApi->get_api_files_fileid_content:\n")
         pprint(api_response)
     except Exception as e:
@@ -146,6 +149,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file_id** | **str**| Unique file identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -170,7 +174,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_files**
-> FileResponse post_api_files(x_file_name, body, x_organization=x_organization)
+> FileResponse post_api_files(x_file_name, body, x_organization_id=x_organization_id)
 
 
  Uploads a new file into a **File**.
@@ -206,10 +210,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.FilesApi(api_client)
     x_file_name = 'x_file_name_example' # str | The name of the file to be uploaded.
     body = None # bytearray | 
-    x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_files(x_file_name, body, x_organization=x_organization)
+        api_response = api_instance.post_api_files(x_file_name, body, x_organization_id=x_organization_id)
         print("The response of FilesApi->post_api_files:\n")
         pprint(api_response)
     except Exception as e:
@@ -225,7 +229,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **x_file_name** | **str**| The name of the file to be uploaded. | 
  **body** | **bytearray**|  | 
- **x_organization** | **str**| The id of the current organization. This organization will own created resources | [optional] 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -251,7 +255,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_files_fileid_convert_to_document**
-> DocumentResponse post_api_files_fileid_convert_to_document(file_id, convert_request)
+> DocumentResponse post_api_files_fileid_convert_to_document(file_id, convert_request, x_organization_id=x_organization_id)
 
 
  Convert the **File** into a **Document**
@@ -303,9 +307,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.FilesApi(api_client)
     file_id = 'file_id_example' # str | Unique file identifier.
     convert_request = numind.openapi_client.ConvertRequest() # ConvertRequest | 
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_files_fileid_convert_to_document(file_id, convert_request)
+        api_response = api_instance.post_api_files_fileid_convert_to_document(file_id, convert_request, x_organization_id=x_organization_id)
         print("The response of FilesApi->post_api_files_fileid_convert_to_document:\n")
         pprint(api_response)
     except Exception as e:
@@ -321,6 +326,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file_id** | **str**| Unique file identifier. | 
  **convert_request** | [**ConvertRequest**](ConvertRequest.md)|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 

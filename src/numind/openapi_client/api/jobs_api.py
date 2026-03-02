@@ -36,6 +36,12 @@ class JobsApi:
     @validate_call
     def get_api_jobs(
         self,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         organization: Optional[StrictStr] = None,
         skip: Annotated[
             Optional[Annotated[int, Field(strict=True, ge=0)]],
@@ -64,6 +70,8 @@ class JobsApi:
 
           List all jobs for the authenticated user with pagination support.  This endpoint returns a paginated list of all jobs owned by the current user.   Each job object contains the same information as returned by the get job endpoint.
 
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param organization:
         :type organization: str
         :param skip: Number of jobs to skip. Min: 0. Default: 0.
@@ -92,6 +100,7 @@ class JobsApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._get_api_jobs_serialize(
+            x_organization_id=x_organization_id,
             organization=organization,
             skip=skip,
             per_page=per_page,
@@ -117,6 +126,12 @@ class JobsApi:
     @validate_call
     def get_api_jobs_with_http_info(
         self,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         organization: Optional[StrictStr] = None,
         skip: Annotated[
             Optional[Annotated[int, Field(strict=True, ge=0)]],
@@ -145,6 +160,8 @@ class JobsApi:
 
           List all jobs for the authenticated user with pagination support.  This endpoint returns a paginated list of all jobs owned by the current user.   Each job object contains the same information as returned by the get job endpoint.
 
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param organization:
         :type organization: str
         :param skip: Number of jobs to skip. Min: 0. Default: 0.
@@ -173,6 +190,7 @@ class JobsApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._get_api_jobs_serialize(
+            x_organization_id=x_organization_id,
             organization=organization,
             skip=skip,
             per_page=per_page,
@@ -198,6 +216,12 @@ class JobsApi:
     @validate_call
     def get_api_jobs_without_preload_content(
         self,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         organization: Optional[StrictStr] = None,
         skip: Annotated[
             Optional[Annotated[int, Field(strict=True, ge=0)]],
@@ -226,6 +250,8 @@ class JobsApi:
 
           List all jobs for the authenticated user with pagination support.  This endpoint returns a paginated list of all jobs owned by the current user.   Each job object contains the same information as returned by the get job endpoint.
 
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param organization:
         :type organization: str
         :param skip: Number of jobs to skip. Min: 0. Default: 0.
@@ -254,6 +280,7 @@ class JobsApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._get_api_jobs_serialize(
+            x_organization_id=x_organization_id,
             organization=organization,
             skip=skip,
             per_page=per_page,
@@ -274,6 +301,7 @@ class JobsApi:
 
     def _get_api_jobs_serialize(
         self,
+        x_organization_id,
         organization,
         skip,
         per_page,
@@ -308,6 +336,8 @@ class JobsApi:
             _query_params.append(("perPage", per_page))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -339,6 +369,12 @@ class JobsApi:
     def get_api_jobs_jobid_status(
         self,
         job_id: Annotated[StrictStr, Field(description="Unique job identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -358,6 +394,8 @@ class JobsApi:
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -381,6 +419,7 @@ class JobsApi:
         """  # noqa: E501
         _param = self._get_api_jobs_jobid_status_serialize(
             job_id=job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -403,6 +442,12 @@ class JobsApi:
     def get_api_jobs_jobid_status_with_http_info(
         self,
         job_id: Annotated[StrictStr, Field(description="Unique job identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -422,6 +467,8 @@ class JobsApi:
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -445,6 +492,7 @@ class JobsApi:
         """  # noqa: E501
         _param = self._get_api_jobs_jobid_status_serialize(
             job_id=job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -467,6 +515,12 @@ class JobsApi:
     def get_api_jobs_jobid_status_without_preload_content(
         self,
         job_id: Annotated[StrictStr, Field(description="Unique job identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -486,6 +540,8 @@ class JobsApi:
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -509,6 +565,7 @@ class JobsApi:
         """  # noqa: E501
         _param = self._get_api_jobs_jobid_status_serialize(
             job_id=job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -526,6 +583,7 @@ class JobsApi:
     def _get_api_jobs_jobid_status_serialize(
         self,
         job_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -550,6 +608,8 @@ class JobsApi:
             _path_params["jobId"] = job_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -581,6 +641,12 @@ class JobsApi:
     def get_api_jobs_jobid_stream(
         self,
         job_id: Annotated[StrictStr, Field(description="Unique job identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -600,6 +666,8 @@ class JobsApi:
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -623,6 +691,7 @@ class JobsApi:
         """  # noqa: E501
         _param = self._get_api_jobs_jobid_stream_serialize(
             job_id=job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -645,6 +714,12 @@ class JobsApi:
     def get_api_jobs_jobid_stream_with_http_info(
         self,
         job_id: Annotated[StrictStr, Field(description="Unique job identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -664,6 +739,8 @@ class JobsApi:
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -687,6 +764,7 @@ class JobsApi:
         """  # noqa: E501
         _param = self._get_api_jobs_jobid_stream_serialize(
             job_id=job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -709,6 +787,12 @@ class JobsApi:
     def get_api_jobs_jobid_stream_without_preload_content(
         self,
         job_id: Annotated[StrictStr, Field(description="Unique job identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -728,6 +812,8 @@ class JobsApi:
 
         :param job_id: Unique job identifier. (required)
         :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -751,6 +837,7 @@ class JobsApi:
         """  # noqa: E501
         _param = self._get_api_jobs_jobid_stream_serialize(
             job_id=job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -768,6 +855,7 @@ class JobsApi:
     def _get_api_jobs_jobid_stream_serialize(
         self,
         job_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -792,6 +880,8 @@ class JobsApi:
             _path_params["jobId"] = job_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 

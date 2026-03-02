@@ -38,8 +38,7 @@ class TestCreateProjectRequest(unittest.TestCase):
                 name = '',
                 description = '',
                 template = None,
-                instructions = '',
-                owner_organization = ''
+                instructions = ''
             )
         else:
             return CreateProjectRequest(

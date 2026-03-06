@@ -44,6 +44,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -71,6 +77,8 @@ class InferenceApi:
         :type content_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -97,6 +105,7 @@ class InferenceApi:
         _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
             content_extraction_project_id=content_extraction_project_id,
             document_id=document_id,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -126,6 +135,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -153,6 +168,8 @@ class InferenceApi:
         :type content_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -179,6 +196,7 @@ class InferenceApi:
         _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
             content_extraction_project_id=content_extraction_project_id,
             document_id=document_id,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -208,6 +226,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -235,6 +259,8 @@ class InferenceApi:
         :type content_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -261,6 +287,7 @@ class InferenceApi:
         _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
             content_extraction_project_id=content_extraction_project_id,
             document_id=document_id,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -280,6 +307,7 @@ class InferenceApi:
         self,
         content_extraction_project_id,
         document_id,
+        x_organization_id,
         timeout,
         _request_auth,
         _content_type,
@@ -310,6 +338,8 @@ class InferenceApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -347,6 +377,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -414,6 +450,8 @@ class InferenceApi:
         :type structured_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
@@ -450,6 +488,7 @@ class InferenceApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             document_id=document_id,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_example_token_number=max_example_token_number,
@@ -485,6 +524,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -552,6 +597,8 @@ class InferenceApi:
         :type structured_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
@@ -588,6 +635,7 @@ class InferenceApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             document_id=document_id,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_example_token_number=max_example_token_number,
@@ -623,6 +671,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -690,6 +744,8 @@ class InferenceApi:
         :type structured_extraction_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
@@ -726,6 +782,7 @@ class InferenceApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             document_id=document_id,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_example_token_number=max_example_token_number,
@@ -751,6 +808,7 @@ class InferenceApi:
         self,
         structured_extraction_project_id,
         document_id,
+        x_organization_id,
         temperature,
         max_output_tokens,
         max_example_token_number,
@@ -803,6 +861,8 @@ class InferenceApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -838,6 +898,12 @@ class InferenceApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         text_request: TextRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -905,6 +971,8 @@ class InferenceApi:
         :type structured_extraction_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
@@ -941,6 +1009,7 @@ class InferenceApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             text_request=text_request,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_example_token_number=max_example_token_number,
@@ -974,6 +1043,12 @@ class InferenceApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         text_request: TextRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -1041,6 +1116,8 @@ class InferenceApi:
         :type structured_extraction_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
@@ -1077,6 +1154,7 @@ class InferenceApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             text_request=text_request,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_example_token_number=max_example_token_number,
@@ -1110,6 +1188,12 @@ class InferenceApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         text_request: TextRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -1177,6 +1261,8 @@ class InferenceApi:
         :type structured_extraction_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
@@ -1213,6 +1299,7 @@ class InferenceApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             text_request=text_request,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_example_token_number=max_example_token_number,
@@ -1238,6 +1325,7 @@ class InferenceApi:
         self,
         structured_extraction_project_id,
         text_request,
+        x_organization_id,
         temperature,
         max_output_tokens,
         max_example_token_number,
@@ -1288,6 +1376,8 @@ class InferenceApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if text_request is not None:
@@ -1333,6 +1423,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1358,6 +1454,8 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1383,6 +1481,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1408,6 +1507,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1433,6 +1538,8 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1458,6 +1565,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1483,6 +1591,12 @@ class InferenceApi:
         document_id: Annotated[
             StrictStr, Field(description="Unique document identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1508,6 +1622,8 @@ class InferenceApi:
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1533,6 +1649,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1551,6 +1668,7 @@ class InferenceApi:
     def _post_api_template_generation_jobs_document_documentid_serialize(
         self,
         document_id,
+        x_organization_id,
         timeout,
         _request_auth,
         _content_type,
@@ -1579,6 +1697,8 @@ class InferenceApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -1610,6 +1730,12 @@ class InferenceApi:
     async def post_api_template_generation_jobs_text(
         self,
         template_request: TemplateRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1635,6 +1761,8 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1660,6 +1788,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_text_serialize(
             template_request=template_request,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1684,6 +1813,12 @@ class InferenceApi:
     async def post_api_template_generation_jobs_text_with_http_info(
         self,
         template_request: TemplateRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1709,6 +1844,8 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1734,6 +1871,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_text_serialize(
             template_request=template_request,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1758,6 +1896,12 @@ class InferenceApi:
     async def post_api_template_generation_jobs_text_without_preload_content(
         self,
         template_request: TemplateRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1783,6 +1927,8 @@ class InferenceApi:
 
         :param template_request: (required)
         :type template_request: TemplateRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1808,6 +1954,7 @@ class InferenceApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_text_serialize(
             template_request=template_request,
+            x_organization_id=x_organization_id,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1827,6 +1974,7 @@ class InferenceApi:
     def _post_api_template_generation_jobs_text_serialize(
         self,
         template_request,
+        x_organization_id,
         timeout,
         _request_auth,
         _content_type,
@@ -1853,6 +2001,8 @@ class InferenceApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if template_request is not None:

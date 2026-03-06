@@ -38,13 +38,13 @@ class TestMarkdownProjectSettingsResponse(unittest.TestCase):
         if include_optional:
             return MarkdownProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 56,
+                rasterization_dpi = 0,
                 max_output_tokens = 56
             )
         else:
             return MarkdownProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 56,
+                rasterization_dpi = 0,
                 max_output_tokens = 56,
         )
         """

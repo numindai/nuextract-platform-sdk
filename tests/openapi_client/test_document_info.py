@@ -41,7 +41,7 @@ class TestDocumentInfo(unittest.TestCase):
                 possible_transformations = [
                     ''
                     ],
-                dpi = 56,
+                dpi = 0,
                 type = 'image',
                 text = ''
             )

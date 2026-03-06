@@ -40,10 +40,10 @@ class ContentExtractionProjectManagementApi:
     @validate_call
     def get_api_content_extraction(
         self,
-        organization_id: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects."
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -63,8 +63,8 @@ class ContentExtractionProjectManagementApi:
 
          List all **NuMarkdown Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
 
-        :param organization_id: Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.
-        :type organization_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -87,7 +87,7 @@ class ContentExtractionProjectManagementApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._get_api_content_extraction_serialize(
-            organization_id=organization_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -109,10 +109,10 @@ class ContentExtractionProjectManagementApi:
     @validate_call
     def get_api_content_extraction_with_http_info(
         self,
-        organization_id: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects."
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -132,8 +132,8 @@ class ContentExtractionProjectManagementApi:
 
          List all **NuMarkdown Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
 
-        :param organization_id: Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.
-        :type organization_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -156,7 +156,7 @@ class ContentExtractionProjectManagementApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._get_api_content_extraction_serialize(
-            organization_id=organization_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -178,10 +178,10 @@ class ContentExtractionProjectManagementApi:
     @validate_call
     def get_api_content_extraction_without_preload_content(
         self,
-        organization_id: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects."
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -201,8 +201,8 @@ class ContentExtractionProjectManagementApi:
 
          List all **NuMarkdown Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
 
-        :param organization_id: Optional organization identifier.   When specified, projects of the given organization are returned instead of personal projects.
-        :type organization_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -225,7 +225,7 @@ class ContentExtractionProjectManagementApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._get_api_content_extraction_serialize(
-            organization_id=organization_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -242,7 +242,7 @@ class ContentExtractionProjectManagementApi:
 
     def _get_api_content_extraction_serialize(
         self,
-        organization_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -264,10 +264,9 @@ class ContentExtractionProjectManagementApi:
 
         # process the path parameters
         # process the query parameters
-        if organization_id is not None:
-            _query_params.append(("organizationId", organization_id))
-
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -303,6 +302,12 @@ class ContentExtractionProjectManagementApi:
             Field(description="Unique content extraction project identifier."),
         ],
         update_markdown_project_request: UpdateMarkdownProjectRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -324,6 +329,8 @@ class ContentExtractionProjectManagementApi:
         :type content_extraction_project_id: str
         :param update_markdown_project_request: (required)
         :type update_markdown_project_request: UpdateMarkdownProjectRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -349,6 +356,7 @@ class ContentExtractionProjectManagementApi:
             self._patch_api_content_extraction_contentextractionprojectid_serialize(
                 content_extraction_project_id=content_extraction_project_id,
                 update_markdown_project_request=update_markdown_project_request,
+                x_organization_id=x_organization_id,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
                 _headers=_headers,
@@ -377,6 +385,12 @@ class ContentExtractionProjectManagementApi:
             Field(description="Unique content extraction project identifier."),
         ],
         update_markdown_project_request: UpdateMarkdownProjectRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -398,6 +412,8 @@ class ContentExtractionProjectManagementApi:
         :type content_extraction_project_id: str
         :param update_markdown_project_request: (required)
         :type update_markdown_project_request: UpdateMarkdownProjectRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -423,6 +439,7 @@ class ContentExtractionProjectManagementApi:
             self._patch_api_content_extraction_contentextractionprojectid_serialize(
                 content_extraction_project_id=content_extraction_project_id,
                 update_markdown_project_request=update_markdown_project_request,
+                x_organization_id=x_organization_id,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
                 _headers=_headers,
@@ -451,6 +468,12 @@ class ContentExtractionProjectManagementApi:
             Field(description="Unique content extraction project identifier."),
         ],
         update_markdown_project_request: UpdateMarkdownProjectRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -472,6 +495,8 @@ class ContentExtractionProjectManagementApi:
         :type content_extraction_project_id: str
         :param update_markdown_project_request: (required)
         :type update_markdown_project_request: UpdateMarkdownProjectRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -497,6 +522,7 @@ class ContentExtractionProjectManagementApi:
             self._patch_api_content_extraction_contentextractionprojectid_serialize(
                 content_extraction_project_id=content_extraction_project_id,
                 update_markdown_project_request=update_markdown_project_request,
+                x_organization_id=x_organization_id,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
                 _headers=_headers,
@@ -517,6 +543,7 @@ class ContentExtractionProjectManagementApi:
         self,
         content_extraction_project_id,
         update_markdown_project_request,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -541,6 +568,8 @@ class ContentExtractionProjectManagementApi:
             _path_params["contentExtractionProjectId"] = content_extraction_project_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if update_markdown_project_request is not None:
@@ -588,6 +617,12 @@ class ContentExtractionProjectManagementApi:
             Field(description="Unique content extraction project identifier."),
         ],
         update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -609,6 +644,8 @@ class ContentExtractionProjectManagementApi:
         :type content_extraction_project_id: str
         :param update_markdown_project_settings_request: (required)
         :type update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -633,6 +670,7 @@ class ContentExtractionProjectManagementApi:
         _param = self._patch_api_content_extraction_contentextractionprojectid_settings_serialize(
             content_extraction_project_id=content_extraction_project_id,
             update_markdown_project_settings_request=update_markdown_project_settings_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -660,6 +698,12 @@ class ContentExtractionProjectManagementApi:
             Field(description="Unique content extraction project identifier."),
         ],
         update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -681,6 +725,8 @@ class ContentExtractionProjectManagementApi:
         :type content_extraction_project_id: str
         :param update_markdown_project_settings_request: (required)
         :type update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -705,6 +751,7 @@ class ContentExtractionProjectManagementApi:
         _param = self._patch_api_content_extraction_contentextractionprojectid_settings_serialize(
             content_extraction_project_id=content_extraction_project_id,
             update_markdown_project_settings_request=update_markdown_project_settings_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -732,6 +779,12 @@ class ContentExtractionProjectManagementApi:
             Field(description="Unique content extraction project identifier."),
         ],
         update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -753,6 +806,8 @@ class ContentExtractionProjectManagementApi:
         :type content_extraction_project_id: str
         :param update_markdown_project_settings_request: (required)
         :type update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -777,6 +832,7 @@ class ContentExtractionProjectManagementApi:
         _param = self._patch_api_content_extraction_contentextractionprojectid_settings_serialize(
             content_extraction_project_id=content_extraction_project_id,
             update_markdown_project_settings_request=update_markdown_project_settings_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -796,6 +852,7 @@ class ContentExtractionProjectManagementApi:
         self,
         content_extraction_project_id,
         update_markdown_project_settings_request,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -820,6 +877,8 @@ class ContentExtractionProjectManagementApi:
             _path_params["contentExtractionProjectId"] = content_extraction_project_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if update_markdown_project_settings_request is not None:
@@ -863,6 +922,12 @@ class ContentExtractionProjectManagementApi:
     def post_api_content_extraction(
         self,
         create_markdown_project_request: CreateMarkdownProjectRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -882,6 +947,8 @@ class ContentExtractionProjectManagementApi:
 
         :param create_markdown_project_request: (required)
         :type create_markdown_project_request: CreateMarkdownProjectRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -902,9 +969,10 @@ class ContentExtractionProjectManagementApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_content_extraction_serialize(
             create_markdown_project_request=create_markdown_project_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -928,6 +996,12 @@ class ContentExtractionProjectManagementApi:
     def post_api_content_extraction_with_http_info(
         self,
         create_markdown_project_request: CreateMarkdownProjectRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -947,6 +1021,8 @@ class ContentExtractionProjectManagementApi:
 
         :param create_markdown_project_request: (required)
         :type create_markdown_project_request: CreateMarkdownProjectRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -967,9 +1043,10 @@ class ContentExtractionProjectManagementApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_content_extraction_serialize(
             create_markdown_project_request=create_markdown_project_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -993,6 +1070,12 @@ class ContentExtractionProjectManagementApi:
     def post_api_content_extraction_without_preload_content(
         self,
         create_markdown_project_request: CreateMarkdownProjectRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1012,6 +1095,8 @@ class ContentExtractionProjectManagementApi:
 
         :param create_markdown_project_request: (required)
         :type create_markdown_project_request: CreateMarkdownProjectRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1032,9 +1117,10 @@ class ContentExtractionProjectManagementApi:
                             in the spec for a single request.
         :type _host_index: int, optional
         :return: Returns the result object.
-        """
+        """  # noqa: E501
         _param = self._post_api_content_extraction_serialize(
             create_markdown_project_request=create_markdown_project_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1053,6 +1139,7 @@ class ContentExtractionProjectManagementApi:
     def _post_api_content_extraction_serialize(
         self,
         create_markdown_project_request,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1075,6 +1162,8 @@ class ContentExtractionProjectManagementApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if create_markdown_project_request is not None:
@@ -1121,6 +1210,12 @@ class ContentExtractionProjectManagementApi:
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1140,6 +1235,8 @@ class ContentExtractionProjectManagementApi:
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1163,6 +1260,7 @@ class ContentExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
             content_extraction_project_id=content_extraction_project_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1188,6 +1286,12 @@ class ContentExtractionProjectManagementApi:
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1207,6 +1311,8 @@ class ContentExtractionProjectManagementApi:
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1230,6 +1336,7 @@ class ContentExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
             content_extraction_project_id=content_extraction_project_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1255,6 +1362,12 @@ class ContentExtractionProjectManagementApi:
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1274,6 +1387,8 @@ class ContentExtractionProjectManagementApi:
 
         :param content_extraction_project_id: Unique content extraction project identifier. (required)
         :type content_extraction_project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1297,6 +1412,7 @@ class ContentExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
             content_extraction_project_id=content_extraction_project_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1314,6 +1430,7 @@ class ContentExtractionProjectManagementApi:
     def _post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
         self,
         content_extraction_project_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1338,6 +1455,8 @@ class ContentExtractionProjectManagementApi:
             _path_params["contentExtractionProjectId"] = content_extraction_project_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 

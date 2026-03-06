@@ -46,6 +46,12 @@ class StructuredDataExtractionApi:
         structured_extraction_job_id: Annotated[
             StrictStr, Field(description="Unique structured extraction job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65,6 +71,8 @@ class StructuredDataExtractionApi:
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -88,6 +96,7 @@ class StructuredDataExtractionApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_jobs_structuredextractionjobid_serialize(
             structured_extraction_job_id=structured_extraction_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -112,6 +121,12 @@ class StructuredDataExtractionApi:
         structured_extraction_job_id: Annotated[
             StrictStr, Field(description="Unique structured extraction job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -131,6 +146,8 @@ class StructuredDataExtractionApi:
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -154,6 +171,7 @@ class StructuredDataExtractionApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_jobs_structuredextractionjobid_serialize(
             structured_extraction_job_id=structured_extraction_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -178,6 +196,12 @@ class StructuredDataExtractionApi:
         structured_extraction_job_id: Annotated[
             StrictStr, Field(description="Unique structured extraction job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -197,6 +221,8 @@ class StructuredDataExtractionApi:
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -220,6 +246,7 @@ class StructuredDataExtractionApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_jobs_structuredextractionjobid_serialize(
             structured_extraction_job_id=structured_extraction_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -237,6 +264,7 @@ class StructuredDataExtractionApi:
     def _get_api_structured_extraction_jobs_structuredextractionjobid_serialize(
         self,
         structured_extraction_job_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -261,6 +289,8 @@ class StructuredDataExtractionApi:
             _path_params["structuredExtractionJobId"] = structured_extraction_job_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -296,6 +326,12 @@ class StructuredDataExtractionApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -308,7 +344,7 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -369,6 +405,8 @@ class StructuredDataExtractionApi:
         :type structured_extraction_project_id: str
         :param body: (required)
         :type body: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
@@ -407,6 +445,7 @@ class StructuredDataExtractionApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             body=body,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
@@ -441,6 +480,12 @@ class StructuredDataExtractionApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -453,7 +498,7 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -514,6 +559,8 @@ class StructuredDataExtractionApi:
         :type structured_extraction_project_id: str
         :param body: (required)
         :type body: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
@@ -552,6 +599,7 @@ class StructuredDataExtractionApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             body=body,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
@@ -586,6 +634,12 @@ class StructuredDataExtractionApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -598,7 +652,7 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -659,6 +713,8 @@ class StructuredDataExtractionApi:
         :type structured_extraction_project_id: str
         :param body: (required)
         :type body: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
         :type temperature: float
         :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
@@ -697,6 +753,7 @@ class StructuredDataExtractionApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             body=body,
+            x_organization_id=x_organization_id,
             temperature=temperature,
             dpi=dpi,
             max_output_tokens=max_output_tokens,
@@ -723,6 +780,7 @@ class StructuredDataExtractionApi:
         self,
         structured_extraction_project_id,
         body,
+        x_organization_id,
         temperature,
         dpi,
         max_output_tokens,
@@ -777,6 +835,8 @@ class StructuredDataExtractionApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if body is not None:

@@ -44,7 +44,7 @@ class TestMarkdownProjectResponse(unittest.TestCase):
                 updated_at = '',
                 settings = numind.models.markdown_project_settings_response.MarkdownProjectSettingsResponse(
                     temperature = 0.0, 
-                    rasterization_dpi = 56, 
+                    rasterization_dpi = 0, 
                     max_output_tokens = 56, )
             )
         else:
@@ -57,7 +57,7 @@ class TestMarkdownProjectResponse(unittest.TestCase):
                 updated_at = '',
                 settings = numind.models.markdown_project_settings_response.MarkdownProjectSettingsResponse(
                     temperature = 0.0, 
-                    rasterization_dpi = 56, 
+                    rasterization_dpi = 0, 
                     max_output_tokens = 56, ),
         )
         """

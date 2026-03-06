@@ -45,6 +45,12 @@ class FilesApi:
     async def get_api_files_fileid(
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,6 +70,8 @@ class FilesApi:
 
         :param file_id: Unique file identifier. (required)
         :type file_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -87,6 +95,7 @@ class FilesApi:
         """  # noqa: E501
         _param = self._get_api_files_fileid_serialize(
             file_id=file_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -109,6 +118,12 @@ class FilesApi:
     async def get_api_files_fileid_with_http_info(
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -128,6 +143,8 @@ class FilesApi:
 
         :param file_id: Unique file identifier. (required)
         :type file_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -151,6 +168,7 @@ class FilesApi:
         """  # noqa: E501
         _param = self._get_api_files_fileid_serialize(
             file_id=file_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -173,6 +191,12 @@ class FilesApi:
     async def get_api_files_fileid_without_preload_content(
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -192,6 +216,8 @@ class FilesApi:
 
         :param file_id: Unique file identifier. (required)
         :type file_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -215,6 +241,7 @@ class FilesApi:
         """  # noqa: E501
         _param = self._get_api_files_fileid_serialize(
             file_id=file_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -232,6 +259,7 @@ class FilesApi:
     def _get_api_files_fileid_serialize(
         self,
         file_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -256,6 +284,8 @@ class FilesApi:
             _path_params["fileId"] = file_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -287,6 +317,12 @@ class FilesApi:
     async def get_api_files_fileid_content(
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -306,6 +342,8 @@ class FilesApi:
 
         :param file_id: Unique file identifier. (required)
         :type file_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -329,6 +367,7 @@ class FilesApi:
         """  # noqa: E501
         _param = self._get_api_files_fileid_content_serialize(
             file_id=file_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -351,6 +390,12 @@ class FilesApi:
     async def get_api_files_fileid_content_with_http_info(
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -370,6 +415,8 @@ class FilesApi:
 
         :param file_id: Unique file identifier. (required)
         :type file_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -393,6 +440,7 @@ class FilesApi:
         """  # noqa: E501
         _param = self._get_api_files_fileid_content_serialize(
             file_id=file_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -415,6 +463,12 @@ class FilesApi:
     async def get_api_files_fileid_content_without_preload_content(
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -434,6 +488,8 @@ class FilesApi:
 
         :param file_id: Unique file identifier. (required)
         :type file_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -457,6 +513,7 @@ class FilesApi:
         """  # noqa: E501
         _param = self._get_api_files_fileid_content_serialize(
             file_id=file_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -474,6 +531,7 @@ class FilesApi:
     def _get_api_files_fileid_content_serialize(
         self,
         file_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -498,6 +556,8 @@ class FilesApi:
             _path_params["fileId"] = file_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -532,10 +592,10 @@ class FilesApi:
             StrictStr, Field(description="The name of the file to be uploaded.")
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        x_organization: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="The id of the current organization. This organization will own created resources"
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -559,8 +619,8 @@ class FilesApi:
         :type x_file_name: str
         :param body: (required)
         :type body: bytearray
-        :param x_organization: The id of the current organization. This organization will own created resources
-        :type x_organization: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -585,7 +645,7 @@ class FilesApi:
         _param = self._post_api_files_serialize(
             x_file_name=x_file_name,
             body=body,
-            x_organization=x_organization,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -612,10 +672,10 @@ class FilesApi:
             StrictStr, Field(description="The name of the file to be uploaded.")
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        x_organization: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="The id of the current organization. This organization will own created resources"
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -639,8 +699,8 @@ class FilesApi:
         :type x_file_name: str
         :param body: (required)
         :type body: bytearray
-        :param x_organization: The id of the current organization. This organization will own created resources
-        :type x_organization: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -665,7 +725,7 @@ class FilesApi:
         _param = self._post_api_files_serialize(
             x_file_name=x_file_name,
             body=body,
-            x_organization=x_organization,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -692,10 +752,10 @@ class FilesApi:
             StrictStr, Field(description="The name of the file to be uploaded.")
         ],
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        x_organization: Annotated[
+        x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
-                description="The id of the current organization. This organization will own created resources"
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
         _request_timeout: Union[
@@ -719,8 +779,8 @@ class FilesApi:
         :type x_file_name: str
         :param body: (required)
         :type body: bytearray
-        :param x_organization: The id of the current organization. This organization will own created resources
-        :type x_organization: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -745,7 +805,7 @@ class FilesApi:
         _param = self._post_api_files_serialize(
             x_file_name=x_file_name,
             body=body,
-            x_organization=x_organization,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -765,7 +825,7 @@ class FilesApi:
         self,
         x_file_name,
         body,
-        x_organization,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -788,10 +848,10 @@ class FilesApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         if x_file_name is not None:
             _header_params["x-file-name"] = x_file_name
-        if x_organization is not None:
-            _header_params["x-organization"] = x_organization
         # process the form parameters
         # process the body parameter
         if body is not None:
@@ -844,6 +904,12 @@ class FilesApi:
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
         convert_request: ConvertRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -865,6 +931,8 @@ class FilesApi:
         :type file_id: str
         :param convert_request: (required)
         :type convert_request: ConvertRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -889,6 +957,7 @@ class FilesApi:
         _param = self._post_api_files_fileid_convert_to_document_serialize(
             file_id=file_id,
             convert_request=convert_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -913,6 +982,12 @@ class FilesApi:
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
         convert_request: ConvertRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -934,6 +1009,8 @@ class FilesApi:
         :type file_id: str
         :param convert_request: (required)
         :type convert_request: ConvertRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -958,6 +1035,7 @@ class FilesApi:
         _param = self._post_api_files_fileid_convert_to_document_serialize(
             file_id=file_id,
             convert_request=convert_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -982,6 +1060,12 @@ class FilesApi:
         self,
         file_id: Annotated[StrictStr, Field(description="Unique file identifier.")],
         convert_request: ConvertRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1003,6 +1087,8 @@ class FilesApi:
         :type file_id: str
         :param convert_request: (required)
         :type convert_request: ConvertRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1027,6 +1113,7 @@ class FilesApi:
         _param = self._post_api_files_fileid_convert_to_document_serialize(
             file_id=file_id,
             convert_request=convert_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1046,6 +1133,7 @@ class FilesApi:
         self,
         file_id,
         convert_request,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1070,6 +1158,8 @@ class FilesApi:
             _path_params["fileId"] = file_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if convert_request is not None:

@@ -47,6 +47,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -68,6 +74,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
         :type structured_extraction_example_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -92,6 +100,7 @@ class StructuredExtractionExamplesApi:
         _param = self._delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -121,6 +130,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -142,6 +157,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
         :type structured_extraction_example_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -166,6 +183,7 @@ class StructuredExtractionExamplesApi:
         _param = self._delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -195,6 +213,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -216,6 +240,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
         :type structured_extraction_example_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -240,6 +266,7 @@ class StructuredExtractionExamplesApi:
         _param = self._delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -258,6 +285,7 @@ class StructuredExtractionExamplesApi:
         self,
         structured_extraction_project_id,
         structured_extraction_example_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -288,6 +316,8 @@ class StructuredExtractionExamplesApi:
             )
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -322,6 +352,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         skip: Annotated[
             Optional[Annotated[int, Field(strict=True, ge=0)]],
             Field(description="Number of examples to skip. Min: 0. Default: 0. "),
@@ -351,6 +387,8 @@ class StructuredExtractionExamplesApi:
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param skip: Number of examples to skip. Min: 0. Default: 0.
         :type skip: int
         :param per_page: Number of examples per page. Min: 1. Max: 100. Default: 30.
@@ -378,6 +416,7 @@ class StructuredExtractionExamplesApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
+            x_organization_id=x_organization_id,
             skip=skip,
             per_page=per_page,
             _request_auth=_request_auth,
@@ -406,6 +445,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         skip: Annotated[
             Optional[Annotated[int, Field(strict=True, ge=0)]],
             Field(description="Number of examples to skip. Min: 0. Default: 0. "),
@@ -435,6 +480,8 @@ class StructuredExtractionExamplesApi:
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param skip: Number of examples to skip. Min: 0. Default: 0.
         :type skip: int
         :param per_page: Number of examples per page. Min: 1. Max: 100. Default: 30.
@@ -462,6 +509,7 @@ class StructuredExtractionExamplesApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
+            x_organization_id=x_organization_id,
             skip=skip,
             per_page=per_page,
             _request_auth=_request_auth,
@@ -490,6 +538,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         skip: Annotated[
             Optional[Annotated[int, Field(strict=True, ge=0)]],
             Field(description="Number of examples to skip. Min: 0. Default: 0. "),
@@ -519,6 +573,8 @@ class StructuredExtractionExamplesApi:
 
         :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
         :type structured_extraction_project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param skip: Number of examples to skip. Min: 0. Default: 0.
         :type skip: int
         :param per_page: Number of examples per page. Min: 1. Max: 100. Default: 30.
@@ -546,6 +602,7 @@ class StructuredExtractionExamplesApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
+            x_organization_id=x_organization_id,
             skip=skip,
             per_page=per_page,
             _request_auth=_request_auth,
@@ -566,6 +623,7 @@ class StructuredExtractionExamplesApi:
     def _get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
         self,
         structured_extraction_project_id,
+        x_organization_id,
         skip,
         per_page,
         _request_auth,
@@ -600,6 +658,8 @@ class StructuredExtractionExamplesApi:
             _query_params.append(("perPage", per_page))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -638,6 +698,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -659,6 +725,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
         :type structured_extraction_example_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -683,6 +751,7 @@ class StructuredExtractionExamplesApi:
         _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -712,6 +781,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -733,6 +808,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
         :type structured_extraction_example_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -757,6 +834,7 @@ class StructuredExtractionExamplesApi:
         _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -786,6 +864,12 @@ class StructuredExtractionExamplesApi:
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -807,6 +891,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
         :type structured_extraction_example_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -831,6 +917,7 @@ class StructuredExtractionExamplesApi:
         _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -849,6 +936,7 @@ class StructuredExtractionExamplesApi:
         self,
         structured_extraction_project_id,
         structured_extraction_example_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -879,6 +967,8 @@ class StructuredExtractionExamplesApi:
             )
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -914,6 +1004,12 @@ class StructuredExtractionExamplesApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         create_or_update_example_request: CreateOrUpdateExampleRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -935,6 +1031,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param create_or_update_example_request: (required)
         :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -959,6 +1057,7 @@ class StructuredExtractionExamplesApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             create_or_update_example_request=create_or_update_example_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -986,6 +1085,12 @@ class StructuredExtractionExamplesApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         create_or_update_example_request: CreateOrUpdateExampleRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1007,6 +1112,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param create_or_update_example_request: (required)
         :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1031,6 +1138,7 @@ class StructuredExtractionExamplesApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             create_or_update_example_request=create_or_update_example_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1058,6 +1166,12 @@ class StructuredExtractionExamplesApi:
             Field(description="Unique structured extraction project identifier."),
         ],
         create_or_update_example_request: CreateOrUpdateExampleRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1079,6 +1193,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_project_id: str
         :param create_or_update_example_request: (required)
         :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1103,6 +1219,7 @@ class StructuredExtractionExamplesApi:
         _param = self._post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
             structured_extraction_project_id=structured_extraction_project_id,
             create_or_update_example_request=create_or_update_example_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1122,6 +1239,7 @@ class StructuredExtractionExamplesApi:
         self,
         structured_extraction_project_id,
         create_or_update_example_request,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1148,6 +1266,8 @@ class StructuredExtractionExamplesApi:
             )
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if create_or_update_example_request is not None:
@@ -1199,6 +1319,12 @@ class StructuredExtractionExamplesApi:
             Field(description="Unique structured extraction example identifier."),
         ],
         create_or_update_example_request: CreateOrUpdateExampleRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1222,6 +1348,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_example_id: str
         :param create_or_update_example_request: (required)
         :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1247,6 +1375,7 @@ class StructuredExtractionExamplesApi:
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
             create_or_update_example_request=create_or_update_example_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1278,6 +1407,12 @@ class StructuredExtractionExamplesApi:
             Field(description="Unique structured extraction example identifier."),
         ],
         create_or_update_example_request: CreateOrUpdateExampleRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1301,6 +1436,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_example_id: str
         :param create_or_update_example_request: (required)
         :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1326,6 +1463,7 @@ class StructuredExtractionExamplesApi:
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
             create_or_update_example_request=create_or_update_example_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1357,6 +1495,12 @@ class StructuredExtractionExamplesApi:
             Field(description="Unique structured extraction example identifier."),
         ],
         create_or_update_example_request: CreateOrUpdateExampleRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1380,6 +1524,8 @@ class StructuredExtractionExamplesApi:
         :type structured_extraction_example_id: str
         :param create_or_update_example_request: (required)
         :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1405,6 +1551,7 @@ class StructuredExtractionExamplesApi:
             structured_extraction_project_id=structured_extraction_project_id,
             structured_extraction_example_id=structured_extraction_example_id,
             create_or_update_example_request=create_or_update_example_request,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1425,6 +1572,7 @@ class StructuredExtractionExamplesApi:
         structured_extraction_project_id,
         structured_extraction_example_id,
         create_or_update_example_request,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1455,6 +1603,8 @@ class StructuredExtractionExamplesApi:
             )
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if create_or_update_example_request is not None:

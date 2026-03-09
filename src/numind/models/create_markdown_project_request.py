@@ -29,12 +29,7 @@ class CreateMarkdownProjectRequest(BaseModel):
     description: StrictStr = Field(
         description="Text description of the project (can be left empty)."
     )
-    owner_organization: Optional[StrictStr] = Field(
-        default=None,
-        description="Optional organization identifier.   When specified, the project will belong to the given organization instead of being a personal project.",
-        alias="ownerOrganization",
-    )
-    __properties: ClassVar[List[str]] = ["name", "description", "ownerOrganization"]
+    __properties: ClassVar[List[str]] = ["name", "description"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,10 +81,6 @@ class CreateMarkdownProjectRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {
-                "name": obj.get("name"),
-                "description": obj.get("description"),
-                "ownerOrganization": obj.get("ownerOrganization"),
-            }
+            {"name": obj.get("name"), "description": obj.get("description")}
         )
         return _obj

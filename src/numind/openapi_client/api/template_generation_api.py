@@ -46,6 +46,12 @@ class TemplateGenerationApi:
         template_job_id: Annotated[
             StrictStr, Field(description="Unique template job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65,6 +71,8 @@ class TemplateGenerationApi:
 
         :param template_job_id: Unique template job identifier. (required)
         :type template_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -88,6 +96,7 @@ class TemplateGenerationApi:
         """  # noqa: E501
         _param = self._get_api_template_generation_jobs_templatejobid_serialize(
             template_job_id=template_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -112,6 +121,12 @@ class TemplateGenerationApi:
         template_job_id: Annotated[
             StrictStr, Field(description="Unique template job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -131,6 +146,8 @@ class TemplateGenerationApi:
 
         :param template_job_id: Unique template job identifier. (required)
         :type template_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -154,6 +171,7 @@ class TemplateGenerationApi:
         """  # noqa: E501
         _param = self._get_api_template_generation_jobs_templatejobid_serialize(
             template_job_id=template_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -178,6 +196,12 @@ class TemplateGenerationApi:
         template_job_id: Annotated[
             StrictStr, Field(description="Unique template job identifier.")
         ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -197,6 +221,8 @@ class TemplateGenerationApi:
 
         :param template_job_id: Unique template job identifier. (required)
         :type template_job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -220,6 +246,7 @@ class TemplateGenerationApi:
         """  # noqa: E501
         _param = self._get_api_template_generation_jobs_templatejobid_serialize(
             template_job_id=template_job_id,
+            x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -237,6 +264,7 @@ class TemplateGenerationApi:
     def _get_api_template_generation_jobs_templatejobid_serialize(
         self,
         template_job_id,
+        x_organization_id,
         _request_auth,
         _content_type,
         _headers,
@@ -261,6 +289,8 @@ class TemplateGenerationApi:
             _path_params["templateJobId"] = template_job_id
         # process the query parameters
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
 
@@ -292,8 +322,14 @@ class TemplateGenerationApi:
     def post_api_template_generation_jobs(
         self,
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -323,6 +359,8 @@ class TemplateGenerationApi:
 
         :param body: (required)
         :type body: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
         :type rasterization_dpi: int
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
@@ -350,6 +388,7 @@ class TemplateGenerationApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_serialize(
             body=body,
+            x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -375,8 +414,14 @@ class TemplateGenerationApi:
     def post_api_template_generation_jobs_with_http_info(
         self,
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -406,6 +451,8 @@ class TemplateGenerationApi:
 
         :param body: (required)
         :type body: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
         :type rasterization_dpi: int
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
@@ -433,6 +480,7 @@ class TemplateGenerationApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_serialize(
             body=body,
+            x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -458,8 +506,14 @@ class TemplateGenerationApi:
     def post_api_template_generation_jobs_without_preload_content(
         self,
         body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True)]],
+            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
                 description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
@@ -489,6 +543,8 @@ class TemplateGenerationApi:
 
         :param body: (required)
         :type body: bytearray
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
         :type rasterization_dpi: int
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
@@ -516,6 +572,7 @@ class TemplateGenerationApi:
         """  # noqa: E501
         _param = self._post_api_template_generation_jobs_serialize(
             body=body,
+            x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -536,6 +593,7 @@ class TemplateGenerationApi:
     def _post_api_template_generation_jobs_serialize(
         self,
         body,
+        x_organization_id,
         rasterization_dpi,
         timeout,
         _request_auth,
@@ -566,6 +624,8 @@ class TemplateGenerationApi:
             _query_params.append(("timeout", timeout))
 
         # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
         if body is not None:

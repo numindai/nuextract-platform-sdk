@@ -29,7 +29,7 @@ class ProjectSettingsResponse(BaseModel):
         Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
         Annotated[int, Field(le=1, strict=True, ge=0)],
     ] = Field(description="Model temperature.")
-    rasterization_dpi: Annotated[int, Field(le=300, strict=True)] = Field(
+    rasterization_dpi: Annotated[int, Field(le=300, strict=True, gt=0)] = Field(
         description="Resolution used to convert formatted documents to images.",
         alias="rasterizationDPI",
     )

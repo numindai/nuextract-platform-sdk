@@ -40,7 +40,7 @@ def test_create_project(
         if isinstance(examples[idx][0], Path):
             examples[idx] = (str(examples[idx][0]), examples[idx][1])
     project_id = numind_client.post_api_structured_extraction(
-        CreateProjectRequest(name=project_name, description="", template=schema)
+        CreateProjectRequest(name=project_name, description="", template=schema, instructions="")
     ).id
     request.config.cache.set("project_id", project_id)
     request.config.cache.set("text_cases", string_list)

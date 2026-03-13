@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_api_structured_extraction_jobs_structuredextractionjobid**
-> ExtractionResponse get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id)
+> ExtractionResponse get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id, x_organization_id=x_organization_id)
 
 
  Get structured extraction result of a specific job by its unique identifier.
@@ -52,9 +52,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredDataExtractionApi(api_client)
     structured_extraction_job_id = 'structured_extraction_job_id_example' # str | Unique structured extraction job identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id)
+        api_response = api_instance.get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id, x_organization_id=x_organization_id)
         print("The response of StructuredDataExtractionApi->get_api_structured_extraction_jobs_structuredextractionjobid:\n")
         pprint(api_response)
     except Exception as e:
@@ -69,6 +70,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **structured_extraction_job_id** | **str**| Unique structured extraction job identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
 
@@ -93,7 +95,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_structured_extraction_structuredextractionprojectid_jobs**
-> JobIdResponse post_api_structured_extraction_structuredextractionprojectid_jobs(structured_extraction_project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+> JobIdResponse post_api_structured_extraction_structuredextractionprojectid_jobs(structured_extraction_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
 
 
  Extract information from the provided text or file as an async job. Some files are converted to images -
@@ -145,6 +147,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.StructuredDataExtractionApi(api_client)
     structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
     body = None # bytearray | 
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
     dpi = 56 # int | DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
@@ -154,7 +157,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredextractionprojectid_jobs(structured_extraction_project_id, body, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+        api_response = api_instance.post_api_structured_extraction_structuredextractionprojectid_jobs(structured_extraction_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
         print("The response of StructuredDataExtractionApi->post_api_structured_extraction_structuredextractionprojectid_jobs:\n")
         pprint(api_response)
     except Exception as e:
@@ -170,6 +173,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
  **body** | **bytearray**|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
  **dpi** | **int**| DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 

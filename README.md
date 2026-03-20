@@ -283,10 +283,10 @@ Class | Method | HTTP request | Description
 *ContentExtractionApi* | [**get_api_content_extraction_jobs_contentextractionjobid**](docs/ContentExtractionApi.md#get_api_content_extraction_jobs_contentextractionjobid) | **GET** /api/content-extraction/jobs/{contentExtractionJobId} | 
 *ContentExtractionApi* | [**post_api_content_extraction_jobs**](docs/ContentExtractionApi.md#post_api_content_extraction_jobs) | **POST** /api/content-extraction/jobs | 
 *ContentExtractionProjectManagementApi* | [**get_api_content_extraction**](docs/ContentExtractionProjectManagementApi.md#get_api_content_extraction) | **GET** /api/content-extraction | 
-*ContentExtractionProjectManagementApi* | [**patch_api_content_extraction_contentextractionprojectid**](docs/ContentExtractionProjectManagementApi.md#patch_api_content_extraction_contentextractionprojectid) | **PATCH** /api/content-extraction/{contentExtractionProjectId} | 
-*ContentExtractionProjectManagementApi* | [**patch_api_content_extraction_contentextractionprojectid_settings**](docs/ContentExtractionProjectManagementApi.md#patch_api_content_extraction_contentextractionprojectid_settings) | **PATCH** /api/content-extraction/{contentExtractionProjectId}/settings | 
+*ContentExtractionProjectManagementApi* | [**patch_api_content_extraction_contentprojectid**](docs/ContentExtractionProjectManagementApi.md#patch_api_content_extraction_contentprojectid) | **PATCH** /api/content-extraction/{contentProjectId} | 
+*ContentExtractionProjectManagementApi* | [**patch_api_content_extraction_contentprojectid_settings**](docs/ContentExtractionProjectManagementApi.md#patch_api_content_extraction_contentprojectid_settings) | **PATCH** /api/content-extraction/{contentProjectId}/settings | 
 *ContentExtractionProjectManagementApi* | [**post_api_content_extraction**](docs/ContentExtractionProjectManagementApi.md#post_api_content_extraction) | **POST** /api/content-extraction | 
-*ContentExtractionProjectManagementApi* | [**post_api_content_extraction_contentextractionprojectid_reset_settings**](docs/ContentExtractionProjectManagementApi.md#post_api_content_extraction_contentextractionprojectid_reset_settings) | **POST** /api/content-extraction/{contentExtractionProjectId}/reset-settings | 
+*ContentExtractionProjectManagementApi* | [**post_api_content_extraction_contentprojectid_reset_settings**](docs/ContentExtractionProjectManagementApi.md#post_api_content_extraction_contentprojectid_reset_settings) | **POST** /api/content-extraction/{contentProjectId}/reset-settings | 
 *DefaultApi* | [**get_api_debug_status_code**](docs/DefaultApi.md#get_api_debug_status_code) | **GET** /api/debug/status/{code} | 
 *DefaultApi* | [**get_api_health**](docs/DefaultApi.md#get_api_health) | **GET** /api/health | 
 *DefaultApi* | [**get_api_inference_status**](docs/DefaultApi.md#get_api_inference_status) | **GET** /api/inference-status | 
@@ -300,49 +300,52 @@ Class | Method | HTTP request | Description
 *FilesApi* | [**get_api_files_fileid_content**](docs/FilesApi.md#get_api_files_fileid_content) | **GET** /api/files/{fileId}/content | 
 *FilesApi* | [**post_api_files**](docs/FilesApi.md#post_api_files) | **POST** /api/files | 
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
-*InferenceApi* | [**post_api_content_extraction_contentextractionprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_content_extraction_contentextractionprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentExtractionProjectId}/jobs/document/{documentId} | 
-*InferenceApi* | [**post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/jobs/document/{documentId} | 
-*InferenceApi* | [**post_api_structured_extraction_structuredextractionprojectid_jobs_text**](docs/InferenceApi.md#post_api_structured_extraction_structuredextractionprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/jobs/text | 
+*InferenceApi* | [**post_api_content_extraction_contentprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_content_extraction_contentprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentProjectId}/jobs/document/{documentId} | 
+*InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/document/{documentId} | 
+*InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 *InferenceApi* | [**post_api_template_generation_jobs_document_documentid**](docs/InferenceApi.md#post_api_template_generation_jobs_document_documentid) | **POST** /api/template-generation/jobs/document/{documentId} | 
 *InferenceApi* | [**post_api_template_generation_jobs_text**](docs/InferenceApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
-*StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredextractionprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredextractionprojectid_jobs) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/jobs | 
-*StructuredExtractionExamplesApi* | [**delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid**](docs/StructuredExtractionExamplesApi.md#delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid) | **DELETE** /api/structured-extraction/{structuredExtractionProjectId}/examples/{structuredExtractionExampleId} | 
-*StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredextractionprojectid_examples**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredextractionprojectid_examples) | **GET** /api/structured-extraction/{structuredExtractionProjectId}/examples | 
-*StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid) | **GET** /api/structured-extraction/{structuredExtractionProjectId}/examples/{structuredExtractionExampleId} | 
-*StructuredExtractionExamplesApi* | [**post_api_structured_extraction_structuredextractionprojectid_examples**](docs/StructuredExtractionExamplesApi.md#post_api_structured_extraction_structuredextractionprojectid_examples) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/examples | 
-*StructuredExtractionExamplesApi* | [**put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid**](docs/StructuredExtractionExamplesApi.md#put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid) | **PUT** /api/structured-extraction/{structuredExtractionProjectId}/examples/{structuredExtractionExampleId} | 
-*StructuredExtractionProjectManagementApi* | [**delete_api_structured_extraction_structuredextractionprojectid**](docs/StructuredExtractionProjectManagementApi.md#delete_api_structured_extraction_structuredextractionprojectid) | **DELETE** /api/structured-extraction/{structuredExtractionProjectId} | 
+*StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
+*StructuredExtractionExamplesApi* | [**delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **DELETE** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
+*StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredprojectid_examples**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredprojectid_examples) | **GET** /api/structured-extraction/{structuredProjectId}/examples | 
+*StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **GET** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
+*StructuredExtractionExamplesApi* | [**post_api_structured_extraction_structuredprojectid_examples**](docs/StructuredExtractionExamplesApi.md#post_api_structured_extraction_structuredprojectid_examples) | **POST** /api/structured-extraction/{structuredProjectId}/examples | 
+*StructuredExtractionExamplesApi* | [**put_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#put_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **PUT** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
+*StructuredExtractionProjectManagementApi* | [**delete_api_structured_extraction_structuredprojectid**](docs/StructuredExtractionProjectManagementApi.md#delete_api_structured_extraction_structuredprojectid) | **DELETE** /api/structured-extraction/{structuredProjectId} | 
 *StructuredExtractionProjectManagementApi* | [**get_api_structured_extraction**](docs/StructuredExtractionProjectManagementApi.md#get_api_structured_extraction) | **GET** /api/structured-extraction | 
-*StructuredExtractionProjectManagementApi* | [**get_api_structured_extraction_structuredextractionprojectid**](docs/StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_structuredextractionprojectid) | **GET** /api/structured-extraction/{structuredExtractionProjectId} | 
-*StructuredExtractionProjectManagementApi* | [**patch_api_structured_extraction_structuredextractionprojectid**](docs/StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredextractionprojectid) | **PATCH** /api/structured-extraction/{structuredExtractionProjectId} | 
-*StructuredExtractionProjectManagementApi* | [**patch_api_structured_extraction_structuredextractionprojectid_settings**](docs/StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredextractionprojectid_settings) | **PATCH** /api/structured-extraction/{structuredExtractionProjectId}/settings | 
+*StructuredExtractionProjectManagementApi* | [**get_api_structured_extraction_structuredprojectid**](docs/StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_structuredprojectid) | **GET** /api/structured-extraction/{structuredProjectId} | 
+*StructuredExtractionProjectManagementApi* | [**patch_api_structured_extraction_structuredprojectid**](docs/StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredprojectid) | **PATCH** /api/structured-extraction/{structuredProjectId} | 
+*StructuredExtractionProjectManagementApi* | [**patch_api_structured_extraction_structuredprojectid_settings**](docs/StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredprojectid_settings) | **PATCH** /api/structured-extraction/{structuredProjectId}/settings | 
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction) | **POST** /api/structured-extraction | 
-*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredextractionprojectid_lock**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_lock) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/lock | 
-*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredextractionprojectid_reset_settings**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_reset_settings) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/reset-settings | 
-*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredextractionprojectid_unlock**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredextractionprojectid_unlock) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/unlock | 
+*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_duplicate**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_duplicate) | **POST** /api/structured-extraction/{structuredProjectId}/duplicate | 
+*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_lock**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_lock) | **POST** /api/structured-extraction/{structuredProjectId}/lock | 
+*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_reset_settings**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_reset_settings) | **POST** /api/structured-extraction/{structuredProjectId}/reset-settings | 
+*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_share**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_share) | **POST** /api/structured-extraction/{structuredProjectId}/share | 
+*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_unlock**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_unlock) | **POST** /api/structured-extraction/{structuredProjectId}/unlock | 
+*StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_unshare**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_unshare) | **POST** /api/structured-extraction/{structuredProjectId}/unshare | 
 *TemplateGenerationApi* | [**get_api_template_generation_jobs_templatejobid**](docs/TemplateGenerationApi.md#get_api_template_generation_jobs_templatejobid) | **GET** /api/template-generation/jobs/{templateJobId} | 
 *TemplateGenerationApi* | [**post_api_template_generation_jobs**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs) | **POST** /api/template-generation/jobs | 
 
 
 ### Documentation For Models
 
+ - [ContentExtractionResponse](docs/ContentExtractionResponse.md)
+ - [ContentProjectResponse](docs/ContentProjectResponse.md)
+ - [ContentProjectSettingsResponse](docs/ContentProjectSettingsResponse.md)
  - [ConvertRequest](docs/ConvertRequest.md)
- - [CreateMarkdownProjectRequest](docs/CreateMarkdownProjectRequest.md)
- - [CreateOrUpdateExampleRequest](docs/CreateOrUpdateExampleRequest.md)
- - [CreateProjectRequest](docs/CreateProjectRequest.md)
+ - [CreateContentProjectRequest](docs/CreateContentProjectRequest.md)
+ - [CreateOrUpdateStructuredExampleRequest](docs/CreateOrUpdateStructuredExampleRequest.md)
+ - [CreateStructuredProjectRequest](docs/CreateStructuredProjectRequest.md)
  - [DocumentInfo](docs/DocumentInfo.md)
  - [DocumentResponse](docs/DocumentResponse.md)
  - [Error](docs/Error.md)
- - [ExampleResponse](docs/ExampleResponse.md)
- - [ExtractionResponse](docs/ExtractionResponse.md)
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
- - [InferenceExample](docs/InferenceExample.md)
  - [InferenceStatus](docs/InferenceStatus.md)
  - [InferenceValidationError](docs/InferenceValidationError.md)
  - [InformationResponse](docs/InformationResponse.md)
@@ -350,22 +353,22 @@ Class | Method | HTTP request | Description
  - [JobIdResponse](docs/JobIdResponse.md)
  - [JobResponse](docs/JobResponse.md)
  - [JobStatusResponse](docs/JobStatusResponse.md)
- - [MarkdownProjectResponse](docs/MarkdownProjectResponse.md)
- - [MarkdownProjectSettingsResponse](docs/MarkdownProjectSettingsResponse.md)
- - [MarkdownResponse](docs/MarkdownResponse.md)
- - [PaginatedResponseExampleResponse](docs/PaginatedResponseExampleResponse.md)
  - [PaginatedResponseJobResponse](docs/PaginatedResponseJobResponse.md)
- - [ProjectResponse](docs/ProjectResponse.md)
- - [ProjectSettingsResponse](docs/ProjectSettingsResponse.md)
+ - [PaginatedResponseStructuredExampleResponse](docs/PaginatedResponseStructuredExampleResponse.md)
  - [ServiceStatus](docs/ServiceStatus.md)
+ - [StructuredExampleResponse](docs/StructuredExampleResponse.md)
+ - [StructuredExtractionResponse](docs/StructuredExtractionResponse.md)
+ - [StructuredInferenceExample](docs/StructuredInferenceExample.md)
+ - [StructuredProjectResponse](docs/StructuredProjectResponse.md)
+ - [StructuredProjectSettingsResponse](docs/StructuredProjectSettingsResponse.md)
  - [TemplateRequest](docs/TemplateRequest.md)
  - [TemplateResponse](docs/TemplateResponse.md)
  - [TextInfo](docs/TextInfo.md)
  - [TextRequest](docs/TextRequest.md)
- - [UpdateMarkdownProjectRequest](docs/UpdateMarkdownProjectRequest.md)
- - [UpdateMarkdownProjectSettingsRequest](docs/UpdateMarkdownProjectSettingsRequest.md)
- - [UpdateProjectRequest](docs/UpdateProjectRequest.md)
- - [UpdateProjectSettingsRequest](docs/UpdateProjectSettingsRequest.md)
+ - [UpdateContentProjectRequest](docs/UpdateContentProjectRequest.md)
+ - [UpdateContentProjectSettingsRequest](docs/UpdateContentProjectSettingsRequest.md)
+ - [UpdateStructuredProjectRequest](docs/UpdateStructuredProjectRequest.md)
+ - [UpdateStructuredProjectSettingsRequest](docs/UpdateStructuredProjectSettingsRequest.md)
  - [ValidInformation](docs/ValidInformation.md)
  - [VersionResponse](docs/VersionResponse.md)
 

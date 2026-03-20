@@ -14,11 +14,11 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
-from numind.models.create_markdown_project_request import CreateMarkdownProjectRequest
-from numind.models.markdown_project_response import MarkdownProjectResponse
-from numind.models.update_markdown_project_request import UpdateMarkdownProjectRequest
-from numind.models.update_markdown_project_settings_request import (
-    UpdateMarkdownProjectSettingsRequest,
+from numind.models.content_project_response import ContentProjectResponse
+from numind.models.create_content_project_request import CreateContentProjectRequest
+from numind.models.update_content_project_request import UpdateContentProjectRequest
+from numind.models.update_content_project_settings_request import (
+    UpdateContentProjectSettingsRequest,
 )
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
@@ -57,11 +57,11 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[MarkdownProjectResponse]:
+    ) -> List[ContentProjectResponse]:
         """
         get_api_content_extraction
 
-         List all **NuMarkdown Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
+         List all **Content Extraction Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
 
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
@@ -95,7 +95,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[MarkdownProjectResponse]",
+            "200": "List[ContentProjectResponse]",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -126,11 +126,11 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[MarkdownProjectResponse]]:
+    ) -> ApiResponse[List[ContentProjectResponse]]:
         """
         get_api_content_extraction
 
-         List all **NuMarkdown Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
+         List all **Content Extraction Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
 
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
@@ -164,7 +164,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[MarkdownProjectResponse]",
+            "200": "List[ContentProjectResponse]",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -199,7 +199,7 @@ class ContentExtractionProjectManagementApi:
         """
         get_api_content_extraction
 
-         List all **NuMarkdown Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
+         List all **Content Extraction Projects** the authenticated user has access to.  #### Query Parameters:  * `organization`: (Optional) Filter projects by organization
 
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
@@ -233,7 +233,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "List[MarkdownProjectResponse]",
+            "200": "List[ContentProjectResponse]",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -295,13 +295,13 @@ class ContentExtractionProjectManagementApi:
         )
 
     @validate_call
-    async def patch_api_content_extraction_contentextractionprojectid(
+    async def patch_api_content_extraction_contentprojectid(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
-        update_markdown_project_request: UpdateMarkdownProjectRequest,
+        update_content_project_request: UpdateContentProjectRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -319,16 +319,16 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MarkdownProjectResponse:
+    ) -> ContentProjectResponse:
         """
-        patch_api_content_extraction_contentextractionprojectid
+        patch_api_content_extraction_contentprojectid
 
-         Update an existing **NuMarkdown Project**.
+         Update an existing **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
-        :param update_markdown_project_request: (required)
-        :type update_markdown_project_request: UpdateMarkdownProjectRequest
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
+        :param update_content_project_request: (required)
+        :type update_content_project_request: UpdateContentProjectRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -352,20 +352,18 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = (
-            self._patch_api_content_extraction_contentextractionprojectid_serialize(
-                content_extraction_project_id=content_extraction_project_id,
-                update_markdown_project_request=update_markdown_project_request,
-                x_organization_id=x_organization_id,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        _param = self._patch_api_content_extraction_contentprojectid_serialize(
+            content_project_id=content_project_id,
+            update_content_project_request=update_content_project_request,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -378,13 +376,13 @@ class ContentExtractionProjectManagementApi:
         ).data
 
     @validate_call
-    async def patch_api_content_extraction_contentextractionprojectid_with_http_info(
+    async def patch_api_content_extraction_contentprojectid_with_http_info(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
-        update_markdown_project_request: UpdateMarkdownProjectRequest,
+        update_content_project_request: UpdateContentProjectRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -402,16 +400,16 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MarkdownProjectResponse]:
+    ) -> ApiResponse[ContentProjectResponse]:
         """
-        patch_api_content_extraction_contentextractionprojectid
+        patch_api_content_extraction_contentprojectid
 
-         Update an existing **NuMarkdown Project**.
+         Update an existing **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
-        :param update_markdown_project_request: (required)
-        :type update_markdown_project_request: UpdateMarkdownProjectRequest
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
+        :param update_content_project_request: (required)
+        :type update_content_project_request: UpdateContentProjectRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -435,20 +433,18 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = (
-            self._patch_api_content_extraction_contentextractionprojectid_serialize(
-                content_extraction_project_id=content_extraction_project_id,
-                update_markdown_project_request=update_markdown_project_request,
-                x_organization_id=x_organization_id,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        _param = self._patch_api_content_extraction_contentprojectid_serialize(
+            content_project_id=content_project_id,
+            update_content_project_request=update_content_project_request,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -461,13 +457,13 @@ class ContentExtractionProjectManagementApi:
         )
 
     @validate_call
-    async def patch_api_content_extraction_contentextractionprojectid_without_preload_content(
+    async def patch_api_content_extraction_contentprojectid_without_preload_content(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
-        update_markdown_project_request: UpdateMarkdownProjectRequest,
+        update_content_project_request: UpdateContentProjectRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -487,14 +483,14 @@ class ContentExtractionProjectManagementApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        patch_api_content_extraction_contentextractionprojectid
+        patch_api_content_extraction_contentprojectid
 
-         Update an existing **NuMarkdown Project**.
+         Update an existing **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
-        :param update_markdown_project_request: (required)
-        :type update_markdown_project_request: UpdateMarkdownProjectRequest
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
+        :param update_content_project_request: (required)
+        :type update_content_project_request: UpdateContentProjectRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -518,20 +514,18 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = (
-            self._patch_api_content_extraction_contentextractionprojectid_serialize(
-                content_extraction_project_id=content_extraction_project_id,
-                update_markdown_project_request=update_markdown_project_request,
-                x_organization_id=x_organization_id,
-                _request_auth=_request_auth,
-                _content_type=_content_type,
-                _headers=_headers,
-                _host_index=_host_index,
-            )
+        _param = self._patch_api_content_extraction_contentprojectid_serialize(
+            content_project_id=content_project_id,
+            update_content_project_request=update_content_project_request,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -539,10 +533,10 @@ class ContentExtractionProjectManagementApi:
         )
         return response_data.response
 
-    def _patch_api_content_extraction_contentextractionprojectid_serialize(
+    def _patch_api_content_extraction_contentprojectid_serialize(
         self,
-        content_extraction_project_id,
-        update_markdown_project_request,
+        content_project_id,
+        update_content_project_request,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -564,16 +558,16 @@ class ContentExtractionProjectManagementApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if content_extraction_project_id is not None:
-            _path_params["contentExtractionProjectId"] = content_extraction_project_id
+        if content_project_id is not None:
+            _path_params["contentProjectId"] = content_project_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
             _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
-        if update_markdown_project_request is not None:
-            _body_params = update_markdown_project_request
+        if update_content_project_request is not None:
+            _body_params = update_content_project_request
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -596,7 +590,7 @@ class ContentExtractionProjectManagementApi:
 
         return self.api_client.param_serialize(
             method="PATCH",
-            resource_path="/api/content-extraction/{contentExtractionProjectId}",
+            resource_path="/api/content-extraction/{contentProjectId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -610,13 +604,13 @@ class ContentExtractionProjectManagementApi:
         )
 
     @validate_call
-    async def patch_api_content_extraction_contentextractionprojectid_settings(
+    async def patch_api_content_extraction_contentprojectid_settings(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
-        update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest,
+        update_content_project_settings_request: UpdateContentProjectSettingsRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -634,16 +628,16 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MarkdownProjectResponse:
+    ) -> ContentProjectResponse:
         """
-        patch_api_content_extraction_contentextractionprojectid_settings
+        patch_api_content_extraction_contentprojectid_settings
 
-         Update the settings of an existing **Markdown Project**.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**.
+         Update the settings of an existing **Content Extraction Project**.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
-        :param update_markdown_project_settings_request: (required)
-        :type update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
+        :param update_content_project_settings_request: (required)
+        :type update_content_project_settings_request: UpdateContentProjectSettingsRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -667,9 +661,9 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._patch_api_content_extraction_contentextractionprojectid_settings_serialize(
-            content_extraction_project_id=content_extraction_project_id,
-            update_markdown_project_settings_request=update_markdown_project_settings_request,
+        _param = self._patch_api_content_extraction_contentprojectid_settings_serialize(
+            content_project_id=content_project_id,
+            update_content_project_settings_request=update_content_project_settings_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -678,7 +672,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -691,13 +685,13 @@ class ContentExtractionProjectManagementApi:
         ).data
 
     @validate_call
-    async def patch_api_content_extraction_contentextractionprojectid_settings_with_http_info(
+    async def patch_api_content_extraction_contentprojectid_settings_with_http_info(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
-        update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest,
+        update_content_project_settings_request: UpdateContentProjectSettingsRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -715,16 +709,16 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MarkdownProjectResponse]:
+    ) -> ApiResponse[ContentProjectResponse]:
         """
-        patch_api_content_extraction_contentextractionprojectid_settings
+        patch_api_content_extraction_contentprojectid_settings
 
-         Update the settings of an existing **Markdown Project**.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**.
+         Update the settings of an existing **Content Extraction Project**.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
-        :param update_markdown_project_settings_request: (required)
-        :type update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
+        :param update_content_project_settings_request: (required)
+        :type update_content_project_settings_request: UpdateContentProjectSettingsRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -748,9 +742,9 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._patch_api_content_extraction_contentextractionprojectid_settings_serialize(
-            content_extraction_project_id=content_extraction_project_id,
-            update_markdown_project_settings_request=update_markdown_project_settings_request,
+        _param = self._patch_api_content_extraction_contentprojectid_settings_serialize(
+            content_project_id=content_project_id,
+            update_content_project_settings_request=update_content_project_settings_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -759,7 +753,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -772,13 +766,13 @@ class ContentExtractionProjectManagementApi:
         )
 
     @validate_call
-    async def patch_api_content_extraction_contentextractionprojectid_settings_without_preload_content(
+    async def patch_api_content_extraction_contentprojectid_settings_without_preload_content(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
-        update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest,
+        update_content_project_settings_request: UpdateContentProjectSettingsRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -798,14 +792,14 @@ class ContentExtractionProjectManagementApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        patch_api_content_extraction_contentextractionprojectid_settings
+        patch_api_content_extraction_contentprojectid_settings
 
-         Update the settings of an existing **Markdown Project**.  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**.
+         Update the settings of an existing **Content Extraction Project**.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
-        :param update_markdown_project_settings_request: (required)
-        :type update_markdown_project_settings_request: UpdateMarkdownProjectSettingsRequest
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
+        :param update_content_project_settings_request: (required)
+        :type update_content_project_settings_request: UpdateContentProjectSettingsRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -829,9 +823,9 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._patch_api_content_extraction_contentextractionprojectid_settings_serialize(
-            content_extraction_project_id=content_extraction_project_id,
-            update_markdown_project_settings_request=update_markdown_project_settings_request,
+        _param = self._patch_api_content_extraction_contentprojectid_settings_serialize(
+            content_project_id=content_project_id,
+            update_content_project_settings_request=update_content_project_settings_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -840,7 +834,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -848,10 +842,10 @@ class ContentExtractionProjectManagementApi:
         )
         return response_data.response
 
-    def _patch_api_content_extraction_contentextractionprojectid_settings_serialize(
+    def _patch_api_content_extraction_contentprojectid_settings_serialize(
         self,
-        content_extraction_project_id,
-        update_markdown_project_settings_request,
+        content_project_id,
+        update_content_project_settings_request,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -873,16 +867,16 @@ class ContentExtractionProjectManagementApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if content_extraction_project_id is not None:
-            _path_params["contentExtractionProjectId"] = content_extraction_project_id
+        if content_project_id is not None:
+            _path_params["contentProjectId"] = content_project_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
             _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
-        if update_markdown_project_settings_request is not None:
-            _body_params = update_markdown_project_settings_request
+        if update_content_project_settings_request is not None:
+            _body_params = update_content_project_settings_request
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -905,7 +899,7 @@ class ContentExtractionProjectManagementApi:
 
         return self.api_client.param_serialize(
             method="PATCH",
-            resource_path="/api/content-extraction/{contentExtractionProjectId}/settings",
+            resource_path="/api/content-extraction/{contentProjectId}/settings",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -921,7 +915,7 @@ class ContentExtractionProjectManagementApi:
     @validate_call
     async def post_api_content_extraction(
         self,
-        create_markdown_project_request: CreateMarkdownProjectRequest,
+        create_content_project_request: CreateContentProjectRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -939,14 +933,14 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MarkdownProjectResponse:
+    ) -> ContentProjectResponse:
         """
         post_api_content_extraction
 
-         Create a new **NuMarkdown Project** to define a markdown generation task.
+         Create a new **Content Extraction Project** to define a content extraction task.
 
-        :param create_markdown_project_request: (required)
-        :type create_markdown_project_request: CreateMarkdownProjectRequest
+        :param create_content_project_request: (required)
+        :type create_content_project_request: CreateContentProjectRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -971,7 +965,7 @@ class ContentExtractionProjectManagementApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._post_api_content_extraction_serialize(
-            create_markdown_project_request=create_markdown_project_request,
+            create_content_project_request=create_content_project_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -980,7 +974,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -995,7 +989,7 @@ class ContentExtractionProjectManagementApi:
     @validate_call
     async def post_api_content_extraction_with_http_info(
         self,
-        create_markdown_project_request: CreateMarkdownProjectRequest,
+        create_content_project_request: CreateContentProjectRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1013,14 +1007,14 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MarkdownProjectResponse]:
+    ) -> ApiResponse[ContentProjectResponse]:
         """
         post_api_content_extraction
 
-         Create a new **NuMarkdown Project** to define a markdown generation task.
+         Create a new **Content Extraction Project** to define a content extraction task.
 
-        :param create_markdown_project_request: (required)
-        :type create_markdown_project_request: CreateMarkdownProjectRequest
+        :param create_content_project_request: (required)
+        :type create_content_project_request: CreateContentProjectRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1045,7 +1039,7 @@ class ContentExtractionProjectManagementApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._post_api_content_extraction_serialize(
-            create_markdown_project_request=create_markdown_project_request,
+            create_content_project_request=create_content_project_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1054,7 +1048,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -1069,7 +1063,7 @@ class ContentExtractionProjectManagementApi:
     @validate_call
     async def post_api_content_extraction_without_preload_content(
         self,
-        create_markdown_project_request: CreateMarkdownProjectRequest,
+        create_content_project_request: CreateContentProjectRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1091,10 +1085,10 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **NuMarkdown Project** to define a markdown generation task.
+         Create a new **Content Extraction Project** to define a content extraction task.
 
-        :param create_markdown_project_request: (required)
-        :type create_markdown_project_request: CreateMarkdownProjectRequest
+        :param create_content_project_request: (required)
+        :type create_content_project_request: CreateContentProjectRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1119,7 +1113,7 @@ class ContentExtractionProjectManagementApi:
         :return: Returns the result object.
         """  # noqa: E501
         _param = self._post_api_content_extraction_serialize(
-            create_markdown_project_request=create_markdown_project_request,
+            create_content_project_request=create_content_project_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1128,7 +1122,7 @@ class ContentExtractionProjectManagementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -1138,7 +1132,7 @@ class ContentExtractionProjectManagementApi:
 
     def _post_api_content_extraction_serialize(
         self,
-        create_markdown_project_request,
+        create_content_project_request,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -1166,8 +1160,8 @@ class ContentExtractionProjectManagementApi:
             _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
-        if create_markdown_project_request is not None:
-            _body_params = create_markdown_project_request
+        if create_content_project_request is not None:
+            _body_params = create_content_project_request
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -1204,9 +1198,9 @@ class ContentExtractionProjectManagementApi:
         )
 
     @validate_call
-    async def post_api_content_extraction_contentextractionprojectid_reset_settings(
+    async def post_api_content_extraction_contentprojectid_reset_settings(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
@@ -1227,14 +1221,14 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MarkdownProjectResponse:
+    ) -> ContentProjectResponse:
         """
-        post_api_content_extraction_contentextractionprojectid_reset_settings
+        post_api_content_extraction_contentprojectid_reset_settings
 
-         Reset the settings of an existing **Markdown Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 0 (no limit) |  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**.
+         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 0.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 0 (no limit) |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1258,17 +1252,19 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
-            content_extraction_project_id=content_extraction_project_id,
-            x_organization_id=x_organization_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._post_api_content_extraction_contentprojectid_reset_settings_serialize(
+                content_project_id=content_project_id,
+                x_organization_id=x_organization_id,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1280,9 +1276,9 @@ class ContentExtractionProjectManagementApi:
         ).data
 
     @validate_call
-    async def post_api_content_extraction_contentextractionprojectid_reset_settings_with_http_info(
+    async def post_api_content_extraction_contentprojectid_reset_settings_with_http_info(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
@@ -1303,14 +1299,14 @@ class ContentExtractionProjectManagementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MarkdownProjectResponse]:
+    ) -> ApiResponse[ContentProjectResponse]:
         """
-        post_api_content_extraction_contentextractionprojectid_reset_settings
+        post_api_content_extraction_contentprojectid_reset_settings
 
-         Reset the settings of an existing **Markdown Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 0 (no limit) |  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**.
+         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 0.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 0 (no limit) |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1334,17 +1330,19 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
-            content_extraction_project_id=content_extraction_project_id,
-            x_organization_id=x_organization_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._post_api_content_extraction_contentprojectid_reset_settings_serialize(
+                content_project_id=content_project_id,
+                x_organization_id=x_organization_id,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1356,9 +1354,9 @@ class ContentExtractionProjectManagementApi:
         )
 
     @validate_call
-    async def post_api_content_extraction_contentextractionprojectid_reset_settings_without_preload_content(
+    async def post_api_content_extraction_contentprojectid_reset_settings_without_preload_content(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
@@ -1381,12 +1379,12 @@ class ContentExtractionProjectManagementApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_content_extraction_contentextractionprojectid_reset_settings
+        post_api_content_extraction_contentprojectid_reset_settings
 
-         Reset the settings of an existing **Markdown Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 0 (no limit) |  #### Error Responses: `404 Not Found` - If a **Markdown Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Markdown Project**.
+         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 0.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 0 (no limit) |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1410,26 +1408,28 @@ class ContentExtractionProjectManagementApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
-            content_extraction_project_id=content_extraction_project_id,
-            x_organization_id=x_organization_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._post_api_content_extraction_contentprojectid_reset_settings_serialize(
+                content_project_id=content_project_id,
+                x_organization_id=x_organization_id,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownProjectResponse",
+            "200": "ContentProjectResponse",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
 
-    def _post_api_content_extraction_contentextractionprojectid_reset_settings_serialize(
+    def _post_api_content_extraction_contentprojectid_reset_settings_serialize(
         self,
-        content_extraction_project_id,
+        content_project_id,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -1451,8 +1451,8 @@ class ContentExtractionProjectManagementApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if content_extraction_project_id is not None:
-            _path_params["contentExtractionProjectId"] = content_extraction_project_id
+        if content_project_id is not None:
+            _path_params["contentProjectId"] = content_project_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
@@ -1471,7 +1471,7 @@ class ContentExtractionProjectManagementApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/content-extraction/{contentExtractionProjectId}/reset-settings",
+            resource_path="/api/content-extraction/{contentProjectId}/reset-settings",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -21,8 +21,8 @@ from pydantic import (
 )
 
 from numind.api_response import ApiResponse
-from numind.models.extraction_response import ExtractionResponse
 from numind.models.job_id_response import JobIdResponse
+from numind.models.structured_extraction_response import StructuredExtractionResponse
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.rest import RESTResponseType
 
@@ -63,7 +63,7 @@ class StructuredDataExtractionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExtractionResponse:
+    ) -> StructuredExtractionResponse:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
@@ -104,7 +104,7 @@ class StructuredDataExtractionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "StructuredExtractionResponse",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -138,7 +138,7 @@ class StructuredDataExtractionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExtractionResponse]:
+    ) -> ApiResponse[StructuredExtractionResponse]:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
@@ -179,7 +179,7 @@ class StructuredDataExtractionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "StructuredExtractionResponse",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -254,7 +254,7 @@ class StructuredDataExtractionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExtractionResponse",
+            "200": "StructuredExtractionResponse",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -319,9 +319,9 @@ class StructuredDataExtractionApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs(
+    def post_api_structured_extraction_structuredprojectid_jobs(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -397,12 +397,12 @@ class StructuredDataExtractionApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> JobIdResponse:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs
+        post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param body: (required)
         :type body: bytearray
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -442,21 +442,23 @@ class StructuredDataExtractionApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            body=body,
-            x_organization_id=x_organization_id,
-            temperature=temperature,
-            dpi=dpi,
-            max_output_tokens=max_output_tokens,
-            max_example_token_number=max_example_token_number,
-            max_example_number=max_example_number,
-            min_example_similarity=min_example_similarity,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._post_api_structured_extraction_structuredprojectid_jobs_serialize(
+                structured_project_id=structured_project_id,
+                body=body,
+                x_organization_id=x_organization_id,
+                temperature=temperature,
+                dpi=dpi,
+                max_output_tokens=max_output_tokens,
+                max_example_token_number=max_example_token_number,
+                max_example_number=max_example_number,
+                min_example_similarity=min_example_similarity,
+                timeout=timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
@@ -473,9 +475,9 @@ class StructuredDataExtractionApi:
         ).data
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_with_http_info(
+    def post_api_structured_extraction_structuredprojectid_jobs_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -551,12 +553,12 @@ class StructuredDataExtractionApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs
+        post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param body: (required)
         :type body: bytearray
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -596,21 +598,23 @@ class StructuredDataExtractionApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            body=body,
-            x_organization_id=x_organization_id,
-            temperature=temperature,
-            dpi=dpi,
-            max_output_tokens=max_output_tokens,
-            max_example_token_number=max_example_token_number,
-            max_example_number=max_example_number,
-            min_example_similarity=min_example_similarity,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._post_api_structured_extraction_structuredprojectid_jobs_serialize(
+                structured_project_id=structured_project_id,
+                body=body,
+                x_organization_id=x_organization_id,
+                temperature=temperature,
+                dpi=dpi,
+                max_output_tokens=max_output_tokens,
+                max_example_token_number=max_example_token_number,
+                max_example_number=max_example_number,
+                min_example_similarity=min_example_similarity,
+                timeout=timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
@@ -627,9 +631,9 @@ class StructuredDataExtractionApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_without_preload_content(
+    def post_api_structured_extraction_structuredprojectid_jobs_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -705,12 +709,12 @@ class StructuredDataExtractionApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs
+        post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param body: (required)
         :type body: bytearray
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -750,21 +754,23 @@ class StructuredDataExtractionApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            body=body,
-            x_organization_id=x_organization_id,
-            temperature=temperature,
-            dpi=dpi,
-            max_output_tokens=max_output_tokens,
-            max_example_token_number=max_example_token_number,
-            max_example_number=max_example_number,
-            min_example_similarity=min_example_similarity,
-            timeout=timeout,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._post_api_structured_extraction_structuredprojectid_jobs_serialize(
+                structured_project_id=structured_project_id,
+                body=body,
+                x_organization_id=x_organization_id,
+                temperature=temperature,
+                dpi=dpi,
+                max_output_tokens=max_output_tokens,
+                max_example_token_number=max_example_token_number,
+                max_example_number=max_example_number,
+                min_example_similarity=min_example_similarity,
+                timeout=timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
@@ -776,9 +782,9 @@ class StructuredDataExtractionApi:
         )
         return response_data.response
 
-    def _post_api_structured_extraction_structuredextractionprojectid_jobs_serialize(
+    def _post_api_structured_extraction_structuredprojectid_jobs_serialize(
         self,
-        structured_extraction_project_id,
+        structured_project_id,
         body,
         x_organization_id,
         temperature,
@@ -808,10 +814,8 @@ class StructuredDataExtractionApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
         # process the query parameters
         if temperature is not None:
             _query_params.append(("temperature", temperature))
@@ -871,7 +875,7 @@ class StructuredDataExtractionApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/jobs",
+            resource_path="/api/structured-extraction/{structuredProjectId}/jobs",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

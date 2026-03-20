@@ -5,11 +5,11 @@ All URIs are relative to *https://nuextract.ai*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_api_structured_extraction_jobs_structuredextractionjobid**](StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
-[**post_api_structured_extraction_structuredextractionprojectid_jobs**](StructuredDataExtractionApi.md#post_api_structured_extraction_structuredextractionprojectid_jobs) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/jobs | 
+[**post_api_structured_extraction_structuredprojectid_jobs**](StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
 
 
 # **get_api_structured_extraction_jobs_structuredextractionjobid**
-> ExtractionResponse get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id, x_organization_id=x_organization_id)
+> StructuredExtractionResponse get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id, x_organization_id=x_organization_id)
 
 
  Get structured extraction result of a specific job by its unique identifier.
@@ -30,7 +30,7 @@ Method | HTTP request | Description
 
 ```python
 import numind.openapi_client
-from numind.models.extraction_response import ExtractionResponse
+from numind.models.structured_extraction_response import StructuredExtractionResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ExtractionResponse**](ExtractionResponse.md)
+[**StructuredExtractionResponse**](StructuredExtractionResponse.md)
 
 ### Authorization
 
@@ -94,11 +94,11 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_api_structured_extraction_structuredextractionprojectid_jobs**
-> JobIdResponse post_api_structured_extraction_structuredextractionprojectid_jobs(structured_extraction_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+# **post_api_structured_extraction_structuredprojectid_jobs**
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
 
 
- Extract information from the provided text or file as an async job. Some files are converted to images -
+ Extract structured information from the provided text or file as an async job. Some files are converted to images -
  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,
  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,
  they are set to their project-setting values.
@@ -145,7 +145,7 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredDataExtractionApi(api_client)
-    structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
+    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
     body = None # bytearray | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
@@ -157,11 +157,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredextractionprojectid_jobs(structured_extraction_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
-        print("The response of StructuredDataExtractionApi->post_api_structured_extraction_structuredextractionprojectid_jobs:\n")
+        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+        print("The response of StructuredDataExtractionApi->post_api_structured_extraction_structuredprojectid_jobs:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling StructuredDataExtractionApi->post_api_structured_extraction_structuredextractionprojectid_jobs: %s\n" % e)
+        print("Exception when calling StructuredDataExtractionApi->post_api_structured_extraction_structuredprojectid_jobs: %s\n" % e)
 ```
 
 
@@ -171,7 +171,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
+ **structured_project_id** | **str**| Unique structured extraction project identifier. | 
  **body** | **bytearray**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 

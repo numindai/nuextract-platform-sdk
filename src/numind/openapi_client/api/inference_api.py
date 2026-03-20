@@ -35,9 +35,9 @@ class InferenceApi:
         self.api_client = api_client
 
     @validate_call
-    def post_api_content_extraction_contentextractionprojectid_jobs_document_documentid(
+    def post_api_content_extraction_contentprojectid_jobs_document_documentid(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
@@ -69,12 +69,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> JobIdResponse:
         """
-        post_api_content_extraction_contentextractionprojectid_jobs_document_documentid
+        post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract markdown from the provided document using NuMarkdown model as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -102,8 +102,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
-            content_extraction_project_id=content_extraction_project_id,
+        _param = self._post_api_content_extraction_contentprojectid_jobs_document_documentid_serialize(
+            content_project_id=content_project_id,
             document_id=document_id,
             x_organization_id=x_organization_id,
             timeout=timeout,
@@ -126,9 +126,9 @@ class InferenceApi:
         ).data
 
     @validate_call
-    def post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_with_http_info(
+    def post_api_content_extraction_contentprojectid_jobs_document_documentid_with_http_info(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
@@ -160,12 +160,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_content_extraction_contentextractionprojectid_jobs_document_documentid
+        post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract markdown from the provided document using NuMarkdown model as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -193,8 +193,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
-            content_extraction_project_id=content_extraction_project_id,
+        _param = self._post_api_content_extraction_contentprojectid_jobs_document_documentid_serialize(
+            content_project_id=content_project_id,
             document_id=document_id,
             x_organization_id=x_organization_id,
             timeout=timeout,
@@ -217,9 +217,9 @@ class InferenceApi:
         )
 
     @validate_call
-    def post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_without_preload_content(
+    def post_api_content_extraction_contentprojectid_jobs_document_documentid_without_preload_content(
         self,
-        content_extraction_project_id: Annotated[
+        content_project_id: Annotated[
             StrictStr,
             Field(description="Unique content extraction project identifier."),
         ],
@@ -251,12 +251,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_content_extraction_contentextractionprojectid_jobs_document_documentid
+        post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract markdown from the provided document using NuMarkdown model as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param content_extraction_project_id: Unique content extraction project identifier. (required)
-        :type content_extraction_project_id: str
+        :param content_project_id: Unique content extraction project identifier. (required)
+        :type content_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -284,8 +284,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
-            content_extraction_project_id=content_extraction_project_id,
+        _param = self._post_api_content_extraction_contentprojectid_jobs_document_documentid_serialize(
+            content_project_id=content_project_id,
             document_id=document_id,
             x_organization_id=x_organization_id,
             timeout=timeout,
@@ -303,9 +303,9 @@ class InferenceApi:
         )
         return response_data.response
 
-    def _post_api_content_extraction_contentextractionprojectid_jobs_document_documentid_serialize(
+    def _post_api_content_extraction_contentprojectid_jobs_document_documentid_serialize(
         self,
-        content_extraction_project_id,
+        content_project_id,
         document_id,
         x_organization_id,
         timeout,
@@ -329,8 +329,8 @@ class InferenceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if content_extraction_project_id is not None:
-            _path_params["contentExtractionProjectId"] = content_extraction_project_id
+        if content_project_id is not None:
+            _path_params["contentProjectId"] = content_project_id
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
@@ -354,7 +354,7 @@ class InferenceApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/content-extraction/{contentExtractionProjectId}/jobs/document/{documentId}",
+            resource_path="/api/content-extraction/{contentProjectId}/jobs/document/{documentId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -368,9 +368,9 @@ class InferenceApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid(
+    def post_api_structured_extraction_structuredprojectid_jobs_document_documentid(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -442,12 +442,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> JobIdResponse:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid
+        post_api_structured_extraction_structuredprojectid_jobs_document_documentid
 
-          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -485,8 +485,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_document_documentid_serialize(
+            structured_project_id=structured_project_id,
             document_id=document_id,
             x_organization_id=x_organization_id,
             temperature=temperature,
@@ -515,9 +515,9 @@ class InferenceApi:
         ).data
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_with_http_info(
+    def post_api_structured_extraction_structuredprojectid_jobs_document_documentid_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -589,12 +589,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid
+        post_api_structured_extraction_structuredprojectid_jobs_document_documentid
 
-          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -632,8 +632,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_document_documentid_serialize(
+            structured_project_id=structured_project_id,
             document_id=document_id,
             x_organization_id=x_organization_id,
             temperature=temperature,
@@ -662,9 +662,9 @@ class InferenceApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_without_preload_content(
+    def post_api_structured_extraction_structuredprojectid_jobs_document_documentid_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -736,12 +736,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid
+        post_api_structured_extraction_structuredprojectid_jobs_document_documentid
 
-          Perform information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -779,8 +779,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_document_documentid_serialize(
+            structured_project_id=structured_project_id,
             document_id=document_id,
             x_organization_id=x_organization_id,
             temperature=temperature,
@@ -804,9 +804,9 @@ class InferenceApi:
         )
         return response_data.response
 
-    def _post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid_serialize(
+    def _post_api_structured_extraction_structuredprojectid_jobs_document_documentid_serialize(
         self,
-        structured_extraction_project_id,
+        structured_project_id,
         document_id,
         x_organization_id,
         temperature,
@@ -835,10 +835,8 @@ class InferenceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
@@ -877,7 +875,7 @@ class InferenceApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/jobs/document/{documentId}",
+            resource_path="/api/structured-extraction/{structuredProjectId}/jobs/document/{documentId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -891,9 +889,9 @@ class InferenceApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_text(
+    def post_api_structured_extraction_structuredprojectid_jobs_text(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -963,12 +961,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> JobIdResponse:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs_text
+        post_api_structured_extraction_structuredprojectid_jobs_text
 
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -1006,8 +1004,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+            structured_project_id=structured_project_id,
             text_request=text_request,
             x_organization_id=x_organization_id,
             temperature=temperature,
@@ -1036,9 +1034,9 @@ class InferenceApi:
         ).data
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_text_with_http_info(
+    def post_api_structured_extraction_structuredprojectid_jobs_text_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -1108,12 +1106,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[JobIdResponse]:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs_text
+        post_api_structured_extraction_structuredprojectid_jobs_text
 
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -1151,8 +1149,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+            structured_project_id=structured_project_id,
             text_request=text_request,
             x_organization_id=x_organization_id,
             temperature=temperature,
@@ -1181,9 +1179,9 @@ class InferenceApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_jobs_text_without_preload_content(
+    def post_api_structured_extraction_structuredprojectid_jobs_text_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -1253,12 +1251,12 @@ class InferenceApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_structured_extraction_structuredextractionprojectid_jobs_text
+        post_api_structured_extraction_structuredprojectid_jobs_text
 
-          Perform information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param text_request: (required)
         :type text_request: TextRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
@@ -1296,8 +1294,8 @@ class InferenceApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+            structured_project_id=structured_project_id,
             text_request=text_request,
             x_organization_id=x_organization_id,
             temperature=temperature,
@@ -1321,9 +1319,9 @@ class InferenceApi:
         )
         return response_data.response
 
-    def _post_api_structured_extraction_structuredextractionprojectid_jobs_text_serialize(
+    def _post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
         self,
-        structured_extraction_project_id,
+        structured_project_id,
         text_request,
         x_organization_id,
         temperature,
@@ -1352,10 +1350,8 @@ class InferenceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
         # process the query parameters
         if temperature is not None:
             _query_params.append(("temperature", temperature))
@@ -1404,7 +1400,7 @@ class InferenceApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/jobs/text",
+            resource_path="/api/structured-extraction/{structuredProjectId}/jobs/text",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -14,11 +14,13 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
-from numind.models.create_or_update_example_request import CreateOrUpdateExampleRequest
-from numind.models.example_response import ExampleResponse
-from numind.models.paginated_response_example_response import (
-    PaginatedResponseExampleResponse,
+from numind.models.create_or_update_structured_example_request import (
+    CreateOrUpdateStructuredExampleRequest,
 )
+from numind.models.paginated_response_structured_example_response import (
+    PaginatedResponseStructuredExampleResponse,
+)
+from numind.models.structured_example_response import StructuredExampleResponse
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.rest import RESTResponseType
 
@@ -37,13 +39,13 @@ class StructuredExtractionExamplesApi:
         self.api_client = api_client
 
     @validate_call
-    def delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid(
+    def delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
@@ -66,14 +68,14 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """
-        delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Delete a specific **Example**.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -97,9 +99,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
+        _param = self._delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -120,13 +122,13 @@ class StructuredExtractionExamplesApi:
         ).data
 
     @validate_call
-    def delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_with_http_info(
+    def delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
@@ -149,14 +151,14 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """
-        delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Delete a specific **Example**.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -180,9 +182,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
+        _param = self._delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -203,13 +205,13 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_without_preload_content(
+    def delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
@@ -232,14 +234,14 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Delete a specific **Example**.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -263,9 +265,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
+        _param = self._delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -281,10 +283,10 @@ class StructuredExtractionExamplesApi:
         )
         return response_data.response
 
-    def _delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
+    def _delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
         self,
-        structured_extraction_project_id,
-        structured_extraction_example_id,
+        structured_project_id,
+        structured_example_id,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -306,14 +308,10 @@ class StructuredExtractionExamplesApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
-        if structured_extraction_example_id is not None:
-            _path_params["structuredExtractionExampleId"] = (
-                structured_extraction_example_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
+        if structured_example_id is not None:
+            _path_params["structuredExampleId"] = structured_example_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
@@ -332,7 +330,7 @@ class StructuredExtractionExamplesApi:
 
         return self.api_client.param_serialize(
             method="DELETE",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/examples/{structuredExtractionExampleId}",
+            resource_path="/api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -346,9 +344,9 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def get_api_structured_extraction_structuredextractionprojectid_examples(
+    def get_api_structured_extraction_structuredprojectid_examples(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -379,14 +377,14 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseExampleResponse:
+    ) -> PaginatedResponseStructuredExampleResponse:
         """
-        get_api_structured_extraction_structuredextractionprojectid_examples
+        get_api_structured_extraction_structuredprojectid_examples
 
-         Return a list of **Examples** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Examples** associated to the specified **Structured Extraction Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param skip: Number of examples to skip. Min: 0. Default: 0.
@@ -414,19 +412,21 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            x_organization_id=x_organization_id,
-            skip=skip,
-            per_page=per_page,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._get_api_structured_extraction_structuredprojectid_examples_serialize(
+                structured_project_id=structured_project_id,
+                x_organization_id=x_organization_id,
+                skip=skip,
+                per_page=per_page,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseExampleResponse",
+            "200": "PaginatedResponseStructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -439,9 +439,9 @@ class StructuredExtractionExamplesApi:
         ).data
 
     @validate_call
-    def get_api_structured_extraction_structuredextractionprojectid_examples_with_http_info(
+    def get_api_structured_extraction_structuredprojectid_examples_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -472,14 +472,14 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseExampleResponse]:
+    ) -> ApiResponse[PaginatedResponseStructuredExampleResponse]:
         """
-        get_api_structured_extraction_structuredextractionprojectid_examples
+        get_api_structured_extraction_structuredprojectid_examples
 
-         Return a list of **Examples** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Examples** associated to the specified **Structured Extraction Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param skip: Number of examples to skip. Min: 0. Default: 0.
@@ -507,19 +507,21 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            x_organization_id=x_organization_id,
-            skip=skip,
-            per_page=per_page,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._get_api_structured_extraction_structuredprojectid_examples_serialize(
+                structured_project_id=structured_project_id,
+                x_organization_id=x_organization_id,
+                skip=skip,
+                per_page=per_page,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseExampleResponse",
+            "200": "PaginatedResponseStructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -532,9 +534,9 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def get_api_structured_extraction_structuredextractionprojectid_examples_without_preload_content(
+    def get_api_structured_extraction_structuredprojectid_examples_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
@@ -567,12 +569,12 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        get_api_structured_extraction_structuredextractionprojectid_examples
+        get_api_structured_extraction_structuredprojectid_examples
 
-         Return a list of **Examples** associated to the specified **Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a list of **Examples** associated to the specified **Structured Extraction Project** with pagination support.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param skip: Number of examples to skip. Min: 0. Default: 0.
@@ -600,19 +602,21 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            x_organization_id=x_organization_id,
-            skip=skip,
-            per_page=per_page,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
+        _param = (
+            self._get_api_structured_extraction_structuredprojectid_examples_serialize(
+                structured_project_id=structured_project_id,
+                x_organization_id=x_organization_id,
+                skip=skip,
+                per_page=per_page,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseExampleResponse",
+            "200": "PaginatedResponseStructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -620,9 +624,9 @@ class StructuredExtractionExamplesApi:
         )
         return response_data.response
 
-    def _get_api_structured_extraction_structuredextractionprojectid_examples_serialize(
+    def _get_api_structured_extraction_structuredprojectid_examples_serialize(
         self,
-        structured_extraction_project_id,
+        structured_project_id,
         x_organization_id,
         skip,
         per_page,
@@ -646,10 +650,8 @@ class StructuredExtractionExamplesApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
         # process the query parameters
         if skip is not None:
             _query_params.append(("skip", skip))
@@ -674,7 +676,7 @@ class StructuredExtractionExamplesApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/examples",
+            resource_path="/api/structured-extraction/{structuredProjectId}/examples",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -688,13 +690,13 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid(
+    def get_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
@@ -715,16 +717,16 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExampleResponse:
+    ) -> StructuredExampleResponse:
         """
-        get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        get_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Return a specific **Example**.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -748,9 +750,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
+        _param = self._get_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -759,7 +761,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -771,13 +773,13 @@ class StructuredExtractionExamplesApi:
         ).data
 
     @validate_call
-    def get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_with_http_info(
+    def get_api_structured_extraction_structuredprojectid_examples_structuredexampleid_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
@@ -798,16 +800,16 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExampleResponse]:
+    ) -> ApiResponse[StructuredExampleResponse]:
         """
-        get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        get_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Return a specific **Example**.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -831,9 +833,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
+        _param = self._get_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -842,7 +844,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -854,13 +856,13 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_without_preload_content(
+    def get_api_structured_extraction_structuredprojectid_examples_structuredexampleid_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
@@ -883,14 +885,14 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        get_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Return a specific **Example**.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to view this **Project**.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -914,9 +916,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
+        _param = self._get_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -925,17 +927,17 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
         )
         return response_data.response
 
-    def _get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
+    def _get_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
         self,
-        structured_extraction_project_id,
-        structured_extraction_example_id,
+        structured_project_id,
+        structured_example_id,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -957,14 +959,10 @@ class StructuredExtractionExamplesApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
-        if structured_extraction_example_id is not None:
-            _path_params["structuredExtractionExampleId"] = (
-                structured_extraction_example_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
+        if structured_example_id is not None:
+            _path_params["structuredExampleId"] = structured_example_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
@@ -983,7 +981,7 @@ class StructuredExtractionExamplesApi:
 
         return self.api_client.param_serialize(
             method="GET",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/examples/{structuredExtractionExampleId}",
+            resource_path="/api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -997,13 +995,13 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_examples(
+    def post_api_structured_extraction_structuredprojectid_examples(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        create_or_update_example_request: CreateOrUpdateExampleRequest,
+        create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1021,16 +1019,16 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExampleResponse:
+    ) -> StructuredExampleResponse:
         """
-        post_api_structured_extraction_structuredextractionprojectid_examples
+        post_api_structured_extraction_structuredprojectid_examples
 
-         Create a new **Example** associated with a specific **Project**. An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result. To obtain a `documentId`, use the endpoints under the ***documents*** tag. Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template. In such cases, the **Example** will be skipped.  #### Note:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.  #### Effect:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  #### Response:  The response contains `exampleId`, which is required to update or delete this **Example**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope  `403 Locked` - If the **Project** is locked.
+         Create a new **Example** associated with a specific **Structured Extraction Project**. An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result. To obtain a `documentId`, use the endpoints under the ***documents*** tag. Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template. In such cases, the **Example** will be skipped.  #### Note:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.  #### Effect:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  #### Response:  The response contains `exampleId`, which is required to update or delete this **Example**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param create_or_update_example_request: (required)
-        :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param create_or_update_structured_example_request: (required)
+        :type create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1054,9 +1052,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            create_or_update_example_request=create_or_update_example_request,
+        _param = self._post_api_structured_extraction_structuredprojectid_examples_serialize(
+            structured_project_id=structured_project_id,
+            create_or_update_structured_example_request=create_or_update_structured_example_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1065,7 +1063,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -1078,13 +1076,13 @@ class StructuredExtractionExamplesApi:
         ).data
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_examples_with_http_info(
+    def post_api_structured_extraction_structuredprojectid_examples_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        create_or_update_example_request: CreateOrUpdateExampleRequest,
+        create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1102,16 +1100,16 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExampleResponse]:
+    ) -> ApiResponse[StructuredExampleResponse]:
         """
-        post_api_structured_extraction_structuredextractionprojectid_examples
+        post_api_structured_extraction_structuredprojectid_examples
 
-         Create a new **Example** associated with a specific **Project**. An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result. To obtain a `documentId`, use the endpoints under the ***documents*** tag. Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template. In such cases, the **Example** will be skipped.  #### Note:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.  #### Effect:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  #### Response:  The response contains `exampleId`, which is required to update or delete this **Example**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope  `403 Locked` - If the **Project** is locked.
+         Create a new **Example** associated with a specific **Structured Extraction Project**. An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result. To obtain a `documentId`, use the endpoints under the ***documents*** tag. Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template. In such cases, the **Example** will be skipped.  #### Note:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.  #### Effect:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  #### Response:  The response contains `exampleId`, which is required to update or delete this **Example**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param create_or_update_example_request: (required)
-        :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param create_or_update_structured_example_request: (required)
+        :type create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1135,9 +1133,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            create_or_update_example_request=create_or_update_example_request,
+        _param = self._post_api_structured_extraction_structuredprojectid_examples_serialize(
+            structured_project_id=structured_project_id,
+            create_or_update_structured_example_request=create_or_update_structured_example_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1146,7 +1144,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -1159,13 +1157,13 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def post_api_structured_extraction_structuredextractionprojectid_examples_without_preload_content(
+    def post_api_structured_extraction_structuredprojectid_examples_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        create_or_update_example_request: CreateOrUpdateExampleRequest,
+        create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1185,14 +1183,14 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_structured_extraction_structuredextractionprojectid_examples
+        post_api_structured_extraction_structuredprojectid_examples
 
-         Create a new **Example** associated with a specific **Project**. An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result. To obtain a `documentId`, use the endpoints under the ***documents*** tag. Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template. In such cases, the **Example** will be skipped.  #### Note:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.  #### Effect:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  #### Response:  The response contains `exampleId`, which is required to update or delete this **Example**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope  `403 Locked` - If the **Project** is locked.
+         Create a new **Example** associated with a specific **Structured Extraction Project**. An **Example** consists of an (input, output) pair, where the input is identified by a `documentId`, and the output represents the expected inference result. To obtain a `documentId`, use the endpoints under the ***documents*** tag. Once created, this **Example** will be automatically applied to subsequent inference calls as an example — unless the output no longer aligns with the current template. In such cases, the **Example** will be skipped.  #### Note:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.  #### Effect:  If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.  #### Response:  The response contains `exampleId`, which is required to update or delete this **Example**.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist or a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param create_or_update_example_request: (required)
-        :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param create_or_update_structured_example_request: (required)
+        :type create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1216,9 +1214,9 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            create_or_update_example_request=create_or_update_example_request,
+        _param = self._post_api_structured_extraction_structuredprojectid_examples_serialize(
+            structured_project_id=structured_project_id,
+            create_or_update_structured_example_request=create_or_update_structured_example_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1227,7 +1225,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -1235,10 +1233,10 @@ class StructuredExtractionExamplesApi:
         )
         return response_data.response
 
-    def _post_api_structured_extraction_structuredextractionprojectid_examples_serialize(
+    def _post_api_structured_extraction_structuredprojectid_examples_serialize(
         self,
-        structured_extraction_project_id,
-        create_or_update_example_request,
+        structured_project_id,
+        create_or_update_structured_example_request,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -1260,18 +1258,16 @@ class StructuredExtractionExamplesApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
             _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
-        if create_or_update_example_request is not None:
-            _body_params = create_or_update_example_request
+        if create_or_update_structured_example_request is not None:
+            _body_params = create_or_update_structured_example_request
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -1294,7 +1290,7 @@ class StructuredExtractionExamplesApi:
 
         return self.api_client.param_serialize(
             method="POST",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/examples",
+            resource_path="/api/structured-extraction/{structuredProjectId}/examples",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1308,17 +1304,17 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid(
+    def put_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
-        create_or_update_example_request: CreateOrUpdateExampleRequest,
+        create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1336,18 +1332,18 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExampleResponse:
+    ) -> StructuredExampleResponse:
         """
-        put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        put_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Update a specific **Example**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** update will fail.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
-        :param create_or_update_example_request: (required)
-        :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
+        :param create_or_update_structured_example_request: (required)
+        :type create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1371,10 +1367,10 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
-            create_or_update_example_request=create_or_update_example_request,
+        _param = self._put_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
+            create_or_update_structured_example_request=create_or_update_structured_example_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1383,7 +1379,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -1396,17 +1392,17 @@ class StructuredExtractionExamplesApi:
         ).data
 
     @validate_call
-    def put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_with_http_info(
+    def put_api_structured_extraction_structuredprojectid_examples_structuredexampleid_with_http_info(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
-        create_or_update_example_request: CreateOrUpdateExampleRequest,
+        create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1424,18 +1420,18 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExampleResponse]:
+    ) -> ApiResponse[StructuredExampleResponse]:
         """
-        put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        put_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Update a specific **Example**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** update will fail.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
-        :param create_or_update_example_request: (required)
-        :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
+        :param create_or_update_structured_example_request: (required)
+        :type create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1459,10 +1455,10 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
-            create_or_update_example_request=create_or_update_example_request,
+        _param = self._put_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
+            create_or_update_structured_example_request=create_or_update_structured_example_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1471,7 +1467,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -1484,17 +1480,17 @@ class StructuredExtractionExamplesApi:
         )
 
     @validate_call
-    def put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_without_preload_content(
+    def put_api_structured_extraction_structuredprojectid_examples_structuredexampleid_without_preload_content(
         self,
-        structured_extraction_project_id: Annotated[
+        structured_project_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        structured_extraction_example_id: Annotated[
+        structured_example_id: Annotated[
             StrictStr,
             Field(description="Unique structured extraction example identifier."),
         ],
-        create_or_update_example_request: CreateOrUpdateExampleRequest,
+        create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1514,16 +1510,16 @@ class StructuredExtractionExamplesApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid
+        put_api_structured_extraction_structuredprojectid_examples_structuredexampleid
 
          Update a specific **Example**.  #### Note:  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** update will fail.  #### Error Responses: `404 Not Found` - If an **Example** with the specified `exampleId` associated with the given `projectId` does not exist, or if a **Document** with the specified `documentId` cannot be found.  `403 Forbidden` - If the user does not have permission to update this **Project**, use the specified **Document**, or the **Document** ownership scope does not match **Project** ownership scope.  `403 Locked` - If the **Project** is locked.
 
-        :param structured_extraction_project_id: Unique structured extraction project identifier. (required)
-        :type structured_extraction_project_id: str
-        :param structured_extraction_example_id: Unique structured extraction example identifier. (required)
-        :type structured_extraction_example_id: str
-        :param create_or_update_example_request: (required)
-        :type create_or_update_example_request: CreateOrUpdateExampleRequest
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param structured_example_id: Unique structured extraction example identifier. (required)
+        :type structured_example_id: str
+        :param create_or_update_structured_example_request: (required)
+        :type create_or_update_structured_example_request: CreateOrUpdateStructuredExampleRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1547,10 +1543,10 @@ class StructuredExtractionExamplesApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
-        _param = self._put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
-            structured_extraction_project_id=structured_extraction_project_id,
-            structured_extraction_example_id=structured_extraction_example_id,
-            create_or_update_example_request=create_or_update_example_request,
+        _param = self._put_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
+            structured_project_id=structured_project_id,
+            structured_example_id=structured_example_id,
+            create_or_update_structured_example_request=create_or_update_structured_example_request,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1559,7 +1555,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "ExampleResponse",
+            "200": "StructuredExampleResponse",
             "400": "str",
         }
         response_data = self.api_client.call_api(
@@ -1567,11 +1563,11 @@ class StructuredExtractionExamplesApi:
         )
         return response_data.response
 
-    def _put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid_serialize(
+    def _put_api_structured_extraction_structuredprojectid_examples_structuredexampleid_serialize(
         self,
-        structured_extraction_project_id,
-        structured_extraction_example_id,
-        create_or_update_example_request,
+        structured_project_id,
+        structured_example_id,
+        create_or_update_structured_example_request,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -1593,22 +1589,18 @@ class StructuredExtractionExamplesApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if structured_extraction_project_id is not None:
-            _path_params["structuredExtractionProjectId"] = (
-                structured_extraction_project_id
-            )
-        if structured_extraction_example_id is not None:
-            _path_params["structuredExtractionExampleId"] = (
-                structured_extraction_example_id
-            )
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
+        if structured_example_id is not None:
+            _path_params["structuredExampleId"] = structured_example_id
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
             _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
-        if create_or_update_example_request is not None:
-            _body_params = create_or_update_example_request
+        if create_or_update_structured_example_request is not None:
+            _body_params = create_or_update_structured_example_request
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -1631,7 +1623,7 @@ class StructuredExtractionExamplesApi:
 
         return self.api_client.param_serialize(
             method="PUT",
-            resource_path="/api/structured-extraction/{structuredExtractionProjectId}/examples/{structuredExtractionExampleId}",
+            resource_path="/api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from numind.models import CreateProjectRequest
+from numind.models import CreateStructuredProjectRequest
 
 from .conftest import EXTRACT_KWARGS, TEST_CASES_NUEXTRACT
 
@@ -40,7 +40,7 @@ def test_create_project(
         if isinstance(examples[idx][0], Path):
             examples[idx] = (str(examples[idx][0]), examples[idx][1])
     project_id = numind_client.post_api_structured_extraction(
-        CreateProjectRequest(
+        CreateStructuredProjectRequest(
             name=project_name, description="", template=schema, instructions=""
         )
     ).id
@@ -122,8 +122,6 @@ def test_delete_project_and_has_been_deleted(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
-    numind_client.delete_api_structured_extraction_structuredextractionprojectid(
-        project_id
-    )
+    numind_client.delete_api_structured_extraction_structuredprojectid(project_id)
     projects = numind_client.get_api_structured_extraction()
     assert project_id not in {project.id for project in projects}

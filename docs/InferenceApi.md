@@ -4,18 +4,18 @@ All URIs are relative to *https://nuextract.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**post_api_content_extraction_contentextractionprojectid_jobs_document_documentid**](InferenceApi.md#post_api_content_extraction_contentextractionprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentExtractionProjectId}/jobs/document/{documentId} | 
-[**post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid**](InferenceApi.md#post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/jobs/document/{documentId} | 
-[**post_api_structured_extraction_structuredextractionprojectid_jobs_text**](InferenceApi.md#post_api_structured_extraction_structuredextractionprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredExtractionProjectId}/jobs/text | 
+[**post_api_content_extraction_contentprojectid_jobs_document_documentid**](InferenceApi.md#post_api_content_extraction_contentprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentProjectId}/jobs/document/{documentId} | 
+[**post_api_structured_extraction_structuredprojectid_jobs_document_documentid**](InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/document/{documentId} | 
+[**post_api_structured_extraction_structuredprojectid_jobs_text**](InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 [**post_api_template_generation_jobs_document_documentid**](InferenceApi.md#post_api_template_generation_jobs_document_documentid) | **POST** /api/template-generation/jobs/document/{documentId} | 
 [**post_api_template_generation_jobs_text**](InferenceApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 
 
-# **post_api_content_extraction_contentextractionprojectid_jobs_document_documentid**
-> JobIdResponse post_api_content_extraction_contentextractionprojectid_jobs_document_documentid(content_extraction_project_id, document_id, x_organization_id=x_organization_id, timeout=timeout)
+# **post_api_content_extraction_contentprojectid_jobs_document_documentid**
+> JobIdResponse post_api_content_extraction_contentprojectid_jobs_document_documentid(content_project_id, document_id, x_organization_id=x_organization_id, timeout=timeout)
 
 
- Extract markdown from the provided document using NuMarkdown model as an async job.
+ Extract content from the provided document in markdown format as an async job.
  Inference **temperature** can be set in the project settings.
 
 #### Response:
@@ -60,17 +60,17 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.InferenceApi(api_client)
-    content_extraction_project_id = 'content_extraction_project_id_example' # str | Unique content extraction project identifier.
+    content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
     document_id = 'document_id_example' # str | Unique document identifier.
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction_contentextractionprojectid_jobs_document_documentid(content_extraction_project_id, document_id, x_organization_id=x_organization_id, timeout=timeout)
-        print("The response of InferenceApi->post_api_content_extraction_contentextractionprojectid_jobs_document_documentid:\n")
+        api_response = api_instance.post_api_content_extraction_contentprojectid_jobs_document_documentid(content_project_id, document_id, x_organization_id=x_organization_id, timeout=timeout)
+        print("The response of InferenceApi->post_api_content_extraction_contentprojectid_jobs_document_documentid:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling InferenceApi->post_api_content_extraction_contentextractionprojectid_jobs_document_documentid: %s\n" % e)
+        print("Exception when calling InferenceApi->post_api_content_extraction_contentprojectid_jobs_document_documentid: %s\n" % e)
 ```
 
 
@@ -80,7 +80,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **content_extraction_project_id** | **str**| Unique content extraction project identifier. | 
+ **content_project_id** | **str**| Unique content extraction project identifier. | 
  **document_id** | **str**| Unique document identifier. | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
@@ -107,11 +107,11 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid**
-> JobIdResponse post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid(structured_extraction_project_id, document_id, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+# **post_api_structured_extraction_structuredprojectid_jobs_document_documentid**
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs_document_documentid(structured_project_id, document_id, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
 
 
- Perform information extraction inference on the provided document as an async job.
+ Performs structured information extraction inference on the provided document as an async job.
  The document must be compatible with the template of the project.
  Inference **temperature** can be set in the project settings.
 
@@ -158,7 +158,7 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.InferenceApi(api_client)
-    structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
+    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
     document_id = 'document_id_example' # str | Unique document identifier.
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
@@ -169,11 +169,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid(structured_extraction_project_id, document_id, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
-        print("The response of InferenceApi->post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid:\n")
+        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs_document_documentid(structured_project_id, document_id, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+        print("The response of InferenceApi->post_api_structured_extraction_structuredprojectid_jobs_document_documentid:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling InferenceApi->post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid: %s\n" % e)
+        print("Exception when calling InferenceApi->post_api_structured_extraction_structuredprojectid_jobs_document_documentid: %s\n" % e)
 ```
 
 
@@ -183,7 +183,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
+ **structured_project_id** | **str**| Unique structured extraction project identifier. | 
  **document_id** | **str**| Unique document identifier. | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
@@ -216,11 +216,11 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_api_structured_extraction_structuredextractionprojectid_jobs_text**
-> JobIdResponse post_api_structured_extraction_structuredextractionprojectid_jobs_text(structured_extraction_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+# **post_api_structured_extraction_structuredprojectid_jobs_text**
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
 
 
- Perform information extraction inference on the provided text as an async job.
+ Performs structured information extraction inference on the provided text as an async job.
  The text content must be compatible with the template of the project.
  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**
  can be set in the project settings.
@@ -269,7 +269,7 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.InferenceApi(api_client)
-    structured_extraction_project_id = 'structured_extraction_project_id_example' # str | Unique structured extraction project identifier.
+    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
     text_request = {text=[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.} # TextRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
@@ -280,11 +280,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredextractionprojectid_jobs_text(structured_extraction_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
-        print("The response of InferenceApi->post_api_structured_extraction_structuredextractionprojectid_jobs_text:\n")
+        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, timeout=timeout)
+        print("The response of InferenceApi->post_api_structured_extraction_structuredprojectid_jobs_text:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling InferenceApi->post_api_structured_extraction_structuredextractionprojectid_jobs_text: %s\n" % e)
+        print("Exception when calling InferenceApi->post_api_structured_extraction_structuredprojectid_jobs_text: %s\n" % e)
 ```
 
 
@@ -294,7 +294,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **structured_extraction_project_id** | **str**| Unique structured extraction project identifier. | 
+ **structured_project_id** | **str**| Unique structured extraction project identifier. | 
  **text_request** | [**TextRequest**](TextRequest.md)|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 

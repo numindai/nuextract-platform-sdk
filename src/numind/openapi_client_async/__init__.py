@@ -37,19 +37,19 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "ContentExtractionResponse",
+    "ContentProjectResponse",
+    "ContentProjectSettingsResponse",
     "ConvertRequest",
-    "CreateMarkdownProjectRequest",
-    "CreateOrUpdateExampleRequest",
-    "CreateProjectRequest",
+    "CreateContentProjectRequest",
+    "CreateOrUpdateStructuredExampleRequest",
+    "CreateStructuredProjectRequest",
     "DocumentInfo",
     "DocumentResponse",
     "Error",
-    "ExampleResponse",
-    "ExtractionResponse",
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
-    "InferenceExample",
     "InferenceStatus",
     "InferenceValidationError",
     "InformationResponse",
@@ -57,22 +57,22 @@ __all__ = [
     "JobIdResponse",
     "JobResponse",
     "JobStatusResponse",
-    "MarkdownProjectResponse",
-    "MarkdownProjectSettingsResponse",
-    "MarkdownResponse",
-    "PaginatedResponseExampleResponse",
     "PaginatedResponseJobResponse",
-    "ProjectResponse",
-    "ProjectSettingsResponse",
+    "PaginatedResponseStructuredExampleResponse",
     "ServiceStatus",
+    "StructuredExampleResponse",
+    "StructuredExtractionResponse",
+    "StructuredInferenceExample",
+    "StructuredProjectResponse",
+    "StructuredProjectSettingsResponse",
     "TemplateRequest",
     "TemplateResponse",
     "TextInfo",
     "TextRequest",
-    "UpdateMarkdownProjectRequest",
-    "UpdateMarkdownProjectSettingsRequest",
-    "UpdateProjectRequest",
-    "UpdateProjectSettingsRequest",
+    "UpdateContentProjectRequest",
+    "UpdateContentProjectSettingsRequest",
+    "UpdateStructuredProjectRequest",
+    "UpdateStructuredProjectSettingsRequest",
     "ValidInformation",
     "VersionResponse",
 ]
@@ -114,25 +114,31 @@ from numind.exceptions import ApiAttributeError as ApiAttributeError
 from numind.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from numind.models.content_extraction_response import (
+    ContentExtractionResponse as ContentExtractionResponse,
+)
+from numind.models.content_project_response import (
+    ContentProjectResponse as ContentProjectResponse,
+)
+from numind.models.content_project_settings_response import (
+    ContentProjectSettingsResponse as ContentProjectSettingsResponse,
+)
 from numind.models.convert_request import ConvertRequest as ConvertRequest
-from numind.models.create_markdown_project_request import (
-    CreateMarkdownProjectRequest as CreateMarkdownProjectRequest,
+from numind.models.create_content_project_request import (
+    CreateContentProjectRequest as CreateContentProjectRequest,
 )
-from numind.models.create_or_update_example_request import (
-    CreateOrUpdateExampleRequest as CreateOrUpdateExampleRequest,
+from numind.models.create_or_update_structured_example_request import (
+    CreateOrUpdateStructuredExampleRequest as CreateOrUpdateStructuredExampleRequest,
 )
-from numind.models.create_project_request import (
-    CreateProjectRequest as CreateProjectRequest,
+from numind.models.create_structured_project_request import (
+    CreateStructuredProjectRequest as CreateStructuredProjectRequest,
 )
 from numind.models.document_info import DocumentInfo as DocumentInfo
 from numind.models.document_response import DocumentResponse as DocumentResponse
 from numind.models.error import Error as Error
-from numind.models.example_response import ExampleResponse as ExampleResponse
-from numind.models.extraction_response import ExtractionResponse as ExtractionResponse
 from numind.models.file_response import FileResponse as FileResponse
 from numind.models.health_response import HealthResponse as HealthResponse
 from numind.models.image_info import ImageInfo as ImageInfo
-from numind.models.inference_example import InferenceExample as InferenceExample
 from numind.models.inference_status import InferenceStatus as InferenceStatus
 from numind.models.inference_validation_error import (
     InferenceValidationError as InferenceValidationError,
@@ -144,39 +150,43 @@ from numind.models.invalid_information import InvalidInformation as InvalidInfor
 from numind.models.job_id_response import JobIdResponse as JobIdResponse
 from numind.models.job_response import JobResponse as JobResponse
 from numind.models.job_status_response import JobStatusResponse as JobStatusResponse
-from numind.models.markdown_project_response import (
-    MarkdownProjectResponse as MarkdownProjectResponse,
-)
-from numind.models.markdown_project_settings_response import (
-    MarkdownProjectSettingsResponse as MarkdownProjectSettingsResponse,
-)
-from numind.models.markdown_response import MarkdownResponse as MarkdownResponse
-from numind.models.paginated_response_example_response import (
-    PaginatedResponseExampleResponse as PaginatedResponseExampleResponse,
-)
 from numind.models.paginated_response_job_response import (
     PaginatedResponseJobResponse as PaginatedResponseJobResponse,
 )
-from numind.models.project_response import ProjectResponse as ProjectResponse
-from numind.models.project_settings_response import (
-    ProjectSettingsResponse as ProjectSettingsResponse,
+from numind.models.paginated_response_structured_example_response import (
+    PaginatedResponseStructuredExampleResponse as PaginatedResponseStructuredExampleResponse,
 )
 from numind.models.service_status import ServiceStatus as ServiceStatus
+from numind.models.structured_example_response import (
+    StructuredExampleResponse as StructuredExampleResponse,
+)
+from numind.models.structured_extraction_response import (
+    StructuredExtractionResponse as StructuredExtractionResponse,
+)
+from numind.models.structured_inference_example import (
+    StructuredInferenceExample as StructuredInferenceExample,
+)
+from numind.models.structured_project_response import (
+    StructuredProjectResponse as StructuredProjectResponse,
+)
+from numind.models.structured_project_settings_response import (
+    StructuredProjectSettingsResponse as StructuredProjectSettingsResponse,
+)
 from numind.models.template_request import TemplateRequest as TemplateRequest
 from numind.models.template_response import TemplateResponse as TemplateResponse
 from numind.models.text_info import TextInfo as TextInfo
 from numind.models.text_request import TextRequest as TextRequest
-from numind.models.update_markdown_project_request import (
-    UpdateMarkdownProjectRequest as UpdateMarkdownProjectRequest,
+from numind.models.update_content_project_request import (
+    UpdateContentProjectRequest as UpdateContentProjectRequest,
 )
-from numind.models.update_markdown_project_settings_request import (
-    UpdateMarkdownProjectSettingsRequest as UpdateMarkdownProjectSettingsRequest,
+from numind.models.update_content_project_settings_request import (
+    UpdateContentProjectSettingsRequest as UpdateContentProjectSettingsRequest,
 )
-from numind.models.update_project_request import (
-    UpdateProjectRequest as UpdateProjectRequest,
+from numind.models.update_structured_project_request import (
+    UpdateStructuredProjectRequest as UpdateStructuredProjectRequest,
 )
-from numind.models.update_project_settings_request import (
-    UpdateProjectSettingsRequest as UpdateProjectSettingsRequest,
+from numind.models.update_structured_project_settings_request import (
+    UpdateStructuredProjectSettingsRequest as UpdateStructuredProjectSettingsRequest,
 )
 from numind.models.valid_information import ValidInformation as ValidInformation
 from numind.models.version_response import VersionResponse as VersionResponse

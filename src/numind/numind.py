@@ -9,17 +9,20 @@ from pathlib import Path
 from pydantic import BaseModel, StrictStr
 
 from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
-from .models import MarkdownResponse
+from .models import (
+    ContentExtractionResponse,
+    ConvertRequest,
+    CreateOrUpdateStructuredExampleRequest,
+    CreateStructuredProjectRequest,
+    StructuredExtractionResponse,
+    TextRequest,
+)
 from .openapi_client import (
     ApiClient,
     Configuration,
     ContentExtractionApi,
     ContentExtractionProjectManagementApi,
-    ConvertRequest,
-    CreateOrUpdateExampleRequest,
-    CreateProjectRequest,
     DocumentsApi,
-    ExtractionResponse,
     FilesApi,
     InferenceApi,
     JobsApi,
@@ -27,7 +30,6 @@ from .openapi_client import (
     StructuredExtractionExamplesApi,
     StructuredExtractionProjectManagementApi,
     TemplateGenerationApi,
-    TextRequest,
 )
 from .openapi_client_async import (
     ApiClient as ApiClientAsync,
@@ -100,7 +102,7 @@ class NuMind(
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
         **kwargs,
-    ) -> ExtractionResponse:
+    ) -> StructuredExtractionResponse:
         """
         Send an inference request to the API for either a text or a file input.
 
@@ -145,7 +147,7 @@ class NuMind(
                 raise ValueError(msg)
             template = _parse_template(template)
             project_id = self.post_api_structured_extraction(
-                CreateProjectRequest(
+                CreateStructuredProjectRequest(
                     name=TMP_PROJECT_NAME,
                     description="",
                     template=template,
@@ -167,10 +169,8 @@ class NuMind(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = (
-            self.post_api_structured_extraction_structuredextractionprojectid_jobs(
-                project_id, input_, **kwargs
-            )
+        job_id_response = self.post_api_structured_extraction_structuredprojectid_jobs(
+            project_id, input_, **kwargs
         )
         job_output = self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
@@ -181,13 +181,11 @@ class NuMind(
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
         output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        output = ExtractionResponse(**output)
+        output = StructuredExtractionResponse(**output)
 
         # Delete temporary project if necessary
         if not project_id_provided:
-            self.delete_api_structured_extraction_structuredextractionprojectid(
-                project_id
-            )
+            self.delete_api_structured_extraction_structuredprojectid(project_id)
 
         return output
 
@@ -210,10 +208,8 @@ class NuMind(
         """
         files_ids, documents_ids = [], []
         if convert_request is None:
-            project_info = (
-                self.get_api_structured_extraction_structuredextractionprojectid(
-                    structured_extraction_project_id=project_id
-                )
+            project_info = self.get_api_structured_extraction_structuredprojectid(
+                structured_extraction_project_id=project_id
             )
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
@@ -236,9 +232,9 @@ class NuMind(
             documents_ids.append(document_id)
 
             # Add the example to the project
-            self.post_api_structured_extraction_structuredextractionprojectid_examples(
+            self.post_api_structured_extraction_structuredprojectid_examples(
                 project_id,
-                CreateOrUpdateExampleRequest(
+                CreateOrUpdateStructuredExampleRequest(
                     documentId=StrictStr(document_id), result=example_output
                 ),
             )
@@ -247,7 +243,7 @@ class NuMind(
 
     def extract_content(
         self, input_file: Path | str | bytes | None = None, **kwargs
-    ) -> MarkdownResponse:
+    ) -> ContentExtractionResponse:
         """
         Extract Markdown content from an input file.
 
@@ -255,7 +251,7 @@ class NuMind(
             ``pathlib.Path`` or string path, or bytes.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: ``numind.models.MarkdownResponse`` object.
+        :return: ``numind.models.ContentExtractionResponse`` object.
         """
         input_, _ = _parse_input_file(input_file)
         job_id_response = self.post_api_content_extraction_jobs(input_, **kwargs)
@@ -265,7 +261,7 @@ class NuMind(
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return MarkdownResponse(
+        return ContentExtractionResponse(
             **json.loads(json.loads(messages[-1]["data"])["outputData"])
         )
 
@@ -304,7 +300,7 @@ class NuMindAsync(
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
         **kwargs,
-    ) -> ExtractionResponse:
+    ) -> StructuredExtractionResponse:
         """
         Send an inference request to the API for either a text or a file input.
 
@@ -350,7 +346,7 @@ class NuMindAsync(
             template = _parse_template(template)
             project_id = (
                 await self.post_api_structured_extraction(
-                    CreateProjectRequest(
+                    CreateStructuredProjectRequest(
                         name=TMP_PROJECT_NAME,
                         description="",
                         template=template,
@@ -373,8 +369,10 @@ class NuMindAsync(
             input_, _ = _parse_input_file(input_file)
 
         # Call model using server sent events streaming
-        job_id_response = await self.post_api_structured_extraction_structuredextractionprojectid_jobs(
-            project_id, input_, **kwargs
+        job_id_response = (
+            await self.post_api_structured_extraction_structuredprojectid_jobs(
+                project_id, input_, **kwargs
+            )
         )
         job_output = await self.get_api_jobs_jobid_stream(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
@@ -385,13 +383,11 @@ class NuMindAsync(
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
         output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        output = ExtractionResponse(**output)
+        output = StructuredExtractionResponse(**output)
 
         # Delete temporary project if necessary
         if not project_id_provided:
-            await self.delete_api_structured_extraction_structuredextractionprojectid(
-                project_id
-            )
+            await self.delete_api_structured_extraction_structuredprojectid(project_id)
 
         return output
 
@@ -414,10 +410,8 @@ class NuMindAsync(
         """
         files_ids, documents_ids = [], []
         if convert_request is None:
-            project_info = (
-                await self.get_api_structured_extraction_structuredextractionprojectid(
-                    structured_extraction_project_id=project_id
-                )
+            project_info = await self.get_api_structured_extraction_structuredprojectid(
+                structured_extraction_project_id=project_id
             )
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
@@ -442,9 +436,9 @@ class NuMindAsync(
             documents_ids.append(document_id)
 
             # Add the example to the project
-            await self.post_api_structured_extraction_structuredextractionprojectid_examples(
+            await self.post_api_structured_extraction_structuredprojectid_examples(
                 project_id,
-                CreateOrUpdateExampleRequest(
+                CreateOrUpdateStructuredExampleRequest(
                     documentId=StrictStr(document_id), result=example_output
                 ),
             )
@@ -453,7 +447,7 @@ class NuMindAsync(
 
     async def extract_content(
         self, input_file: Path | str | bytes | None = None, **kwargs
-    ) -> MarkdownResponse:
+    ) -> ContentExtractionResponse:
         """
         Extract Markdown content from an input file.
 
@@ -461,7 +455,7 @@ class NuMindAsync(
             ``pathlib.Path`` or string path, or bytes.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: ``numind.models.MarkdownResponse`` object.
+        :return: ``numind.models.ContentExtractionResponse`` object.
         """
         input_, _ = _parse_input_file(input_file)
         job_id_response = await self.post_api_content_extraction_jobs(input_, **kwargs)
@@ -471,7 +465,7 @@ class NuMindAsync(
         messages = _parse_sse_string(job_output)
         if messages[-1]["event"] != JOB_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return MarkdownResponse(
+        return ContentExtractionResponse(
             **json.loads(json.loads(messages[-1]["data"])["outputData"])
         )
 

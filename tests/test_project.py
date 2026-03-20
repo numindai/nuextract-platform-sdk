@@ -122,8 +122,6 @@ def test_delete_project_and_has_been_deleted(
     numind_client: NuMind, request: pytest.FixtureRequest
 ) -> None:
     project_id = request.config.cache.get("project_id", None)
-    numind_client.delete_api_structured_extraction_structuredextractionprojectid(
-        project_id
-    )
+    numind_client.delete_api_structured_extraction_structuredprojectid(project_id)
     projects = numind_client.get_api_structured_extraction()
     assert project_id not in {project.id for project in projects}

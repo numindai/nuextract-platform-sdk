@@ -209,7 +209,7 @@ class NuMind(
         files_ids, documents_ids = [], []
         if convert_request is None:
             project_info = self.get_api_structured_extraction_structuredprojectid(
-                structured_extraction_project_id=project_id
+                project_id
             )
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
@@ -411,7 +411,7 @@ class NuMindAsync(
         files_ids, documents_ids = [], []
         if convert_request is None:
             project_info = await self.get_api_structured_extraction_structuredprojectid(
-                structured_extraction_project_id=project_id
+                project_id
             )
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,

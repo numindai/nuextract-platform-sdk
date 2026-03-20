@@ -25,46 +25,55 @@ class TestStructuredExtractionProjectManagementApi(unittest.IsolatedAsyncioTestC
     async def asyncTearDown(self) -> None:
         await self.api.api_client.close()
 
-    async def test_delete_api_structured_extraction_structuredextractionprojectid(
-        self,
-    ) -> None:
-        """Test case for delete_api_structured_extraction_structuredextractionprojectid"""
+    async def test_delete_api_structured_extraction_structuredprojectid(self) -> None:
+        """Test case for delete_api_structured_extraction_structuredprojectid"""
 
     async def test_get_api_structured_extraction(self) -> None:
         """Test case for get_api_structured_extraction"""
 
-    async def test_get_api_structured_extraction_structuredextractionprojectid(
-        self,
-    ) -> None:
-        """Test case for get_api_structured_extraction_structuredextractionprojectid"""
+    async def test_get_api_structured_extraction_structuredprojectid(self) -> None:
+        """Test case for get_api_structured_extraction_structuredprojectid"""
 
-    async def test_patch_api_structured_extraction_structuredextractionprojectid(
-        self,
-    ) -> None:
-        """Test case for patch_api_structured_extraction_structuredextractionprojectid"""
+    async def test_patch_api_structured_extraction_structuredprojectid(self) -> None:
+        """Test case for patch_api_structured_extraction_structuredprojectid"""
 
-    async def test_patch_api_structured_extraction_structuredextractionprojectid_settings(
+    async def test_patch_api_structured_extraction_structuredprojectid_settings(
         self,
     ) -> None:
-        """Test case for patch_api_structured_extraction_structuredextractionprojectid_settings"""
+        """Test case for patch_api_structured_extraction_structuredprojectid_settings"""
 
     async def test_post_api_structured_extraction(self) -> None:
         """Test case for post_api_structured_extraction"""
 
-    async def test_post_api_structured_extraction_structuredextractionprojectid_lock(
+    async def test_post_api_structured_extraction_structuredprojectid_duplicate(
         self,
     ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_lock"""
+        """Test case for post_api_structured_extraction_structuredprojectid_duplicate"""
 
-    async def test_post_api_structured_extraction_structuredextractionprojectid_reset_settings(
+    async def test_post_api_structured_extraction_structuredprojectid_lock(
         self,
     ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_reset_settings"""
+        """Test case for post_api_structured_extraction_structuredprojectid_lock"""
 
-    async def test_post_api_structured_extraction_structuredextractionprojectid_unlock(
+    async def test_post_api_structured_extraction_structuredprojectid_reset_settings(
         self,
     ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_unlock"""
+        """Test case for post_api_structured_extraction_structuredprojectid_reset_settings"""
+
+    async def test_post_api_structured_extraction_structuredprojectid_share(
+        self,
+    ) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_share"""
+
+    async def test_post_api_structured_extraction_structuredprojectid_unlock(
+        self,
+    ) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_unlock"""
+
+    async def test_post_api_structured_extraction_structuredprojectid_unshare(
+        self,
+    ) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_unshare"""
 
 
 if __name__ == "__main__":

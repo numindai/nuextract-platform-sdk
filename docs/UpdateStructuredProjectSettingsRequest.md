@@ -1,0 +1,35 @@
+# UpdateStructuredProjectSettingsRequest
+
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**temperature** | **float** | Model temperature (optional). | [optional] 
+**rasterization_dpi** | **int** | Resolution used to convert formatted documents to images (optional). | [optional] 
+**max_output_tokens** | **int** | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | [optional] 
+**degraded_mode** | **str** | Controls whether a response is returned when smart example is not functionning. Rejects by default. | [optional] 
+**max_example_token_number** | **int** | Maximum number of output tokens for smart examples (optional). Must be positive. | [optional] 
+**max_example_number** | **int** | Maximum number of examples to use (optional). Must be positive. Set to 0 for no limit. | [optional] 
+**min_example_similarity** | **float** | Minimum similarity between the document and the examples (optional). Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | [optional] 
+
+## Example
+
+```python
+from numind.models.update_structured_project_settings_request import UpdateStructuredProjectSettingsRequest
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of UpdateStructuredProjectSettingsRequest from a JSON string
+update_structured_project_settings_request_instance = UpdateStructuredProjectSettingsRequest.from_json(json)
+# print the JSON string representation of the object
+print(UpdateStructuredProjectSettingsRequest.to_json())
+
+# convert the object into a dict
+update_structured_project_settings_request_dict = update_structured_project_settings_request_instance.to_dict()
+# create an instance of UpdateStructuredProjectSettingsRequest from a dict
+update_structured_project_settings_request_from_dict = UpdateStructuredProjectSettingsRequest.from_dict(update_structured_project_settings_request_dict)
+```
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

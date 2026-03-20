@@ -13,19 +13,25 @@ Do not edit the class manually.
 """  # noqa: E501
 
 # import models into model package
+from numind.models.content_extraction_response import ContentExtractionResponse
+from numind.models.content_project_response import ContentProjectResponse
+from numind.models.content_project_settings_response import (
+    ContentProjectSettingsResponse,
+)
 from numind.models.convert_request import ConvertRequest
-from numind.models.create_markdown_project_request import CreateMarkdownProjectRequest
-from numind.models.create_or_update_example_request import CreateOrUpdateExampleRequest
-from numind.models.create_project_request import CreateProjectRequest
+from numind.models.create_content_project_request import CreateContentProjectRequest
+from numind.models.create_or_update_structured_example_request import (
+    CreateOrUpdateStructuredExampleRequest,
+)
+from numind.models.create_structured_project_request import (
+    CreateStructuredProjectRequest,
+)
 from numind.models.document_info import DocumentInfo
 from numind.models.document_response import DocumentResponse
 from numind.models.error import Error
-from numind.models.example_response import ExampleResponse
-from numind.models.extraction_response import ExtractionResponse
 from numind.models.file_response import FileResponse
 from numind.models.health_response import HealthResponse
 from numind.models.image_info import ImageInfo
-from numind.models.inference_example import InferenceExample
 from numind.models.inference_status import InferenceStatus
 from numind.models.inference_validation_error import InferenceValidationError
 from numind.models.information_response import InformationResponse
@@ -33,27 +39,31 @@ from numind.models.invalid_information import InvalidInformation
 from numind.models.job_id_response import JobIdResponse
 from numind.models.job_response import JobResponse
 from numind.models.job_status_response import JobStatusResponse
-from numind.models.markdown_project_response import MarkdownProjectResponse
-from numind.models.markdown_project_settings_response import (
-    MarkdownProjectSettingsResponse,
-)
-from numind.models.markdown_response import MarkdownResponse
-from numind.models.paginated_response_example_response import (
-    PaginatedResponseExampleResponse,
-)
 from numind.models.paginated_response_job_response import PaginatedResponseJobResponse
-from numind.models.project_response import ProjectResponse
-from numind.models.project_settings_response import ProjectSettingsResponse
+from numind.models.paginated_response_structured_example_response import (
+    PaginatedResponseStructuredExampleResponse,
+)
 from numind.models.service_status import ServiceStatus
+from numind.models.structured_example_response import StructuredExampleResponse
+from numind.models.structured_extraction_response import StructuredExtractionResponse
+from numind.models.structured_inference_example import StructuredInferenceExample
+from numind.models.structured_project_response import StructuredProjectResponse
+from numind.models.structured_project_settings_response import (
+    StructuredProjectSettingsResponse,
+)
 from numind.models.template_request import TemplateRequest
 from numind.models.template_response import TemplateResponse
 from numind.models.text_info import TextInfo
 from numind.models.text_request import TextRequest
-from numind.models.update_markdown_project_request import UpdateMarkdownProjectRequest
-from numind.models.update_markdown_project_settings_request import (
-    UpdateMarkdownProjectSettingsRequest,
+from numind.models.update_content_project_request import UpdateContentProjectRequest
+from numind.models.update_content_project_settings_request import (
+    UpdateContentProjectSettingsRequest,
 )
-from numind.models.update_project_request import UpdateProjectRequest
-from numind.models.update_project_settings_request import UpdateProjectSettingsRequest
+from numind.models.update_structured_project_request import (
+    UpdateStructuredProjectRequest,
+)
+from numind.models.update_structured_project_settings_request import (
+    UpdateStructuredProjectSettingsRequest,
+)
 from numind.models.valid_information import ValidInformation
 from numind.models.version_response import VersionResponse

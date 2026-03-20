@@ -23,20 +23,18 @@ class TestInferenceApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_post_api_content_extraction_contentextractionprojectid_jobs_document_documentid(
+    def test_post_api_content_extraction_contentprojectid_jobs_document_documentid(
         self,
     ) -> None:
-        """Test case for post_api_content_extraction_contentextractionprojectid_jobs_document_documentid"""
+        """Test case for post_api_content_extraction_contentprojectid_jobs_document_documentid"""
 
-    def test_post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid(
+    def test_post_api_structured_extraction_structuredprojectid_jobs_document_documentid(
         self,
     ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_jobs_document_documentid"""
+        """Test case for post_api_structured_extraction_structuredprojectid_jobs_document_documentid"""
 
-    def test_post_api_structured_extraction_structuredextractionprojectid_jobs_text(
-        self,
-    ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_jobs_text"""
+    def test_post_api_structured_extraction_structuredprojectid_jobs_text(self) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_jobs_text"""
 
     def test_post_api_template_generation_jobs_document_documentid(self) -> None:
         """Test case for post_api_template_generation_jobs_document_documentid"""

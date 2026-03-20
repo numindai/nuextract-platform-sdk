@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_api_content_extraction_jobs_contentextractionjobid**
-> MarkdownResponse get_api_content_extraction_jobs_contentextractionjobid(content_extraction_job_id, x_organization_id=x_organization_id)
+> ContentExtractionResponse get_api_content_extraction_jobs_contentextractionjobid(content_extraction_job_id, x_organization_id=x_organization_id)
 
 
  Get content extraction result of a specific job by its unique identifier.
@@ -29,7 +29,7 @@ Method | HTTP request | Description
 
 ```python
 import numind.openapi_client
-from numind.models.markdown_response import MarkdownResponse
+from numind.models.content_extraction_response import ContentExtractionResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MarkdownResponse**](MarkdownResponse.md)
+[**ContentExtractionResponse**](ContentExtractionResponse.md)
 
 ### Authorization
 
@@ -97,8 +97,8 @@ Name | Type | Description  | Notes
 > JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, timeout=timeout)
 
 
- Extract markdown from the provided file using NuMarkdown model as an async job.
- The response contains an extracted markdown together with the reasoning trace.
+ Extract content from the provided file in markdown format as an async job.
+ The response contains extracted markdown together with the reasoning trace.
  The model only accepts images. Therefore, some files are converted to images -
  the **rasterizationDPI** parameter controls their resolution.
 

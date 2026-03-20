@@ -28,21 +28,17 @@ class TestContentExtractionProjectManagementApi(unittest.TestCase):
     def test_get_api_content_extraction(self) -> None:
         """Test case for get_api_content_extraction"""
 
-    def test_patch_api_content_extraction_contentextractionprojectid(self) -> None:
-        """Test case for patch_api_content_extraction_contentextractionprojectid"""
+    def test_patch_api_content_extraction_contentprojectid(self) -> None:
+        """Test case for patch_api_content_extraction_contentprojectid"""
 
-    def test_patch_api_content_extraction_contentextractionprojectid_settings(
-        self,
-    ) -> None:
-        """Test case for patch_api_content_extraction_contentextractionprojectid_settings"""
+    def test_patch_api_content_extraction_contentprojectid_settings(self) -> None:
+        """Test case for patch_api_content_extraction_contentprojectid_settings"""
 
     def test_post_api_content_extraction(self) -> None:
         """Test case for post_api_content_extraction"""
 
-    def test_post_api_content_extraction_contentextractionprojectid_reset_settings(
-        self,
-    ) -> None:
-        """Test case for post_api_content_extraction_contentextractionprojectid_reset_settings"""
+    def test_post_api_content_extraction_contentprojectid_reset_settings(self) -> None:
+        """Test case for post_api_content_extraction_contentprojectid_reset_settings"""
 
 
 if __name__ == "__main__":

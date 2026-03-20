@@ -25,30 +25,26 @@ class TestStructuredExtractionExamplesApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid(
+    def test_delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
         self,
     ) -> None:
-        """Test case for delete_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid"""
+        """Test case for delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid"""
 
-    def test_get_api_structured_extraction_structuredextractionprojectid_examples(
-        self,
-    ) -> None:
-        """Test case for get_api_structured_extraction_structuredextractionprojectid_examples"""
+    def test_get_api_structured_extraction_structuredprojectid_examples(self) -> None:
+        """Test case for get_api_structured_extraction_structuredprojectid_examples"""
 
-    def test_get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid(
+    def test_get_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
         self,
     ) -> None:
-        """Test case for get_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid"""
+        """Test case for get_api_structured_extraction_structuredprojectid_examples_structuredexampleid"""
 
-    def test_post_api_structured_extraction_structuredextractionprojectid_examples(
-        self,
-    ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_examples"""
+    def test_post_api_structured_extraction_structuredprojectid_examples(self) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_examples"""
 
-    def test_put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid(
+    def test_put_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
         self,
     ) -> None:
-        """Test case for put_api_structured_extraction_structuredextractionprojectid_examples_structuredextractionexampleid"""
+        """Test case for put_api_structured_extraction_structuredprojectid_examples_structuredexampleid"""
 
 
 if __name__ == "__main__":

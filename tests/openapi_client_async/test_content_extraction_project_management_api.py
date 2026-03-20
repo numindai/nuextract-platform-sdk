@@ -28,23 +28,19 @@ class TestContentExtractionProjectManagementApi(unittest.IsolatedAsyncioTestCase
     async def test_get_api_content_extraction(self) -> None:
         """Test case for get_api_content_extraction"""
 
-    async def test_patch_api_content_extraction_contentextractionprojectid(
-        self,
-    ) -> None:
-        """Test case for patch_api_content_extraction_contentextractionprojectid"""
+    async def test_patch_api_content_extraction_contentprojectid(self) -> None:
+        """Test case for patch_api_content_extraction_contentprojectid"""
 
-    async def test_patch_api_content_extraction_contentextractionprojectid_settings(
-        self,
-    ) -> None:
-        """Test case for patch_api_content_extraction_contentextractionprojectid_settings"""
+    async def test_patch_api_content_extraction_contentprojectid_settings(self) -> None:
+        """Test case for patch_api_content_extraction_contentprojectid_settings"""
 
     async def test_post_api_content_extraction(self) -> None:
         """Test case for post_api_content_extraction"""
 
-    async def test_post_api_content_extraction_contentextractionprojectid_reset_settings(
+    async def test_post_api_content_extraction_contentprojectid_reset_settings(
         self,
     ) -> None:
-        """Test case for post_api_content_extraction_contentextractionprojectid_reset_settings"""
+        """Test case for post_api_content_extraction_contentprojectid_reset_settings"""
 
 
 if __name__ == "__main__":

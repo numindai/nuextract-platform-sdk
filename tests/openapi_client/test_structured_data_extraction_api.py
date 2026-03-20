@@ -28,10 +28,8 @@ class TestStructuredDataExtractionApi(unittest.TestCase):
     def test_get_api_structured_extraction_jobs_structuredextractionjobid(self) -> None:
         """Test case for get_api_structured_extraction_jobs_structuredextractionjobid"""
 
-    def test_post_api_structured_extraction_structuredextractionprojectid_jobs(
-        self,
-    ) -> None:
-        """Test case for post_api_structured_extraction_structuredextractionprojectid_jobs"""
+    def test_post_api_structured_extraction_structuredprojectid_jobs(self) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_jobs"""
 
 
 if __name__ == "__main__":

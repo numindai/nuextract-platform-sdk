@@ -21,8 +21,8 @@ from pydantic import (
 )
 
 from numind.api_response import ApiResponse
+from numind.models.content_extraction_response import ContentExtractionResponse
 from numind.models.job_id_response import JobIdResponse
-from numind.models.markdown_response import MarkdownResponse
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
 
@@ -63,7 +63,7 @@ class ContentExtractionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MarkdownResponse:
+    ) -> ContentExtractionResponse:
         """
         get_api_content_extraction_jobs_contentextractionjobid
 
@@ -104,7 +104,7 @@ class ContentExtractionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownResponse",
+            "200": "ContentExtractionResponse",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -138,7 +138,7 @@ class ContentExtractionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MarkdownResponse]:
+    ) -> ApiResponse[ContentExtractionResponse]:
         """
         get_api_content_extraction_jobs_contentextractionjobid
 
@@ -179,7 +179,7 @@ class ContentExtractionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownResponse",
+            "200": "ContentExtractionResponse",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -254,7 +254,7 @@ class ContentExtractionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "MarkdownResponse",
+            "200": "ContentExtractionResponse",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -372,7 +372,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract markdown from the provided file using NuMarkdown model as an async job.  The response contains an extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytearray
@@ -487,7 +487,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract markdown from the provided file using NuMarkdown model as an async job.  The response contains an extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytearray
@@ -602,7 +602,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract markdown from the provided file using NuMarkdown model as an async job.  The response contains an extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytearray

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from numind.models import CreateProjectRequest
+from numind.models import CreateStructuredProjectRequest
 
 from .conftest import EXTRACT_KWARGS, TEST_CASES_NUEXTRACT
 
@@ -40,7 +40,7 @@ def test_create_project(
         if isinstance(examples[idx][0], Path):
             examples[idx] = (str(examples[idx][0]), examples[idx][1])
     project_id = numind_client.post_api_structured_extraction(
-        CreateProjectRequest(
+        CreateStructuredProjectRequest(
             name=project_name, description="", template=schema, instructions=""
         )
     ).id

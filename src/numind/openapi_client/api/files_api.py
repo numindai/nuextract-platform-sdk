@@ -334,7 +334,7 @@ class FilesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> bytearray:
+    ) -> bytes:
         """
         get_api_files_fileid_content
 
@@ -375,7 +375,7 @@ class FilesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "bytearray",
+            "200": "bytes",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -407,7 +407,7 @@ class FilesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[bytearray]:
+    ) -> ApiResponse[bytes]:
         """
         get_api_files_fileid_content
 
@@ -448,7 +448,7 @@ class FilesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "bytearray",
+            "200": "bytes",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -521,7 +521,7 @@ class FilesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "bytearray",
+            "200": "bytes",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -618,7 +618,7 @@ class FilesApi:
         :param x_file_name: The name of the file to be uploaded. (required)
         :type x_file_name: str
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -698,7 +698,7 @@ class FilesApi:
         :param x_file_name: The name of the file to be uploaded. (required)
         :type x_file_name: str
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -778,7 +778,7 @@ class FilesApi:
         :param x_file_name: The name of the file to be uploaded. (required)
         :type x_file_name: str
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one

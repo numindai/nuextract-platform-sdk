@@ -93,7 +93,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_files_fileid_content**
-> bytearray get_api_files_fileid_content(file_id, x_organization_id=x_organization_id)
+> bytes get_api_files_fileid_content(file_id, x_organization_id=x_organization_id)
 
 
  Return the content of a specific **File**.
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bytearray**
+**bytes**
 
 ### Authorization
 
@@ -209,7 +209,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
     x_file_name = 'x_file_name_example' # str | The name of the file to be uploaded.
-    body = None # bytearray | 
+    body = None # bytes | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
@@ -228,7 +228,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **x_file_name** | **str**| The name of the file to be uploaded. | 
- **body** | **bytearray**|  | 
+ **body** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type

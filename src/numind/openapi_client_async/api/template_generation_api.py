@@ -358,7 +358,7 @@ class TemplateGenerationApi:
           Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
 
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
@@ -450,7 +450,7 @@ class TemplateGenerationApi:
           Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
 
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
@@ -542,7 +542,7 @@ class TemplateGenerationApi:
           Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
 
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.

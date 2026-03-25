@@ -140,7 +140,7 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.TemplateGenerationApi(api_client)
-    body = None # bytearray | 
+    body = None # bytes | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
@@ -160,7 +160,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bytearray**|  | 
+ **body** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 

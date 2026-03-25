@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_documents_documentid_content**
-> bytearray get_api_documents_documentid_content(document_id, x_organization_id=x_organization_id)
+> bytes get_api_documents_documentid_content(document_id, x_organization_id=x_organization_id)
 
 
  Return the content of a specific **Document**.
@@ -155,7 +155,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bytearray**
+**bytes**
 
 ### Authorization
 

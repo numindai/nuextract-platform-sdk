@@ -404,7 +404,7 @@ class StructuredDataExtractionApi:
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
@@ -560,7 +560,7 @@ class StructuredDataExtractionApi:
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.
@@ -716,7 +716,7 @@ class StructuredDataExtractionApi:
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
         :param body: (required)
-        :type body: bytearray
+        :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1.

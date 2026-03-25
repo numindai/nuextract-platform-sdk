@@ -375,7 +375,7 @@ class ContentExtractionApi:
           Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
-        :type file: bytearray
+        :type file: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
@@ -490,7 +490,7 @@ class ContentExtractionApi:
           Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
-        :type file: bytearray
+        :type file: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
@@ -605,7 +605,7 @@ class ContentExtractionApi:
           Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
-        :type file: bytearray
+        :type file: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.

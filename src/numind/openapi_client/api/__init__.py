@@ -20,3 +20,4 @@ from numind.openapi_client.api.structured_extraction_project_management_api impo
     StructuredExtractionProjectManagementApi,
 )
 from numind.openapi_client.api.template_generation_api import TemplateGenerationApi
+from numind.openapi_client.api.usage_api import UsageApi

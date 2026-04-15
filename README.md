@@ -329,6 +329,7 @@ Class | Method | HTTP request | Description
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_unshare**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_unshare) | **POST** /api/structured-extraction/{structuredProjectId}/unshare | 
 *TemplateGenerationApi* | [**get_api_template_generation_jobs_templatejobid**](docs/TemplateGenerationApi.md#get_api_template_generation_jobs_templatejobid) | **GET** /api/template-generation/jobs/{templateJobId} | 
 *TemplateGenerationApi* | [**post_api_template_generation_jobs**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs) | **POST** /api/template-generation/jobs | 
+*UsageApi* | [**get_api_usage_global**](docs/UsageApi.md#get_api_usage_global) | **GET** /api/usage/global | 
 
 
 ### Documentation For Models
@@ -340,6 +341,7 @@ Class | Method | HTTP request | Description
  - [CreateContentProjectRequest](docs/CreateContentProjectRequest.md)
  - [CreateOrUpdateStructuredExampleRequest](docs/CreateOrUpdateStructuredExampleRequest.md)
  - [CreateStructuredProjectRequest](docs/CreateStructuredProjectRequest.md)
+ - [DateRange](docs/DateRange.md)
  - [DocumentInfo](docs/DocumentInfo.md)
  - [DocumentResponse](docs/DocumentResponse.md)
  - [Error](docs/Error.md)
@@ -369,6 +371,9 @@ Class | Method | HTTP request | Description
  - [UpdateContentProjectSettingsRequest](docs/UpdateContentProjectSettingsRequest.md)
  - [UpdateStructuredProjectRequest](docs/UpdateStructuredProjectRequest.md)
  - [UpdateStructuredProjectSettingsRequest](docs/UpdateStructuredProjectSettingsRequest.md)
+ - [UsageItemResponse](docs/UsageItemResponse.md)
+ - [UsageMetricsResponse](docs/UsageMetricsResponse.md)
+ - [UsageResponse](docs/UsageResponse.md)
  - [ValidInformation](docs/ValidInformation.md)
  - [VersionResponse](docs/VersionResponse.md)
 

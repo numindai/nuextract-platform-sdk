@@ -22,3 +22,4 @@ from numind.openapi_client_async.api.structured_extraction_project_management_ap
 from numind.openapi_client_async.api.template_generation_api import (
     TemplateGenerationApi,
 )
+from numind.openapi_client_async.api.usage_api import UsageApi

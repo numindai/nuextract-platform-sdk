@@ -16,7 +16,10 @@ Method | HTTP request | Description
 
 
  Extract content from the provided document in markdown format as an async job.
- Inference **temperature** can be set in the project settings.
+ Inference parameters are resolved from the project settings first, then platform defaults when absent:
+ - `temperature`: project setting -> platform default
+ - `maxOutputTokens`: project setting -> platform default
+ - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)
 
 #### Response:
  Returns a JSON containing the job ID that can be used to retrieve the job status and results.

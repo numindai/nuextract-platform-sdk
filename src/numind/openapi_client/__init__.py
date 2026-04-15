@@ -28,6 +28,7 @@ __all__ = [
     "StructuredExtractionExamplesApi",
     "StructuredExtractionProjectManagementApi",
     "TemplateGenerationApi",
+    "UsageApi",
     "ApiResponse",
     "ApiClient",
     "Configuration",
@@ -44,6 +45,7 @@ __all__ = [
     "CreateContentProjectRequest",
     "CreateOrUpdateStructuredExampleRequest",
     "CreateStructuredProjectRequest",
+    "DateRange",
     "DocumentInfo",
     "DocumentResponse",
     "Error",
@@ -73,6 +75,9 @@ __all__ = [
     "UpdateContentProjectSettingsRequest",
     "UpdateStructuredProjectRequest",
     "UpdateStructuredProjectSettingsRequest",
+    "UsageItemResponse",
+    "UsageMetricsResponse",
+    "UsageResponse",
     "ValidInformation",
     "VersionResponse",
 ]
@@ -101,6 +106,7 @@ from numind.openapi_client.api.structured_extraction_project_management_api impo
 from numind.openapi_client.api.template_generation_api import (
     TemplateGenerationApi as TemplateGenerationApi,
 )
+from numind.openapi_client.api.usage_api import UsageApi as UsageApi
 
 # import ApiClient
 from numind.api_response import ApiResponse as ApiResponse
@@ -133,6 +139,7 @@ from numind.models.create_or_update_structured_example_request import (
 from numind.models.create_structured_project_request import (
     CreateStructuredProjectRequest as CreateStructuredProjectRequest,
 )
+from numind.models.date_range import DateRange as DateRange
 from numind.models.document_info import DocumentInfo as DocumentInfo
 from numind.models.document_response import DocumentResponse as DocumentResponse
 from numind.models.error import Error as Error
@@ -188,5 +195,10 @@ from numind.models.update_structured_project_request import (
 from numind.models.update_structured_project_settings_request import (
     UpdateStructuredProjectSettingsRequest as UpdateStructuredProjectSettingsRequest,
 )
+from numind.models.usage_item_response import UsageItemResponse as UsageItemResponse
+from numind.models.usage_metrics_response import (
+    UsageMetricsResponse as UsageMetricsResponse,
+)
+from numind.models.usage_response import UsageResponse as UsageResponse
 from numind.models.valid_information import ValidInformation as ValidInformation
 from numind.models.version_response import VersionResponse as VersionResponse

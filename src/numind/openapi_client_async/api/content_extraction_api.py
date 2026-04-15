@@ -328,6 +328,12 @@ class ContentExtractionApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        project_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -336,19 +342,19 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default."
+                description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit."
             ),
         ] = None,
         timeout: Annotated[
@@ -372,17 +378,19 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
+        :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
+        :type project_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
-        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default.
+        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit.
         :type max_output_tokens: int
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -410,6 +418,7 @@ class ContentExtractionApi:
         _param = self._post_api_content_extraction_jobs_serialize(
             file=file,
             x_organization_id=x_organization_id,
+            project_id=project_id,
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
@@ -443,6 +452,12 @@ class ContentExtractionApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        project_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -451,19 +466,19 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default."
+                description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit."
             ),
         ] = None,
         timeout: Annotated[
@@ -487,17 +502,19 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
+        :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
+        :type project_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
-        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default.
+        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit.
         :type max_output_tokens: int
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -525,6 +542,7 @@ class ContentExtractionApi:
         _param = self._post_api_content_extraction_jobs_serialize(
             file=file,
             x_organization_id=x_organization_id,
+            project_id=project_id,
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
@@ -558,6 +576,12 @@ class ContentExtractionApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        project_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -566,19 +590,19 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
             Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default."
+                description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit."
             ),
         ] = None,
         timeout: Annotated[
@@ -602,17 +626,19 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. If not specified, the default value 0.0 is used.
+        :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
+        :type project_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
-        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit by default.
+        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit.
         :type max_output_tokens: int
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -640,6 +666,7 @@ class ContentExtractionApi:
         _param = self._post_api_content_extraction_jobs_serialize(
             file=file,
             x_organization_id=x_organization_id,
+            project_id=project_id,
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
@@ -663,6 +690,7 @@ class ContentExtractionApi:
         self,
         file,
         x_organization_id,
+        project_id,
         temperature,
         rasterization_dpi,
         max_output_tokens,
@@ -688,6 +716,9 @@ class ContentExtractionApi:
 
         # process the path parameters
         # process the query parameters
+        if project_id is not None:
+            _query_params.append(("projectId", project_id))
+
         if temperature is not None:
             _query_params.append(("temperature", temperature))
 

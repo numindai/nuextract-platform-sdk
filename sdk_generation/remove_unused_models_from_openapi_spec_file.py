@@ -47,6 +47,7 @@ TAGS_PATHS_TO_DELETE = {
     "Examples (Deprecated)",
     "Playground (Deprecated)",
     "Inference (Deprecated)",
+    "Usage",
 }
 API_BASE_URL = "https://nuextract.ai"
 

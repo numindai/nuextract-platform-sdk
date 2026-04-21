@@ -95,7 +95,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_structured_extraction_structuredprojectid_examples**
-> PaginatedResponseStructuredExampleResponse get_api_structured_extraction_structuredprojectid_examples(structured_project_id, x_organization_id=x_organization_id, skip=skip, per_page=per_page)
+> PaginatedResponseT get_api_structured_extraction_structuredprojectid_examples(structured_project_id, x_organization_id=x_organization_id, skip=skip, per_page=per_page)
 
 
 Return a list of **Examples** associated to the specified **Structured Extraction Project** with pagination support.
@@ -112,7 +112,7 @@ Return a list of **Examples** associated to the specified **Structured Extractio
 
 ```python
 import numind.openapi_client
-from numind.models.paginated_response_structured_example_response import PaginatedResponseStructuredExampleResponse
+from numind.models.paginated_response_t import PaginatedResponseT
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PaginatedResponseStructuredExampleResponse**](PaginatedResponseStructuredExampleResponse.md)
+[**PaginatedResponseT**](PaginatedResponseT.md)
 
 ### Authorization
 

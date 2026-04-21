@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.job_response import JobResponse
+from numind.models.paginated_response_t import PaginatedResponseT
 
 
-class TestJobResponse(unittest.TestCase):
-    """JobResponse unit test stubs"""
+class TestPaginatedResponseT(unittest.TestCase):
+    """PaginatedResponseT unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,47 +23,42 @@ class TestJobResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> JobResponse:
+    def make_instance(self, include_optional) -> PaginatedResponseT:
         """
-        Test JobResponse
+        Test PaginatedResponseT
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `JobResponse`
+        # uncomment below to create an instance of `PaginatedResponseT`
         """
-        model = JobResponse()
+        model = PaginatedResponseT()
         if include_optional:
-            return JobResponse(
-                id = '',
-                job_type = '',
-                status = '',
-                owner_user = '',
-                owner_organization = '',
-                input_data = '',
-                output_data = '',
-                error_message = '',
-                error_code = '',
-                started_at = '',
-                completed_at = '',
-                created_at = '',
-                updated_at = ''
+            return PaginatedResponseT(
+                total_count = 56,
+                skip = 56,
+                per_page = 56,
+                items = [
+                    numind.models.structured_example_response.StructuredExampleResponse(
+                        id = '', 
+                        project_id = '', 
+                        owner_user = '', 
+                        document_info = null, 
+                        result = null, 
+                        created_at = '', 
+                        updated_at = '', )
+                    ]
             )
         else:
-            return JobResponse(
-                id = '',
-                job_type = '',
-                status = '',
-                owner_user = '',
-                input_data = '',
-                started_at = '',
-                created_at = '',
-                updated_at = '',
+            return PaginatedResponseT(
+                total_count = 56,
+                skip = 56,
+                per_page = 56,
         )
         """
 
-    def testJobResponse(self):
-        """Test JobResponse"""
+    def testPaginatedResponseT(self):
+        """Test PaginatedResponseT"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

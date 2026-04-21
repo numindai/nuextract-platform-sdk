@@ -17,9 +17,7 @@ from numind.api_response import ApiResponse
 from numind.models.create_or_update_structured_example_request import (
     CreateOrUpdateStructuredExampleRequest,
 )
-from numind.models.paginated_response_structured_example_response import (
-    PaginatedResponseStructuredExampleResponse,
-)
+from numind.models.paginated_response_t import PaginatedResponseT
 from numind.models.structured_example_response import StructuredExampleResponse
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
@@ -377,7 +375,7 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseStructuredExampleResponse:
+    ) -> PaginatedResponseT:
         """
         get_api_structured_extraction_structuredprojectid_examples
 
@@ -426,7 +424,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseStructuredExampleResponse",
+            "200": "PaginatedResponseT",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -472,7 +470,7 @@ class StructuredExtractionExamplesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseStructuredExampleResponse]:
+    ) -> ApiResponse[PaginatedResponseT]:
         """
         get_api_structured_extraction_structuredprojectid_examples
 
@@ -521,7 +519,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseStructuredExampleResponse",
+            "200": "PaginatedResponseT",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -616,7 +614,7 @@ class StructuredExtractionExamplesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseStructuredExampleResponse",
+            "200": "PaginatedResponseT",
             "400": "str",
         }
         response_data = await self.api_client.call_api(

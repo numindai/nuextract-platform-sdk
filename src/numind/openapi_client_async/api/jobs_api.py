@@ -15,7 +15,7 @@ from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
 from numind.models.job_status_response import JobStatusResponse
-from numind.models.paginated_response_job_response import PaginatedResponseJobResponse
+from numind.models.paginated_response_t import PaginatedResponseT
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
 
@@ -64,7 +64,7 @@ class JobsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseJobResponse:
+    ) -> PaginatedResponseT:
         """
         get_api_jobs
 
@@ -111,7 +111,7 @@ class JobsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseJobResponse",
+            "200": "PaginatedResponseT",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -154,7 +154,7 @@ class JobsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseJobResponse]:
+    ) -> ApiResponse[PaginatedResponseT]:
         """
         get_api_jobs
 
@@ -201,7 +201,7 @@ class JobsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseJobResponse",
+            "200": "PaginatedResponseT",
             "400": "str",
         }
         response_data = await self.api_client.call_api(
@@ -291,7 +291,7 @@ class JobsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "PaginatedResponseJobResponse",
+            "200": "PaginatedResponseT",
             "400": "str",
         }
         response_data = await self.api_client.call_api(

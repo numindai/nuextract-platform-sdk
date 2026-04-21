@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **get_api_jobs**
-> PaginatedResponseJobResponse get_api_jobs(x_organization_id=x_organization_id, organization=organization, skip=skip, per_page=per_page)
+> PaginatedResponseT get_api_jobs(x_organization_id=x_organization_id, organization=organization, skip=skip, per_page=per_page)
 
 
  List all jobs for the authenticated user with pagination support.
@@ -25,7 +25,7 @@ Method | HTTP request | Description
 
 ```python
 import numind.openapi_client
-from numind.models.paginated_response_job_response import PaginatedResponseJobResponse
+from numind.models.paginated_response_t import PaginatedResponseT
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PaginatedResponseJobResponse**](PaginatedResponseJobResponse.md)
+[**PaginatedResponseT**](PaginatedResponseT.md)
 
 ### Authorization
 

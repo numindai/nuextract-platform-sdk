@@ -55,10 +55,8 @@ __all__ = [
     "InformationResponse",
     "InvalidInformation",
     "JobIdResponse",
-    "JobResponse",
     "JobStatusResponse",
-    "PaginatedResponseJobResponse",
-    "PaginatedResponseStructuredExampleResponse",
+    "PaginatedResponseT",
     "ServiceStatus",
     "StructuredExampleResponse",
     "StructuredExtractionResponse",
@@ -148,14 +146,8 @@ from numind.models.information_response import (
 )
 from numind.models.invalid_information import InvalidInformation as InvalidInformation
 from numind.models.job_id_response import JobIdResponse as JobIdResponse
-from numind.models.job_response import JobResponse as JobResponse
 from numind.models.job_status_response import JobStatusResponse as JobStatusResponse
-from numind.models.paginated_response_job_response import (
-    PaginatedResponseJobResponse as PaginatedResponseJobResponse,
-)
-from numind.models.paginated_response_structured_example_response import (
-    PaginatedResponseStructuredExampleResponse as PaginatedResponseStructuredExampleResponse,
-)
+from numind.models.paginated_response_t import PaginatedResponseT as PaginatedResponseT
 from numind.models.service_status import ServiceStatus as ServiceStatus
 from numind.models.structured_example_response import (
     StructuredExampleResponse as StructuredExampleResponse,

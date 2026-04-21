@@ -37,12 +37,8 @@ from numind.models.inference_validation_error import InferenceValidationError
 from numind.models.information_response import InformationResponse
 from numind.models.invalid_information import InvalidInformation
 from numind.models.job_id_response import JobIdResponse
-from numind.models.job_response import JobResponse
 from numind.models.job_status_response import JobStatusResponse
-from numind.models.paginated_response_job_response import PaginatedResponseJobResponse
-from numind.models.paginated_response_structured_example_response import (
-    PaginatedResponseStructuredExampleResponse,
-)
+from numind.models.paginated_response_t import PaginatedResponseT
 from numind.models.service_status import ServiceStatus
 from numind.models.structured_example_response import StructuredExampleResponse
 from numind.models.structured_extraction_response import StructuredExtractionResponse

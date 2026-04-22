@@ -13,6 +13,7 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import (
     Field,
+    StrictBool,
     StrictBytes,
     StrictFloat,
     StrictInt,
@@ -357,6 +358,12 @@ class ContentExtractionApi:
                 description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -392,6 +399,8 @@ class ContentExtractionApi:
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit.
         :type max_output_tokens: int
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -422,6 +431,7 @@ class ContentExtractionApi:
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -481,6 +491,12 @@ class ContentExtractionApi:
                 description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -516,6 +532,8 @@ class ContentExtractionApi:
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit.
         :type max_output_tokens: int
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -546,6 +564,7 @@ class ContentExtractionApi:
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -605,6 +624,12 @@ class ContentExtractionApi:
                 description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -640,6 +665,8 @@ class ContentExtractionApi:
         :type rasterization_dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit.
         :type max_output_tokens: int
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -670,6 +697,7 @@ class ContentExtractionApi:
             temperature=temperature,
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -694,6 +722,7 @@ class ContentExtractionApi:
         temperature,
         rasterization_dpi,
         max_output_tokens,
+        enable_thinking,
         timeout,
         _request_auth,
         _content_type,
@@ -727,6 +756,9 @@ class ContentExtractionApi:
 
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
+
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

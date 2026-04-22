@@ -33,6 +33,11 @@ class StructuredExtractionResponse(BaseModel):
     result: Dict[str, Any] = Field(
         description="Inference result conforming to the template."
     )
+    thinking_trace: Optional[StrictStr] = Field(
+        default=None,
+        description="Reasoning of structured data extraction model",
+        alias="thinkingTrace",
+    )
     raw_model_output: StrictStr = Field(
         description="Raw inference result as returned by the model.",
         alias="rawModelOutput",
@@ -70,6 +75,7 @@ class StructuredExtractionResponse(BaseModel):
     )
     __properties: ClassVar[List[str]] = [
         "result",
+        "thinkingTrace",
         "rawModelOutput",
         "error",
         "documentInfo",
@@ -146,6 +152,7 @@ class StructuredExtractionResponse(BaseModel):
         _obj = cls.model_validate(
             {
                 "result": obj.get("result"),
+                "thinkingTrace": obj.get("thinkingTrace"),
                 "rawModelOutput": obj.get("rawModelOutput"),
                 "error": InferenceValidationError.from_dict(obj["error"])
                 if obj.get("error") is not None

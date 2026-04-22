@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **temperature** | **float** | Model temperature (optional). | [optional] 
 **rasterization_dpi** | **int** | Resolution used to convert formatted documents to images (optional). | [optional] 
 **max_output_tokens** | **int** | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | [optional] 
+**enable_thinking** | **bool** | Enable thinking/reasoning (optional). | [optional] 
 
 ## Example
 

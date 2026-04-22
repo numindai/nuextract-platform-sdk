@@ -36,6 +36,7 @@ class TestStructuredExtractionResponse(unittest.TestCase):
         if include_optional:
             return StructuredExtractionResponse(
                 result = None,
+                thinking_trace = '',
                 raw_model_output = '',
                 error = numind.models.inference_validation_error.InferenceValidationError(
                     message = '', 

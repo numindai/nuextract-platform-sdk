@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **result** | **object** | Inference result conforming to the template. | 
+**thinking_trace** | **str** | Reasoning of structured data extraction model | [optional] 
 **raw_model_output** | **str** | Raw inference result as returned by the model. | 
 **error** | [**InferenceValidationError**](InferenceValidationError.md) | Inference result validation error if the result does not conform to the template. | [optional] 
 **document_info** | [**DocumentInfo**](DocumentInfo.md) | Basic information on the document used for inference. | [optional] 

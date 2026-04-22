@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -55,6 +55,9 @@ class StructuredProjectSettingsResponse(BaseModel):
         description="Minimum similarity between the document and the examples (optional). Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.",
         alias="minExampleSimilarity",
     )
+    enable_thinking: StrictBool = Field(
+        description="Enable thinking/reasoning.", alias="enableThinking"
+    )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
@@ -62,6 +65,7 @@ class StructuredProjectSettingsResponse(BaseModel):
         "maxExampleTokenNumber",
         "maxExampleNumber",
         "minExampleSimilarity",
+        "enableThinking",
     ]
 
     model_config = ConfigDict(
@@ -121,6 +125,7 @@ class StructuredProjectSettingsResponse(BaseModel):
                 "maxExampleTokenNumber": obj.get("maxExampleTokenNumber"),
                 "maxExampleNumber": obj.get("maxExampleNumber"),
                 "minExampleSimilarity": obj.get("minExampleSimilarity"),
+                "enableThinking": obj.get("enableThinking"),
             }
         )
         return _obj

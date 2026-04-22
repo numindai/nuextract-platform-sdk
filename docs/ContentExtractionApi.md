@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_content_extraction_jobs**
-> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, timeout=timeout)
+> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, timeout=timeout)
 
 
  Extract content from the provided file in markdown format as an async job.
@@ -149,10 +149,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0. (optional)
     rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit. (optional)
+    enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, timeout=timeout)
+        api_response = api_instance.post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, timeout=timeout)
         print("The response of ContentExtractionApi->post_api_content_extraction_jobs:\n")
         pprint(api_response)
     except Exception as e:
@@ -172,6 +173,7 @@ Name | Type | Description  | Notes
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request &#x60;temperature&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 0.0. | [optional] 
  **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request &#x60;rasterizationDPI&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 170 dpi. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Resolution order: request &#x60;maxOutputTokens&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 0. Set to 0 for no limit. | [optional] 
+ **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default true. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type
@@ -192,7 +194,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter enableThinking, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

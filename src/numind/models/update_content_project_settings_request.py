@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -44,10 +44,16 @@ class UpdateContentProjectSettingsRequest(BaseModel):
         description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.",
         alias="maxOutputTokens",
     )
+    enable_thinking: Optional[StrictBool] = Field(
+        default=None,
+        description="Enable thinking/reasoning (optional).",
+        alias="enableThinking",
+    )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
         "maxOutputTokens",
+        "enableThinking",
     ]
 
     model_config = ConfigDict(
@@ -104,6 +110,7 @@ class UpdateContentProjectSettingsRequest(BaseModel):
                 "temperature": obj.get("temperature"),
                 "rasterizationDPI": obj.get("rasterizationDPI"),
                 "maxOutputTokens": obj.get("maxOutputTokens"),
+                "enableThinking": obj.get("enableThinking"),
             }
         )
         return _obj

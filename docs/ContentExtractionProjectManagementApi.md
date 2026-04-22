@@ -212,7 +212,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    update_content_project_settings_request = {"temperature":0,"rasterizationDPI":170,"maxOutputTokens":0} # UpdateContentProjectSettingsRequest | 
+    update_content_project_settings_request = {"temperature":0,"rasterizationDPI":170,"maxOutputTokens":0,"enableThinking":true} # UpdateContentProjectSettingsRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:

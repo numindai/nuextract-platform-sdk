@@ -11,7 +11,7 @@ Do not edit the class manually.
 
 from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
-from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
+from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
 from numind.models.job_id_response import JobIdResponse
@@ -423,6 +423,12 @@ class InferenceApi:
                 description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -462,6 +468,8 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -494,6 +502,7 @@ class InferenceApi:
             max_example_token_number=max_example_token_number,
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -570,6 +579,12 @@ class InferenceApi:
                 description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -609,6 +624,8 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -641,6 +658,7 @@ class InferenceApi:
             max_example_token_number=max_example_token_number,
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -717,6 +735,12 @@ class InferenceApi:
                 description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -756,6 +780,8 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -788,6 +814,7 @@ class InferenceApi:
             max_example_token_number=max_example_token_number,
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -814,6 +841,7 @@ class InferenceApi:
         max_example_token_number,
         max_example_number,
         min_example_similarity,
+        enable_thinking,
         timeout,
         _request_auth,
         _content_type,
@@ -854,6 +882,9 @@ class InferenceApi:
 
         if min_example_similarity is not None:
             _query_params.append(("minExampleSimilarity", min_example_similarity))
+
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
@@ -942,6 +973,12 @@ class InferenceApi:
                 description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -981,6 +1018,8 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1013,6 +1052,7 @@ class InferenceApi:
             max_example_token_number=max_example_token_number,
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1087,6 +1127,12 @@ class InferenceApi:
                 description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1126,6 +1172,8 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1158,6 +1206,7 @@ class InferenceApi:
             max_example_token_number=max_example_token_number,
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1232,6 +1281,12 @@ class InferenceApi:
                 description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1271,6 +1326,8 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1303,6 +1360,7 @@ class InferenceApi:
             max_example_token_number=max_example_token_number,
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1329,6 +1387,7 @@ class InferenceApi:
         max_example_token_number,
         max_example_number,
         min_example_similarity,
+        enable_thinking,
         timeout,
         _request_auth,
         _content_type,
@@ -1367,6 +1426,9 @@ class InferenceApi:
 
         if min_example_similarity is not None:
             _query_params.append(("minExampleSimilarity", min_example_similarity))
+
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

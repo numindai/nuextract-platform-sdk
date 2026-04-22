@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **max_example_token_number** | **int** | Maximum number of output tokens for smart examples (optional). Must be positive. | 
 **max_example_number** | **int** | Maximum number of examples to use (optional). Must be positive. Set to 0 for no limit. | 
 **min_example_similarity** | **float** | Minimum similarity between the document and the examples (optional). Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | 
+**enable_thinking** | **bool** | Enable thinking/reasoning. | 
 
 ## Example
 

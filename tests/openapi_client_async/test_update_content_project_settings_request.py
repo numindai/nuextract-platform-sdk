@@ -39,7 +39,8 @@ class TestUpdateContentProjectSettingsRequest(unittest.TestCase):
             return UpdateContentProjectSettingsRequest(
                 temperature = 0.0,
                 rasterization_dpi = 0,
-                max_output_tokens = 56
+                max_output_tokens = 56,
+                enable_thinking = True
             )
         else:
             return UpdateContentProjectSettingsRequest(

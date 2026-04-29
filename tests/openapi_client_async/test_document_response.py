@@ -38,14 +38,12 @@ class TestDocumentResponse(unittest.TestCase):
                 doc_info = None,
                 owner_user = '',
                 owner_organization = '',
-                content_type = '',
                 created_at = ''
             )
         else:
             return DocumentResponse(
                 doc_info = None,
                 owner_user = '',
-                content_type = '',
                 created_at = '',
         )
         """

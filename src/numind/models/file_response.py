@@ -36,16 +36,12 @@ class FileResponse(BaseModel):
         description="File owning organization (if any).",
         alias="ownerOrganization",
     )
-    content_type: StrictStr = Field(
-        description="Mime type of the file.", alias="contentType"
-    )
     created_at: StrictStr = Field(description="File creation date.", alias="createdAt")
     __properties: ClassVar[List[str]] = [
         "fileId",
         "fileName",
         "ownerUser",
         "ownerOrganization",
-        "contentType",
         "createdAt",
     ]
 
@@ -104,7 +100,6 @@ class FileResponse(BaseModel):
                 "fileName": obj.get("fileName"),
                 "ownerUser": obj.get("ownerUser"),
                 "ownerOrganization": obj.get("ownerOrganization"),
-                "contentType": obj.get("contentType"),
                 "createdAt": obj.get("createdAt"),
             }
         )

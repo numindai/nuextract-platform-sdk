@@ -39,14 +39,12 @@ class TestFileResponse(unittest.TestCase):
                 file_name = '',
                 owner_user = '',
                 owner_organization = '',
-                content_type = '',
                 created_at = ''
             )
         else:
             return FileResponse(
                 file_id = '',
                 owner_user = '',
-                content_type = '',
                 created_at = '',
         )
         """

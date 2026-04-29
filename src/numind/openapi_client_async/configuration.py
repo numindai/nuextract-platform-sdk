@@ -17,6 +17,7 @@ import sys
 from logging import FileHandler
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 
+import aiohttp_retry
 from typing_extensions import NotRequired, Self
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
@@ -195,7 +196,7 @@ class Configuration:
         server_operation_variables: Optional[Dict[int, ServerVariablesT]] = None,
         ignore_operation_servers: bool = False,
         ssl_ca_cert: Optional[str] = None,
-        retries: Optional[Union[int, Any]] = None,
+        retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
         cert_file: Optional[str] = None,
         key_file: Optional[str] = None,

@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **doc_info** | [**DocumentInfo**](DocumentInfo.md) | Basic document information. | 
 **owner_user** | **str** | Document owner. | 
 **owner_organization** | **str** | Document owning organization (if any). | [optional] 
-**content_type** | **str** | Mime type of the document. | 
 **created_at** | **str** | Document creation date. | 
 
 ## Example

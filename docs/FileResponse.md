@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **file_name** | **str** | Filename of the initial file. | [optional] 
 **owner_user** | **str** | File owner. | 
 **owner_organization** | **str** | File owning organization (if any). | [optional] 
-**content_type** | **str** | Mime type of the file. | 
 **created_at** | **str** | File creation date. | 
 
 ## Example

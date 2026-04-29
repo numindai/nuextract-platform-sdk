@@ -37,9 +37,6 @@ class DocumentResponse(BaseModel):
         description="Document owning organization (if any).",
         alias="ownerOrganization",
     )
-    content_type: StrictStr = Field(
-        description="Mime type of the document.", alias="contentType"
-    )
     created_at: StrictStr = Field(
         description="Document creation date.", alias="createdAt"
     )
@@ -47,7 +44,6 @@ class DocumentResponse(BaseModel):
         "docInfo",
         "ownerUser",
         "ownerOrganization",
-        "contentType",
         "createdAt",
     ]
 
@@ -110,7 +106,6 @@ class DocumentResponse(BaseModel):
                 else None,
                 "ownerUser": obj.get("ownerUser"),
                 "ownerOrganization": obj.get("ownerOrganization"),
-                "contentType": obj.get("contentType"),
                 "createdAt": obj.get("createdAt"),
             }
         )

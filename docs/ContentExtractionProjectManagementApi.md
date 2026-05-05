@@ -4,12 +4,87 @@ All URIs are relative to *https://nuextract.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**delete_api_content_extraction_contentprojectid**](ContentExtractionProjectManagementApi.md#delete_api_content_extraction_contentprojectid) | **DELETE** /api/content-extraction/{contentProjectId} | 
 [**get_api_content_extraction**](ContentExtractionProjectManagementApi.md#get_api_content_extraction) | **GET** /api/content-extraction | 
 [**patch_api_content_extraction_contentprojectid**](ContentExtractionProjectManagementApi.md#patch_api_content_extraction_contentprojectid) | **PATCH** /api/content-extraction/{contentProjectId} | 
 [**patch_api_content_extraction_contentprojectid_settings**](ContentExtractionProjectManagementApi.md#patch_api_content_extraction_contentprojectid_settings) | **PATCH** /api/content-extraction/{contentProjectId}/settings | 
 [**post_api_content_extraction**](ContentExtractionProjectManagementApi.md#post_api_content_extraction) | **POST** /api/content-extraction | 
 [**post_api_content_extraction_contentprojectid_reset_settings**](ContentExtractionProjectManagementApi.md#post_api_content_extraction_contentprojectid_reset_settings) | **POST** /api/content-extraction/{contentProjectId}/reset-settings | 
 
+
+# **delete_api_content_extraction_contentprojectid**
+> delete_api_content_extraction_contentprojectid(content_project_id, x_organization_id=x_organization_id)
+
+
+Delete a **Content Extraction Project**. This action cannot be undone.
+    
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
+    content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+
+    try:
+        api_instance.delete_api_content_extraction_contentprojectid(content_project_id, x_organization_id=x_organization_id)
+    except Exception as e:
+        print("Exception when calling ContentExtractionProjectManagementApi->delete_api_content_extraction_contentprojectid: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **content_project_id** | **str**| Unique content extraction project identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_content_extraction**
 > List[ContentProjectResponse] get_api_content_extraction(x_organization_id=x_organization_id)

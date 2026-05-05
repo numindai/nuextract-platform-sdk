@@ -34,6 +34,11 @@ class TestStructuredExtractionProjectManagementApi(unittest.IsolatedAsyncioTestC
     async def test_get_api_structured_extraction_structuredprojectid(self) -> None:
         """Test case for get_api_structured_extraction_structuredprojectid"""
 
+    async def test_get_api_structured_extraction_structuredprojectid_thumbnail(
+        self,
+    ) -> None:
+        """Test case for get_api_structured_extraction_structuredprojectid_thumbnail"""
+
     async def test_patch_api_structured_extraction_structuredprojectid(self) -> None:
         """Test case for patch_api_structured_extraction_structuredprojectid"""
 

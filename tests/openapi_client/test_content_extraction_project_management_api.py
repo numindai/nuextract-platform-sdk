@@ -25,6 +25,9 @@ class TestContentExtractionProjectManagementApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_delete_api_content_extraction_contentprojectid(self) -> None:
+        """Test case for delete_api_content_extraction_contentprojectid"""
+
     def test_get_api_content_extraction(self) -> None:
         """Test case for get_api_content_extraction"""
 

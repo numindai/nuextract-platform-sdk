@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**delete_api_structured_extraction_structuredprojectid**](StructuredExtractionProjectManagementApi.md#delete_api_structured_extraction_structuredprojectid) | **DELETE** /api/structured-extraction/{structuredProjectId} | 
 [**get_api_structured_extraction**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction) | **GET** /api/structured-extraction | 
 [**get_api_structured_extraction_structuredprojectid**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_structuredprojectid) | **GET** /api/structured-extraction/{structuredProjectId} | 
+[**get_api_structured_extraction_structuredprojectid_thumbnail**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_structuredprojectid_thumbnail) | **GET** /api/structured-extraction/{structuredProjectId}/thumbnail | 
 [**patch_api_structured_extraction_structuredprojectid**](StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredprojectid) | **PATCH** /api/structured-extraction/{structuredProjectId} | 
 [**patch_api_structured_extraction_structuredprojectid_settings**](StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredprojectid_settings) | **PATCH** /api/structured-extraction/{structuredProjectId}/settings | 
 [**post_api_structured_extraction**](StructuredExtractionProjectManagementApi.md#post_api_structured_extraction) | **POST** /api/structured-extraction | 
@@ -263,6 +264,90 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_api_structured_extraction_structuredprojectid_thumbnail**
+> bytes get_api_structured_extraction_structuredprojectid_thumbnail(structured_project_id, x_organization_id=x_organization_id)
+
+
+Return a thumbnail image for a **Structured Extraction Project**.
+The thumbnail is the image modality of the most recent playground item in the project.
+
+#### Error Responses:
+`404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.
+
+`404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.
+
+`403 Forbidden` - If the user does not have permission to view this **Project**.
+  
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(
+    host = "https://nuextract.ai"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(api_client)
+    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
+    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+
+    try:
+        api_response = api_instance.get_api_structured_extraction_structuredprojectid_thumbnail(structured_project_id, x_organization_id=x_organization_id)
+        print("The response of StructuredExtractionProjectManagementApi->get_api_structured_extraction_structuredprojectid_thumbnail:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling StructuredExtractionProjectManagementApi->get_api_structured_extraction_structuredprojectid_thumbnail: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **structured_project_id** | **str**| Unique structured extraction project identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+
+### Return type
+
+**bytes**
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/octet-stream, application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  * Content-Type - MIME type of the thumbnail image <br>  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

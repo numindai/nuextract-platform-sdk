@@ -7,6 +7,29 @@
 # set -e: exit immediately if a command exits with a non-zero status.
 set -e
 
+# Files and directories in `src/numind` that are not generated and stay untouched.
+files_not_gen=("__init__.py" "constants.py" "numind.py" "nuextract_utils")
+manual_files_tmp_dir="tmp"
+
+restore_manually_coded_files() {
+  if [ -z "$manual_files_tmp_dir" ] || [ ! -d "$manual_files_tmp_dir" ]; then
+    return
+  fi
+
+  mkdir -p src/numind
+  for file_or_dir in "${files_not_gen[@]}"; do
+    tmp_path="$manual_files_tmp_dir/$file_or_dir"
+    dst_path="src/numind/$file_or_dir"
+    if [ -e "$tmp_path" ]; then
+      rm -rf "$dst_path"
+      mv "$tmp_path" "$dst_path"
+    fi
+  done
+  rm -rf "$manual_files_tmp_dir"
+}
+
+trap restore_manually_coded_files EXIT
+
 # Go to the root directory of the repo
 current_dir=$(basename "$PWD")
 if [[ "$current_dir" != "nuextract-platform-sdk" ]]; then
@@ -28,16 +51,15 @@ cp sdk_generation/.openapi-generator-ignore src/.openapi-generator-ignore
 # Fix edit the OpenAPI specs file to remove the models not required for the SDK
 python sdk_generation/remove_unused_models_from_openapi_spec_file.py --openapi-file-path=$openapi_specs_file_path --output-file-path=$openapi_specs_file_path
 
-# Delete the current api client packages
-if [ -d src/numind/openapi_client ]; then
-  rm -r src/numind/openapi_client
-fi
-if [ -d src/numind/openapi_client_async ]; then
-  rm -r src/numind/openapi_client_async
-fi
-if [ -d src/numind/models ]; then
-  rm -r src/numind/models
-fi
+# Delete the current generated SDK package while preserving manually coded files.
+mkdir -p "$manual_files_tmp_dir"
+for file_or_dir in "${files_not_gen[@]}"; do
+  src_path="src/numind/$file_or_dir"
+  if [ -e "$src_path" ]; then
+    mv "$src_path" "$manual_files_tmp_dir/$file_or_dir"
+  fi
+done
+find src/numind -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 if [ -d tests/openapi_client ]; then
   rm -r tests/openapi_client
 fi
@@ -47,9 +69,6 @@ fi
 if [ -d docs ]; then
   rm -r docs
 fi
-# Create a copy of the base numind __init__.py file as it'll be overwritten by the
-# `openapi-generator generate` command
-mv src/numind/__init__.py src/numind/__init__save.py
 
 # SDK GENERATION
 # Two clients are generated:
@@ -93,10 +112,10 @@ openapi-generator-cli generate \
 # Copy async tests
 mv src/test tests/openapi_client_async
 
+restore_manually_coded_files
+
 # Clean up remaining directory that cannot be ignored in .openapi-generator-ignore.
 rm -r src/.openapi-generator
-rm src/numind/__init__.py  # copy back base __init__.py file
-mv src/numind/__init__save.py src/numind/__init__.py
 
 # Integrate client dependencies and client pyproject tools into project pyproject
 python sdk_generation/adapt_pyproject.py --project-pyproject-path=sdk_generation/pyproject_base.toml --client-pyproject-path=src/pyproject.toml --client-requirements-path src/requirements.txt

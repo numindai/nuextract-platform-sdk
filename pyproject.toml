@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.2.2"
+version = "0.3.0"
 description = "SDK to interact with the NuMind models API."
 requires-python = ">=3.9"
 keywords = [ "artificial intelligence", "deep learning", "structured",]
@@ -22,7 +22,7 @@ content-type = "text/markdown"
 file = "LICENSE"
 
 [project.optional-dependencies]
-build = [ "openapi-generator-cli", "uv", "PyYAML", "toml",]
+build = [ "openapi-generator-cli", "uv", "PyYAML", "toml", "orjson", "jsonschema",]
 tests = [ "pytest-asyncio", "pytest-cov", "pytest-rerunfailures", "pytest-dependency",]
 
 [project.urls]

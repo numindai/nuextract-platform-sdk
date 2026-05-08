@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.2.2"
+version = "0.3.0"
 description = "SDK to interact with the NuMind models API."
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
@@ -39,6 +39,8 @@ build = [
     "uv",  # to run ruff and packaging
     "PyYAML",  # to edit OpenAPI specs file
     "toml",  # to collate project base pyproject and gen client pyproject files
+    "orjson",  # for JSON schema conversion methods
+    "jsonschema",  # for JSON schema conversion methods
 ]
 tests = [
     "pytest-asyncio",

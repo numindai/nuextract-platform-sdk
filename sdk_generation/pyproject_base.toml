@@ -31,16 +31,18 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
 ]
-dependencies = ["urllib3"]
+dependencies = [
+    "urllib3",
+    "orjson",  # for JSON schema conversion methods
+    "jsonschema",  # for JSON schema conversion methods
+]
 
 [project.optional-dependencies]
 build = [
     "openapi-generator-cli",  # to build the client
     "uv",  # to run ruff and packaging
     "PyYAML",  # to edit OpenAPI specs file
-    "toml",  # to collate project base pyproject and gen client pyproject files
-    "orjson",  # for JSON schema conversion methods
-    "jsonschema",  # for JSON schema conversion methods
+    "toml",  # to collate project base pyproject and gen client pyproject file
 ]
 tests = [
     "pytest-asyncio",

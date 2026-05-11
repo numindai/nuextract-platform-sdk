@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -45,6 +45,9 @@ class ImageInfo(BaseModel):
         default=None,
         description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.",
     )
+    part_count: StrictInt = Field(
+        description="Number of image parts in this document.", alias="partCount"
+    )
     type: StrictStr
     __properties: ClassVar[List[str]] = [
         "documentId",
@@ -52,6 +55,7 @@ class ImageInfo(BaseModel):
         "fileName",
         "possibleTransformations",
         "dpi",
+        "partCount",
         "type",
     ]
 
@@ -118,6 +122,7 @@ class ImageInfo(BaseModel):
                 "fileName": obj.get("fileName"),
                 "possibleTransformations": obj.get("possibleTransformations"),
                 "dpi": obj.get("dpi"),
+                "partCount": obj.get("partCount"),
                 "type": obj.get("type"),
             }
         )

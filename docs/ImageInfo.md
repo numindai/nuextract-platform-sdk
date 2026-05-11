@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **file_name** | **str** | Filename of the initial file. | 
 **possible_transformations** | **List[str]** | Possible transformations that can be done with this document. | [optional] 
 **dpi** | **int** | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch. | [optional] 
+**part_count** | **int** | Number of image parts in this document. | 
 **type** | **str** |  | 
 
 ## Example

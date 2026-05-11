@@ -42,6 +42,7 @@ class TestDocumentInfo(unittest.TestCase):
                     ''
                     ],
                 dpi = 0,
+                part_count = 56,
                 type = 'image',
                 text = ''
             )
@@ -50,6 +51,7 @@ class TestDocumentInfo(unittest.TestCase):
                 document_id = '',
                 file_id = '',
                 file_name = '',
+                part_count = 56,
                 type = 'image',
                 text = '',
         )

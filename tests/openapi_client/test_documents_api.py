@@ -29,6 +29,9 @@ class TestDocumentsApi(unittest.TestCase):
     def test_get_api_documents_documentid_content(self) -> None:
         """Test case for get_api_documents_documentid_content"""
 
+    def test_get_api_documents_documentid_parts_partindex_image(self) -> None:
+        """Test case for get_api_documents_documentid_parts_partindex_image"""
+
     def test_post_api_documents_documentid_new_owner(self) -> None:
         """Test case for post_api_documents_documentid_new_owner"""
 

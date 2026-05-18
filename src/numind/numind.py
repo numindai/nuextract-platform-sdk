@@ -14,6 +14,7 @@ from .models import (
     ConvertRequest,
     CreateOrUpdateStructuredExampleRequest,
     CreateStructuredProjectRequest,
+    JobStatusResponse,
     StructuredExtractionResponse,
     TextRequest,
 )
@@ -65,7 +66,8 @@ from .openapi_client_async import (
     TemplateGenerationApi as TemplateGenerationApiAsync,
 )
 
-JOB_STATUS_COMPLETED = "result"
+MESSAGE_STATUS_COMPLETED = "result"
+JOB_STATUS_COMPLETED = "completed"
 
 
 class NuMind(
@@ -102,7 +104,7 @@ class NuMind(
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
         **kwargs,
-    ) -> StructuredExtractionResponse:
+    ) -> StructuredExtractionResponse | JobStatusResponse:
         """
         Send an inference request to the API for either a text or a file input.
 
@@ -178,10 +180,14 @@ class NuMind(
 
         # Parsing the server's response
         messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        output = StructuredExtractionResponse(**output)
+        last_message_data = json.loads(messages[-1]["data"])
+        if last_message_data["status"] != JOB_STATUS_COMPLETED:
+            output = JobStatusResponse(**last_message_data)
+        else:
+            output = json.loads(last_message_data["outputData"])
+            output = StructuredExtractionResponse(**output)
 
         # Delete temporary project if necessary
         if not project_id_provided:
@@ -259,7 +265,7 @@ class NuMind(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
         messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
         return ContentExtractionResponse(
             **json.loads(json.loads(messages[-1]["data"])["outputData"])
@@ -380,10 +386,14 @@ class NuMindAsync(
 
         # Parsing the server's response
         messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        output = json.loads(json.loads(messages[-1]["data"])["outputData"])
-        output = StructuredExtractionResponse(**output)
+        last_message_data = json.loads(messages[-1]["data"])
+        if last_message_data["status"] != JOB_STATUS_COMPLETED:
+            output = JobStatusResponse(**last_message_data)
+        else:
+            output = json.loads(last_message_data["outputData"])
+            output = StructuredExtractionResponse(**output)
 
         # Delete temporary project if necessary
         if not project_id_provided:

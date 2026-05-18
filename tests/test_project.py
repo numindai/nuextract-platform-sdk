@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from numind.models import CreateStructuredProjectRequest
+from numind.models import CreateStructuredProjectRequest, StructuredExtractionResponse
 
 from .conftest import EXTRACT_KWARGS, TEST_CASES_NUEXTRACT
 
@@ -84,7 +84,11 @@ def test_infer_text(numind_client: NuMind, request: pytest.FixtureRequest) -> No
     project_id = request.config.cache.get("project_id", None)
     text_cases = request.config.cache.get("text_cases", None)
     for input_text in text_cases:
-        _ = numind_client.extract_structured_data(project_id, input_text=input_text)
+        result = numind_client.extract_structured_data(
+            project_id, input_text=input_text
+        )
+        if not isinstance(result, StructuredExtractionResponse):
+            raise ValueError(_ := "One request did not succeed")
 
 
 @pytest.mark.asyncio
@@ -99,7 +103,9 @@ async def test_infer_text_async(
         numind_client_async.extract_structured_data(project_id, input_text=input_text)
         for input_text in text_cases
     ]
-    await asyncio.gather(*tasks)
+    results = await asyncio.gather(*tasks)
+    if any(not isinstance(res, StructuredExtractionResponse) for res in results):
+        raise ValueError(_ := "One request did not succeed")
 
 
 @pytest.mark.dependency(name="infer_file", depends=["create_project"])
@@ -111,9 +117,11 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         with file_path.open("rb") as file:
             input_file = file.read()
         # TODO test async route, check status is among the expected ones
-        _ = numind_client.extract_structured_data(
+        result = numind_client.extract_structured_data(
             project_id, input_file=input_file, **EXTRACT_KWARGS
         )
+        if not isinstance(result, StructuredExtractionResponse):
+            raise ValueError(_ := "One request did not succeed")
 
 
 # TODO remove dependency, make it run whether these tests failed or not

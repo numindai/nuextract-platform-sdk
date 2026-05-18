@@ -473,7 +473,7 @@ class NuMindAsync(
             job_id_response.job_id, _headers={"Accept": "text/event-stream"}
         )
         messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != JOB_STATUS_COMPLETED:
+        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
             raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
         return ContentExtractionResponse(
             **json.loads(json.loads(messages[-1]["data"])["outputData"])

@@ -26,9 +26,6 @@ class TestDocumentsApi(unittest.TestCase):
     def test_get_api_documents_documentid(self) -> None:
         """Test case for get_api_documents_documentid"""
 
-    def test_get_api_documents_documentid_content(self) -> None:
-        """Test case for get_api_documents_documentid_content"""
-
     def test_get_api_documents_documentid_parts_partindex_image(self) -> None:
         """Test case for get_api_documents_documentid_parts_partindex_image"""
 

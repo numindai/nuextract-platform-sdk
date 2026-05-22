@@ -426,7 +426,7 @@ class InferenceApi:
         enable_thinking: Annotated[
             Optional[StrictBool],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
             ),
         ] = None,
         timeout: Annotated[
@@ -468,7 +468,7 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -582,7 +582,7 @@ class InferenceApi:
         enable_thinking: Annotated[
             Optional[StrictBool],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
             ),
         ] = None,
         timeout: Annotated[
@@ -624,7 +624,7 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -738,7 +738,7 @@ class InferenceApi:
         enable_thinking: Annotated[
             Optional[StrictBool],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
             ),
         ] = None,
         timeout: Annotated[
@@ -780,7 +780,7 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -976,7 +976,7 @@ class InferenceApi:
         enable_thinking: Annotated[
             Optional[StrictBool],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
             ),
         ] = None,
         timeout: Annotated[
@@ -1018,7 +1018,7 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1130,7 +1130,7 @@ class InferenceApi:
         enable_thinking: Annotated[
             Optional[StrictBool],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
             ),
         ] = None,
         timeout: Annotated[
@@ -1172,7 +1172,7 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1284,7 +1284,7 @@ class InferenceApi:
         enable_thinking: Annotated[
             Optional[StrictBool],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false."
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
             ),
         ] = None,
         timeout: Annotated[
@@ -1326,7 +1326,7 @@ class InferenceApi:
         :type max_example_number: int
         :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default false.
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str

@@ -148,7 +148,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     project_id = 'project_id_example' # str | Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. (optional)
     temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0. (optional)
     rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi. (optional)
-    max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 0. Set to 0 for no limit. (optional)
+    max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit. (optional)
     enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
@@ -172,7 +172,7 @@ Name | Type | Description  | Notes
  **project_id** | **str**| Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. | [optional] 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request &#x60;temperature&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 0.0. | [optional] 
  **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request &#x60;rasterizationDPI&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 170 dpi. | [optional] 
- **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Resolution order: request &#x60;maxOutputTokens&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 0. Set to 0 for no limit. | [optional] 
+ **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Resolution order: request &#x60;maxOutputTokens&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 10000. Set to 0 for no limit. | [optional] 
  **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default true. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 

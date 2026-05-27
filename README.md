@@ -207,41 +207,51 @@ markdown = client.extract_content(input_file)
 
 ### Extracting Information from Documents
 
-Once your project is ready, you can use it to extract information from documents in real time via this RESTful API.
+Once your structured extraction project is ready, submit a document to the endpoint:
 
-Each project has its own extraction endpoint:
+`https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`
 
-`https://nuextract.ai/api/projects/{projectId}/extract`
-
-You provide it a document and it returns the extracted information according to the task defined in the project. To use it, you need:
+To use it, you need:
 
 - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api)
-- To replace `{projectId}` by the project ID found in the API tab of the project
+- To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project
 
-You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `PROJECT_ID` and `NUEXTRACT_API_KEY`):
+This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:
+
+`https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`
+
+You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):
 
 ```bash
 NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\
-PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\
-curl \"https://nuextract.ai/api/projects/${PROJECT_ID}/extract\" \\
+STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\
+JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\
   -X POST \\
   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\
   -H \"Content-Type: application/octet-stream\" \\
-  --data-binary @\"${FILE_NAME}\"
+  --data-binary @\"${FILE_NAME}\" | jq -r '.jobId')
+
+curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\
+  -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\"
 ```
 
 You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the
-`project_id`, `api_key` and `file_path` variables in the following code:
+`project_id`, `api_key` and request values in the following code:
 
 ```python
-from numind import NuMind
-from pathlib import Path
+import asyncio
+from numind import NuMindAsync
 
-client = NuMind(api_key=api_key)
-file_path = Path(\"path\", \"to\", \"document.odt\")
-with file_path.open(\"rb\") as file:
-    input_file = file.read()
-output_schema = client.post_api_projects_projectid_extract(project_id, input_file)
+client = NuMindAsync(api_key=api_key)
+requests = [{}]
+
+async def main():
+    return [
+        await client.extract_structured_data(project_id, **request_kwargs)
+        for request_kwargs in requests
+    ]
+
+responses = asyncio.run(main())
 ```
 
 ### Using the Platform via API
@@ -252,20 +262,32 @@ Everything you can do on the web platform can be done via API -
 
 #### Main resources
 
-- **Project** - user project, identified by `projectId`
+- **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId`
+- **Content Extraction Project** - user project for content extraction, identified by `contentProjectId`
 - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example**
-- **Document** - internal representation of a document, identified by `documentId`, created from a File or a text, stored up to two weeks if not tied to an Example
-- **Example** - document-extraction pair given to teach NuExtract, identified by `exampleId`, created from a Document
+- **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example
+- **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document
+- **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`
 
 #### Most common API operations
 
-- Creating a **Project** via `POST /api/projects`
-- Changing the template of a **Project** via `PATCH /api/projects/{projectId}`
+##### Structured extraction
+
+- Creating a **Structured Extraction Project** via `POST /api/structured-extraction`
+- Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}`
+- Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings`
 - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage)
-- Creating a **Document** via `POST /api/documents/text` and `POST /api/files/{fileID}/convert-to-document` from a text or a **File**
-- Adding an **Example** to a **Project** via `POST /api/projects/{projectId}/examples`
-- Changing Project settings via `POST /api/projects/{projectId}/settings`
-- Locking a **Project** via `POST /api/projects/{projectId}/lock`
+- Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs`
+- Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}`
+- Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`
+
+##### Content extraction
+
+- Creating a **Content Extraction Project** via `POST /api/content-extraction`
+- Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings`
+- Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage)
+- Starting a content extraction **Job** via `POST /api/content-extraction/jobs`
+- Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`
 
 This Python package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 

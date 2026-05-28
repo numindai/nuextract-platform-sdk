@@ -169,7 +169,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     max_example_token_number = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
     max_example_number = 56 # int | Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. (optional)
     min_example_similarity = 3.4 # float | Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. (optional)
-    enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true. (optional)
+    enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
@@ -195,7 +195,7 @@ Name | Type | Description  | Notes
  **max_example_token_number** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
  **max_example_number** | **int**| Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. | [optional] 
  **min_example_similarity** | **float**| Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | [optional] 
- **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default true. | [optional] 
+ **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type
@@ -282,7 +282,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     max_example_token_number = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
     max_example_number = 56 # int | Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. (optional)
     min_example_similarity = 3.4 # float | Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. (optional)
-    enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true. (optional)
+    enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
@@ -308,7 +308,7 @@ Name | Type | Description  | Notes
  **max_example_token_number** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
  **max_example_number** | **int**| Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. | [optional] 
  **min_example_similarity** | **float**| Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | [optional] 
- **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default true. | [optional] 
+ **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type

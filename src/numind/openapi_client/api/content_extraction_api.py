@@ -343,7 +343,7 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
@@ -393,7 +393,7 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
@@ -476,7 +476,7 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
@@ -526,7 +526,7 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
@@ -609,7 +609,7 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
@@ -659,7 +659,7 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.0.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int

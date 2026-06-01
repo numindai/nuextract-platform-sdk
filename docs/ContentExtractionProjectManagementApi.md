@@ -287,7 +287,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    update_content_project_settings_request = {"temperature":0,"rasterizationDPI":170,"maxOutputTokens":10000,"enableThinking":true} # UpdateContentProjectSettingsRequest | 
+    update_content_project_settings_request = {"temperature":1,"rasterizationDPI":170,"maxOutputTokens":10000,"enableThinking":true} # UpdateContentProjectSettingsRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
@@ -337,6 +337,29 @@ Name | Type | Description  | Notes
 
 
 Create a new **Content Extraction Project** to define a content extraction task.
+
+#### Body Fields:
+
+ Name | Description |
+------|-------------|
+ `name` | Name of the **Project**. |
+ `description` | Text description of the **Project** (can be left empty). |
+
+#### Effect:
+A **Project** is created with default settings:
+
+ Setting | Default |
+---------|---------|
+ `temperature` | 1.0 |
+ `rasterizationDPI` | 170 |
+ `maxOutputTokens` | 10000 |
+ `enableThinking` | true |
+
+The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.
+
+#### Response:
+ The response contains `contentProjectId`, which
+ is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
     
 
 ### Example
@@ -421,9 +444,10 @@ Default values are:
 
  Setting | Default |
 -----------|--------|
- `temperature` | 0.0 |
+ `temperature` | 1.0 |
  `rasterizationDPI` | 170 |
- `maxOutputTokens` | 0 (no limit) |
+ `maxOutputTokens` | 10000 |
+ `enableThinking` | true |
 
 #### Error Responses:
 `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.

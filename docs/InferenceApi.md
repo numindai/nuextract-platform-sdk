@@ -164,7 +164,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
     document_id = 'document_id_example' # str | Unique document identifier.
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
+    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
     max_example_token_number = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
     max_example_number = 56 # int | Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. (optional)
@@ -190,7 +190,7 @@ Name | Type | Description  | Notes
  **structured_project_id** | **str**| Unique structured extraction project identifier. | 
  **document_id** | **str**| Unique document identifier. | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
- **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
+ **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request &#x60;temperature&#x60; -&gt; project setting. New and reset projects default to 0.6. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
  **max_example_token_number** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
  **max_example_number** | **int**| Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. | [optional] 
@@ -277,7 +277,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
     text_request = {text=[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.} # TextRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. (optional)
+    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
     max_example_token_number = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
     max_example_number = 56 # int | Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. (optional)
@@ -303,7 +303,7 @@ Name | Type | Description  | Notes
  **structured_project_id** | **str**| Unique structured extraction project identifier. | 
  **text_request** | [**TextRequest**](TextRequest.md)|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
- **temperature** | **float**| Model temperature (optional). Controls output diversity.  When not specified, the project value is used.   Ranges between 0 and 1. | [optional] 
+ **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request &#x60;temperature&#x60; -&gt; project setting. New and reset projects default to 0.6. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
  **max_example_token_number** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
  **max_example_number** | **int**| Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. | [optional] 

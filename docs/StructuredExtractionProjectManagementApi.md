@@ -488,7 +488,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(api_client)
     structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
-    update_structured_project_settings_request = {"temperature":0,"rasterizationDPI":170,"maxOutputTokens":0,"degradedMode":"Reject","maxExampleTokenNumber":90000,"maxExampleNumber":0,"minExampleSimilarity":0,"enableThinking":false} # UpdateStructuredProjectSettingsRequest | 
+    update_structured_project_settings_request = {"temperature":0.6,"rasterizationDPI":170,"maxOutputTokens":0,"degradedMode":"Reject","maxExampleTokenNumber":90000,"maxExampleNumber":0,"minExampleSimilarity":0,"enableThinking":false} # UpdateStructuredProjectSettingsRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
@@ -553,7 +553,7 @@ A **Project** is created with default settings:
 
  Setting | Default |
 ---------|---------|
- `temperature` | 0.0 |
+ `temperature` | 0.6 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
  `degradedMode` (deprecated) | Reject|
@@ -833,7 +833,7 @@ Default values are:
 
  Setting | Default |
 -----------|---------|
- `temperature` | 0.0 |
+ `temperature` | 0.6 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
  `degradedMode`  (deprecated) | Reject|

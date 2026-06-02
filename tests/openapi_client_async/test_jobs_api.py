@@ -32,6 +32,9 @@ class TestJobsApi(unittest.IsolatedAsyncioTestCase):
     async def test_get_api_jobs_jobid_stream(self) -> None:
         """Test case for get_api_jobs_jobid_stream"""
 
+    async def test_post_api_jobs_jobid_cancel(self) -> None:
+        """Test case for post_api_jobs_jobid_cancel"""
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -331,6 +331,7 @@ Class | Method | HTTP request | Description
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
+*JobsApi* | [**post_api_jobs_jobid_cancel**](docs/JobsApi.md#post_api_jobs_jobid_cancel) | **POST** /api/jobs/{jobId}/cancel | 
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
 *StructuredExtractionExamplesApi* | [**delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **DELETE** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 

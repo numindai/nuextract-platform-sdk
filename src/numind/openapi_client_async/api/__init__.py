@@ -10,6 +10,9 @@ from numind.openapi_client_async.api.documents_api import DocumentsApi
 from numind.openapi_client_async.api.files_api import FilesApi
 from numind.openapi_client_async.api.inference_api import InferenceApi
 from numind.openapi_client_async.api.jobs_api import JobsApi
+from numind.openapi_client_async.api.project_import_export_api import (
+    ProjectImportExportApi,
+)
 from numind.openapi_client_async.api.structured_data_extraction_api import (
     StructuredDataExtractionApi,
 )

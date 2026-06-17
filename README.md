@@ -332,6 +332,8 @@ Class | Method | HTTP request | Description
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 *JobsApi* | [**post_api_jobs_jobid_cancel**](docs/JobsApi.md#post_api_jobs_jobid_cancel) | **POST** /api/jobs/{jobId}/cancel | 
+*ProjectImportExportApi* | [**get_api_extraction_projectkind_projectid_export**](docs/ProjectImportExportApi.md#get_api_extraction_projectkind_projectid_export) | **GET** /api/extraction/{projectKind}/{projectId}/export | 
+*ProjectImportExportApi* | [**post_api_extraction_import**](docs/ProjectImportExportApi.md#post_api_extraction_import) | **POST** /api/extraction/import | 
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
 *StructuredExtractionExamplesApi* | [**delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **DELETE** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
@@ -358,6 +360,7 @@ Class | Method | HTTP request | Description
 
 ### Documentation For Models
 
+ - [Content](docs/Content.md)
  - [ContentExtractionResponse](docs/ContentExtractionResponse.md)
  - [ContentProjectResponse](docs/ContentProjectResponse.md)
  - [ContentProjectSettingsResponse](docs/ContentProjectSettingsResponse.md)
@@ -371,6 +374,7 @@ Class | Method | HTTP request | Description
  - [FileResponse](docs/FileResponse.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
+ - [ImportProjectResponse](docs/ImportProjectResponse.md)
  - [InferenceStatus](docs/InferenceStatus.md)
  - [InferenceValidationError](docs/InferenceValidationError.md)
  - [InformationResponse](docs/InformationResponse.md)
@@ -379,6 +383,7 @@ Class | Method | HTTP request | Description
  - [JobStatusResponse](docs/JobStatusResponse.md)
  - [PaginatedResponseT](docs/PaginatedResponseT.md)
  - [ServiceStatus](docs/ServiceStatus.md)
+ - [Structured](docs/Structured.md)
  - [StructuredExampleResponse](docs/StructuredExampleResponse.md)
  - [StructuredExtractionResponse](docs/StructuredExtractionResponse.md)
  - [StructuredInferenceExample](docs/StructuredInferenceExample.md)

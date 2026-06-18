@@ -24,6 +24,7 @@ __all__ = [
     "FilesApi",
     "InferenceApi",
     "JobsApi",
+    "ProjectImportExportApi",
     "StructuredDataExtractionApi",
     "StructuredExtractionExamplesApi",
     "StructuredExtractionProjectManagementApi",
@@ -37,6 +38,7 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "Content",
     "ContentExtractionResponse",
     "ContentProjectResponse",
     "ContentProjectSettingsResponse",
@@ -50,6 +52,7 @@ __all__ = [
     "FileResponse",
     "HealthResponse",
     "ImageInfo",
+    "ImportProjectResponse",
     "InferenceStatus",
     "InferenceValidationError",
     "InformationResponse",
@@ -58,6 +61,7 @@ __all__ = [
     "JobStatusResponse",
     "PaginatedResponseT",
     "ServiceStatus",
+    "Structured",
     "StructuredExampleResponse",
     "StructuredExtractionResponse",
     "StructuredInferenceExample",
@@ -87,6 +91,9 @@ from numind.openapi_client.api.documents_api import DocumentsApi as DocumentsApi
 from numind.openapi_client.api.files_api import FilesApi as FilesApi
 from numind.openapi_client.api.inference_api import InferenceApi as InferenceApi
 from numind.openapi_client.api.jobs_api import JobsApi as JobsApi
+from numind.openapi_client.api.project_import_export_api import (
+    ProjectImportExportApi as ProjectImportExportApi,
+)
 from numind.openapi_client.api.structured_data_extraction_api import (
     StructuredDataExtractionApi as StructuredDataExtractionApi,
 )
@@ -112,6 +119,7 @@ from numind.exceptions import ApiAttributeError as ApiAttributeError
 from numind.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from numind.models.content import Content as Content
 from numind.models.content_extraction_response import (
     ContentExtractionResponse as ContentExtractionResponse,
 )
@@ -137,6 +145,9 @@ from numind.models.error import Error as Error
 from numind.models.file_response import FileResponse as FileResponse
 from numind.models.health_response import HealthResponse as HealthResponse
 from numind.models.image_info import ImageInfo as ImageInfo
+from numind.models.import_project_response import (
+    ImportProjectResponse as ImportProjectResponse,
+)
 from numind.models.inference_status import InferenceStatus as InferenceStatus
 from numind.models.inference_validation_error import (
     InferenceValidationError as InferenceValidationError,
@@ -149,6 +160,7 @@ from numind.models.job_id_response import JobIdResponse as JobIdResponse
 from numind.models.job_status_response import JobStatusResponse as JobStatusResponse
 from numind.models.paginated_response_t import PaginatedResponseT as PaginatedResponseT
 from numind.models.service_status import ServiceStatus as ServiceStatus
+from numind.models.structured import Structured as Structured
 from numind.models.structured_example_response import (
     StructuredExampleResponse as StructuredExampleResponse,
 )

@@ -164,7 +164,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** |  |  * Content-Type - MIME type of the thumbnail image <br>  * Cache-Control -  <br>  |
+**200** |  |  * Content-Type -  <br>  * Cache-Control -  <br>  |
 **400** | Invalid value for: path parameter partIndex |  -  |
 **0** |  |  -  |
 

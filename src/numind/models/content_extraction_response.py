@@ -55,6 +55,9 @@ class ContentExtractionResponse(BaseModel):
         description="Geometric mean of the output token probabilities.",
         alias="outputTokenProbability",
     )
+    random_seed: StrictInt = Field(
+        description="Random seed used for this inference.", alias="randomSeed"
+    )
     __properties: ClassVar[List[str]] = [
         "result",
         "thinkingTrace",
@@ -64,6 +67,7 @@ class ContentExtractionResponse(BaseModel):
         "totalTokens",
         "logprobs",
         "outputTokenProbability",
+        "randomSeed",
     ]
 
     model_config = ConfigDict(
@@ -125,6 +129,7 @@ class ContentExtractionResponse(BaseModel):
                 "totalTokens": obj.get("totalTokens"),
                 "logprobs": obj.get("logprobs"),
                 "outputTokenProbability": obj.get("outputTokenProbability"),
+                "randomSeed": obj.get("randomSeed"),
             }
         )
         return _obj

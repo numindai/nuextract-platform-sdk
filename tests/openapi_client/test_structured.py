@@ -54,7 +54,8 @@ class TestStructured(unittest.TestCase):
                         max_example_token_number = 0, 
                         max_example_number = 56, 
                         min_example_similarity = 0.0, 
-                        enable_thinking = True, ), ),
+                        enable_thinking = True, 
+                        random_seed = '', ), ),
                 type = 'structured'
             )
         else:
@@ -78,7 +79,8 @@ class TestStructured(unittest.TestCase):
                         max_example_token_number = 0, 
                         max_example_number = 56, 
                         min_example_similarity = 0.0, 
-                        enable_thinking = True, ), ),
+                        enable_thinking = True, 
+                        random_seed = '', ), ),
                 type = 'structured',
         )
         """

@@ -913,7 +913,7 @@ class ContentExtractionProjectManagementApi:
         """
         patch_api_content_extraction_contentprojectid_settings
 
-         Update the settings of an existing **Content Extraction Project**.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
+         Update the settings of an existing **Content Extraction Project**.  Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -994,7 +994,7 @@ class ContentExtractionProjectManagementApi:
         """
         patch_api_content_extraction_contentprojectid_settings
 
-         Update the settings of an existing **Content Extraction Project**.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
+         Update the settings of an existing **Content Extraction Project**.  Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -1075,7 +1075,7 @@ class ContentExtractionProjectManagementApi:
         """
         patch_api_content_extraction_contentprojectid_settings
 
-         Update the settings of an existing **Content Extraction Project**.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
+         Update the settings of an existing **Content Extraction Project**.  Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -1218,7 +1218,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **Content Extraction Project** to define a content extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.  #### Response:  The response contains `contentProjectId`, which  is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
+         Create a new **Content Extraction Project** to define a content extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.  #### Response:  The response contains `contentProjectId`, which  is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
 
         :param create_content_project_request: (required)
         :type create_content_project_request: CreateContentProjectRequest
@@ -1292,7 +1292,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **Content Extraction Project** to define a content extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.  #### Response:  The response contains `contentProjectId`, which  is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
+         Create a new **Content Extraction Project** to define a content extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.  #### Response:  The response contains `contentProjectId`, which  is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
 
         :param create_content_project_request: (required)
         :type create_content_project_request: CreateContentProjectRequest
@@ -1366,7 +1366,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction
 
-         Create a new **Content Extraction Project** to define a content extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.  #### Response:  The response contains `contentProjectId`, which  is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
+         Create a new **Content Extraction Project** to define a content extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.  #### Response:  The response contains `contentProjectId`, which  is required to modify the **Project**, perform CRUD operations on project **Playground** items, and run inference for this **Project**.
 
         :param create_content_project_request: (required)
         :type create_content_project_request: CreateContentProjectRequest
@@ -1506,7 +1506,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction_contentprojectid_reset_settings
 
-         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
+         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -1584,7 +1584,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction_contentprojectid_reset_settings
 
-         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
+         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -1662,7 +1662,7 @@ class ContentExtractionProjectManagementApi:
         """
         post_api_content_extraction_contentprojectid_reset_settings
 
-         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
+         Reset the settings of an existing **Content Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|--------|  `temperature` | 1.0 |  `rasterizationDPI` | 170 |  `maxOutputTokens` | 10000 |  `enableThinking` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  #### Error Responses: `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Content Extraction Project**.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str

@@ -71,7 +71,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -162,7 +162,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -253,7 +253,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -386,12 +386,12 @@ class InferenceApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -429,6 +429,12 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -458,7 +464,7 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -470,6 +476,8 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -503,6 +511,7 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -542,12 +551,12 @@ class InferenceApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -585,6 +594,12 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -614,7 +629,7 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -626,6 +641,8 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -659,6 +676,7 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -698,12 +716,12 @@ class InferenceApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -741,6 +759,12 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -770,7 +794,7 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -782,6 +806,8 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -815,6 +841,7 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -842,6 +869,7 @@ class InferenceApi:
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        random_seed,
         timeout,
         _request_auth,
         _content_type,
@@ -885,6 +913,9 @@ class InferenceApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if random_seed is not None:
+            _query_params.append(("randomSeed", random_seed))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
@@ -936,12 +967,12 @@ class InferenceApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -979,6 +1010,12 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1008,7 +1045,7 @@ class InferenceApi:
         :type text_request: TextRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -1020,6 +1057,8 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1053,6 +1092,7 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1090,12 +1130,12 @@ class InferenceApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -1133,6 +1173,12 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1162,7 +1208,7 @@ class InferenceApi:
         :type text_request: TextRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -1174,6 +1220,8 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1207,6 +1255,7 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1244,12 +1293,12 @@ class InferenceApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -1287,6 +1336,12 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1316,7 +1371,7 @@ class InferenceApi:
         :type text_request: TextRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -1328,6 +1383,8 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1361,6 +1418,7 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1388,6 +1446,7 @@ class InferenceApi:
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        random_seed,
         timeout,
         _request_auth,
         _content_type,
@@ -1429,6 +1488,9 @@ class InferenceApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if random_seed is not None:
+            _query_params.append(("randomSeed", random_seed))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -27,8 +27,8 @@ class StructuredProjectSettingsResponse(BaseModel):
     """
 
     temperature: Union[
-        Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-        Annotated[int, Field(le=1, strict=True, ge=0)],
+        Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+        Annotated[int, Field(le=2, strict=True, ge=0)],
     ] = Field(description="Model temperature.")
     rasterization_dpi: Annotated[int, Field(le=300, strict=True, gt=0)] = Field(
         description="Resolution used to convert formatted documents to images.",
@@ -58,6 +58,10 @@ class StructuredProjectSettingsResponse(BaseModel):
     enable_thinking: StrictBool = Field(
         description="Enable thinking/reasoning.", alias="enableThinking"
     )
+    random_seed: StrictStr = Field(
+        description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.",
+        alias="randomSeed",
+    )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
@@ -66,6 +70,7 @@ class StructuredProjectSettingsResponse(BaseModel):
         "maxExampleNumber",
         "minExampleSimilarity",
         "enableThinking",
+        "randomSeed",
     ]
 
     model_config = ConfigDict(
@@ -126,6 +131,7 @@ class StructuredProjectSettingsResponse(BaseModel):
                 "maxExampleNumber": obj.get("maxExampleNumber"),
                 "minExampleSimilarity": obj.get("minExampleSimilarity"),
                 "enableThinking": obj.get("enableThinking"),
+                "randomSeed": obj.get("randomSeed"),
             }
         )
         return _obj

@@ -53,7 +53,8 @@ class TestStructuredProjectResponse(unittest.TestCase):
                     max_example_token_number = 0, 
                     max_example_number = 56, 
                     min_example_similarity = 0.0, 
-                    enable_thinking = True, )
+                    enable_thinking = True, 
+                    random_seed = '', )
             )
         else:
             return StructuredProjectResponse(
@@ -74,7 +75,8 @@ class TestStructuredProjectResponse(unittest.TestCase):
                     max_example_token_number = 0, 
                     max_example_number = 56, 
                     min_example_similarity = 0.0, 
-                    enable_thinking = True, ),
+                    enable_thinking = True, 
+                    random_seed = '', ),
         )
         """
 

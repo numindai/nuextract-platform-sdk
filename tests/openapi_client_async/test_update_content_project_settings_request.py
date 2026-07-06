@@ -40,7 +40,8 @@ class TestUpdateContentProjectSettingsRequest(unittest.TestCase):
                 temperature = 0.0,
                 rasterization_dpi = 0,
                 max_output_tokens = 56,
-                enable_thinking = True
+                enable_thinking = True,
+                random_seed = ''
             )
         else:
             return UpdateContentProjectSettingsRequest(

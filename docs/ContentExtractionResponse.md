@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **total_tokens** | **int** | Total number of tokens used for inference (input + output). | 
 **logprobs** | **float** | Logprob of the inference result (sum of logprobs of all tokens). | 
 **output_token_probability** | **float** | Geometric mean of the output token probabilities. | 
+**random_seed** | **int** | Random seed used for this inference. | 
 
 ## Example
 

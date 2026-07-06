@@ -252,6 +252,8 @@ Name | Type | Description  | Notes
 
 Update the settings of an existing **Content Extraction Project**.
 
+Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
+
 #### Error Responses:
 `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.
 
@@ -287,7 +289,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
     content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    update_content_project_settings_request = {"temperature":1,"rasterizationDPI":170,"maxOutputTokens":10000,"enableThinking":true} # UpdateContentProjectSettingsRequest | 
+    update_content_project_settings_request = {"temperature":1,"rasterizationDPI":170,"maxOutputTokens":10000,"enableThinking":true,"randomSeed":"2022"} # UpdateContentProjectSettingsRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
@@ -354,6 +356,7 @@ A **Project** is created with default settings:
  `rasterizationDPI` | 170 |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
+ `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
 
 The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.
 
@@ -448,6 +451,7 @@ Default values are:
  `rasterizationDPI` | 170 |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
+ `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
 
 #### Error Responses:
 `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.

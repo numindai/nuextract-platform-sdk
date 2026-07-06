@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_content_extraction_jobs**
-> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, timeout=timeout)
+> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, random_seed=random_seed, timeout=timeout)
 
 
  Extract content from the provided file in markdown format as an async job.
@@ -105,6 +105,7 @@ Name | Type | Description  | Notes
  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default
  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default
  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default
+ - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`
 
 
 #### Response:
@@ -146,14 +147,15 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     file = None # bytes | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     project_id = 'project_id_example' # str | Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. (optional)
-    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0. (optional)
+    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0. (optional)
     rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit. (optional)
     enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true. (optional)
+    random_seed = 'random_seed_example' # str | Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, timeout=timeout)
+        api_response = api_instance.post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, random_seed=random_seed, timeout=timeout)
         print("The response of ContentExtractionApi->post_api_content_extraction_jobs:\n")
         pprint(api_response)
     except Exception as e:
@@ -170,10 +172,11 @@ Name | Type | Description  | Notes
  **file** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **project_id** | **str**| Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. | [optional] 
- **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request &#x60;temperature&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 1.0. | [optional] 
+ **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request &#x60;temperature&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 1.0. | [optional] 
  **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request &#x60;rasterizationDPI&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 170 dpi. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Resolution order: request &#x60;maxOutputTokens&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 10000. Set to 0 for no limit. | [optional] 
  **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default true. | [optional] 
+ **random_seed** | **str**| Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one. Resolution order: request &#x60;randomSeed&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default &#x60;2022&#x60;. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type

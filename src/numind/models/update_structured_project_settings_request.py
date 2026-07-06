@@ -28,8 +28,8 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
 
     temperature: Optional[
         Union[
-            Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
+            Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+            Annotated[int, Field(le=2, strict=True, ge=0)],
         ]
     ] = Field(default=None, description="Model temperature (optional).")
     rasterization_dpi: Optional[Annotated[int, Field(le=300, strict=True, gt=0)]] = (
@@ -76,6 +76,11 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
         description="Enable thinking/reasoning (optional).",
         alias="enableThinking",
     )
+    random_seed: Optional[StrictStr] = Field(
+        default=None,
+        description="Inference seed setting (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.",
+        alias="randomSeed",
+    )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
@@ -85,6 +90,7 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
         "maxExampleNumber",
         "minExampleSimilarity",
         "enableThinking",
+        "randomSeed",
     ]
 
     model_config = ConfigDict(
@@ -146,6 +152,7 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
                 "maxExampleNumber": obj.get("maxExampleNumber"),
                 "minExampleSimilarity": obj.get("minExampleSimilarity"),
                 "enableThinking": obj.get("enableThinking"),
+                "randomSeed": obj.get("randomSeed"),
             }
         )
         return _obj

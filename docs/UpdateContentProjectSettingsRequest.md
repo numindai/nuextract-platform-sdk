@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **rasterization_dpi** | **int** | Resolution used to convert formatted documents to images (optional). | [optional] 
 **max_output_tokens** | **int** | Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit. | [optional] 
 **enable_thinking** | **bool** | Enable thinking/reasoning (optional). | [optional] 
+**random_seed** | **str** | Inference seed setting (optional). Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
 
 ## Example
 

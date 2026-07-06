@@ -73,6 +73,9 @@ class StructuredExtractionResponse(BaseModel):
         description="Examples selected for inference.",
         alias="selectedExamples",
     )
+    random_seed: StrictInt = Field(
+        description="Random seed used for this inference.", alias="randomSeed"
+    )
     __properties: ClassVar[List[str]] = [
         "result",
         "thinkingTrace",
@@ -85,6 +88,7 @@ class StructuredExtractionResponse(BaseModel):
         "logprobs",
         "outputTokenProbability",
         "selectedExamples",
+        "randomSeed",
     ]
 
     model_config = ConfigDict(
@@ -171,6 +175,7 @@ class StructuredExtractionResponse(BaseModel):
                 ]
                 if obj.get("selectedExamples") is not None
                 else None,
+                "randomSeed": obj.get("randomSeed"),
             }
         )
         return _obj

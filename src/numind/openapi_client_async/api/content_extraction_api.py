@@ -338,12 +338,12 @@ class ContentExtractionApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
@@ -362,6 +362,12 @@ class ContentExtractionApi:
             Optional[StrictBool],
             Field(
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+            ),
+        ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`."
             ),
         ] = None,
         timeout: Annotated[
@@ -385,7 +391,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default  - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytes
@@ -393,7 +399,7 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
@@ -401,6 +407,8 @@ class ContentExtractionApi:
         :type max_output_tokens: int
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -432,6 +440,7 @@ class ContentExtractionApi:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -471,12 +480,12 @@ class ContentExtractionApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
@@ -495,6 +504,12 @@ class ContentExtractionApi:
             Optional[StrictBool],
             Field(
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+            ),
+        ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`."
             ),
         ] = None,
         timeout: Annotated[
@@ -518,7 +533,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default  - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytes
@@ -526,7 +541,7 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
@@ -534,6 +549,8 @@ class ContentExtractionApi:
         :type max_output_tokens: int
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -565,6 +582,7 @@ class ContentExtractionApi:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -604,12 +622,12 @@ class ContentExtractionApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0."
             ),
         ] = None,
         rasterization_dpi: Annotated[
@@ -628,6 +646,12 @@ class ContentExtractionApi:
             Optional[StrictBool],
             Field(
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+            ),
+        ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`."
             ),
         ] = None,
         timeout: Annotated[
@@ -651,7 +675,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default  - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
 
         :param file: (required)
         :type file: bytes
@@ -659,7 +683,7 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 1.0.
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
         :type rasterization_dpi: int
@@ -667,6 +691,8 @@ class ContentExtractionApi:
         :type max_output_tokens: int
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -698,6 +724,7 @@ class ContentExtractionApi:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -723,6 +750,7 @@ class ContentExtractionApi:
         rasterization_dpi,
         max_output_tokens,
         enable_thinking,
+        random_seed,
         timeout,
         _request_auth,
         _content_type,
@@ -759,6 +787,9 @@ class ContentExtractionApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if random_seed is not None:
+            _query_params.append(("randomSeed", random_seed))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

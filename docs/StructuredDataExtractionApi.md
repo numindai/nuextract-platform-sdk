@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_structured_extraction_structuredprojectid_jobs**
-> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, timeout=timeout)
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, random_seed=random_seed, timeout=timeout)
 
 
  Extract structured information from the provided text or file as an async job. Some files are converted to images -
@@ -148,17 +148,18 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
     body = None # bytes | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6. (optional)
+    temperature = 3.4 # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6. (optional)
     dpi = 56 # int | DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. (optional)
     max_output_tokens = 56 # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
     max_example_token_number = 56 # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
     max_example_number = 56 # int | Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. (optional)
     min_example_similarity = 3.4 # float | Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. (optional)
     enable_thinking = True # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting. (optional)
+    random_seed = 'random_seed_example' # str | Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used. (optional)
     timeout = 'timeout_example' # str | Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, timeout=timeout)
+        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, temperature=temperature, dpi=dpi, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, random_seed=random_seed, timeout=timeout)
         print("The response of StructuredDataExtractionApi->post_api_structured_extraction_structuredprojectid_jobs:\n")
         pprint(api_response)
     except Exception as e:
@@ -175,13 +176,14 @@ Name | Type | Description  | Notes
  **structured_project_id** | **str**| Unique structured extraction project identifier. | 
  **body** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
- **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request &#x60;temperature&#x60; -&gt; project setting. New and reset projects default to 0.6. | [optional] 
+ **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request &#x60;temperature&#x60; -&gt; project setting. New and reset projects default to 0.6. | [optional] 
  **dpi** | **int**| DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
  **max_example_token_number** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
  **max_example_number** | **int**| Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. | [optional] 
  **min_example_similarity** | **float**| Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | [optional] 
  **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting. | [optional] 
+ **random_seed** | **str**| Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one. When not specified, the project setting is used. | [optional] 
  **timeout** | **str**| Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type

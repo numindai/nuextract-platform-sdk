@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **logprobs** | **float** | Logprob of the inference result (sum of logprobs of all tokens). | 
 **output_token_probability** | **float** | Geometric mean of the output token probabilities. | 
 **selected_examples** | [**List[StructuredInferenceExample]**](StructuredInferenceExample.md) | Examples selected for inference. | [optional] 
+**random_seed** | **int** | Random seed used for this inference. | 
 
 ## Example
 

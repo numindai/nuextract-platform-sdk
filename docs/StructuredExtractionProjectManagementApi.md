@@ -450,6 +450,8 @@ Name | Type | Description  | Notes
 
 Update the settings of an existing **Structured Extraction Project**.
 
+Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
+
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
@@ -488,7 +490,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(api_client)
     structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
-    update_structured_project_settings_request = {"temperature":0.6,"rasterizationDPI":170,"maxOutputTokens":0,"degradedMode":"Reject","maxExampleTokenNumber":90000,"maxExampleNumber":0,"minExampleSimilarity":0,"enableThinking":false} # UpdateStructuredProjectSettingsRequest | 
+    update_structured_project_settings_request = {"temperature":0.6,"rasterizationDPI":170,"maxOutputTokens":0,"degradedMode":"Reject","maxExampleTokenNumber":90000,"maxExampleNumber":0,"minExampleSimilarity":0,"enableThinking":false,"randomSeed":"2022"} # UpdateStructuredProjectSettingsRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
@@ -556,6 +558,7 @@ A **Project** is created with default settings:
  `temperature` | 0.6 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
+ `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
  `degradedMode` (deprecated) | Reject|
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 
@@ -836,6 +839,7 @@ Default values are:
  `temperature` | 0.6 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
+ `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
  `degradedMode`  (deprecated) | Reject|
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 

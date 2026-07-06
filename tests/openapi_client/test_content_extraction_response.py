@@ -42,7 +42,8 @@ class TestContentExtractionResponse(unittest.TestCase):
                 input_tokens = 56,
                 total_tokens = 56,
                 logprobs = 1.337,
-                output_token_probability = 1.337
+                output_token_probability = 1.337,
+                random_seed = 56
             )
         else:
             return ContentExtractionResponse(
@@ -52,6 +53,7 @@ class TestContentExtractionResponse(unittest.TestCase):
                 total_tokens = 56,
                 logprobs = 1.337,
                 output_token_probability = 1.337,
+                random_seed = 56,
         )
         """
 

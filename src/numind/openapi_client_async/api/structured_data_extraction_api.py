@@ -336,12 +336,12 @@ class StructuredDataExtractionApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         dpi: Annotated[
@@ -385,6 +385,12 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -414,7 +420,7 @@ class StructuredDataExtractionApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
         :type dpi: int
@@ -428,6 +434,8 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -463,6 +471,7 @@ class StructuredDataExtractionApi:
                 max_example_number=max_example_number,
                 min_example_similarity=min_example_similarity,
                 enable_thinking=enable_thinking,
+                random_seed=random_seed,
                 timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -501,12 +510,12 @@ class StructuredDataExtractionApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         dpi: Annotated[
@@ -550,6 +559,12 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -579,7 +594,7 @@ class StructuredDataExtractionApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
         :type dpi: int
@@ -593,6 +608,8 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -628,6 +645,7 @@ class StructuredDataExtractionApi:
                 max_example_number=max_example_number,
                 min_example_similarity=min_example_similarity,
                 enable_thinking=enable_thinking,
+                random_seed=random_seed,
                 timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -666,12 +684,12 @@ class StructuredDataExtractionApi:
         temperature: Annotated[
             Optional[
                 Union[
-                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
             ),
         ] = None,
         dpi: Annotated[
@@ -715,6 +733,12 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -744,7 +768,7 @@ class StructuredDataExtractionApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 1. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
         :type temperature: float
         :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
         :type dpi: int
@@ -758,6 +782,8 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
         :param timeout: Max time to wait for the processing completion.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -793,6 +819,7 @@ class StructuredDataExtractionApi:
                 max_example_number=max_example_number,
                 min_example_similarity=min_example_similarity,
                 enable_thinking=enable_thinking,
+                random_seed=random_seed,
                 timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -822,6 +849,7 @@ class StructuredDataExtractionApi:
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        random_seed,
         timeout,
         _request_auth,
         _content_type,
@@ -866,6 +894,9 @@ class StructuredDataExtractionApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if random_seed is not None:
+            _query_params.append(("randomSeed", random_seed))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

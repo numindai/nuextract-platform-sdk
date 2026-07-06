@@ -53,7 +53,8 @@ class TestStructuredExtractionResponse(unittest.TestCase):
                         example_name = '', 
                         tokens_count = 56, 
                         similarity = 1.337, )
-                    ]
+                    ],
+                random_seed = 56
             )
         else:
             return StructuredExtractionResponse(
@@ -64,6 +65,7 @@ class TestStructuredExtractionResponse(unittest.TestCase):
                 total_tokens = 56,
                 logprobs = 1.337,
                 output_token_probability = 1.337,
+                random_seed = 56,
         )
         """
 

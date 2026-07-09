@@ -228,8 +228,7 @@ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\
 JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\
   -X POST \\
   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\
-  -H \"Content-Type: application/octet-stream\" \\
-  --data-binary @\"${FILE_NAME}\" | jq -r '.jobId')
+  -F \"file=@${FILE_NAME}\" | jq -r '.jobId')
 
 curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\
   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\"

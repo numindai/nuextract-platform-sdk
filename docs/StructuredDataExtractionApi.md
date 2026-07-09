@@ -196,7 +196,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/octet-stream
+ - **Content-Type**: application/octet-stream, multipart/form-data
  - **Accept**: application/json, text/plain
 
 ### HTTP response details
@@ -204,7 +204,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter dpi, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter maxExampleNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter dpi, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter maxExampleNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

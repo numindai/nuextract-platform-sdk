@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **completed_at** | **str** | Job completion time (if completed). | [optional] 
 **created_at** | **str** | Job creation date. | 
 **updated_at** | **str** | Job last update date. | 
+**timeout_seconds** | **int** | timeout used for this job in seconds | 
 
 ## Example
 

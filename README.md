@@ -36,6 +36,7 @@ from numind import NuMindAsync
 client = NuMindAsync(api_key="API_KEY")
 requests = [{}]
 
+
 async def main():
     return [
         await client.extract_structured_data(project_id, **request_kwargs)
@@ -57,14 +58,14 @@ template = {
     "destination": {
         "name": "verbatim-string",
         "zip_code": "string",
-        "country": "string"
+        "country": "string",
     },
     "accommodation": "verbatim-string",
     "activities": ["verbatim-string"],
     "duration": {
         "time_unit": ["day", "week", "month", "year"],
-        "time_quantity": "integer"
-    }
+        "time_quantity": "integer",
+    },
 }
 input_text = """My dream vacation would be a month-long escape to the stunning islands of Tahiti.
 I’d stay in an overwater bungalow in Bora Bora, waking up to crystal-clear turquoise waters and breathtaking sunrises.
@@ -244,11 +245,13 @@ from numind import NuMindAsync
 client = NuMindAsync(api_key=api_key)
 requests = [{}]
 
+
 async def main():
     return [
         await client.extract_structured_data(project_id, **request_kwargs)
         for request_kwargs in requests
     ]
+
 
 responses = asyncio.run(main())
 ```

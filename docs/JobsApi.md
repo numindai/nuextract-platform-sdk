@@ -32,9 +32,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -47,13 +45,20 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.JobsApi(api_client)
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    organization = 'organization_example' # str |  (optional)
-    skip = 56 # int | Number of jobs to skip. Min: 0. Default: 0. (optional)
-    per_page = 56 # int | Number of jobs per page. Min: 1. Max: 100. Default: 30. (optional)
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    organization = "organization_example"  # str |  (optional)
+    skip = 56  # int | Number of jobs to skip. Min: 0. Default: 0. (optional)
+    per_page = (
+        56  # int | Number of jobs per page. Min: 1. Max: 100. Default: 30. (optional)
+    )
 
     try:
-        api_response = api_instance.get_api_jobs(x_organization_id=x_organization_id, organization=organization, skip=skip, per_page=per_page)
+        api_response = api_instance.get_api_jobs(
+            x_organization_id=x_organization_id,
+            organization=organization,
+            skip=skip,
+            per_page=per_page,
+        )
         print("The response of JobsApi->get_api_jobs:\n")
         pprint(api_response)
     except Exception as e:
@@ -120,9 +125,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -135,11 +138,13 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.JobsApi(api_client)
-    job_id = 'job_id_example' # str | Unique job identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    job_id = "job_id_example"  # str | Unique job identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_jobs_jobid_status(job_id, x_organization_id=x_organization_id)
+        api_response = api_instance.get_api_jobs_jobid_status(
+            job_id, x_organization_id=x_organization_id
+        )
         print("The response of JobsApi->get_api_jobs_jobid_status:\n")
         pprint(api_response)
     except Exception as e:
@@ -227,9 +232,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -242,11 +245,13 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.JobsApi(api_client)
-    job_id = 'job_id_example' # str | Unique job identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    job_id = "job_id_example"  # str | Unique job identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_jobs_jobid_stream(job_id, x_organization_id=x_organization_id)
+        api_response = api_instance.get_api_jobs_jobid_stream(
+            job_id, x_organization_id=x_organization_id
+        )
         print("The response of JobsApi->get_api_jobs_jobid_stream:\n")
         pprint(api_response)
     except Exception as e:
@@ -321,9 +326,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -336,11 +339,13 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.JobsApi(api_client)
-    job_id = 'job_id_example' # str | Unique job identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    job_id = "job_id_example"  # str | Unique job identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_instance.post_api_jobs_jobid_cancel(job_id, x_organization_id=x_organization_id)
+        api_instance.post_api_jobs_jobid_cancel(
+            job_id, x_organization_id=x_organization_id
+        )
     except Exception as e:
         print("Exception when calling JobsApi->post_api_jobs_jobid_cancel: %s\n" % e)
 ```

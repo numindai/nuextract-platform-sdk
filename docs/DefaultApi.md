@@ -26,17 +26,15 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DefaultApi(api_client)
-    code = 56 # int | HTTP status code to return
-    delay_ms = 56 # int | Optional delay in ms before responding (default 0) (optional)
+    code = 56  # int | HTTP status code to return
+    delay_ms = 56  # int | Optional delay in ms before responding (default 0) (optional)
 
     try:
         api_instance.get_api_debug_status_code(code, delay_ms=delay_ms)
@@ -91,9 +89,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 
 # Enter a context with an instance of the API client
@@ -151,9 +147,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 
 # Enter a context with an instance of the API client
@@ -210,9 +204,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 
 # Enter a context with an instance of the API client
@@ -270,9 +262,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 
 # Enter a context with an instance of the API client

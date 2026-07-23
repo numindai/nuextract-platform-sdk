@@ -36,9 +36,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -51,15 +49,22 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.TemplateGenerationApi(api_client)
-    template_job_id = 'template_job_id_example' # str | Unique template job identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    template_job_id = "template_job_id_example"  # str | Unique template job identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_template_generation_jobs_templatejobid(template_job_id, x_organization_id=x_organization_id)
-        print("The response of TemplateGenerationApi->get_api_template_generation_jobs_templatejobid:\n")
+        api_response = api_instance.get_api_template_generation_jobs_templatejobid(
+            template_job_id, x_organization_id=x_organization_id
+        )
+        print(
+            "The response of TemplateGenerationApi->get_api_template_generation_jobs_templatejobid:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling TemplateGenerationApi->get_api_template_generation_jobs_templatejobid: %s\n" % e)
+        print(
+            "Exception when calling TemplateGenerationApi->get_api_template_generation_jobs_templatejobid: %s\n"
+            % e
+        )
 ```
 
 
@@ -125,9 +130,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -140,17 +143,27 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.TemplateGenerationApi(api_client)
-    body = None # bytes | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    rasterization_dpi = 56 # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored. (optional)
-    timeout = 'timeout_example' # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    body = None  # bytes |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    rasterization_dpi = 56  # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+    timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_template_generation_jobs(body, x_organization_id=x_organization_id, rasterization_dpi=rasterization_dpi, timeout=timeout)
-        print("The response of TemplateGenerationApi->post_api_template_generation_jobs:\n")
+        api_response = api_instance.post_api_template_generation_jobs(
+            body,
+            x_organization_id=x_organization_id,
+            rasterization_dpi=rasterization_dpi,
+            timeout=timeout,
+        )
+        print(
+            "The response of TemplateGenerationApi->post_api_template_generation_jobs:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling TemplateGenerationApi->post_api_template_generation_jobs: %s\n" % e)
+        print(
+            "Exception when calling TemplateGenerationApi->post_api_template_generation_jobs: %s\n"
+            % e
+        )
 ```
 
 

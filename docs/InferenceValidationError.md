@@ -23,7 +23,9 @@ print(InferenceValidationError.to_json())
 # convert the object into a dict
 inference_validation_error_dict = inference_validation_error_instance.to_dict()
 # create an instance of InferenceValidationError from a dict
-inference_validation_error_from_dict = InferenceValidationError.from_dict(inference_validation_error_dict)
+inference_validation_error_from_dict = InferenceValidationError.from_dict(
+    inference_validation_error_dict
+)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -30,7 +30,9 @@ print(ContentExtractionResponse.to_json())
 # convert the object into a dict
 content_extraction_response_dict = content_extraction_response_instance.to_dict()
 # create an instance of ContentExtractionResponse from a dict
-content_extraction_response_from_dict = ContentExtractionResponse.from_dict(content_extraction_response_dict)
+content_extraction_response_from_dict = ContentExtractionResponse.from_dict(
+    content_extraction_response_dict
+)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

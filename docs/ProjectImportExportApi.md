@@ -24,9 +24,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -39,16 +37,23 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ProjectImportExportApi(api_client)
-    project_kind = 'project_kind_example' # str | Project kind to export.
-    project_id = 'project_id_example' # str | Unique project identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    project_kind = "project_kind_example"  # str | Project kind to export.
+    project_id = "project_id_example"  # str | Unique project identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_extraction_projectkind_projectid_export(project_kind, project_id, x_organization_id=x_organization_id)
-        print("The response of ProjectImportExportApi->get_api_extraction_projectkind_projectid_export:\n")
+        api_response = api_instance.get_api_extraction_projectkind_projectid_export(
+            project_kind, project_id, x_organization_id=x_organization_id
+        )
+        print(
+            "The response of ProjectImportExportApi->get_api_extraction_projectkind_projectid_export:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ProjectImportExportApi->get_api_extraction_projectkind_projectid_export: %s\n" % e)
+        print(
+            "Exception when calling ProjectImportExportApi->get_api_extraction_projectkind_projectid_export: %s\n"
+            % e
+        )
 ```
 
 
@@ -102,9 +107,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -117,15 +120,20 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.ProjectImportExportApi(api_client)
-    body = None # bytes | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    body = None  # bytes |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_extraction_import(body, x_organization_id=x_organization_id)
+        api_response = api_instance.post_api_extraction_import(
+            body, x_organization_id=x_organization_id
+        )
         print("The response of ProjectImportExportApi->post_api_extraction_import:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ProjectImportExportApi->post_api_extraction_import: %s\n" % e)
+        print(
+            "Exception when calling ProjectImportExportApi->post_api_extraction_import: %s\n"
+            % e
+        )
 ```
 
 

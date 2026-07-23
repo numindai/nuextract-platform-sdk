@@ -28,7 +28,9 @@ print(StructuredExampleResponse.to_json())
 # convert the object into a dict
 structured_example_response_dict = structured_example_response_instance.to_dict()
 # create an instance of StructuredExampleResponse from a dict
-structured_example_response_from_dict = StructuredExampleResponse.from_dict(structured_example_response_dict)
+structured_example_response_from_dict = StructuredExampleResponse.from_dict(
+    structured_example_response_dict
+)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

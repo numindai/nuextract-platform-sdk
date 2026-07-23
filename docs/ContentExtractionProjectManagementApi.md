@@ -30,9 +30,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -44,14 +42,21 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(
+        api_client
+    )
+    content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_instance.delete_api_content_extraction_contentprojectid(content_project_id, x_organization_id=x_organization_id)
+        api_instance.delete_api_content_extraction_contentprojectid(
+            content_project_id, x_organization_id=x_organization_id
+        )
     except Exception as e:
-        print("Exception when calling ContentExtractionProjectManagementApi->delete_api_content_extraction_contentprojectid: %s\n" % e)
+        print(
+            "Exception when calling ContentExtractionProjectManagementApi->delete_api_content_extraction_contentprojectid: %s\n"
+            % e
+        )
 ```
 
 
@@ -109,9 +114,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -123,15 +126,24 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(
+        api_client
+    )
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_content_extraction(x_organization_id=x_organization_id)
-        print("The response of ContentExtractionProjectManagementApi->get_api_content_extraction:\n")
+        api_response = api_instance.get_api_content_extraction(
+            x_organization_id=x_organization_id
+        )
+        print(
+            "The response of ContentExtractionProjectManagementApi->get_api_content_extraction:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ContentExtractionProjectManagementApi->get_api_content_extraction: %s\n" % e)
+        print(
+            "Exception when calling ContentExtractionProjectManagementApi->get_api_content_extraction: %s\n"
+            % e
+        )
 ```
 
 
@@ -185,9 +197,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -199,17 +209,30 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    update_content_project_request = {"name":"New Project Name"} # UpdateContentProjectRequest | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(
+        api_client
+    )
+    content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
+    update_content_project_request = {
+        "name": "New Project Name"
+    }  # UpdateContentProjectRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.patch_api_content_extraction_contentprojectid(content_project_id, update_content_project_request, x_organization_id=x_organization_id)
-        print("The response of ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid:\n")
+        api_response = api_instance.patch_api_content_extraction_contentprojectid(
+            content_project_id,
+            update_content_project_request,
+            x_organization_id=x_organization_id,
+        )
+        print(
+            "The response of ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid: %s\n" % e)
+        print(
+            "Exception when calling ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid: %s\n"
+            % e
+        )
 ```
 
 
@@ -267,15 +290,15 @@ Omitted fields keep their current value. Set `randomSeed` to a string containing
 ```python
 import numind.openapi_client
 from numind.models.content_project_response import ContentProjectResponse
-from numind.models.update_content_project_settings_request import UpdateContentProjectSettingsRequest
+from numind.models.update_content_project_settings_request import (
+    UpdateContentProjectSettingsRequest,
+)
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -287,17 +310,36 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    update_content_project_settings_request = {"temperature":1,"rasterizationDPI":170,"maxOutputTokens":10000,"enableThinking":true,"randomSeed":"2022"} # UpdateContentProjectSettingsRequest | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(
+        api_client
+    )
+    content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
+    update_content_project_settings_request = {
+        "temperature": 1,
+        "rasterizationDPI": 170,
+        "maxOutputTokens": 10000,
+        "enableThinking": true,
+        "randomSeed": "2022",
+    }  # UpdateContentProjectSettingsRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.patch_api_content_extraction_contentprojectid_settings(content_project_id, update_content_project_settings_request, x_organization_id=x_organization_id)
-        print("The response of ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid_settings:\n")
+        api_response = (
+            api_instance.patch_api_content_extraction_contentprojectid_settings(
+                content_project_id,
+                update_content_project_settings_request,
+                x_organization_id=x_organization_id,
+            )
+        )
+        print(
+            "The response of ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid_settings:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid_settings: %s\n" % e)
+        print(
+            "Exception when calling ContentExtractionProjectManagementApi->patch_api_content_extraction_contentprojectid_settings: %s\n"
+            % e
+        )
 ```
 
 
@@ -378,9 +420,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -392,16 +432,28 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    create_content_project_request = {"name":"Example: Order Delivery Information Extraction","description":"Example: Automated extraction of order delivery details from emails and scanned documents"} # CreateContentProjectRequest | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(
+        api_client
+    )
+    create_content_project_request = {
+        "name": "Example: Order Delivery Information Extraction",
+        "description": "Example: Automated extraction of order delivery details from emails and scanned documents",
+    }  # CreateContentProjectRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction(create_content_project_request, x_organization_id=x_organization_id)
-        print("The response of ContentExtractionProjectManagementApi->post_api_content_extraction:\n")
+        api_response = api_instance.post_api_content_extraction(
+            create_content_project_request, x_organization_id=x_organization_id
+        )
+        print(
+            "The response of ContentExtractionProjectManagementApi->post_api_content_extraction:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ContentExtractionProjectManagementApi->post_api_content_extraction: %s\n" % e)
+        print(
+            "Exception when calling ContentExtractionProjectManagementApi->post_api_content_extraction: %s\n"
+            % e
+        )
 ```
 
 
@@ -471,9 +523,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -485,16 +535,27 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # Enter a context with an instance of the API client
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(api_client)
-    content_project_id = 'content_project_id_example' # str | Unique content extraction project identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    api_instance = numind.openapi_client.ContentExtractionProjectManagementApi(
+        api_client
+    )
+    content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_content_extraction_contentprojectid_reset_settings(content_project_id, x_organization_id=x_organization_id)
-        print("The response of ContentExtractionProjectManagementApi->post_api_content_extraction_contentprojectid_reset_settings:\n")
+        api_response = (
+            api_instance.post_api_content_extraction_contentprojectid_reset_settings(
+                content_project_id, x_organization_id=x_organization_id
+            )
+        )
+        print(
+            "The response of ContentExtractionProjectManagementApi->post_api_content_extraction_contentprojectid_reset_settings:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ContentExtractionProjectManagementApi->post_api_content_extraction_contentprojectid_reset_settings: %s\n" % e)
+        print(
+            "Exception when calling ContentExtractionProjectManagementApi->post_api_content_extraction_contentprojectid_reset_settings: %s\n"
+            % e
+        )
 ```
 
 

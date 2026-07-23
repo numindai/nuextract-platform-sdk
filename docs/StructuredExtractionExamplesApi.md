@@ -36,9 +36,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -51,14 +49,21 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredExtractionExamplesApi(api_client)
-    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
-    structured_example_id = 'structured_example_id_example' # str | Unique structured extraction example identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
+    structured_example_id = "structured_example_id_example"  # str | Unique structured extraction example identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_instance.delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid(structured_project_id, structured_example_id, x_organization_id=x_organization_id)
+        api_instance.delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
+            structured_project_id,
+            structured_example_id,
+            x_organization_id=x_organization_id,
+        )
     except Exception as e:
-        print("Exception when calling StructuredExtractionExamplesApi->delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid: %s\n" % e)
+        print(
+            "Exception when calling StructuredExtractionExamplesApi->delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid: %s\n"
+            % e
+        )
 ```
 
 
@@ -118,9 +123,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -133,17 +136,29 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredExtractionExamplesApi(api_client)
-    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    skip = 56 # int | Number of examples to skip. Min: 0. Default: 0.  (optional)
-    per_page = 56 # int | Number of examples per page. Min: 1. Max: 100. Default: 30.  (optional)
+    structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    skip = 56  # int | Number of examples to skip. Min: 0. Default: 0.  (optional)
+    per_page = 56  # int | Number of examples per page. Min: 1. Max: 100. Default: 30.  (optional)
 
     try:
-        api_response = api_instance.get_api_structured_extraction_structuredprojectid_examples(structured_project_id, x_organization_id=x_organization_id, skip=skip, per_page=per_page)
-        print("The response of StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples:\n")
+        api_response = (
+            api_instance.get_api_structured_extraction_structuredprojectid_examples(
+                structured_project_id,
+                x_organization_id=x_organization_id,
+                skip=skip,
+                per_page=per_page,
+            )
+        )
+        print(
+            "The response of StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples: %s\n" % e)
+        print(
+            "Exception when calling StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples: %s\n"
+            % e
+        )
 ```
 
 
@@ -205,9 +220,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -220,16 +233,25 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredExtractionExamplesApi(api_client)
-    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
-    structured_example_id = 'structured_example_id_example' # str | Unique structured extraction example identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
+    structured_example_id = "structured_example_id_example"  # str | Unique structured extraction example identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_structured_extraction_structuredprojectid_examples_structuredexampleid(structured_project_id, structured_example_id, x_organization_id=x_organization_id)
-        print("The response of StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples_structuredexampleid:\n")
+        api_response = api_instance.get_api_structured_extraction_structuredprojectid_examples_structuredexampleid(
+            structured_project_id,
+            structured_example_id,
+            x_organization_id=x_organization_id,
+        )
+        print(
+            "The response of StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples_structuredexampleid:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples_structuredexampleid: %s\n" % e)
+        print(
+            "Exception when calling StructuredExtractionExamplesApi->get_api_structured_extraction_structuredprojectid_examples_structuredexampleid: %s\n"
+            % e
+        )
 ```
 
 
@@ -299,16 +321,16 @@ In such cases, the **Example** will be skipped.
 
 ```python
 import numind.openapi_client
-from numind.models.create_or_update_structured_example_request import CreateOrUpdateStructuredExampleRequest
+from numind.models.create_or_update_structured_example_request import (
+    CreateOrUpdateStructuredExampleRequest,
+)
 from numind.models.structured_example_response import StructuredExampleResponse
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -321,16 +343,48 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.StructuredExtractionExamplesApi(api_client)
-    structured_project_id = 'structured_project_id_example' # str | Unique structured extraction project identifier.
-    create_or_update_structured_example_request = {"documentId":"449af2b9-a3e7-477b-a1c6-13d4d68fa7de","result":{"orderId":"Example: o-67214","customerId":"Example: c-76549","orderDate":"2024-04-05T08:20:00.000Z","status":"pending","totalAmount":89.75,"currency":"USD","items":[{"productId":"p-00567","quantity":1,"unitPrice":89.75}],"shippingAddress":{"street":"123 Elm St","city":"Boston","state":"MA","country":"USA","zip":"02108"},"comments":"Hold at pickup location.","deliveryPreferences":["scheduled_delivery","contactless_delivery"],"estimatedDelivery":"2024-04-10T19:00:00.000Z"}} # CreateOrUpdateStructuredExampleRequest | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
+    create_or_update_structured_example_request = {
+        "documentId": "449af2b9-a3e7-477b-a1c6-13d4d68fa7de",
+        "result": {
+            "orderId": "Example: o-67214",
+            "customerId": "Example: c-76549",
+            "orderDate": "2024-04-05T08:20:00.000Z",
+            "status": "pending",
+            "totalAmount": 89.75,
+            "currency": "USD",
+            "items": [{"productId": "p-00567", "quantity": 1, "unitPrice": 89.75}],
+            "shippingAddress": {
+                "street": "123 Elm St",
+                "city": "Boston",
+                "state": "MA",
+                "country": "USA",
+                "zip": "02108",
+            },
+            "comments": "Hold at pickup location.",
+            "deliveryPreferences": ["scheduled_delivery", "contactless_delivery"],
+            "estimatedDelivery": "2024-04-10T19:00:00.000Z",
+        },
+    }  # CreateOrUpdateStructuredExampleRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredprojectid_examples(structured_project_id, create_or_update_structured_example_request, x_organization_id=x_organization_id)
-        print("The response of StructuredExtractionExamplesApi->post_api_structured_extraction_structuredprojectid_examples:\n")
+        api_response = (
+            api_instance.post_api_structured_extraction_structuredprojectid_examples(
+                structured_project_id,
+                create_or_update_structured_example_request,
+                x_organization_id=x_organization_id,
+            )
+        )
+        print(
+            "The response of StructuredExtractionExamplesApi->post_api_structured_extraction_structuredprojectid_examples:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling StructuredExtractionExamplesApi->post_api_structured_extraction_structuredprojectid_examples: %s\n" % e)
+        print(
+            "Exception when calling StructuredExtractionExamplesApi->post_api_structured_extraction_structuredprojectid_examples: %s\n"
+            % e
+        )
 ```
 
 

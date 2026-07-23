@@ -34,9 +34,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -49,11 +47,13 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
-    file_id = 'file_id_example' # str | Unique file identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    file_id = "file_id_example"  # str | Unique file identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_files_fileid(file_id, x_organization_id=x_organization_id)
+        api_response = api_instance.get_api_files_fileid(
+            file_id, x_organization_id=x_organization_id
+        )
         print("The response of FilesApi->get_api_files_fileid:\n")
         pprint(api_response)
     except Exception as e:
@@ -115,9 +115,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -130,11 +128,13 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
-    file_id = 'file_id_example' # str | Unique file identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    file_id = "file_id_example"  # str | Unique file identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_files_fileid_content(file_id, x_organization_id=x_organization_id)
+        api_response = api_instance.get_api_files_fileid_content(
+            file_id, x_organization_id=x_organization_id
+        )
         print("The response of FilesApi->get_api_files_fileid_content:\n")
         pprint(api_response)
     except Exception as e:
@@ -193,9 +193,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -208,12 +206,14 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
-    x_file_name = 'x_file_name_example' # str | The name of the file to be uploaded.
-    body = None # bytes | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    x_file_name = "x_file_name_example"  # str | The name of the file to be uploaded.
+    body = None  # bytes |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_files(x_file_name, body, x_organization_id=x_organization_id)
+        api_response = api_instance.post_api_files(
+            x_file_name, body, x_organization_id=x_organization_id
+        )
         print("The response of FilesApi->post_api_files:\n")
         pprint(api_response)
     except Exception as e:
@@ -290,9 +290,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -305,16 +303,21 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.FilesApi(api_client)
-    file_id = 'file_id_example' # str | Unique file identifier.
-    convert_request = numind.openapi_client.ConvertRequest() # ConvertRequest | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    file_id = "file_id_example"  # str | Unique file identifier.
+    convert_request = numind.openapi_client.ConvertRequest()  # ConvertRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_files_fileid_convert_to_document(file_id, convert_request, x_organization_id=x_organization_id)
+        api_response = api_instance.post_api_files_fileid_convert_to_document(
+            file_id, convert_request, x_organization_id=x_organization_id
+        )
         print("The response of FilesApi->post_api_files_fileid_convert_to_document:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling FilesApi->post_api_files_fileid_convert_to_document: %s\n" % e)
+        print(
+            "Exception when calling FilesApi->post_api_files_fileid_convert_to_document: %s\n"
+            % e
+        )
 ```
 
 

@@ -33,7 +33,9 @@ print(StructuredProjectResponse.to_json())
 # convert the object into a dict
 structured_project_response_dict = structured_project_response_instance.to_dict()
 # create an instance of StructuredProjectResponse from a dict
-structured_project_response_from_dict = StructuredProjectResponse.from_dict(structured_project_response_dict)
+structured_project_response_from_dict = StructuredProjectResponse.from_dict(
+    structured_project_response_dict
+)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

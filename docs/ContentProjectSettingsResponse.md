@@ -15,19 +15,27 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from numind.models.content_project_settings_response import ContentProjectSettingsResponse
+from numind.models.content_project_settings_response import (
+    ContentProjectSettingsResponse,
+)
 
 # TODO update the JSON string below
 json = "{}"
 # create an instance of ContentProjectSettingsResponse from a JSON string
-content_project_settings_response_instance = ContentProjectSettingsResponse.from_json(json)
+content_project_settings_response_instance = ContentProjectSettingsResponse.from_json(
+    json
+)
 # print the JSON string representation of the object
 print(ContentProjectSettingsResponse.to_json())
 
 # convert the object into a dict
-content_project_settings_response_dict = content_project_settings_response_instance.to_dict()
+content_project_settings_response_dict = (
+    content_project_settings_response_instance.to_dict()
+)
 # create an instance of ContentProjectSettingsResponse from a dict
-content_project_settings_response_from_dict = ContentProjectSettingsResponse.from_dict(content_project_settings_response_dict)
+content_project_settings_response_from_dict = ContentProjectSettingsResponse.from_dict(
+    content_project_settings_response_dict
+)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

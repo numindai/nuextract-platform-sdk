@@ -35,9 +35,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -50,15 +48,20 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
-    document_id = 'document_id_example' # str | Unique document identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    document_id = "document_id_example"  # str | Unique document identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_documents_documentid(document_id, x_organization_id=x_organization_id)
+        api_response = api_instance.get_api_documents_documentid(
+            document_id, x_organization_id=x_organization_id
+        )
         print("The response of DocumentsApi->get_api_documents_documentid:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DocumentsApi->get_api_documents_documentid: %s\n" % e)
+        print(
+            "Exception when calling DocumentsApi->get_api_documents_documentid: %s\n"
+            % e
+        )
 ```
 
 
@@ -109,9 +112,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -124,16 +125,25 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
-    document_id = 'document_id_example' # str | Unique document identifier.
-    part_index = 56 # int | Zero-based logical index among image-capable parts of the document.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    document_id = "document_id_example"  # str | Unique document identifier.
+    part_index = (
+        56  # int | Zero-based logical index among image-capable parts of the document.
+    )
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.get_api_documents_documentid_parts_partindex_image(document_id, part_index, x_organization_id=x_organization_id)
-        print("The response of DocumentsApi->get_api_documents_documentid_parts_partindex_image:\n")
+        api_response = api_instance.get_api_documents_documentid_parts_partindex_image(
+            document_id, part_index, x_organization_id=x_organization_id
+        )
+        print(
+            "The response of DocumentsApi->get_api_documents_documentid_parts_partindex_image:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DocumentsApi->get_api_documents_documentid_parts_partindex_image: %s\n" % e)
+        print(
+            "Exception when calling DocumentsApi->get_api_documents_documentid_parts_partindex_image: %s\n"
+            % e
+        )
 ```
 
 
@@ -196,9 +206,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -211,16 +219,25 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
-    document_id = 'document_id_example' # str | Unique document identifier.
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    x_organization = 'x_organization_example' # str | The id of the current organization. This organization will own created resources (optional)
+    document_id = "document_id_example"  # str | Unique document identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    x_organization = "x_organization_example"  # str | The id of the current organization. This organization will own created resources (optional)
 
     try:
-        api_response = api_instance.post_api_documents_documentid_new_owner(document_id, x_organization_id=x_organization_id, x_organization=x_organization)
-        print("The response of DocumentsApi->post_api_documents_documentid_new_owner:\n")
+        api_response = api_instance.post_api_documents_documentid_new_owner(
+            document_id,
+            x_organization_id=x_organization_id,
+            x_organization=x_organization,
+        )
+        print(
+            "The response of DocumentsApi->post_api_documents_documentid_new_owner:\n"
+        )
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DocumentsApi->post_api_documents_documentid_new_owner: %s\n" % e)
+        print(
+            "Exception when calling DocumentsApi->post_api_documents_documentid_new_owner: %s\n"
+            % e
+        )
 ```
 
 
@@ -284,9 +301,7 @@ from pprint import pprint
 
 # Defining the host is optional and defaults to https://nuextract.ai
 # See configuration.py for a list of all supported configuration parameters.
-configuration = numind.openapi_client.Configuration(
-    host = "https://nuextract.ai"
-)
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
 
 # The client must configure the authentication and authorization parameters
 # in accordance with the API server security policy.
@@ -299,11 +314,15 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with numind.openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = numind.openapi_client.DocumentsApi(api_client)
-    text_request = {"text":"[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: \"Leave package at the front door.\" Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC."} # TextRequest | 
-    x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    text_request = {
+        "text": '[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.'
+    }  # TextRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
-        api_response = api_instance.post_api_documents_text(text_request, x_organization_id=x_organization_id)
+        api_response = api_instance.post_api_documents_text(
+            text_request, x_organization_id=x_organization_id
+        )
         print("The response of DocumentsApi->post_api_documents_text:\n")
         pprint(api_response)
     except Exception as e:

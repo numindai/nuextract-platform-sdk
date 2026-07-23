@@ -23,7 +23,9 @@ print(UpdateContentProjectRequest.to_json())
 # convert the object into a dict
 update_content_project_request_dict = update_content_project_request_instance.to_dict()
 # create an instance of UpdateContentProjectRequest from a dict
-update_content_project_request_from_dict = UpdateContentProjectRequest.from_dict(update_content_project_request_dict)
+update_content_project_request_from_dict = UpdateContentProjectRequest.from_dict(
+    update_content_project_request_dict
+)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

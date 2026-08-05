@@ -17,7 +17,7 @@ Method | HTTP request | Description
  List all jobs for the authenticated user with pagination support.
  This endpoint returns a paginated list of all jobs owned by the current user.
 
- Each job object contains the same information as returned by the get job endpoint.
+ Each job object contains job metadata, input data, and output or error details when available.
    
 
 ### Example
@@ -208,7 +208,7 @@ Name | Type | Description  | Notes
  data: <JSON data>
  ```
 
- For **result** events, the data contains the complete JobResponse object (same as returned by the get job endpoint).
+ For **result** events, the data contains the complete JobResponse object.
  For **error** events, the data contains an error object with code and message fields.
  For **ping** events, the data field is empty.
 

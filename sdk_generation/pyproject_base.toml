@@ -137,11 +137,6 @@ extend-select = [
 # difficult to comply and/or would add a lot of noqa exceptions. ANN002 is used as it
 # adds very few "noqa" exceptions, but ANN003 would add too much complexity.
 
-# ANN101 and ANN102:
-# Yields errors for `self` in methods from classes, which is unecessary.
-# The existence of these rules is currently questioned, they are likely to be removed.
-# https://github.com/astral-sh/ruff/issues/4396
-
 # B905
 # The `strict` keyword argument for the `zip` built-in method appeared with Python
 # 3.10. As we support previous versions, we cannot comply (yet) with this rule. The
@@ -181,8 +176,6 @@ extend-select = [
 
 ignore = [
     "ANN003",
-    "ANN101",
-    "ANN102",
     "B905",
     "COM812",
     "D107",

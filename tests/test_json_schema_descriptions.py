@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from numind.nuextract_utils.json_schema import get_description_json_schema_nodes
+from numind.nuextract_utils.template_conversion.json_schema import (
+    get_description_json_schema_nodes,
+)
 
 TEST_CASES = [
     (
@@ -27,16 +29,14 @@ TEST_CASES = [
                 },
             },
         },
-        "\n".join(
-            [
-                "$: Root description",
-                "$.name: Customer name",
-                "$.tags: Applied tags",
-                "$.tags[]: Single tag",
-                "$.address: Postal address",
-                "$.address.city: City name",
-            ]
-        ),
+        [
+            "$: Root description",
+            "$.name: Customer name",
+            "$.tags: Applied tags",
+            "$.tags[]: Single tag",
+            "$.address: Postal address",
+            "$.address.city: City name",
+        ],
         None,
     ),
     (
@@ -60,12 +60,7 @@ TEST_CASES = [
                 "owner": {"$ref": "#/$defs/person"},
             },
         },
-        "\n".join(
-            [
-                "$.owner: A person entry",
-                "$.owner.country: Country code",
-            ]
-        ),
+        ["$.owner: A person entry", "$.owner.country: Country code"],
         None,
     ),
     (
@@ -77,6 +72,30 @@ TEST_CASES = [
         },
         None,
         "Only nullable unions",
+    ),
+    (
+        {
+            "type": "object",
+            "properties": {
+                "records": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-z]+$": {
+                            "type": "object",
+                            "description": "Dynamic record",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "Record name",
+                                }
+                            },
+                        }
+                    },
+                }
+            },
+        },
+        ["$.records: Dynamic record", "$.records.name: Record name"],
+        None,
     ),
 ]
 

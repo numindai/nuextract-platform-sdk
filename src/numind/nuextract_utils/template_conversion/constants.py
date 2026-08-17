@@ -24,6 +24,7 @@ NUEXTRACT_TYPE_TO_JSON_SCHEMA_FORMAT = {
     "bic": "bice-code-ISO_9362",
     "unit-code": "ucum-unit-code",
 }
+BBOX_TYPE_NAME = "bbox"
 
 REGION_COUNTRIES = (
     "US",

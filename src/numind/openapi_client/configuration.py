@@ -16,8 +16,6 @@ import multiprocessing
 import sys
 from logging import FileHandler
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
-from urllib.parse import urlparse
-from urllib.request import getproxies
 
 import urllib3
 from typing_extensions import NotRequired, Self
@@ -172,7 +170,6 @@ class Configuration:
     :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
     :param connection_pool_maxsize: Connection pool max size. None in the constructor is coerced to 100 for async and cpu_count * 5 for sync.
     :param proxy: Proxy URL.
-    :param no_proxy: Comma-separated hosts that bypass the proxy.
     :param proxy_headers: Proxy headers.
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
@@ -208,7 +205,6 @@ class Configuration:
         tls_server_name: Optional[str] = None,
         connection_pool_maxsize: Optional[int] = None,
         proxy: Optional[str] = None,
-        no_proxy: Optional[str] = None,
         proxy_headers: Optional[Any] = None,
         safe_chars_for_path_param: str = "",
         client_side_validation: bool = True,
@@ -318,20 +314,8 @@ class Configuration:
            per pool. None in the constructor is coerced to cpu_count * 5.
         """
 
-        # urllib3 does not read proxy environment variables itself:
-        # https://github.com/urllib3/urllib3/issues/1785
-        if proxy is None or no_proxy is None:
-            proxies = getproxies()
-            if proxy is None:
-                scheme = urlparse(self.host).scheme
-                proxy = proxies.get(scheme) or proxies.get("all")
-            if no_proxy is None:
-                no_proxy = proxies.get("no")
         self.proxy = proxy
         """Proxy URL
-        """
-        self.no_proxy = no_proxy
-        """Hosts that bypass the proxy
         """
         self.proxy_headers = proxy_headers
         """Proxy headers
@@ -366,9 +350,9 @@ class Configuration:
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
-        # use setter to re-create the file handler (excluded from __dict__ copy)
+        # use setters to configure loggers
         result.logger_file = self.logger_file
-
+        result.debug = self.debug
         return result
 
     def __setattr__(self, name: str, value: Any) -> None:
@@ -519,10 +503,7 @@ class Configuration:
             identifier, self.api_key.get(alias) if alias is not None else None
         )
         if key:
-            prefix = self.api_key_prefix.get(
-                identifier,
-                self.api_key_prefix.get(alias) if alias is not None else None,
-            )
+            prefix = self.api_key_prefix.get(identifier)
             if prefix:
                 return "%s %s" % (prefix, key)
             return key

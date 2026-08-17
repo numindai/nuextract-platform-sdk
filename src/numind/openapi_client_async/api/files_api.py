@@ -104,6 +104,7 @@ class FilesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "FileResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -177,6 +178,7 @@ class FilesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "FileResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -250,6 +252,7 @@ class FilesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "FileResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -376,6 +379,7 @@ class FilesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "bytes",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -449,6 +453,7 @@ class FilesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "bytes",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -522,6 +527,7 @@ class FilesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "bytes",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -655,6 +661,7 @@ class FilesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "FileResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -735,6 +742,7 @@ class FilesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "FileResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -815,6 +823,7 @@ class FilesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "FileResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -967,6 +976,7 @@ class FilesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1045,6 +1055,7 @@ class FilesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1123,6 +1134,7 @@ class FilesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout

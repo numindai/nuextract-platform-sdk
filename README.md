@@ -104,7 +104,7 @@ print(output)
 
 ### Create a good template
 
-NuExtract uses JSON schemas as extraction templates which specify the information to retrieve and their types, which are:
+NuExtract uses JSON extraction templates which specify the information to retrieve and their types, which are:
 
 * **string**: a text, whose value can be abstract, i.e. totally free and can be deduced from calculations, reasoning, external knowledge;
 * **verbatim-string**: a purely extractive text whose value must be present in the document. Some flexibility might be allowed on the formatting, e.g. new lines and escaped characters (e.g. `\n`) in a documents might be represented with a space;
@@ -120,7 +120,33 @@ Additionally, the value of a field can be:
 * an **enum**, i.e. a list of elements to choose from of the form `["choice1", "choice2", ...]`. For values of this type, just set the value of the item to choose, e.g. "choice1", and do not set the value as an array containing the item such as `["choice1"]`;
 * a **multi-enum**, i.e. a list from which multiple elements can be picked, of the form `[["choice1", "choice2", ...]]` (double square brackets).
 
-#### Inferring a template
+### Converting JSON schema / Pydantic models to NuExtract template
+
+The SDK offers a method to convert JSON schemas to NuExtract templates:
+
+```Python
+from typing import Literal
+
+from pydantic import Field, BaseModel
+from numind.nuextract_utils import convert_json_schema_to_nuextract_template
+
+
+class HotelBooking(BaseModel):
+    city: str
+    check_in_date: str = Field(description="date")
+    check_out_date: str = Field(description="date")
+    number_of_guests: int
+    room_type: Literal["single", "double", "suite"]
+
+
+template, dropped_branches, descriptions = convert_json_schema_to_nuextract_template(
+    HotelBooking.model_json_schema()
+)
+
+# {'check_in_date': 'date', 'check_out_date': 'date', 'city': 'string', 'number_of_guests': 'integer', 'room_type': ['single', 'double', 'suite']}
+```
+
+### Inferring a template
 
 The "infer_template" method allows to quickly create a template that you can start to work with from a text description.
 

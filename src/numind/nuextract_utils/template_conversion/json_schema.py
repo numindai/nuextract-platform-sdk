@@ -6,13 +6,12 @@ from collections.abc import Mapping
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
-from .utils import is_object_enum
-
 from .constants import (
     BBOX_TYPE_NAME,
     JSON_SCHEMA_PRIMITIVES,
     NUEXTRACT_TYPE_TO_JSON_SCHEMA_FORMAT,
 )
+from .utils import is_object_enum
 
 if TYPE_CHECKING:
     from typing import Any

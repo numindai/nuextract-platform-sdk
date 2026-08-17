@@ -9,7 +9,7 @@ description = "SDK to interact with the NuMind models API."
 requires-python = ">=3.9"
 keywords = [ "artificial intelligence", "deep learning", "structured",]
 classifiers = [ "Intended Audience :: Developers", "Intended Audience :: Science/Research", "Topic :: Scientific/Engineering :: Artificial Intelligence", "License :: OSI Approved :: MIT License", "Programming Language :: Python", "Programming Language :: Python :: 3 :: Only", "Programming Language :: Python :: 3.9", "Programming Language :: Python :: 3.10", "Programming Language :: Python :: 3.11", "Programming Language :: Python :: 3.12", "Programming Language :: Python :: 3.13", "Operating System :: OS Independent",]
-dependencies = [ "urllib3", "orjson", "jsonschema", "python_dateutil >= 2.8.2", "aiohttp >= 3.13.5", "aiohttp-retry >= 2.8.3", "pydantic >= 2.11", "typing-extensions >= 4.7.1",]
+dependencies = [ "urllib3", "orjson", "jsonschema", "python_dateutil >= 2.8.2", "aiohttp >= 3.8.4", "aiohttp-retry >= 2.8.3", "pydantic >= 2.11", "typing-extensions >= 4.7.1",]
 [[project.authors]]
 name = "Nathan Fradet"
 email = "nathan@numind.ai"
@@ -70,7 +70,7 @@ exclude_also = [ "def __repr__",]
 
 [tool.ruff.lint]
 extend-select = [ "ARG", "A", "ANN", "B", "BLE", "C4", "COM", "D", "E", "EM", "EXE", "F", "FA", "FBT", "G", "I", "ICN", "INP", "INT", "ISC", "N", "NPY", "PERF", "PGH", "PTH", "PIE", "PT", "Q", "RET", "RSE", "RUF", "S", "SIM", "T", "TCH", "TID", "UP", "W",]
-ignore = [ "ANN003", "ANN101", "ANN102", "B905", "COM812", "D107", "D203", "D212", "FBT001", "FBT002", "UP038",]
+ignore = [ "ANN003", "B905", "COM812", "D107", "D203", "D212", "FBT001", "FBT002", "UP038",]
 
 [tool.pylint."MESSAGES CONTROL"]
 extension-pkg-whitelist = "pydantic"

@@ -6,9 +6,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field, create_model
 
-from .utils import is_object_enum, is_object_multi_enum
-
 from .json_schema import convert_json_schema_to_nuextract_template
+from .utils import is_object_enum, is_object_multi_enum
 
 
 def convert_nuextract_template_to_pydantic_model(

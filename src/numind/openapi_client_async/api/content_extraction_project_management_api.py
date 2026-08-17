@@ -103,7 +103,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": None,
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -180,7 +179,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": None,
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -257,7 +255,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": None,
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -380,7 +377,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[ContentProjectResponse]",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -450,7 +446,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[ContentProjectResponse]",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -520,7 +515,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[ContentProjectResponse]",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -652,7 +646,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -734,7 +727,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -816,7 +808,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -964,7 +955,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1046,7 +1036,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1128,7 +1117,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1269,7 +1257,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1344,7 +1331,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1419,7 +1405,6 @@ class ContentExtractionProjectManagementApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1561,7 +1546,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1640,7 +1624,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1719,7 +1702,6 @@ class ContentExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "ContentProjectResponse",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout

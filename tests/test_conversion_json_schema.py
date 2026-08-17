@@ -13,7 +13,7 @@ from numind.nuextract_utils.template_conversion import (
     detect_errors_json_schema,
 )
 from numind.nuextract_utils.template_conversion.json_schema import (
-    convert_json_schema_to_nuextract_compatible_json_schema
+    convert_json_schema_to_nuextract_compatible_json_schema,
 )
 
 # nuextract_template, json_schema

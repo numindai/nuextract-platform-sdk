@@ -106,7 +106,6 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -182,7 +181,6 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -258,7 +256,6 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -486,7 +483,6 @@ class StructuredDataExtractionApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -661,7 +657,6 @@ class StructuredDataExtractionApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -836,7 +831,6 @@ class StructuredDataExtractionApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
             "400": "str",
-            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout

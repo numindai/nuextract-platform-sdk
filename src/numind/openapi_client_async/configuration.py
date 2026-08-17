@@ -17,7 +17,6 @@ import sys
 from logging import FileHandler
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 
-import aiohttp
 import aiohttp_retry
 from typing_extensions import NotRequired, Self
 
@@ -163,13 +162,6 @@ class Configuration:
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
     :param retries: int | aiohttp_retry.RetryOptionsBase - Retry configuration.
-    :param trace_configs: list of aiohttp.TraceConfig instances forwarded to
-      aiohttp.ClientSession for tracing/instrumentation (e.g. OpenTelemetry).
-    :param tcp_connector_limit_per_host: Per-host concurrency cap forwarded to
-      aiohttp.TCPConnector(limit_per_host=...). None leaves aiohttp's default (0 = unlimited).
-    :param client_session_kwargs: Extra keyword arguments merged into
-      aiohttp.ClientSession(**kwargs) (e.g. json_serialize=orjson.dumps,
-      cookie_jar=aiohttp.DummyCookieJar()).
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
@@ -205,9 +197,6 @@ class Configuration:
         ignore_operation_servers: bool = False,
         ssl_ca_cert: Optional[str] = None,
         retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
-        trace_configs: Optional[List[aiohttp.TraceConfig]] = None,
-        tcp_connector_limit_per_host: Optional[int] = None,
-        client_session_kwargs: Optional[Dict[str, Any]] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
         cert_file: Optional[str] = None,
         key_file: Optional[str] = None,
@@ -334,16 +323,6 @@ class Configuration:
         self.retries = retries
         """Retry configuration
         """
-        self.trace_configs = trace_configs
-        """aiohttp.TraceConfig list forwarded to ClientSession for tracing.
-        """
-        self.tcp_connector_limit_per_host = tcp_connector_limit_per_host
-        """Per-host concurrency cap forwarded to TCPConnector.
-        """
-        self.client_session_kwargs = client_session_kwargs
-        """Extra kwargs merged into aiohttp.ClientSession(**kwargs).
-
-        """
         # Enable client side validation
         self.client_side_validation = client_side_validation
 
@@ -368,9 +347,9 @@ class Configuration:
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
-        # use setter to re-create the file handler (excluded from __dict__ copy)
+        # use setters to configure loggers
         result.logger_file = self.logger_file
-
+        result.debug = self.debug
         return result
 
     def __setattr__(self, name: str, value: Any) -> None:
@@ -521,10 +500,7 @@ class Configuration:
             identifier, self.api_key.get(alias) if alias is not None else None
         )
         if key:
-            prefix = self.api_key_prefix.get(
-                identifier,
-                self.api_key_prefix.get(alias) if alias is not None else None,
-            )
+            prefix = self.api_key_prefix.get(identifier)
             if prefix:
                 return "%s %s" % (prefix, key)
             return key

@@ -180,7 +180,7 @@ def test_pydantic_to_nuextract_template_supports_complete_nested_model() -> None
                 "labels": [["fragile", "gift", "subscription"]],
             }
         ],
-        "primary_bbox": "bbox",
+        "primary_bbox": ["integer"],
         "notes": "string",
     }
 
@@ -189,5 +189,5 @@ def test_pydantic_to_nuextract_template_rejects_primitive_union() -> None:
     class ModelWithPrimitiveUnion(BaseModel):
         value: str | int
 
-    with pytest.raises(ValueError, match="Only nullable unions"):
+    with pytest.raises(ValueError, match="ambiguous"):
         convert_pydantic_model_to_nuextract_template(ModelWithPrimitiveUnion)

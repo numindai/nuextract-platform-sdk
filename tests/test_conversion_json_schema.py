@@ -19,9 +19,34 @@ from numind.nuextract_utils.template_conversion.json_schema import (
 _AMBIGUOUS_UNION_ERROR = (
     "Union is ambiguous because no instance value selects exactly one alternative."
 )
+_INSTANCE_SELECTED_UNION_ERROR = (
+    "Union requires instance-specific branch selection and cannot be represented "
+    "completely by one NuExtract template."
+)
 _DYNAMIC_OBJECT_ERROR = (
     "Dynamic object keys cannot be represented by a NuExtract template."
 )
+
+
+def _convert_json_schema_to_nuextract_template_values(
+    schema: dict,
+    **kwargs: object,
+) -> tuple[object, list[dict], list[str]]:
+    conversion = convert_json_schema_to_nuextract_template(schema, **kwargs)
+    schema_incompatibilities = [
+        {
+            "path": incompatibility["schema_path"],
+            "error": incompatibility["error"],
+        }
+        for incompatibility in conversion["incompatibilities"]
+        if incompatibility["kind"] == "schema_node_not_convertible"
+    ]
+    return (
+        conversion["template"],
+        schema_incompatibilities,
+        conversion["descriptions"],
+    )
+
 
 # nuextract_template, json_schema
 TEST_CASES_NUEXTRACT_TO_JSON_SCHEMA = [
@@ -202,7 +227,7 @@ def test_json_schema_round_trip(nuextract_template: dict) -> None:
     json_schema = convert_nuextract_template_to_json_schema(nuextract_template)
 
     template, dropped_branches, descriptions = (
-        convert_json_schema_to_nuextract_template(json_schema)
+        _convert_json_schema_to_nuextract_template_values(json_schema)
     )
 
     assert template == nuextract_template
@@ -241,7 +266,7 @@ def test_json_schema_to_template_supports_description_refs_and_enums(
     schema: dict,
     template_target: dict,
 ) -> None:
-    template, _, _ = convert_json_schema_to_nuextract_template(
+    template, _, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -264,7 +289,9 @@ def test_json_schema_to_template_supports_nullable_enums() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {
         "status": ["open", "closed"],
@@ -284,7 +311,9 @@ def test_json_schema_to_template_supports_url_format_aliases(
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {"link": "url"}
     assert dropped_branches == []
@@ -299,7 +328,7 @@ def test_json_schema_to_template_rejects_non_nullable_anyof() -> None:
     }
 
     with pytest.raises(ValueError, match="ambiguous"):
-        convert_json_schema_to_nuextract_template(schema)
+        _convert_json_schema_to_nuextract_template_values(schema)
 
 
 def test_json_schema_to_template_can_omit_unsupported_branches() -> None:
@@ -337,7 +366,7 @@ def test_json_schema_to_template_can_omit_unsupported_branches() -> None:
     }
 
     template, dropped_branches, descriptions = (
-        convert_json_schema_to_nuextract_template(
+        _convert_json_schema_to_nuextract_template_values(
             schema,
             omit_unsupported_branches=True,
         )
@@ -387,7 +416,7 @@ def test_json_schema_to_template_collects_dropped_branches() -> None:
             "singleton_enum": {"enum": ["fixed"]},
         },
     }
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -473,8 +502,8 @@ def test_json_schema_to_nuextract_compatible_json_schema_drops_unsupported_nodes
     ]
     assert detect_errors_json_schema(compatible_schema) == []
 
-    template, template_dropped_branches, _ = convert_json_schema_to_nuextract_template(
-        compatible_schema
+    template, template_dropped_branches, _ = (
+        _convert_json_schema_to_nuextract_template_values(compatible_schema)
     )
     assert template == {
         "valid": "string",
@@ -503,7 +532,7 @@ def test_json_schema_to_template_drops_array_with_empty_converted_items() -> Non
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -589,8 +618,8 @@ def test_json_schema_to_nuextract_compatible_json_schema_inlines_refs() -> None:
     }
     assert dropped_branches == []
 
-    template, template_dropped_branches, _ = convert_json_schema_to_nuextract_template(
-        compatible_schema
+    template, template_dropped_branches, _ = (
+        _convert_json_schema_to_nuextract_template_values(compatible_schema)
     )
     assert template == {
         "person": {
@@ -690,8 +719,8 @@ def test_json_schema_to_nuextract_compatible_json_schema_supports_allof_objects(
     ]
     assert detect_errors_json_schema(compatible_schema) == []
 
-    template, template_dropped_branches, _ = convert_json_schema_to_nuextract_template(
-        compatible_schema
+    template, template_dropped_branches, _ = (
+        _convert_json_schema_to_nuextract_template_values(compatible_schema)
     )
     assert template == {
         "name": "string",
@@ -755,7 +784,7 @@ def test_json_schema_to_template_supports_allof_objects() -> None:
     }
 
     template, dropped_branches, descriptions = (
-        convert_json_schema_to_nuextract_template(
+        _convert_json_schema_to_nuextract_template_values(
             schema,
             omit_unsupported_branches=True,
         )
@@ -801,7 +830,9 @@ def test_json_schema_to_template_supports_properties_without_object_type() -> No
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {
         "nat": [
@@ -830,7 +861,9 @@ def test_json_schema_to_template_prefers_explicit_array_type_over_properties() -
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == [
         {
@@ -860,7 +893,9 @@ def test_json_schema_to_template_supports_nullable_type_shorthand() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {
         "item_list_id": "string",
@@ -881,7 +916,9 @@ def test_json_schema_to_template_supports_single_item_type_list() -> None:
         "properties": {"name": {"type": ["string"]}},
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {"name": "string"}
     assert dropped_branches == []
@@ -910,7 +947,7 @@ def test_json_schema_to_template_selects_one_object_any_of_branch() -> None:
         ],
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
         instance={"shared": "value", "left": 1},
@@ -922,8 +959,8 @@ def test_json_schema_to_template_selects_one_object_any_of_branch() -> None:
     }
     assert dropped_branches == [
         {
-            "path": ["anyOf", 1],
-            "error": "Union alternative omitted from the NuExtract template.",
+            "path": [],
+            "error": _INSTANCE_SELECTED_UNION_ERROR,
         }
     ]
 
@@ -949,7 +986,7 @@ def test_json_schema_to_template_selects_one_oneof_array_item_object() -> None:
         ],
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
         instance=[{"name": "value"}],
@@ -958,8 +995,8 @@ def test_json_schema_to_template_selects_one_oneof_array_item_object() -> None:
     assert template == [{"name": "string"}]
     assert dropped_branches == [
         {
-            "path": ["anyOf", 1],
-            "error": "Union alternative omitted from the NuExtract template.",
+            "path": [],
+            "error": _INSTANCE_SELECTED_UNION_ERROR,
         }
     ]
 
@@ -982,9 +1019,9 @@ def test_json_schema_to_template_rejects_dynamic_pattern_properties() -> None:
     }
 
     with pytest.raises(ValueError, match="Dynamic object keys"):
-        convert_json_schema_to_nuextract_template(schema)
+        _convert_json_schema_to_nuextract_template_values(schema)
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -1018,9 +1055,9 @@ def test_json_schema_to_template_drops_schema_additional_properties() -> None:
     }
 
     with pytest.raises(ValueError, match="Dynamic object keys"):
-        convert_json_schema_to_nuextract_template(schema)
+        _convert_json_schema_to_nuextract_template_values(schema)
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -1051,7 +1088,9 @@ def test_json_schema_to_template_applies_ref_siblings() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {"value": {"a": "string", "b": "integer"}}
     assert dropped_branches == []
@@ -1081,9 +1120,9 @@ def test_json_schema_to_template_rejects_composition_property_collisions(
     }
 
     with pytest.raises(ValueError, match=r"incompatible schemas|ambiguous"):
-        convert_json_schema_to_nuextract_template(schema)
+        _convert_json_schema_to_nuextract_template_values(schema)
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -1105,7 +1144,7 @@ def test_json_schema_to_template_selects_array_union_from_items() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
         instance={"values": [1, 2]},
@@ -1114,8 +1153,8 @@ def test_json_schema_to_template_selects_array_union_from_items() -> None:
     assert template == {"values": ["integer"]}
     assert dropped_branches == [
         {
-            "path": ["properties", "values", "anyOf", 0],
-            "error": "Union alternative omitted from the NuExtract template.",
+            "path": ["properties", "values"],
+            "error": _INSTANCE_SELECTED_UNION_ERROR,
         }
     ]
 
@@ -1134,7 +1173,7 @@ def test_json_schema_to_template_does_not_select_absent_union_value() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
         instance={"kept": True},
@@ -1158,9 +1197,9 @@ def test_json_schema_to_template_rejects_heterogeneous_prefix_items() -> None:
     }
 
     with pytest.raises(ValueError, match="incompatible schemas"):
-        convert_json_schema_to_nuextract_template(schema)
+        _convert_json_schema_to_nuextract_template_values(schema)
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -1177,8 +1216,10 @@ def test_json_schema_to_template_requires_explicit_bbox_annotation() -> None:
         "maxItems": 5,
     }
 
-    tuple_template, _, _ = convert_json_schema_to_nuextract_template(tuple_schema)
-    bbox_template, _, _ = convert_json_schema_to_nuextract_template(
+    tuple_template, _, _ = _convert_json_schema_to_nuextract_template_values(
+        tuple_schema
+    )
+    bbox_template, _, _ = _convert_json_schema_to_nuextract_template_values(
         {**tuple_schema, "x-nuextract-type": "bbox"}
     )
 
@@ -1195,7 +1236,7 @@ def test_json_schema_to_template_ignores_semantic_formats_on_non_strings() -> No
         },
     }
 
-    template, _, _ = convert_json_schema_to_nuextract_template(schema)
+    template, _, _ = _convert_json_schema_to_nuextract_template_values(schema)
 
     assert template == {"amount": "number", "enabled": "boolean"}
 
@@ -1216,7 +1257,9 @@ def test_json_schema_to_template_collects_composition_descriptions() -> None:
         ]
     }
 
-    template, _, descriptions = convert_json_schema_to_nuextract_template(schema)
+    template, _, descriptions = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == {"a": "string", "b": "integer"}
     assert descriptions == ["$: First branch", "$: Second branch"]
@@ -1235,7 +1278,9 @@ def test_json_schema_to_template_resolves_array_json_pointer_segments() -> None:
         "$ref": "#/$defs/choices/anyOf/0",
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(schema)
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
+    )
 
     assert template == "string"
     assert dropped_branches == []
@@ -1250,7 +1295,7 @@ def test_json_schema_to_template_resolves_array_json_pointer_segments() -> None:
 )
 def test_json_schema_to_template_rejects_invalid_schemas(schema: dict) -> None:
     with pytest.raises(ValueError, match="Invalid JSON Schema"):
-        convert_json_schema_to_nuextract_template(
+        _convert_json_schema_to_nuextract_template_values(
             schema,
             omit_unsupported_branches=True,
         )
@@ -1266,9 +1311,9 @@ def test_json_schema_to_template_drops_null_only_properties() -> None:
     }
 
     with pytest.raises(ValueError, match="null-only"):
-        convert_json_schema_to_nuextract_template(schema)
+        _convert_json_schema_to_nuextract_template_values(schema)
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
     )
@@ -1282,7 +1327,7 @@ def test_json_schema_to_template_drops_null_only_properties() -> None:
     ]
 
 
-def test_json_schema_to_template_omit_unsupported_branches_still_rejects_root() -> None:
+def test_json_schema_to_template_reports_an_unconvertible_root() -> None:
     schema = {
         "type": "object",
         "properties": {
@@ -1296,11 +1341,16 @@ def test_json_schema_to_template_omit_unsupported_branches_still_rejects_root() 
         },
     }
 
-    with pytest.raises(ValueError, match="Root schema is unsupported"):
-        convert_json_schema_to_nuextract_template(
-            schema,
-            omit_unsupported_branches=True,
-        )
+    conversion = convert_json_schema_to_nuextract_template(
+        schema,
+        omit_unsupported_branches=True,
+    )
+
+    assert conversion["template"] is None
+    assert conversion["schema_status"] == "not_convertible"
+    assert conversion["instance_status"] == "not_provided"
+    assert conversion["adapted_instance"] is None
+    assert conversion["incompatibilities"][-1]["schema_path"] == []
 
 
 def test_json_schema_to_template_selects_union_branch_from_instance() -> None:
@@ -1316,7 +1366,7 @@ def test_json_schema_to_template_selects_union_branch_from_instance() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
         instance={"enabled": "no"},
@@ -1325,8 +1375,8 @@ def test_json_schema_to_template_selects_union_branch_from_instance() -> None:
     assert template == {"enabled": ["yes", "no"]}
     assert dropped_branches == [
         {
-            "path": ["properties", "enabled", "anyOf", 0],
-            "error": "Union alternative omitted from the NuExtract template.",
+            "path": ["properties", "enabled"],
+            "error": _INSTANCE_SELECTED_UNION_ERROR,
         }
     ]
 
@@ -1353,7 +1403,7 @@ def test_json_schema_to_template_drops_union_used_with_multiple_types() -> None:
         },
     }
 
-    template, dropped_branches, _ = convert_json_schema_to_nuextract_template(
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
         schema,
         omit_unsupported_branches=True,
         instance={
@@ -1372,5 +1422,110 @@ def test_json_schema_to_template_drops_union_used_with_multiple_types() -> None:
                 "Union is ambiguous because the instance does not select exactly "
                 "one alternative."
             ),
+        }
+    ]
+
+
+def test_json_schema_to_template_reports_an_instance_valid_for_both() -> None:
+    schema = {
+        "type": "object",
+        "properties": {"count": {"type": "integer"}},
+        "required": ["count"],
+    }
+    instance = {"count": 3}
+
+    conversion = convert_json_schema_to_nuextract_template(
+        schema,
+        instance=instance,
+    )
+
+    assert conversion == {
+        "template": {"count": "integer"},
+        "adapted_instance": {"count": 3},
+        "schema_status": "fully_converted",
+        "instance_status": "valid_for_both",
+        "incompatibilities": [],
+        "descriptions": [],
+    }
+    assert conversion["adapted_instance"] is not instance
+
+
+def test_json_schema_to_template_adapts_an_instance_valid_for_both() -> None:
+    schema = {
+        "type": "object",
+        "properties": {"count": {"type": "integer"}},
+        "required": ["count"],
+    }
+    instance = {"count": 3, "extra": "remove"}
+
+    conversion = convert_json_schema_to_nuextract_template(schema, instance=instance)
+
+    assert conversion["instance_status"] == "adapted_valid_for_both"
+    assert conversion["adapted_instance"] == {"count": 3}
+    assert conversion["incompatibilities"] == []
+    assert instance == {"count": 3, "extra": "remove"}
+
+
+def test_json_schema_to_template_reports_an_instance_that_cannot_be_adapted() -> None:
+    schema = {
+        "type": "object",
+        "properties": {
+            "kept": {"type": "string"},
+            "fixed": {"enum": ["only"]},
+        },
+        "required": ["kept", "fixed"],
+    }
+
+    conversion = convert_json_schema_to_nuextract_template(
+        schema,
+        omit_unsupported_branches=True,
+        instance={"kept": "yes", "fixed": "only"},
+    )
+
+    assert conversion["instance_status"] == "not_adaptable"
+    assert conversion["adapted_instance"] is None
+    assert conversion["incompatibilities"][-1] == {
+        "kind": "instance_node_not_adaptable",
+        "schema_path": [],
+        "instance_path": [],
+        "error": "'fixed' is a required property",
+    }
+
+
+def test_json_schema_to_template_reports_an_originally_invalid_instance() -> None:
+    schema = {
+        "type": "object",
+        "properties": {
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {"count": {"type": "integer"}},
+                    "required": ["count"],
+                },
+            }
+        },
+        "required": ["items"],
+    }
+
+    conversion = convert_json_schema_to_nuextract_template(
+        schema,
+        instance={"items": [{"count": "first"}, {"count": "second"}]},
+    )
+
+    assert conversion["instance_status"] == "invalid_for_original_schema"
+    assert conversion["adapted_instance"] is None
+    assert conversion["incompatibilities"] == [
+        {
+            "kind": "original_instance_invalid",
+            "schema_path": [
+                "properties",
+                "items",
+                "items",
+                "properties",
+                "count",
+            ],
+            "instance_path": ["items", "*", "count"],
+            "error": "'first' is not of type 'integer'",
         }
     ]

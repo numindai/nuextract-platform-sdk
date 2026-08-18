@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field, create_model
 
+from numind.nuextract_utils.data_validation.utils import (
+    is_object_enum,
+    is_object_multi_enum,
+)
+
 from .json_schema import convert_json_schema_to_nuextract_template
-from .utils import is_object_enum, is_object_multi_enum
 
 
 def convert_nuextract_template_to_pydantic_model(
@@ -85,7 +89,7 @@ def convert_nuextract_template_to_pydantic_model(
             if is_object_enum(value) and all(isinstance(v, str) for v in value):
                 # Enum: ["pop", "rock", "jazz"]
                 # -> Literal["pop", "rock", "jazz"] | None (nullable)
-                return Literal[tuple(value)] | None
+                return Optional[Literal[tuple(value)]]
 
             if is_object_enum(value) and all(isinstance(v, dict) for v in value):
                 # This shouldn't happen in a template, but handle gracefully
@@ -94,7 +98,7 @@ def convert_nuextract_template_to_pydantic_model(
         elif isinstance(value, str):
             # Primitive types are nullable: string -> str | None
             base_type = type_mapping.get(value, str)
-            return base_type | type(None)
+            return Optional[base_type]
 
         return Any
 
@@ -150,7 +154,7 @@ def convert_pydantic_model_to_nuextract_template(
     :raises TypeError: If Pydantic produces an invalid JSON Schema node.
     :raises ValueError: If the model contains an unsupported JSON Schema construct.
     """
-    template, _, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         pydantic_model.model_json_schema()
     )
-    return template
+    return conversion["template"]

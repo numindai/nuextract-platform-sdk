@@ -9,15 +9,24 @@ from typing import TYPE_CHECKING
 from jsonschema import SchemaError
 from jsonschema.validators import validator_for
 
+from numind.nuextract_utils.data_validation import (
+    correct_output_json_and_input_template,
+    detect_errors_in_output_json,
+)
+from numind.nuextract_utils.data_validation.models import ErrorJson
+from numind.nuextract_utils.data_validation.utils import is_object_enum
+
 from .constants import (
     BBOX_TYPE_NAME,
     JSON_SCHEMA_PRIMITIVES,
     NUEXTRACT_TYPE_TO_JSON_SCHEMA_FORMAT,
 )
-from .utils import is_object_enum
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from typing import Any
+
+    from jsonschema.exceptions import ValidationError
 
 
 _TYPE_DESCRIPTION_KEYS = ("format", "description")
@@ -225,18 +234,50 @@ def convert_nuextract_template_to_json_schema(
     return _build_node(nuextract_template)
 
 
+def adapt_json_to_nuextract_template(
+    template: dict | list | str,
+    json_instance: dict | list | str,
+) -> tuple[dict | list | str, list[ErrorJson]]:
+    """
+    Adapt an output to a valid NuExtract template without fuzzy replacements.
+
+    The correction only applies deterministic structural/type normalization and
+    array deduplication. It does not rename keys or guess enum values.
+
+    :param template: NuExtract template the output must follow.
+    :param json_instance: Structured output to adapt.
+    :return: The adapted output and any validation errors that remain.
+    """
+    if isinstance(template, str):
+        adapted_output = deepcopy(json_instance)
+        return adapted_output, detect_errors_in_output_json(template, adapted_output, None)
+
+    _, adapted_output, _, _ = correct_output_json_and_input_template(
+        template,
+        json_instance,
+        None,
+        indel_distance_output_enum=None,
+        indel_distance_node_name=None,
+        deduplicate_arrays_entries=True,
+    )
+    return adapted_output, detect_errors_in_output_json(template, adapted_output, None)
+
+
 def convert_json_schema_to_nuextract_template(
     schema: dict[str, Any],
     *,
     omit_unsupported_branches: bool = False,
     instance: Any = _INSTANCE_NOT_PROVIDED,  # noqa:ANN401
-) -> tuple[Any, list[dict[str, Any]], list[str]]:
+) -> dict[str, Any]:
     """
     Convert a JSON Schema into a NuExtract template.
 
     The template keeps the schema's extraction shape, not all of its validation
-    rules. The optional ``instance`` is read-only: it guides union selection but is
-    not validated against the final template and is not adapted or returned.
+    rules. When an ``instance`` is provided, it guides union selection and the method
+    determines whether that instance already follows both representations. Otherwise,
+    it applies deterministic NuExtract output corrections and only returns the adapted
+    value when it remains valid against the original JSON Schema.
+
     Conversion follows these rules:
 
     - Primitive leaves become their JSON Schema type name. For example,
@@ -279,17 +320,18 @@ def convert_json_schema_to_nuextract_template(
                 "tags": {"type": "array", "items": {"type": "string"}},
             },
         }
-        template, dropped_branches, descriptions = (
-            convert_json_schema_to_nuextract_template(schema)
-        )
-        assert template == {
+        conversion = convert_json_schema_to_nuextract_template(schema)
+        assert conversion["template"] == {
             "name": "string",
             "created_at": "date-time",
             "status": ["open", "closed"],
             "tags": ["string"],
         }
-        assert dropped_branches == []
-        assert descriptions == ["$.name: Customer name"]
+        assert conversion["schema_status"] == "fully_converted"
+        assert conversion["instance_status"] == "not_provided"
+        assert conversion["adapted_instance"] is None
+        assert conversion["incompatibilities"] == []
+        assert conversion["descriptions"] == ["$.name: Customer name"]
 
     A nullable local reference is resolved and then has its null alternative removed::
 
@@ -310,46 +352,162 @@ def convert_json_schema_to_nuextract_template(
                 }
             },
         }
-        template, _, _ = convert_json_schema_to_nuextract_template(schema)
-        assert template == {"address": {"city": "string"}}
+        conversion = convert_json_schema_to_nuextract_template(schema)
+        assert conversion["template"] == {"address": {"city": "string"}}
 
     :param schema: A dictionary representing the JSON schema.
     :param omit_unsupported_branches: When ``True``, unsupported non-root schema
         branches are omitted from the output template instead of raising an error.
-        If the root schema cannot produce a non-empty template, an error is still
-        raised. (default: ``False``)
+        If the root schema cannot produce a template, ``template`` is ``None`` and
+        ``schema_status`` is ``not_convertible``. (default: ``False``)
     :param instance: Optional JSON instance used to select the compatible alternative
         of otherwise unrepresentable unions. If values at one union path use multiple
         alternatives, that path is omitted instead of coercing values. (default: not
-        provided) The instance is never modified. When no instance value exists at a
-        union path, the converter cannot assume which alternative a future instance
-        will use, so the ambiguous path is rejected or omitted.
-    :return: A tuple containing the converted template, one ``path`` and ``error``
-        dictionary per omitted branch, and descriptions prefixed by their template
-        paths. Dropped branches describe information lost while constructing the
-        template. They do not indicate whether the provided instance needs adaptation
-        or can be adapted. A dropped branch may be unsupported for every instance, an
-        ambiguous union, or simply an unused union alternative selected away by the
-        provided instance.
+        provided) When no instance value exists at a union path, the converter cannot
+        assume which alternative a future instance will use, so the ambiguous path is
+        rejected or omitted. The input object is never modified.
+    :return: A dictionary containing ``template``, ``adapted_instance``,
+        ``schema_status``, ``instance_status``, ``incompatibilities``, and
+        ``descriptions``. ``schema_status`` is ``fully_converted``,
+        ``partially_converted``, or ``not_convertible``. ``instance_status`` is one of:
+
+        - ``not_provided``: no instance was supplied;
+        - ``valid_for_both``: the original instance follows both the JSON Schema and
+          template;
+        - ``adapted_valid_for_both``: deterministic correction produced the returned
+          ``adapted_instance``, which follows both representations;
+        - ``not_adaptable``: no corrected instance could satisfy both representations;
+        - ``invalid_for_original_schema``: the supplied instance did not satisfy the
+          source JSON Schema, so it was not adapted.
+
+        Every incompatibility is a dictionary with ``kind``, ``schema_path``,
+        ``instance_path``, and ``error``. Schema conversion failures use
+        ``schema_node_not_convertible``. Instance failures use
+        ``instance_node_not_adaptable`` or ``original_instance_invalid``. A path is
+        ``None`` when that representation has no meaningful corresponding location;
+        integer instance indices are collapsed to ``"*"`` so repeated array failures
+        identify one logical location.
     :raises TypeError: If the input or one of its schema nodes has an invalid type.
     :raises KeyError: If a local ``$ref`` cannot be resolved.
     :raises ValueError: If the schema is malformed, unsupported, or contains a cyclic
         or non-local ``$ref``.
     """
-    compatible_schema, dropped_branches = (
-        _convert_json_schema_to_nuextract_compatible_json_schema(
-            schema,
-            omit_unsupported_branches=omit_unsupported_branches,
-            root_instance=instance,
+    if not isinstance(schema, dict):
+        raise TypeError(_ := "Input schema must be a dictionary.")
+
+    # Validate before catching conversion errors so malformed schemas still fail fast.
+    try:
+        validator_for(schema).check_schema(schema)
+    except SchemaError as exc:
+        raise ValueError(_ := f"Invalid JSON Schema: {exc.message}") from exc
+
+    original_schema_validator = validator_for(schema)(schema)
+    dropped_branches: list[dict[str, Any]] = []
+    template: Any = None
+    descriptions: list[str] = []
+    try:
+        compatible_schema, dropped_branches = (
+            _convert_json_schema_to_nuextract_compatible_json_schema(
+                schema,
+                omit_unsupported_branches=omit_unsupported_branches,
+                root_instance=instance,
+            )
         )
+        descriptions = get_description_json_schema_nodes(compatible_schema)
+        template = _process_json_schema_node(compatible_schema)
+        if template is _OMIT_FROM_TEMPLATE:
+            raise ValueError(
+                _ := "Root schema is unsupported or contains no supported branches."
+            )
+    except (KeyError, TypeError, ValueError) as exc:
+        if not omit_unsupported_branches:
+            raise
+        dropped_branches.append({"path": [], "error": _format_conversion_error(exc)})
+        template = None
+        descriptions = []
+
+    incompatibilities = [
+        {
+            "kind": "schema_node_not_convertible",
+            "schema_path": dropped_branch["path"],
+            "instance_path": None,
+            "error": dropped_branch["error"],
+        }
+        for dropped_branch in dropped_branches
+    ]
+    schema_status = (
+        "not_convertible"
+        if template is None
+        else "partially_converted"
+        if incompatibilities
+        else "fully_converted"
     )
-    descriptions = get_description_json_schema_nodes(compatible_schema)
-    converted = _process_json_schema_node(compatible_schema)
-    if converted is _OMIT_FROM_TEMPLATE:
-        raise ValueError(
-            _ := "Root schema is unsupported or contains no supported branches."
-        )
-    return converted, dropped_branches, descriptions
+
+    adapted_instance = None
+    if instance is _INSTANCE_NOT_PROVIDED:
+        instance_status = "not_provided"
+    else:
+        original_instance_errors = list(original_schema_validator.iter_errors(instance))
+        if original_instance_errors:
+            instance_status = "invalid_for_original_schema"
+            incompatibilities.extend(
+                _validation_errors_to_incompatibilities(
+                    original_instance_errors,
+                    kind="original_instance_invalid",
+                )
+            )
+        elif template is None:
+            instance_status = "not_adaptable"
+            incompatibilities.append(
+                {
+                    "kind": "instance_node_not_adaptable",
+                    "schema_path": [],
+                    "instance_path": [],
+                    "error": "No NuExtract template was produced.",
+                }
+            )
+        elif not detect_errors_in_output_json(template, instance, None):
+            instance_status = "valid_for_both"
+            adapted_instance = deepcopy(instance)
+        else:
+            candidate_instance, remaining_template_errors = (
+                adapt_json_to_nuextract_template(template, instance)
+            )
+            if remaining_template_errors:
+                instance_status = "not_adaptable"
+                incompatibilities.extend(
+                    {
+                        "kind": "instance_node_not_adaptable",
+                        "schema_path": None,
+                        "instance_path": error.path,
+                        "error": error.error_message,
+                    }
+                    for error in remaining_template_errors
+                )
+            else:
+                adapted_original_schema_errors = list(
+                    original_schema_validator.iter_errors(candidate_instance)
+                )
+                if adapted_original_schema_errors:
+                    instance_status = "not_adaptable"
+                    incompatibilities.extend(
+                        _validation_errors_to_incompatibilities(
+                            adapted_original_schema_errors,
+                            kind="instance_node_not_adaptable",
+                        )
+                    )
+                else:
+                    instance_status = "adapted_valid_for_both"
+                    adapted_instance = candidate_instance
+
+    return {
+        "template": template,
+        "adapted_instance": adapted_instance,
+        "schema_status": schema_status,
+        "instance_status": instance_status,
+        "incompatibilities": incompatibilities,
+        "descriptions": descriptions,
+    }
 
 
 def _convert_json_schema_to_nuextract_compatible_json_schema(
@@ -937,26 +1095,7 @@ def _sanitize_json_schema_node(
             if not non_null_subschemas:
                 raise ValueError(_ := f"Unsupported null-only union node: {node}")
 
-            sanitized_sub_schemas: list[tuple[int, dict[str, Any]]] = []
-            for idx, sub_schema in zip(
-                non_null_subschema_indices,
-                non_null_subschemas,
-                strict=True,
-            ):
-                sanitized_sub_schema = _sanitize_json_schema_node(
-                    sub_schema,
-                    root_schema,
-                    ref_stack,
-                    omit_unsupported_branches=omit_unsupported_branches,
-                    root_instance=root_instance,
-                    dropped_branches=dropped_branches,
-                    path=[*path, "anyOf", idx],
-                )
-                if sanitized_sub_schema is _OMIT_FROM_TEMPLATE:
-                    continue
-                sanitized_sub_schemas.append((idx, sanitized_sub_schema))
-
-            if sanitized_sub_schemas and root_instance is not _INSTANCE_NOT_PROVIDED:
+            if root_instance is not _INSTANCE_NOT_PROVIDED:
                 instance_values = [
                     value
                     for value in _get_instance_values_at_schema_path(
@@ -971,7 +1110,6 @@ def _sanitize_json_schema_node(
                         for idx, sub_schema in zip(
                             non_null_subschema_indices,
                             non_null_subschemas,
-                            strict=True,
                         )
                         if all(
                             _json_schema_node_matches_value(
@@ -982,29 +1120,33 @@ def _sanitize_json_schema_node(
                             for value in instance_values
                         )
                     }
-                    matching_sanitized_sub_schemas = [
-                        (idx, sub_schema)
-                        for idx, sub_schema in sanitized_sub_schemas
-                        if idx in matching_subschema_indices
-                    ]
-                    if len(matching_sanitized_sub_schemas) != 1:
+                    if len(matching_subschema_indices) != 1:
                         raise ValueError(
                             _ := "Union is ambiguous because the instance does not "
                             "select exactly one alternative."
                         )
-                    selected_subschema_index, selected_sub_schema = (
-                        matching_sanitized_sub_schemas[0]
+                    selected_subschema_index = matching_subschema_indices.pop()
+                    selected_subschema = any_of[selected_subschema_index]
+                    selected_sub_schema = _sanitize_json_schema_node(
+                        selected_subschema,
+                        root_schema,
+                        ref_stack,
+                        omit_unsupported_branches=omit_unsupported_branches,
+                        root_instance=root_instance,
+                        dropped_branches=dropped_branches,
+                        path=[*path, "anyOf", selected_subschema_index],
                     )
-                    for idx, _ in sanitized_sub_schemas:
-                        if idx == selected_subschema_index:
-                            continue
-                        _record_dropped_branch(
-                            dropped_branches,
-                            path=[*path, "anyOf", idx],
-                            error=(
-                                "Union alternative omitted from the NuExtract template."
-                            ),
-                        )
+                    if selected_sub_schema is _OMIT_FROM_TEMPLATE:
+                        return _OMIT_FROM_TEMPLATE
+                    _record_dropped_branch(
+                        dropped_branches,
+                        path=path,
+                        error=(
+                            "Union requires instance-specific branch selection and "
+                            "cannot be represented completely by one NuExtract "
+                            "template."
+                        ),
+                    )
                     selected_sub_schema = _merge_sanitized_schema_nodes(
                         [selected_sub_schema],
                         include_schema_meta=is_root,
@@ -1017,8 +1159,6 @@ def _sanitize_json_schema_node(
                         ),
                     }
 
-            if not sanitized_sub_schemas:
-                return _OMIT_FROM_TEMPLATE
             raise ValueError(
                 _ := "Union is ambiguous because no instance value selects exactly "
                 "one alternative."
@@ -1279,6 +1419,37 @@ def _format_conversion_error(exc: KeyError | TypeError | ValueError) -> str:
     if len(exc.args) == 1 and isinstance(exc.args[0], str):
         return exc.args[0]
     return str(exc)
+
+
+def _validation_errors_to_incompatibilities(
+    validation_errors: Iterable[ValidationError],
+    *,
+    kind: str,
+) -> list[dict[str, Any]]:
+    """Convert JSON Schema errors into deduplicated logical incompatibilities."""
+    incompatibilities: list[dict[str, Any]] = []
+    recorded_locations: set[tuple[tuple[str | int, ...], tuple[str, ...]]] = set()
+    for validation_error in validation_errors:
+        schema_path = list(validation_error.absolute_schema_path)
+        if schema_path and schema_path[-1] == validation_error.validator:
+            schema_path.pop()
+        instance_path = [
+            "*" if isinstance(path_part, int) else path_part
+            for path_part in validation_error.absolute_path
+        ]
+        location = (tuple(schema_path), tuple(instance_path))
+        if location in recorded_locations:
+            continue
+        recorded_locations.add(location)
+        incompatibilities.append(
+            {
+                "kind": kind,
+                "schema_path": schema_path,
+                "instance_path": instance_path,
+                "error": validation_error.message,
+            }
+        )
+    return incompatibilities
 
 
 def get_description_json_schema_nodes(schema: dict[str, Any]) -> list[str]:

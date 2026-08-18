@@ -109,6 +109,7 @@ class StructuredExtractionExamplesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": None,
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -192,6 +193,7 @@ class StructuredExtractionExamplesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": None,
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -275,6 +277,7 @@ class StructuredExtractionExamplesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": None,
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -426,6 +429,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "PaginatedResponseT",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -521,6 +525,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "PaginatedResponseT",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -616,6 +621,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "PaginatedResponseT",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -760,6 +766,7 @@ class StructuredExtractionExamplesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -843,6 +850,7 @@ class StructuredExtractionExamplesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -926,6 +934,7 @@ class StructuredExtractionExamplesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1063,6 +1072,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1144,6 +1154,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1225,6 +1236,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1379,6 +1391,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1467,6 +1480,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1555,6 +1569,7 @@ class StructuredExtractionExamplesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExampleResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout

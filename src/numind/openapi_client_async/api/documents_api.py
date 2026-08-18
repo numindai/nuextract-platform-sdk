@@ -98,6 +98,7 @@ class DocumentsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -173,6 +174,7 @@ class DocumentsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -248,6 +250,7 @@ class DocumentsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -386,6 +389,7 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "bytes",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -471,6 +475,7 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "bytes",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -556,6 +561,7 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "bytes",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -696,6 +702,7 @@ class DocumentsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -780,6 +787,7 @@ class DocumentsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -864,6 +872,7 @@ class DocumentsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -994,6 +1003,7 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1068,6 +1078,7 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -1142,6 +1153,7 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "DocumentResponse",
             "400": "str",
+            "default": "Error",
         }
         response_data = await self.api_client.call_api(
             *_param, _request_timeout=_request_timeout

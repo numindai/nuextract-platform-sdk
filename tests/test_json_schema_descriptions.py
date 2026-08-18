@@ -71,7 +71,7 @@ TEST_CASES = [
             ]
         },
         None,
-        "Only nullable unions",
+        "ambiguous",
     ),
     (
         {
@@ -94,7 +94,7 @@ TEST_CASES = [
                 }
             },
         },
-        ["$.records: Dynamic record", "$.records.name: Record name"],
+        [],
         None,
     ),
 ]

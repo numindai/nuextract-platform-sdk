@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.3.1.post1"
+version = "0.3.2"
 description = "SDK to interact with the NuMind models API."
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
@@ -35,6 +35,17 @@ dependencies = [
     "urllib3",
     "orjson",  # for JSON schema conversion methods
     "jsonschema",  # for JSON schema conversion methods
+    "cdifflib >= 1.2.9",  # for NuExtract output validation
+    "defusedxml >= 0.7.1",  # for NuExtract output validation
+    "emval >= 0.1.3",  # for NuExtract output validation
+    "json-repair >= 0.44.1",  # for NuExtract output correction
+    "phonenumbers >= 9.0.24",  # for NuExtract output validation
+    "rapidfuzz >= 3.13.0",  # for NuExtract output correction
+    "regex >= 2026.1.15",  # for NuExtract output validation
+    "schwifty >= 2025.9.0",  # for NuExtract output validation
+    "stringzilla >= 4.6.1",  # for NuExtract output validation
+    "sympy >= 1.14.0",  # for NuExtract output correction
+    "eval-type-backport >= 0.2.2; python_version < '3.10'",  # Pydantic on Python 3.9
 ]
 
 [project.optional-dependencies]
@@ -192,4 +203,13 @@ ignore = [
     "D103",  # no need to document pytest methods
     "S101",  # allow assertions in tests
     "T201",  # print allowed
+]
+"src/numind/nuextract_utils/data_validation/types/email_address.py" = [
+    "RUF001",  # intentional Unicode variants are part of email normalization
+]
+"src/numind/nuextract_utils/data_validation/types/geolocation.py" = [
+    "RUF001",  # intentional Unicode coordinate symbols are part of validation
+]
+"tests/nuextract_utils/test_error_detection.py" = [
+    "RUF001",  # tests intentionally exercise non-ASCII punctuation
 ]

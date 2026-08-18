@@ -139,12 +139,19 @@ class HotelBooking(BaseModel):
     room_type: Literal["single", "double", "suite"]
 
 
-template, dropped_branches, descriptions = convert_json_schema_to_nuextract_template(
-    HotelBooking.model_json_schema()
+conversion = convert_json_schema_to_nuextract_template(
+    HotelBooking.model_json_schema(),
 )
+template = conversion["template"]
+incompatibilities = conversion["incompatibilities"]
 
 # {'check_in_date': 'date', 'check_out_date': 'date', 'city': 'string', 'number_of_guests': 'integer', 'room_type': ['single', 'double', 'suite']}
 ```
+
+When an `instance` is provided, `instance_status` reports whether it is valid for
+both the source JSON Schema and converted template. `adapted_instance` contains the
+original value or a deterministically corrected value only when it is valid for both;
+otherwise it is `None`, and `incompatibilities` identifies the affected locations.
 
 ### Inferring a template
 
@@ -444,4 +451,3 @@ Authentication schemes defined for the API:
  - **openid**: OpenID connect
  - **profile**: view profile
  - **email**: view email
-

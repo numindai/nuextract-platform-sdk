@@ -1,31 +1,37 @@
-"""Conversion from NuExtract template to JSON Schema."""
+"""Conversions between NuExtract templates and JSON Schema."""
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+from jsonschema import SchemaError
+from jsonschema.validators import validator_for
+
+from numind.nuextract_utils.data_validation import (
+    correct_output_json_and_input_template,
+    detect_errors_in_output_json,
+)
+from numind.nuextract_utils.data_validation.utils import is_object_enum
+
 from .constants import (
-    BBOX_TYPE_NAME,
     JSON_SCHEMA_PRIMITIVES,
     NUEXTRACT_TYPE_TO_JSON_SCHEMA_FORMAT,
 )
-from .utils import is_object_enum
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable, Mapping
     from typing import Any
+
+    from jsonschema.exceptions import ValidationError
+
+    from numind.nuextract_utils.data_validation.models import ErrorJson
 
 
 _TYPE_DESCRIPTION_KEYS = ("format", "description")
 _OMIT_FROM_TEMPLATE = object()
 _INSTANCE_NOT_PROVIDED = object()
-_BBOX_JSON_SCHEMA = {
-    "type": "array",
-    "prefixItems": [{"type": "integer"}] * 5,
-    "minItems": 5,
-    "maxItems": 5,
-}
+_COMPOSITION_DESCRIPTIONS_KEY = "x-nuextract-composition-descriptions"
 
 
 def _iter_custom_type_schema_values(type_name: str) -> tuple[str, ...]:
@@ -49,9 +55,6 @@ def _build_leaf_schema(
     set_type_in_description: bool = False,
 ) -> dict[str, Any]:
     """Convert a NuExtract leaf type name into a JSON Schema leaf node."""
-    if type_name == BBOX_TYPE_NAME:
-        return deepcopy(_BBOX_JSON_SCHEMA)
-
     leaf: dict[str, Any] = {}
     normalized_type_name = type_name
 
@@ -86,37 +89,25 @@ def _decode_leaf_type(node: Mapping[str, Any]) -> str | list[str]:
         )
 
     decoded_type = node_type
-    for key in _TYPE_DESCRIPTION_KEYS:
-        schema_value = node.get(key)
-        if (
-            isinstance(schema_value, str)
-            and schema_value in JSON_SCHEMA_FORMAT_TO_NUEXTRACT_TYPE
-        ):
-            decoded_type = JSON_SCHEMA_FORMAT_TO_NUEXTRACT_TYPE[schema_value]
-            break
+    if node_type == "string":
+        for key in _TYPE_DESCRIPTION_KEYS:
+            schema_value = node.get(key)
+            if (
+                isinstance(schema_value, str)
+                and schema_value in JSON_SCHEMA_FORMAT_TO_NUEXTRACT_TYPE
+            ):
+                decoded_type = JSON_SCHEMA_FORMAT_TO_NUEXTRACT_TYPE[schema_value]
+                break
 
+    if node.get("x-verbatim") and decoded_type != "string":
+        raise ValueError(
+            _ := "The x-verbatim annotation is only supported for string leaves. "
+            f"Node: {node}"
+        )
     if node.get("x-verbatim"):
         return f"verbatim-{decoded_type}"
 
     return decoded_type
-
-
-def _is_bbox_json_schema(node: Mapping[str, Any]) -> bool:
-    """Return whether ``node`` represents the NuExtract bbox output shape."""
-    if node.get("type") != "array":
-        return False
-
-    prefix_items = node.get("prefixItems")
-    return (
-        isinstance(prefix_items, list)
-        and len(prefix_items) == 5
-        and node.get("minItems") == 5
-        and node.get("maxItems") == 5
-        and all(
-            isinstance(prefix_item, Mapping) and prefix_item.get("type") == "integer"
-            for prefix_item in prefix_items
-        )
-    )
 
 
 def _normalize_nullable_type_shorthand(node: Mapping[str, Any]) -> dict[str, Any]:
@@ -139,9 +130,7 @@ def _normalize_nullable_type_shorthand(node: Mapping[str, Any]) -> dict[str, Any
         return normalized_node
 
     if not non_null_types:
-        normalized_node = dict(node)
-        normalized_node["type"] = "null"
-        return normalized_node
+        raise ValueError(_ := f"Unsupported null-only schema node: {node}")
 
     raise ValueError(
         _ := "Unsupported type union. Only nullable unions of a single non-null "
@@ -221,17 +210,51 @@ def convert_nuextract_template_to_json_schema(
     return _build_node(nuextract_template)
 
 
+def adapt_json_to_nuextract_template(
+    template: dict | list | str,
+    json_instance: Any,  # noqa: ANN401
+) -> tuple[Any, list[ErrorJson]]:
+    """
+    Adapt an output to a valid NuExtract template without fuzzy replacements.
+
+    The correction only applies deterministic structural/type normalization and
+    array deduplication. It does not rename keys or guess enum values.
+
+    :param template: NuExtract template the output must follow.
+    :param json_instance: Structured output to adapt.
+    :return: The adapted output and any validation errors that remain.
+    """
+    # Wrapping gives root leaves and enums the same correction behavior as nested ones,
+    # without treating their string values as serialized JSON documents.
+    wrapped_template = {"value": template}
+    _, wrapped_output, _, _ = correct_output_json_and_input_template(
+        wrapped_template,
+        {"value": deepcopy(json_instance)},
+        None,
+        indel_distance_output_enum=None,
+        indel_distance_node_name=None,
+        deduplicate_arrays_entries=True,
+    )
+    adapted_output = wrapped_output["value"]
+    return adapted_output, detect_errors_in_output_json(template, adapted_output, None)
+
+
 def convert_json_schema_to_nuextract_template(
     schema: dict[str, Any],
     *,
     omit_unsupported_branches: bool = False,
     instance: Any = _INSTANCE_NOT_PROVIDED,  # noqa:ANN401
-) -> tuple[Any, list[dict[str, Any]], list[str]]:
+) -> dict[str, Any]:
     """
     Convert a JSON Schema into a NuExtract template.
 
     The template keeps the schema's extraction shape, not all of its validation
-    rules. Conversion follows these rules:
+    rules. When an ``instance`` is provided, it guides union selection and the method
+    determines whether that instance already follows both representations. Otherwise,
+    it applies deterministic NuExtract output corrections and only returns the adapted
+    value when it remains valid against the original JSON Schema.
+
+    Conversion follows these rules:
 
     - Primitive leaves become their JSON Schema type name. For example,
       ``{"type": "integer"}`` becomes ``"integer"``.
@@ -241,17 +264,22 @@ def convert_json_schema_to_nuextract_template(
       Setting ``x-verbatim`` prefixes the result with ``"verbatim-"``.
     - An ``enum`` of two or more strings becomes a list of choices, such as
       ``{"enum": ["open", "closed"]}`` becoming ``["open", "closed"]``.
+      A ``null`` choice is discarded because NuExtract templates do not retain
+      nullability. If one string remains, the enum becomes a string leaf because a
+      one-item template list represents an array rather than an enum.
     - An object becomes a dictionary whose keys come from ``properties``; an array
       becomes a one-item list describing every item. Thus, an array of enums becomes
-      a nested list. The fixed five-integer bounding-box schema becomes ``"bbox"``.
-    - Local ``$ref`` values are resolved. Object-compatible ``allOf`` branches and
-      object alternatives in ``anyOf`` or ``oneOf`` are merged.
+      a nested list.
+    - Local ``$ref`` values are resolved, including array indices in JSON Pointers,
+      and sibling keywords are applied alongside the reference.
+    - Compatible ``allOf`` branches are merged. Multi-branch ``anyOf`` and ``oneOf``
+      nodes require an instance that selects exactly one alternative.
     - Nullable forms such as ``{"type": ["string", "null"]}`` or a union of one
       schema and ``{"type": "null"}`` become the non-null template. NuExtract
       templates do not retain whether a field is required or nullable.
-    - Object-valued ``patternProperties`` and ``additionalProperties`` schemas are
-      flattened into the surrounding template because dynamic keys cannot be
-      represented directly.
+    - Homogeneous ``prefixItems`` become a regular array item template. Heterogeneous
+      tuples and dynamic-key schemas cannot be represented and are rejected or
+      omitted according to ``omit_unsupported_branches``.
 
     Keywords that only constrain validation, including ``required``, numeric bounds,
     and string lengths, do not appear in the template.
@@ -267,17 +295,18 @@ def convert_json_schema_to_nuextract_template(
                 "tags": {"type": "array", "items": {"type": "string"}},
             },
         }
-        template, dropped_branches, descriptions = (
-            convert_json_schema_to_nuextract_template(schema)
-        )
-        assert template == {
+        conversion = convert_json_schema_to_nuextract_template(schema)
+        assert conversion["template"] == {
             "name": "string",
             "created_at": "date-time",
             "status": ["open", "closed"],
             "tags": ["string"],
         }
-        assert dropped_branches == []
-        assert descriptions == ["$.name: Customer name"]
+        assert conversion["schema_status"] == "fully_converted"
+        assert conversion["instance_status"] == "not_provided"
+        assert conversion["adapted_instance"] is None
+        assert conversion["incompatibilities"] == []
+        assert conversion["descriptions"] == ["$.name: Customer name"]
 
     A nullable local reference is resolved and then has its null alternative removed::
 
@@ -298,48 +327,162 @@ def convert_json_schema_to_nuextract_template(
                 }
             },
         }
-        template, _, _ = convert_json_schema_to_nuextract_template(schema)
-        assert template == {"address": {"city": "string"}}
+        conversion = convert_json_schema_to_nuextract_template(schema)
+        assert conversion["template"] == {"address": {"city": "string"}}
 
     :param schema: A dictionary representing the JSON schema.
     :param omit_unsupported_branches: When ``True``, unsupported non-root schema
         branches are omitted from the output template instead of raising an error.
-        If the root schema cannot produce a non-empty template, an error is still
-        raised. (default: ``False``)
+        If the root schema cannot produce a template, ``template`` is ``None`` and
+        ``schema_status`` is ``not_convertible``. (default: ``False``)
     :param instance: Optional JSON instance used to select the compatible alternative
         of otherwise unrepresentable unions. If values at one union path use multiple
         alternatives, that path is omitted instead of coercing values. (default: not
-        provided)
-    :return: A tuple containing the converted template, one ``path`` and ``error``
-        dictionary per omitted branch, and descriptions prefixed by their template
-        paths.
+        provided) When no instance value exists at a union path, the converter cannot
+        assume which alternative a future instance will use, so the ambiguous path is
+        rejected or omitted. The input object is never modified.
+    :return: A dictionary containing ``template``, ``adapted_instance``,
+        ``schema_status``, ``instance_status``, ``incompatibilities``, and
+        ``descriptions``. ``schema_status`` is ``fully_converted``,
+        ``partially_converted``, or ``not_convertible``. ``instance_status`` is one of:
+
+        - ``not_provided``: no instance was supplied;
+        - ``valid_for_both``: the original instance follows both the JSON Schema and
+          template;
+        - ``adapted_valid_for_both``: deterministic correction produced the returned
+          ``adapted_instance``, which follows both representations;
+        - ``not_adaptable``: no corrected instance could satisfy both representations;
+        - ``invalid_for_original_schema``: the supplied instance did not satisfy the
+          source JSON Schema, so it was not adapted.
+
+        Every incompatibility is a dictionary with ``kind``, ``schema_path``,
+        ``instance_path``, and ``error``. Schema conversion failures use
+        ``schema_node_not_convertible``. Instance failures use
+        ``instance_node_not_adaptable`` or ``original_instance_invalid``. A path is
+        ``None`` when that representation has no meaningful corresponding location;
+        integer instance indices are collapsed to ``"*"`` so repeated array failures
+        identify one logical location.
     :raises TypeError: If the input or one of its schema nodes has an invalid type.
     :raises KeyError: If a local ``$ref`` cannot be resolved.
     :raises ValueError: If the schema is malformed, unsupported, or contains a cyclic
         or non-local ``$ref``.
     """
-    if omit_unsupported_branches:
+    if not isinstance(schema, dict):
+        raise TypeError(_ := "Input schema must be a dictionary.")
+
+    # Validate before catching conversion errors so malformed schemas still fail fast.
+    try:
+        validator_for(schema).check_schema(schema)
+    except SchemaError as exc:
+        raise ValueError(_ := f"Invalid JSON Schema: {exc.message}") from exc
+
+    original_schema_validator = validator_for(schema)(schema)
+    dropped_branches: list[dict[str, Any]] = []
+    template: Any = None
+    descriptions: list[str] = []
+    try:
         compatible_schema, dropped_branches = (
             _convert_json_schema_to_nuextract_compatible_json_schema(
                 schema,
-                omit_unsupported_branches=True,
+                omit_unsupported_branches=omit_unsupported_branches,
                 root_instance=instance,
             )
         )
-    else:
-        compatible_schema, dropped_branches = (
-            _convert_json_schema_to_nuextract_compatible_json_schema(
-                schema,
-                omit_unsupported_branches=False,
+        descriptions = get_description_json_schema_nodes(compatible_schema)
+        template = _process_json_schema_node(compatible_schema)
+        if template is _OMIT_FROM_TEMPLATE:
+            raise ValueError(
+                _ := "Root schema is unsupported or contains no supported branches."
             )
-        )
-    descriptions = get_description_json_schema_nodes(compatible_schema)
-    converted = _process_json_schema_node(compatible_schema)
-    if converted is _OMIT_FROM_TEMPLATE:
-        raise ValueError(
-            _ := "Root schema is unsupported or contains no supported branches."
-        )
-    return converted, dropped_branches, descriptions
+    except (KeyError, TypeError, ValueError) as exc:
+        if not omit_unsupported_branches:
+            raise
+        dropped_branches.append({"path": [], "error": _format_conversion_error(exc)})
+        template = None
+        descriptions = []
+
+    incompatibilities = [
+        {
+            "kind": "schema_node_not_convertible",
+            "schema_path": dropped_branch["path"],
+            "instance_path": None,
+            "error": dropped_branch["error"],
+        }
+        for dropped_branch in dropped_branches
+    ]
+    schema_status = (
+        "not_convertible"
+        if template is None
+        else "partially_converted"
+        if incompatibilities
+        else "fully_converted"
+    )
+
+    adapted_instance = None
+    if instance is _INSTANCE_NOT_PROVIDED:
+        instance_status = "not_provided"
+    else:
+        original_instance_errors = list(original_schema_validator.iter_errors(instance))
+        if original_instance_errors:
+            instance_status = "invalid_for_original_schema"
+            incompatibilities.extend(
+                _validation_errors_to_incompatibilities(
+                    original_instance_errors,
+                    kind="original_instance_invalid",
+                )
+            )
+        elif template is None:
+            instance_status = "not_adaptable"
+            incompatibilities.append(
+                {
+                    "kind": "instance_node_not_adaptable",
+                    "schema_path": [],
+                    "instance_path": [],
+                    "error": "No NuExtract template was produced.",
+                }
+            )
+        elif not detect_errors_in_output_json(template, instance, None):
+            instance_status = "valid_for_both"
+            adapted_instance = deepcopy(instance)
+        else:
+            candidate_instance, remaining_template_errors = (
+                adapt_json_to_nuextract_template(template, instance)
+            )
+            if remaining_template_errors:
+                instance_status = "not_adaptable"
+                incompatibilities.extend(
+                    {
+                        "kind": "instance_node_not_adaptable",
+                        "schema_path": None,
+                        "instance_path": error.path,
+                        "error": error.error_message,
+                    }
+                    for error in remaining_template_errors
+                )
+            else:
+                adapted_original_schema_errors = list(
+                    original_schema_validator.iter_errors(candidate_instance)
+                )
+                if adapted_original_schema_errors:
+                    instance_status = "not_adaptable"
+                    incompatibilities.extend(
+                        _validation_errors_to_incompatibilities(
+                            adapted_original_schema_errors,
+                            kind="instance_node_not_adaptable",
+                        )
+                    )
+                else:
+                    instance_status = "adapted_valid_for_both"
+                    adapted_instance = candidate_instance
+
+    return {
+        "template": template,
+        "adapted_instance": adapted_instance,
+        "schema_status": schema_status,
+        "instance_status": instance_status,
+        "incompatibilities": incompatibilities,
+        "descriptions": descriptions,
+    }
 
 
 def _convert_json_schema_to_nuextract_compatible_json_schema(
@@ -358,6 +501,12 @@ def _convert_json_schema_to_nuextract_compatible_json_schema(
     """
     if not isinstance(schema, dict):
         raise TypeError(_ := "Input schema must be a dictionary.")
+
+    # Reject malformed schemas before partial conversion can make them look valid.
+    try:
+        validator_for(schema).check_schema(schema)
+    except SchemaError as exc:
+        raise ValueError(_ := f"Invalid JSON Schema: {exc.message}") from exc
 
     dropped_branches: list[dict[str, Any]] = []
     converted = _sanitize_json_schema_node(
@@ -379,19 +528,23 @@ def _convert_json_schema_to_nuextract_compatible_json_schema(
 
 def convert_json_schema_to_nuextract_compatible_json_schema(
     schema: dict[str, Any],
+    *,
+    instance: Any = _INSTANCE_NOT_PROVIDED,  # noqa:ANN401
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """
     Convert a JSON Schema into a NuExtract-compatible JSON Schema.
 
     Unsupported branches are omitted while supported branches are kept as JSON
-    Schema nodes. This includes dropping unsupported unions such as
-    ``anyOf: [{"type": "string"}, {"type": "integer"}]`` and invalid arrays
-    that omit their ``items`` schema.
+    Schema nodes. This includes dropping ambiguous unions, heterogeneous tuples,
+    dynamic-key schemas, and arrays that omit a representable item schema. Malformed
+    input schemas are rejected before branches are sanitized.
 
     The resulting schema is consumable by
     :func:`convert_json_schema_to_nuextract_template`.
 
     :param schema: A dictionary representing the JSON schema.
+    :param instance: Optional JSON instance used to select a single compatible union
+        alternative. (default: not provided)
     :return: The sanitized JSON Schema and metadata about dropped branches.
     :raises TypeError: If the input ``schema`` is not a dictionary.
     :raises ValueError: If the root schema cannot produce a supported schema.
@@ -399,6 +552,7 @@ def convert_json_schema_to_nuextract_compatible_json_schema(
     return _convert_json_schema_to_nuextract_compatible_json_schema(
         schema,
         omit_unsupported_branches=True,
+        root_instance=instance,
     )
 
 
@@ -420,12 +574,19 @@ def _resolve_ref(ref_path: str, root_schema: dict[str, Any]) -> dict[str, Any]:
 
     path_parts = [_decode_json_pointer_part(part) for part in ref_path.split("/")[1:]]
 
-    current_node = root_schema
-    try:
-        for part in path_parts:
+    current_node: Any = root_schema
+    for part in path_parts:
+        if isinstance(current_node, dict) and part in current_node:
             current_node = current_node[part]
-    except KeyError as e:
-        raise KeyError(_ := f"Could not resolve $ref: '{ref_path}'") from e
+            continue
+        if (
+            isinstance(current_node, list)
+            and part.isdigit()
+            and int(part) < len(current_node)
+        ):
+            current_node = current_node[int(part)]
+            continue
+        raise KeyError(_ := f"Could not resolve $ref: '{ref_path}'")
     if not isinstance(current_node, dict):
         raise TypeError(
             _ := f"Resolved $ref does not point to an object node: '{ref_path}'"
@@ -482,77 +643,13 @@ def _json_schema_node_matches_value(
     node: Any,  # noqa:ANN401
     value: Any,  # noqa:ANN401
     root_schema: dict[str, Any],
-    ref_stack: set[str] | None = None,
 ) -> bool:
-    """Return whether ``value`` matches the structural type of a schema node."""
+    """Return whether ``value`` fully validates against a schema node."""
     if not isinstance(node, dict):
         return False
-    if ref_stack is None:
-        ref_stack = set()
 
-    if "$ref" in node:
-        ref_path = node["$ref"]
-        if not isinstance(ref_path, str) or ref_path in ref_stack:
-            return False
-        referenced_node = _resolve_ref(ref_path, root_schema)
-        node = {
-            **referenced_node,
-            **{key: item for key, item in node.items() if key != "$ref"},
-        }
-        ref_stack = ref_stack | {ref_path}
-
-    if "allOf" in node:
-        return all(
-            _json_schema_node_matches_value(branch, value, root_schema, ref_stack)
-            for branch in node["allOf"]
-        )
-    if "anyOf" in node:
-        return any(
-            _json_schema_node_matches_value(branch, value, root_schema, ref_stack)
-            for branch in node["anyOf"]
-        )
-    if "oneOf" in node:
-        return (
-            sum(
-                _json_schema_node_matches_value(
-                    branch,
-                    value,
-                    root_schema,
-                    ref_stack,
-                )
-                for branch in node["oneOf"]
-            )
-            == 1
-        )
-    if "enum" in node:
-        return value in node["enum"]
-
-    node_type = node.get("type")
-    if isinstance(node_type, list):
-        return any(
-            _json_schema_node_matches_value(
-                {**node, "type": type_name},
-                value,
-                root_schema,
-                ref_stack,
-            )
-            for type_name in node_type
-        )
-    if node_type == "null":
-        return value is None
-    if node_type == "boolean":
-        return type(value) is bool
-    if node_type == "integer":
-        return type(value) is int
-    if node_type == "number":
-        return type(value) in {int, float}
-    if node_type == "string":
-        return isinstance(value, str)
-    if node_type == "array":
-        return isinstance(value, list)
-    if node_type == "object" or "properties" in node or "patternProperties" in node:
-        return isinstance(value, dict)
-    return True
+    root_validator = validator_for(root_schema)(root_schema)
+    return root_validator.evolve(schema=node).is_valid(value)
 
 
 def _copy_supported_annotation_keys(
@@ -568,10 +665,66 @@ def _copy_supported_annotation_keys(
         "examples",
         "format",
         "x-verbatim",
+        _COMPOSITION_DESCRIPTIONS_KEY,
     }
     if include_schema_meta and "$schema" in node:
         supported_keys.add("$schema")
     return {key: value for key, value in node.items() if key in supported_keys}
+
+
+def _merge_sanitized_schema_nodes(
+    schemas: list[dict[str, Any]],
+    *,
+    include_schema_meta: bool = False,
+) -> dict[str, Any]:
+    """Merge schema nodes only when they produce one unambiguous template shape."""
+    if not schemas:
+        error = "Cannot merge an empty list of schema nodes."
+        raise ValueError(error)
+
+    if all(schema.get("type") == "object" for schema in schemas):
+        merged = _merge_sanitized_object_schemas(
+            schemas,
+            include_schema_meta=include_schema_meta,
+        )
+    elif all(
+        schema.get("type") == "array" and isinstance(schema.get("items"), dict)
+        for schema in schemas
+    ):
+        merged = {
+            "type": "array",
+            "items": _merge_sanitized_schema_nodes(
+                [schema["items"] for schema in schemas]
+            ),
+        }
+        if include_schema_meta and "$schema" in schemas[0]:
+            merged["$schema"] = schemas[0]["$schema"]
+    else:
+        template_nodes = [_process_json_schema_node(schema) for schema in schemas]
+        if any(template_node != template_nodes[0] for template_node in template_nodes):
+            raise ValueError(
+                _ := "Composition contains incompatible schemas that cannot share "
+                f"one NuExtract template node: {schemas}"
+            )
+        merged = deepcopy(schemas[0])
+
+    composition_descriptions: list[str] = []
+    for schema in schemas:
+        description = schema.get("description")
+        if isinstance(description, str) and description not in composition_descriptions:
+            composition_descriptions.append(description)
+        for branch_description in schema.get(_COMPOSITION_DESCRIPTIONS_KEY, []):
+            if (
+                isinstance(branch_description, str)
+                and branch_description not in composition_descriptions
+            ):
+                composition_descriptions.append(branch_description)
+
+    merged.pop("description", None)
+    merged.pop(_COMPOSITION_DESCRIPTIONS_KEY, None)
+    if composition_descriptions:
+        merged[_COMPOSITION_DESCRIPTIONS_KEY] = composition_descriptions
+    return merged
 
 
 def _merge_sanitized_object_schemas(
@@ -579,28 +732,28 @@ def _merge_sanitized_object_schemas(
     *,
     include_schema_meta: bool = False,
 ) -> dict[str, Any]:
-    """Merge sanitized object schemas produced from compatible union branches."""
+    """Merge object fields while rejecting incompatible property collisions."""
     merged: dict[str, Any] = {"type": "object"}
     merged_properties: dict[str, Any] = {}
-    merged_pattern_properties: dict[str, Any] = {}
     merged_required: list[str] = []
-    additional_properties_value: bool | dict[str, Any] | None = None
 
     for schema in schemas:
         if include_schema_meta and "$schema" in schema and "$schema" not in merged:
             merged["$schema"] = schema["$schema"]
 
-        for key in ("title", "description", "default", "examples"):
+        for key in ("title", "default", "examples"):
             if key in schema and key not in merged:
                 merged[key] = schema[key]
 
         properties = schema.get("properties")
         if isinstance(properties, dict):
-            merged_properties.update(properties)
-
-        pattern_properties = schema.get("patternProperties")
-        if isinstance(pattern_properties, dict):
-            merged_pattern_properties.update(pattern_properties)
+            for property_name, property_schema in properties.items():
+                if property_name in merged_properties:
+                    merged_properties[property_name] = _merge_sanitized_schema_nodes(
+                        [merged_properties[property_name], property_schema]
+                    )
+                else:
+                    merged_properties[property_name] = property_schema
 
         required = schema.get("required")
         if isinstance(required, list):
@@ -608,25 +761,12 @@ def _merge_sanitized_object_schemas(
                 if isinstance(value, str) and value not in merged_required:
                     merged_required.append(value)
 
-        if schema.get("additionalProperties") is True:
-            additional_properties_value = True
-        elif (
-            isinstance(schema.get("additionalProperties"), dict)
-            and additional_properties_value is not True
-        ):
-            additional_properties_value = schema["additionalProperties"]
-
     if merged_properties:
         merged["properties"] = merged_properties
-    if merged_pattern_properties:
-        merged["patternProperties"] = merged_pattern_properties
 
     kept_required = [key for key in merged_required if key in merged_properties]
     if kept_required:
         merged["required"] = kept_required
-
-    if additional_properties_value is not None:
-        merged["additionalProperties"] = additional_properties_value
 
     return merged
 
@@ -677,12 +817,8 @@ def _sanitize_json_schema_node(
                 raise ValueError(_ := f"Cyclic $ref detected: '{ref_path}'")
 
             referenced_node = _resolve_ref(ref_path, root_schema)
-            merged_node = {
-                **referenced_node,
-                **{key: value for key, value in node.items() if key != "$ref"},
-            }
-            return _sanitize_json_schema_node(
-                merged_node,
+            sanitized_referenced_node = _sanitize_json_schema_node(
+                referenced_node,
                 root_schema,
                 ref_stack | {ref_path},
                 omit_unsupported_branches=omit_unsupported_branches,
@@ -691,6 +827,56 @@ def _sanitize_json_schema_node(
                 path=path,
                 is_root=is_root,
             )
+            if sanitized_referenced_node is _OMIT_FROM_TEMPLATE:
+                return _OMIT_FROM_TEMPLATE
+
+            structural_sibling_keys = {
+                "type",
+                "properties",
+                "patternProperties",
+                "additionalProperties",
+                "required",
+                "items",
+                "prefixItems",
+                "enum",
+                "allOf",
+                "anyOf",
+                "oneOf",
+            }
+            structural_siblings = {
+                key: value
+                for key, value in node.items()
+                if key in structural_sibling_keys
+            }
+            schemas_to_merge = [sanitized_referenced_node]
+            if structural_siblings:
+                if "type" not in structural_siblings:
+                    structural_siblings["type"] = sanitized_referenced_node.get("type")
+                sanitized_siblings = _sanitize_json_schema_node(
+                    structural_siblings,
+                    root_schema,
+                    ref_stack | {ref_path},
+                    omit_unsupported_branches=omit_unsupported_branches,
+                    root_instance=root_instance,
+                    dropped_branches=dropped_branches,
+                    path=path,
+                    is_root=is_root,
+                )
+                if sanitized_siblings is _OMIT_FROM_TEMPLATE:
+                    return _OMIT_FROM_TEMPLATE
+                schemas_to_merge.append(sanitized_siblings)
+
+            merged_schema = _merge_sanitized_schema_nodes(
+                schemas_to_merge,
+                include_schema_meta=is_root,
+            )
+            return {
+                **merged_schema,
+                **_copy_supported_annotation_keys(
+                    node,
+                    include_schema_meta=is_root,
+                ),
+            }
 
         if "allOf" in node:
             all_of = node["allOf"]
@@ -700,13 +886,23 @@ def _sanitize_json_schema_node(
                 )
 
             branches_to_merge = list(all_of)
-            sibling_object_keywords = {
+            sibling_structural_keywords = {
                 key: value
                 for key, value in node.items()
-                if key in {"type", "properties", "additionalProperties", "required"}
+                if key
+                in {
+                    "type",
+                    "properties",
+                    "patternProperties",
+                    "additionalProperties",
+                    "required",
+                    "items",
+                    "prefixItems",
+                    "enum",
+                }
             }
-            if sibling_object_keywords:
-                branches_to_merge.append(sibling_object_keywords)
+            if sibling_structural_keywords:
+                branches_to_merge.append(sibling_structural_keywords)
 
             merged_schemas: list[dict[str, Any]] = []
             for idx, branch in enumerate(branches_to_merge):
@@ -721,34 +917,12 @@ def _sanitize_json_schema_node(
                 )
                 if sanitized_branch is _OMIT_FROM_TEMPLATE:
                     continue
-                if not (
-                    isinstance(sanitized_branch, dict)
-                    and (
-                        sanitized_branch.get("type") == "object"
-                        or "properties" in sanitized_branch
-                        or "additionalProperties" in sanitized_branch
-                    )
-                ):
-                    if omit_unsupported_branches:
-                        _record_dropped_branch(
-                            dropped_branches,
-                            path=[*path, "allOf", idx],
-                            error=(
-                                "Unsupported allOf branch. Only object-compatible "
-                                f"branches are supported. Node: {branch}"
-                            ),
-                        )
-                        continue
-                    raise ValueError(
-                        _ := "Unsupported allOf branch. Only object-compatible "
-                        f"branches are supported. Node: {branch}"
-                    )
                 merged_schemas.append(sanitized_branch)
 
             if not merged_schemas:
                 return _OMIT_FROM_TEMPLATE
 
-            merged_schema = _merge_sanitized_object_schemas(
+            merged_schema = _merge_sanitized_schema_nodes(
                 merged_schemas,
                 include_schema_meta=is_root,
             )
@@ -767,10 +941,18 @@ def _sanitize_json_schema_node(
         if "enum" in node:
             enum_values = node["enum"]
             if not isinstance(enum_values, list) or not all(
-                isinstance(value, str) for value in enum_values
+                value is None or isinstance(value, str) for value in enum_values
             ):
                 raise ValueError(_ := f"Unsupported enum node: {node}")
-            if len(enum_values) == 1:
+            non_null_enum_values = [value for value in enum_values if value is not None]
+            if len(non_null_enum_values) == 1 and len(enum_values) > 1:
+                sanitized_node = _copy_supported_annotation_keys(
+                    node,
+                    include_schema_meta=is_root,
+                )
+                sanitized_node["type"] = "string"
+                return sanitized_node
+            if len(non_null_enum_values) == 1:
                 error = "Unsupported enum node: single-value enums are omitted."
                 if is_root:
                     raise ValueError(error)
@@ -780,6 +962,8 @@ def _sanitize_json_schema_node(
                     error=error,
                 )
                 return _OMIT_FROM_TEMPLATE
+            if not non_null_enum_values:
+                raise ValueError(_ := f"Unsupported enum node: {node}")
 
             sanitized_node = _copy_supported_annotation_keys(
                 node,
@@ -787,7 +971,7 @@ def _sanitize_json_schema_node(
             )
             if isinstance(node.get("type"), str):
                 sanitized_node["type"] = node["type"]
-            sanitized_node["enum"] = enum_values
+            sanitized_node["enum"] = non_null_enum_values
             return sanitized_node
 
         if "oneOf" in node:
@@ -810,6 +994,7 @@ def _sanitize_json_schema_node(
                     "additionalProperties",
                     "required",
                     "items",
+                    "prefixItems",
                 }
             }
             normalized_node = _copy_supported_annotation_keys(
@@ -843,8 +1028,29 @@ def _sanitize_json_schema_node(
                 raise ValueError(
                     _ := f"Invalid schema segment: 'anyOf' must be a list. Node: {node}"
                 )
+            structural_siblings = {
+                key: value
+                for key, value in node.items()
+                if key
+                in {
+                    "type",
+                    "properties",
+                    "patternProperties",
+                    "additionalProperties",
+                    "required",
+                    "items",
+                    "prefixItems",
+                }
+            }
             non_null_subschemas = [
-                sub_schema
+                (
+                    {**structural_siblings, **sub_schema}
+                    if structural_siblings.get("type") == "array"
+                    and isinstance(sub_schema, dict)
+                    else {"allOf": [structural_siblings, sub_schema]}
+                    if structural_siblings
+                    else sub_schema
+                )
                 for sub_schema in any_of
                 if not (
                     isinstance(sub_schema, dict) and sub_schema.get("type") == "null"
@@ -882,71 +1088,9 @@ def _sanitize_json_schema_node(
                 ]
                 return sanitized_node
             if not non_null_subschemas:
-                sanitized_node = _copy_supported_annotation_keys(
-                    node,
-                    include_schema_meta=is_root,
-                )
-                sanitized_node["type"] = "null"
-                return sanitized_node
+                raise ValueError(_ := f"Unsupported null-only union node: {node}")
 
-            sanitized_sub_schemas: list[tuple[int, dict[str, Any]]] = []
-            for idx, sub_schema in zip(
-                non_null_subschema_indices,
-                non_null_subschemas,
-                strict=True,
-            ):
-                sanitized_sub_schema = _sanitize_json_schema_node(
-                    sub_schema,
-                    root_schema,
-                    ref_stack,
-                    omit_unsupported_branches=omit_unsupported_branches,
-                    root_instance=root_instance,
-                    dropped_branches=dropped_branches,
-                    path=[*path, "anyOf", idx],
-                )
-                if sanitized_sub_schema is _OMIT_FROM_TEMPLATE:
-                    continue
-                sanitized_sub_schemas.append((idx, sanitized_sub_schema))
-
-            if sanitized_sub_schemas and all(
-                sub_schema.get("type") == "object"
-                for _, sub_schema in sanitized_sub_schemas
-            ):
-                merged_schema = _merge_sanitized_object_schemas(
-                    [sub_schema for _, sub_schema in sanitized_sub_schemas],
-                    include_schema_meta=is_root,
-                )
-                return {
-                    **merged_schema,
-                    **_copy_supported_annotation_keys(
-                        node,
-                        include_schema_meta=is_root,
-                    ),
-                }
-
-            if sanitized_sub_schemas and all(
-                sub_schema.get("type") == "array"
-                and isinstance(sub_schema.get("items"), dict)
-                and sub_schema["items"].get("type") == "object"
-                for _, sub_schema in sanitized_sub_schemas
-            ):
-                merged_items_schema = _merge_sanitized_object_schemas(
-                    [sub_schema["items"] for _, sub_schema in sanitized_sub_schemas]
-                )
-                return {
-                    "type": "array",
-                    "items": merged_items_schema,
-                    **_copy_supported_annotation_keys(
-                        node,
-                        include_schema_meta=is_root,
-                    ),
-                }
-
-            if (
-                omit_unsupported_branches
-                and sanitized_sub_schemas
-                and root_instance is not _INSTANCE_NOT_PROVIDED
-            ):
+            if root_instance is not _INSTANCE_NOT_PROVIDED:
                 instance_values = [
                     value
                     for value in _get_instance_values_at_schema_path(
@@ -955,86 +1099,143 @@ def _sanitize_json_schema_node(
                     )
                     if value is not None
                 ]
-                matching_subschema_indices = {
-                    idx
-                    for idx, sub_schema in zip(
-                        non_null_subschema_indices,
-                        non_null_subschemas,
-                        strict=True,
-                    )
-                    if not instance_values
-                    or all(
-                        _json_schema_node_matches_value(
-                            sub_schema,
-                            value,
-                            root_schema,
+                if instance_values:
+                    matching_subschema_indices = {
+                        idx
+                        for idx, sub_schema in zip(
+                            non_null_subschema_indices,
+                            non_null_subschemas,
                         )
-                        for value in instance_values
+                        if all(
+                            _json_schema_node_matches_value(
+                                sub_schema,
+                                value,
+                                root_schema,
+                            )
+                            for value in instance_values
+                        )
+                    }
+                    if len(matching_subschema_indices) != 1:
+                        raise ValueError(
+                            _ := "Union is ambiguous because the instance does not "
+                            "select exactly one alternative."
+                        )
+                    selected_subschema_index = matching_subschema_indices.pop()
+                    selected_subschema = non_null_subschemas[
+                        non_null_subschema_indices.index(selected_subschema_index)
+                    ]
+                    selected_sub_schema = _sanitize_json_schema_node(
+                        selected_subschema,
+                        root_schema,
+                        ref_stack,
+                        omit_unsupported_branches=omit_unsupported_branches,
+                        root_instance=root_instance,
+                        dropped_branches=dropped_branches,
+                        path=[*path, "anyOf", selected_subschema_index],
                     )
-                }
-                matching_sanitized_sub_schemas = [
-                    (idx, sub_schema)
-                    for idx, sub_schema in sanitized_sub_schemas
-                    if idx in matching_subschema_indices
-                ]
-                if not matching_sanitized_sub_schemas:
+                    if selected_sub_schema is _OMIT_FROM_TEMPLATE:
+                        return _OMIT_FROM_TEMPLATE
                     _record_dropped_branch(
                         dropped_branches,
                         path=path,
                         error=(
-                            "Union omitted because no single alternative matches all "
-                            "instance values."
+                            "Union requires instance-specific branch selection and "
+                            "cannot be represented completely by one NuExtract "
+                            "template."
                         ),
                     )
-                    return _OMIT_FROM_TEMPLATE
-
-                selected_subschema_index, selected_sub_schema = (
-                    matching_sanitized_sub_schemas[0]
-                )
-                for idx, _ in sanitized_sub_schemas:
-                    if idx == selected_subschema_index:
-                        continue
-                    _record_dropped_branch(
-                        dropped_branches,
-                        path=[*path, "anyOf", idx],
-                        error="Union alternative omitted from the NuExtract template.",
-                    )
-                return {
-                    **selected_sub_schema,
-                    **_copy_supported_annotation_keys(
-                        node,
+                    selected_sub_schema = _merge_sanitized_schema_nodes(
+                        [selected_sub_schema],
                         include_schema_meta=is_root,
-                    ),
-                }
+                    )
+                    return {
+                        **selected_sub_schema,
+                        **_copy_supported_annotation_keys(
+                            node,
+                            include_schema_meta=is_root,
+                        ),
+                    }
 
-            if omit_unsupported_branches:
-                error = (
-                    "Unsupported anyOf node. Only nullable unions of a single "
-                    f"non-null schema or object unions are supported. Node: {node}"
-                )
-                if is_root:
-                    raise ValueError(error)
-                _record_dropped_branch(
-                    dropped_branches,
-                    path=path,
-                    error=error,
-                )
-                return _OMIT_FROM_TEMPLATE
             raise ValueError(
-                _ := "Unsupported anyOf node. Only nullable unions of a single "
-                f"non-null schema or object unions are supported. Node: {node}"
+                _ := "Union is ambiguous because no instance value selects exactly "
+                "one alternative."
             )
 
         if "type" in node:
             node_type = node["type"]
 
+            if node_type == "null":
+                raise ValueError(_ := f"Unsupported null-only schema node: {node}")
+
             if node_type == "array":
-                if _is_bbox_json_schema(node):
+                prefix_items = node.get("prefixItems")
+                if prefix_items is not None:
+                    if not isinstance(prefix_items, list):
+                        raise ValueError(
+                            _ := "Invalid array node: 'prefixItems' must be a list. "
+                            f"Node: {node}"
+                        )
+
+                    max_items = node.get("maxItems")
+                    num_reachable_prefix_items = (
+                        min(len(prefix_items), max_items)
+                        if isinstance(max_items, int)
+                        else len(prefix_items)
+                    )
+                    sanitized_item_schemas: list[dict[str, Any]] = []
+                    for idx, prefix_item in enumerate(
+                        prefix_items[:num_reachable_prefix_items]
+                    ):
+                        sanitized_prefix_item = _sanitize_json_schema_node(
+                            prefix_item,
+                            root_schema,
+                            ref_stack,
+                            omit_unsupported_branches=omit_unsupported_branches,
+                            root_instance=root_instance,
+                            dropped_branches=dropped_branches,
+                            path=[*path, "prefixItems", idx],
+                        )
+                        if sanitized_prefix_item is _OMIT_FROM_TEMPLATE:
+                            return _OMIT_FROM_TEMPLATE
+                        sanitized_item_schemas.append(sanitized_prefix_item)
+
+                    remaining_items = node.get("items", True)
+                    trailing_items_are_reachable = not isinstance(
+                        max_items, int
+                    ) or max_items > len(prefix_items)
+                    if (
+                        isinstance(remaining_items, dict)
+                        and trailing_items_are_reachable
+                    ):
+                        sanitized_remaining_items = _sanitize_json_schema_node(
+                            remaining_items,
+                            root_schema,
+                            ref_stack,
+                            omit_unsupported_branches=omit_unsupported_branches,
+                            root_instance=root_instance,
+                            dropped_branches=dropped_branches,
+                            path=[*path, "items"],
+                        )
+                        if sanitized_remaining_items is _OMIT_FROM_TEMPLATE:
+                            return _OMIT_FROM_TEMPLATE
+                        sanitized_item_schemas.append(sanitized_remaining_items)
+                    elif remaining_items is not False and trailing_items_are_reachable:
+                        raise ValueError(
+                            _ := "Unsupported tuple with unconstrained trailing "
+                            f"items. Node: {node}"
+                        )
+
+                    if not sanitized_item_schemas:
+                        raise ValueError(_ := f"Unsupported empty tuple node: {node}")
+
                     sanitized_node = _copy_supported_annotation_keys(
                         node,
                         include_schema_meta=is_root,
                     )
-                    sanitized_node.update(deepcopy(_BBOX_JSON_SCHEMA))
+                    sanitized_node["type"] = "array"
+                    sanitized_node["items"] = _merge_sanitized_schema_nodes(
+                        sanitized_item_schemas
+                    )
                     return sanitized_node
 
                 if "items" not in node:
@@ -1101,45 +1302,33 @@ def _sanitize_json_schema_node(
             if sanitized_properties:
                 sanitized_node["properties"] = sanitized_properties
 
-            # Retain dynamic object schemas so their representable fields can be
-            # flattened into the NuExtract template.
             pattern_properties = node.get("patternProperties")
             if isinstance(pattern_properties, dict):
-                sanitized_pattern_properties: dict[str, Any] = {}
-                for key, value in pattern_properties.items():
-                    processed_value = _sanitize_json_schema_node(
-                        value,
-                        root_schema,
-                        ref_stack,
-                        omit_unsupported_branches=omit_unsupported_branches,
-                        root_instance=root_instance,
-                        dropped_branches=dropped_branches,
-                        path=[*path, "patternProperties", key],
+                for pattern in pattern_properties:
+                    error = (
+                        "Dynamic object keys cannot be represented by a NuExtract "
+                        "template."
                     )
-                    if processed_value is not _OMIT_FROM_TEMPLATE:
-                        sanitized_pattern_properties[key] = processed_value
-                if sanitized_pattern_properties:
-                    sanitized_node["patternProperties"] = sanitized_pattern_properties
+                    if not omit_unsupported_branches:
+                        raise ValueError(error)
+                    _record_dropped_branch(
+                        dropped_branches,
+                        path=[*path, "patternProperties", pattern],
+                        error=error,
+                    )
 
             additional_properties = node.get("additionalProperties")
-            if additional_properties is True:
-                sanitized_node["additionalProperties"] = True
-            elif additional_properties == {}:
-                sanitized_node["additionalProperties"] = {}
-            elif isinstance(additional_properties, dict):
-                sanitized_additional_properties = _sanitize_json_schema_node(
-                    additional_properties,
-                    root_schema,
-                    ref_stack,
-                    omit_unsupported_branches=omit_unsupported_branches,
-                    root_instance=root_instance,
-                    dropped_branches=dropped_branches,
-                    path=[*path, "additionalProperties"],
+            if isinstance(additional_properties, dict):
+                error = (
+                    "Dynamic object keys cannot be represented by a NuExtract template."
                 )
-                if sanitized_additional_properties is not _OMIT_FROM_TEMPLATE:
-                    sanitized_node["additionalProperties"] = (
-                        sanitized_additional_properties
-                    )
+                if not omit_unsupported_branches:
+                    raise ValueError(error)
+                _record_dropped_branch(
+                    dropped_branches,
+                    path=[*path, "additionalProperties"],
+                    error=error,
+                )
 
             required = node.get("required")
             if isinstance(required, list) and sanitized_properties:
@@ -1188,8 +1377,6 @@ def _process_json_schema_node(
 
     node_type = node["type"]
     if node_type == "array":
-        if _is_bbox_json_schema(node):
-            return BBOX_TYPE_NAME
         processed_items = _process_json_schema_node(node["items"])
         if processed_items is _OMIT_FROM_TEMPLATE:
             return _OMIT_FROM_TEMPLATE
@@ -1203,27 +1390,6 @@ def _process_json_schema_node(
         processed_value = _process_json_schema_node(value)
         if processed_value is not _OMIT_FROM_TEMPLATE:
             processed_properties[key] = processed_value
-
-    pattern_properties = node.get("patternProperties", {})
-    for value in pattern_properties.values():
-        processed_value = _process_json_schema_node(value)
-        if isinstance(processed_value, dict):
-            processed_properties.update(processed_value)
-
-    # A dynamic map of primitives has no fixed NuExtract keys, but remains a valid
-    # open object instead of making its entire parent unsupported.
-    if pattern_properties and not processed_properties:
-        return {}
-
-    additional_properties = node.get("additionalProperties")
-    if additional_properties is True or additional_properties == {}:
-        return processed_properties
-    if isinstance(additional_properties, dict):
-        processed_additional_properties = _process_json_schema_node(
-            additional_properties
-        )
-        if isinstance(processed_additional_properties, dict):
-            processed_properties.update(processed_additional_properties)
 
     return processed_properties or _OMIT_FROM_TEMPLATE
 
@@ -1245,6 +1411,37 @@ def _format_conversion_error(exc: KeyError | TypeError | ValueError) -> str:
     if len(exc.args) == 1 and isinstance(exc.args[0], str):
         return exc.args[0]
     return str(exc)
+
+
+def _validation_errors_to_incompatibilities(
+    validation_errors: Iterable[ValidationError],
+    *,
+    kind: str,
+) -> list[dict[str, Any]]:
+    """Convert JSON Schema errors into deduplicated logical incompatibilities."""
+    incompatibilities: list[dict[str, Any]] = []
+    recorded_locations: set[tuple[tuple[str | int, ...], tuple[str, ...]]] = set()
+    for validation_error in validation_errors:
+        schema_path = list(validation_error.absolute_schema_path)
+        if schema_path and schema_path[-1] == validation_error.validator:
+            schema_path.pop()
+        instance_path = [
+            "*" if isinstance(path_part, int) else path_part
+            for path_part in validation_error.absolute_path
+        ]
+        location = (tuple(schema_path), tuple(instance_path))
+        if location in recorded_locations:
+            continue
+        recorded_locations.add(location)
+        incompatibilities.append(
+            {
+                "kind": kind,
+                "schema_path": schema_path,
+                "instance_path": instance_path,
+                "error": validation_error.message,
+            }
+        )
+    return incompatibilities
 
 
 def get_description_json_schema_nodes(schema: dict[str, Any]) -> list[str]:
@@ -1276,8 +1473,22 @@ def get_description_json_schema_nodes(schema: dict[str, Any]) -> list[str]:
             return
 
         description = node.get("description")
+        descriptions_at_path: list[str] = []
         if isinstance(description, str):
-            description_lines.append(f"{path}: {description}")
+            descriptions_at_path.append(description)
+        for composition_description in node.get(
+            _COMPOSITION_DESCRIPTIONS_KEY,
+            [],
+        ):
+            if (
+                isinstance(composition_description, str)
+                and composition_description not in descriptions_at_path
+            ):
+                descriptions_at_path.append(composition_description)
+        description_lines.extend(
+            f"{path}: {description_at_path}"
+            for description_at_path in descriptions_at_path
+        )
 
         if "$ref" in node:
             ref_path = node["$ref"]
@@ -1348,8 +1559,6 @@ def get_description_json_schema_nodes(schema: dict[str, Any]) -> list[str]:
             return
 
         if node_type == "array":
-            if _is_bbox_json_schema(node):
-                return
             if "items" not in node:
                 raise ValueError(
                     _ := f"Unsupported array node without 'items'. Node: {node}"

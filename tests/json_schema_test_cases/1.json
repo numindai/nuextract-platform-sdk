@@ -144,14 +144,12 @@
   },
   "template": {
     "_id": "string",
-    "additional_properties": {},
     "channels": [
       "string"
     ],
     "header": [
       {
         "_id": "string",
-        "additional_properties": {},
         "alignment": [
           "left",
           "right",
@@ -171,7 +169,6 @@
       [
         {
           "_id": "string",
-          "additional_properties": {},
           "alignment": [
             "left",
             "right",

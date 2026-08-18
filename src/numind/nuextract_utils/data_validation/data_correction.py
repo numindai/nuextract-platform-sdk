@@ -334,7 +334,9 @@ def _correct_output_schema(
         errors_at_same_location = [
             (idx, error)
             for idx, error in enumerate(errors)
-            if error.path[:-1] == current_path and error.error_message == err_msg
+            if error.path[:-1] == current_path
+            and error.error_message == err_msg
+            and not error.node_deleted
         ]
         if len(errors_at_same_location) == 0:
             return None
@@ -347,10 +349,12 @@ def _correct_output_schema(
         ]
         if len(indel_distances) > 0:
             if len(indel_distances) > 1:
-                dist_min = min(indel_distances, key=lambda x: x[1])
+                dist_min = min(indel_distances, key=lambda x: x[1])[1]
                 indel_distances = [
                     (idx, dist) for idx, dist in indel_distances if dist == dist_min
                 ]
+                if len(indel_distances) > 1:
+                    return None
             return errors[indel_distances[0][0]].path[-1], indel_distances[0][0]
         return None
 

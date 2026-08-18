@@ -217,7 +217,7 @@ def detect_errors_in_input_template(
         # Dictionary
         else:
             # Empty ref, shouldn't be the case, except for the root that may be
-            if len(ref) == 0 and len(current_tree_path) > 1:
+            if len(ref) == 0 and len(current_tree_path) > 0:
                 schema_errors.append(
                     ErrorJson(
                         current_tree_path,

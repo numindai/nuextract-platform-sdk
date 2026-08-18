@@ -1,8 +1,7 @@
-"""Conversion from NuExtract template to JSON Schema."""
+"""Conversions between NuExtract templates and JSON Schema."""
 
 from __future__ import annotations
 
-from collections.abc import Mapping
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
@@ -13,33 +12,26 @@ from numind.nuextract_utils.data_validation import (
     correct_output_json_and_input_template,
     detect_errors_in_output_json,
 )
-from numind.nuextract_utils.data_validation.models import ErrorJson
 from numind.nuextract_utils.data_validation.utils import is_object_enum
 
 from .constants import (
-    BBOX_TYPE_NAME,
     JSON_SCHEMA_PRIMITIVES,
     NUEXTRACT_TYPE_TO_JSON_SCHEMA_FORMAT,
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Mapping
     from typing import Any
 
     from jsonschema.exceptions import ValidationError
+
+    from numind.nuextract_utils.data_validation.models import ErrorJson
 
 
 _TYPE_DESCRIPTION_KEYS = ("format", "description")
 _OMIT_FROM_TEMPLATE = object()
 _INSTANCE_NOT_PROVIDED = object()
 _COMPOSITION_DESCRIPTIONS_KEY = "x-nuextract-composition-descriptions"
-_BBOX_JSON_SCHEMA = {
-    "type": "array",
-    "prefixItems": [{"type": "integer"}] * 5,
-    "minItems": 5,
-    "maxItems": 5,
-    "x-nuextract-type": BBOX_TYPE_NAME,
-}
 
 
 def _iter_custom_type_schema_values(type_name: str) -> tuple[str, ...]:
@@ -63,9 +55,6 @@ def _build_leaf_schema(
     set_type_in_description: bool = False,
 ) -> dict[str, Any]:
     """Convert a NuExtract leaf type name into a JSON Schema leaf node."""
-    if type_name == BBOX_TYPE_NAME:
-        return deepcopy(_BBOX_JSON_SCHEMA)
-
     leaf: dict[str, Any] = {}
     normalized_type_name = type_name
 
@@ -110,28 +99,15 @@ def _decode_leaf_type(node: Mapping[str, Any]) -> str | list[str]:
                 decoded_type = JSON_SCHEMA_FORMAT_TO_NUEXTRACT_TYPE[schema_value]
                 break
 
+    if node.get("x-verbatim") and decoded_type != "string":
+        raise ValueError(
+            _ := "The x-verbatim annotation is only supported for string leaves. "
+            f"Node: {node}"
+        )
     if node.get("x-verbatim"):
         return f"verbatim-{decoded_type}"
 
     return decoded_type
-
-
-def _is_bbox_json_schema(node: Mapping[str, Any]) -> bool:
-    """Return whether ``node`` represents the NuExtract bbox output shape."""
-    if node.get("type") != "array" or node.get("x-nuextract-type") != BBOX_TYPE_NAME:
-        return False
-
-    prefix_items = node.get("prefixItems")
-    return (
-        isinstance(prefix_items, list)
-        and len(prefix_items) == 5
-        and node.get("minItems") == 5
-        and node.get("maxItems") == 5
-        and all(
-            isinstance(prefix_item, Mapping) and prefix_item.get("type") == "integer"
-            for prefix_item in prefix_items
-        )
-    )
 
 
 def _normalize_nullable_type_shorthand(node: Mapping[str, Any]) -> dict[str, Any]:
@@ -236,8 +212,8 @@ def convert_nuextract_template_to_json_schema(
 
 def adapt_json_to_nuextract_template(
     template: dict | list | str,
-    json_instance: dict | list | str,
-) -> tuple[dict | list | str, list[ErrorJson]]:
+    json_instance: Any,  # noqa: ANN401
+) -> tuple[Any, list[ErrorJson]]:
     """
     Adapt an output to a valid NuExtract template without fuzzy replacements.
 
@@ -248,18 +224,18 @@ def adapt_json_to_nuextract_template(
     :param json_instance: Structured output to adapt.
     :return: The adapted output and any validation errors that remain.
     """
-    if isinstance(template, str):
-        adapted_output = deepcopy(json_instance)
-        return adapted_output, detect_errors_in_output_json(template, adapted_output, None)
-
-    _, adapted_output, _, _ = correct_output_json_and_input_template(
-        template,
-        json_instance,
+    # Wrapping gives root leaves and enums the same correction behavior as nested ones,
+    # without treating their string values as serialized JSON documents.
+    wrapped_template = {"value": template}
+    _, wrapped_output, _, _ = correct_output_json_and_input_template(
+        wrapped_template,
+        {"value": deepcopy(json_instance)},
         None,
         indel_distance_output_enum=None,
         indel_distance_node_name=None,
         deduplicate_arrays_entries=True,
     )
+    adapted_output = wrapped_output["value"]
     return adapted_output, detect_errors_in_output_json(template, adapted_output, None)
 
 
@@ -293,8 +269,7 @@ def convert_json_schema_to_nuextract_template(
       one-item template list represents an array rather than an enum.
     - An object becomes a dictionary whose keys come from ``properties``; an array
       becomes a one-item list describing every item. Thus, an array of enums becomes
-      a nested list. A bounding-box schema becomes ``"bbox"`` only when marked with
-      ``x-nuextract-type: bbox``.
+      a nested list.
     - Local ``$ref`` values are resolved, including array indices in JSON Pointers,
       and sibling keywords are applied alongside the reference.
     - Compatible ``allOf`` branches are merged. Multi-branch ``anyOf`` and ``oneOf``
@@ -690,7 +665,6 @@ def _copy_supported_annotation_keys(
         "examples",
         "format",
         "x-verbatim",
-        "x-nuextract-type",
         _COMPOSITION_DESCRIPTIONS_KEY,
     }
     if include_schema_meta and "$schema" in node:
@@ -1054,8 +1028,29 @@ def _sanitize_json_schema_node(
                 raise ValueError(
                     _ := f"Invalid schema segment: 'anyOf' must be a list. Node: {node}"
                 )
+            structural_siblings = {
+                key: value
+                for key, value in node.items()
+                if key
+                in {
+                    "type",
+                    "properties",
+                    "patternProperties",
+                    "additionalProperties",
+                    "required",
+                    "items",
+                    "prefixItems",
+                }
+            }
             non_null_subschemas = [
-                sub_schema
+                (
+                    {**structural_siblings, **sub_schema}
+                    if structural_siblings.get("type") == "array"
+                    and isinstance(sub_schema, dict)
+                    else {"allOf": [structural_siblings, sub_schema]}
+                    if structural_siblings
+                    else sub_schema
+                )
                 for sub_schema in any_of
                 if not (
                     isinstance(sub_schema, dict) and sub_schema.get("type") == "null"
@@ -1126,7 +1121,9 @@ def _sanitize_json_schema_node(
                             "select exactly one alternative."
                         )
                     selected_subschema_index = matching_subschema_indices.pop()
-                    selected_subschema = any_of[selected_subschema_index]
+                    selected_subschema = non_null_subschemas[
+                        non_null_subschema_indices.index(selected_subschema_index)
+                    ]
                     selected_sub_schema = _sanitize_json_schema_node(
                         selected_subschema,
                         root_schema,
@@ -1171,20 +1168,6 @@ def _sanitize_json_schema_node(
                 raise ValueError(_ := f"Unsupported null-only schema node: {node}")
 
             if node_type == "array":
-                if node.get(
-                    "x-nuextract-type"
-                ) == BBOX_TYPE_NAME and not _is_bbox_json_schema(node):
-                    raise ValueError(
-                        _ := f"Invalid explicit NuExtract bbox schema: {node}"
-                    )
-                if _is_bbox_json_schema(node):
-                    sanitized_node = _copy_supported_annotation_keys(
-                        node,
-                        include_schema_meta=is_root,
-                    )
-                    sanitized_node.update(deepcopy(_BBOX_JSON_SCHEMA))
-                    return sanitized_node
-
                 prefix_items = node.get("prefixItems")
                 if prefix_items is not None:
                     if not isinstance(prefix_items, list):
@@ -1193,8 +1176,16 @@ def _sanitize_json_schema_node(
                             f"Node: {node}"
                         )
 
+                    max_items = node.get("maxItems")
+                    num_reachable_prefix_items = (
+                        min(len(prefix_items), max_items)
+                        if isinstance(max_items, int)
+                        else len(prefix_items)
+                    )
                     sanitized_item_schemas: list[dict[str, Any]] = []
-                    for idx, prefix_item in enumerate(prefix_items):
+                    for idx, prefix_item in enumerate(
+                        prefix_items[:num_reachable_prefix_items]
+                    ):
                         sanitized_prefix_item = _sanitize_json_schema_node(
                             prefix_item,
                             root_schema,
@@ -1209,7 +1200,13 @@ def _sanitize_json_schema_node(
                         sanitized_item_schemas.append(sanitized_prefix_item)
 
                     remaining_items = node.get("items", True)
-                    if isinstance(remaining_items, dict):
+                    trailing_items_are_reachable = not isinstance(
+                        max_items, int
+                    ) or max_items > len(prefix_items)
+                    if (
+                        isinstance(remaining_items, dict)
+                        and trailing_items_are_reachable
+                    ):
                         sanitized_remaining_items = _sanitize_json_schema_node(
                             remaining_items,
                             root_schema,
@@ -1222,10 +1219,7 @@ def _sanitize_json_schema_node(
                         if sanitized_remaining_items is _OMIT_FROM_TEMPLATE:
                             return _OMIT_FROM_TEMPLATE
                         sanitized_item_schemas.append(sanitized_remaining_items)
-                    elif remaining_items is not False and not (
-                        isinstance(node.get("maxItems"), int)
-                        and node["maxItems"] <= len(prefix_items)
-                    ):
+                    elif remaining_items is not False and trailing_items_are_reachable:
                         raise ValueError(
                             _ := "Unsupported tuple with unconstrained trailing "
                             f"items. Node: {node}"
@@ -1383,8 +1377,6 @@ def _process_json_schema_node(
 
     node_type = node["type"]
     if node_type == "array":
-        if _is_bbox_json_schema(node):
-            return BBOX_TYPE_NAME
         processed_items = _process_json_schema_node(node["items"])
         if processed_items is _OMIT_FROM_TEMPLATE:
             return _OMIT_FROM_TEMPLATE
@@ -1567,8 +1559,6 @@ def get_description_json_schema_nodes(schema: dict[str, Any]) -> list[str]:
             return
 
         if node_type == "array":
-            if _is_bbox_json_schema(node):
-                return
             if "items" not in node:
                 raise ValueError(
                     _ := f"Unsupported array node without 'items'. Node: {node}"

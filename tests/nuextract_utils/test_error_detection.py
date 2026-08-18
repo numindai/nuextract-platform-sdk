@@ -10,6 +10,7 @@ from numind.nuextract_utils.data_validation import (
     detect_errors_in_output_json,
 )
 from numind.nuextract_utils.data_validation.constants import (
+    ERR_INPUT_SCHEMA_DICT_EMPTY,
     ERR_INPUT_SCHEMA_LEAF_TYPE_INVALID,
     ERR_LABEL_ENUM_VALUE_NOT_IN_INPUT_SCHEMA,
     ERR_LABEL_LEAF_TYPE_INVALID,
@@ -285,7 +286,9 @@ def test_error_detection(
         ErrorJson(path, msg, val_err).to_json()
         for path, msg, val_err in input_errors_expected
     }
-    output_errors = detect_errors_in_output_json(schema_input, schema_output, text_input)
+    output_errors = detect_errors_in_output_json(
+        schema_input, schema_output, text_input
+    )
     assert {err.to_json() for err in output_errors} == {
         ErrorJson(path, msg, val_err).to_json()
         for path, msg, val_err in output_errors_expected
@@ -313,9 +316,27 @@ def test_error_correction(
         schema_input_corrected_expected = schema_input.copy()
     if schema_output_corrected_expected is None:
         schema_output_corrected_expected = schema_output.copy()
-    schema_input_corrected, schema_output_corrected = correct_output_json_and_input_template(
-        schema_input, schema_output, text_input, deduplicate_arrays_entries=True
-    )[:2]  # excluding fixed errors lists
+    schema_input_corrected, schema_output_corrected = (
+        correct_output_json_and_input_template(
+            schema_input, schema_output, text_input, deduplicate_arrays_entries=True
+        )[:2]
+    )  # excluding fixed errors lists
     assert schema_input_corrected == schema_input_corrected_expected
     assert schema_output_corrected == schema_output_corrected_expected
 
+
+def test_error_detection_rejects_a_nested_empty_dictionary() -> None:
+    errors = detect_errors_in_input_template({"empty": {}})
+
+    assert errors == [ErrorJson(["empty"], ERR_INPUT_SCHEMA_DICT_EMPTY, {})]
+
+
+def test_error_correction_does_not_guess_between_equally_close_keys() -> None:
+    corrected_template, corrected_output, _, _ = correct_output_json_and_input_template(
+        {"bat": "string", "bag": "string"},
+        {"bad": "value"},
+        None,
+    )
+
+    assert corrected_template == {"bat": "string", "bag": "string"}
+    assert corrected_output == {"bat": None, "bag": None}

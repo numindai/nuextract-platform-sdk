@@ -13,6 +13,7 @@ from numind.nuextract_utils.template_conversion import (
     detect_errors_json_schema,
 )
 from numind.nuextract_utils.template_conversion.json_schema import (
+    adapt_json_to_nuextract_template,
     convert_json_schema_to_nuextract_compatible_json_schema,
 )
 
@@ -73,8 +74,6 @@ TEST_CASES_NUEXTRACT_TO_JSON_SCHEMA = [
             "ibans": "iban",
             "bics": "bic",
             "bool": "boolean",
-            "name_bbox": "bbox",
-            "name-localizations": ["bbox"],
         },
         {
             "type": "object",
@@ -115,23 +114,6 @@ TEST_CASES_NUEXTRACT_TO_JSON_SCHEMA = [
                 "ibans": {"format": "iban-ISO_13616-1", "type": "string"},
                 "bics": {"format": "bice-code-ISO_9362", "type": "string"},
                 "bool": {"type": "boolean"},
-                "name_bbox": {
-                    "type": "array",
-                    "prefixItems": [{"type": "integer"}] * 5,
-                    "minItems": 5,
-                    "maxItems": 5,
-                    "x-nuextract-type": "bbox",
-                },
-                "name-localizations": {
-                    "type": "array",
-                    "items": {
-                        "type": "array",
-                        "prefixItems": [{"type": "integer"}] * 5,
-                        "minItems": 5,
-                        "maxItems": 5,
-                        "x-nuextract-type": "bbox",
-                    },
-                },
             },
         },
     )
@@ -1208,23 +1190,20 @@ def test_json_schema_to_template_rejects_heterogeneous_prefix_items() -> None:
     assert dropped_branches[0]["path"] == ["properties", "tuple"]
 
 
-def test_json_schema_to_template_requires_explicit_bbox_annotation() -> None:
-    tuple_schema = {
+def test_json_schema_to_template_ignores_unreachable_trailing_items() -> None:
+    schema = {
         "type": "array",
-        "prefixItems": [{"type": "integer"}] * 5,
-        "minItems": 5,
-        "maxItems": 5,
+        "prefixItems": [{"type": "string"}],
+        "items": {"type": "integer"},
+        "maxItems": 1,
     }
 
-    tuple_template, _, _ = _convert_json_schema_to_nuextract_template_values(
-        tuple_schema
-    )
-    bbox_template, _, _ = _convert_json_schema_to_nuextract_template_values(
-        {**tuple_schema, "x-nuextract-type": "bbox"}
+    template, dropped_branches, _ = _convert_json_schema_to_nuextract_template_values(
+        schema
     )
 
-    assert tuple_template == ["integer"]
-    assert bbox_template == "bbox"
+    assert template == ["string"]
+    assert dropped_branches == []
 
 
 def test_json_schema_to_template_ignores_semantic_formats_on_non_strings() -> None:
@@ -1381,6 +1360,63 @@ def test_json_schema_to_template_selects_union_branch_from_instance() -> None:
     ]
 
 
+def test_json_schema_to_template_keeps_anyof_structural_siblings() -> None:
+    schema = {
+        "type": "object",
+        "properties": {"common": {"type": "string"}},
+        "required": ["common"],
+        "anyOf": [
+            {
+                "type": "object",
+                "properties": {"a": {"type": "integer"}},
+                "required": ["a"],
+            },
+            {
+                "type": "object",
+                "properties": {"b": {"type": "integer"}},
+                "required": ["b"],
+            },
+        ],
+    }
+
+    conversion = convert_json_schema_to_nuextract_template(
+        schema,
+        omit_unsupported_branches=True,
+        instance={"common": "value", "a": 1},
+    )
+
+    assert conversion["template"] == {"common": "string", "a": "integer"}
+    assert conversion["schema_status"] == "partially_converted"
+    assert conversion["instance_status"] == "valid_for_both"
+
+
+def test_json_schema_to_template_keeps_nullable_anyof_structural_siblings() -> None:
+    schema = {
+        "type": "object",
+        "properties": {"common": {"type": "string"}},
+        "required": ["common"],
+        "anyOf": [
+            {
+                "type": "object",
+                "properties": {"optional": {"type": "integer"}},
+            },
+            {"type": "null"},
+        ],
+    }
+
+    conversion = convert_json_schema_to_nuextract_template(
+        schema,
+        instance={"common": "value", "optional": 1},
+    )
+
+    assert conversion["template"] == {
+        "common": "string",
+        "optional": "integer",
+    }
+    assert conversion["schema_status"] == "fully_converted"
+    assert conversion["instance_status"] == "valid_for_both"
+
+
 def test_json_schema_to_template_drops_union_used_with_multiple_types() -> None:
     schema = {
         "type": "object",
@@ -1466,6 +1502,37 @@ def test_json_schema_to_template_adapts_an_instance_valid_for_both() -> None:
     assert instance == {"count": 3, "extra": "remove"}
 
 
+def test_json_schema_to_template_adapts_a_root_semantic_value() -> None:
+    conversion = convert_json_schema_to_nuextract_template(
+        {"type": "string", "format": "url"},
+        instance="google.com",
+    )
+
+    assert conversion["instance_status"] == "adapted_valid_for_both"
+    assert conversion["adapted_instance"] == "https://google.com"
+    assert conversion["incompatibilities"] == []
+
+
+def test_adapt_json_to_nuextract_template_preserves_a_root_enum() -> None:
+    adapted_instance, remaining_errors = adapt_json_to_nuextract_template(
+        ["open", "closed"],
+        "open",
+    )
+
+    assert adapted_instance == "open"
+    assert remaining_errors == []
+
+
+def test_adapt_json_to_nuextract_template_deduplicates_a_root_array() -> None:
+    adapted_instance, remaining_errors = adapt_json_to_nuextract_template(
+        ["integer"],
+        [1, 1],
+    )
+
+    assert adapted_instance == [1]
+    assert remaining_errors == []
+
+
 def test_json_schema_to_template_reports_an_instance_that_cannot_be_adapted() -> None:
     schema = {
         "type": "object",
@@ -1529,3 +1596,10 @@ def test_json_schema_to_template_reports_an_originally_invalid_instance() -> Non
             "error": "'first' is not of type 'integer'",
         }
     ]
+
+
+def test_json_schema_to_template_rejects_verbatim_on_non_string_types() -> None:
+    schema = {"type": "integer", "x-verbatim": True}
+
+    with pytest.raises(ValueError, match="only supported for string leaves"):
+        convert_json_schema_to_nuextract_template(schema)

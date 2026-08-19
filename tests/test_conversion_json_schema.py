@@ -240,6 +240,39 @@ def test_json_schema_conversion_applies_object_annotations_to_every_object() -> 
     }
 
 
+def test_json_schema_conversion_applies_leaf_schema_overrides() -> None:
+    bbox_json_schema = {
+        "type": "object",
+        "properties": {
+            "image_index": {"type": "integer"},
+            "bbox_2d": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "minItems": 4,
+                "maxItems": 4,
+            },
+        },
+        "required": ["image_index", "bbox_2d"],
+        "additionalProperties": False,
+    }
+
+    json_schema = convert_nuextract_template_to_json_schema(
+        {"name": "string", "name_bboxes": ["bbox"]},
+        leaf_schema_overrides={"bbox": bbox_json_schema},
+    )
+
+    assert json_schema == {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "name_bboxes": {
+                "type": "array",
+                "items": bbox_json_schema,
+            },
+        },
+    }
+
+
 @pytest.mark.parametrize(
     ("schema", "template_target"),
     _load_json_schema_to_template_cases(),

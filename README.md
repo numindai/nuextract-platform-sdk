@@ -451,3 +451,4 @@ Authentication schemes defined for the API:
  - **openid**: OpenID connect
  - **profile**: view profile
  - **email**: view email
+

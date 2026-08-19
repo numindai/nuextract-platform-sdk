@@ -53,6 +53,7 @@ def _build_leaf_schema(
     type_name: str,
     *,
     set_type_in_description: bool = False,
+    leaf_schema_overrides: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Convert a NuExtract leaf type name into a JSON Schema leaf node."""
     leaf: dict[str, Any] = {}
@@ -61,6 +62,12 @@ def _build_leaf_schema(
     if type_name.startswith("verbatim-"):
         leaf["x-verbatim"] = True
         normalized_type_name = type_name[len("verbatim-") :]
+
+    if (
+        leaf_schema_overrides is not None
+        and normalized_type_name in leaf_schema_overrides
+    ):
+        return deepcopy(leaf_schema_overrides[normalized_type_name])
 
     if normalized_type_name.lower() in JSON_SCHEMA_PRIMITIVES:
         leaf["type"] = normalized_type_name.lower()
@@ -143,6 +150,7 @@ def convert_nuextract_template_to_json_schema(
     objects_annotations: dict | None = None,
     set_all_properties_required: bool = False,
     set_type_in_description: bool = False,
+    leaf_schema_overrides: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict:
     """
     Convert a NuExtract template into a JSON Schema.
@@ -161,6 +169,9 @@ def convert_nuextract_template_to_json_schema(
     :param set_all_properties_required: Whether to set all properties required.
     :param set_type_in_description: Whether to set type in ``description`` instead of
         ``format``. (default: ``False``)
+    :param leaf_schema_overrides: optional mapping from NuExtract leaf type names to
+        complete JSON Schema nodes. Overrides apply recursively and take precedence
+        over the built-in primitive and semantic type mappings. (default: ``None``)
     :return: A dictionary representing the equivalent JSON Schema.
     :raise TypeError: If the input contains unsupported types.
     """
@@ -172,6 +183,7 @@ def convert_nuextract_template_to_json_schema(
             return _build_leaf_schema(
                 value,
                 set_type_in_description=set_type_in_description,
+                leaf_schema_overrides=leaf_schema_overrides,
             )
 
         # Case 2: The value is a list (e.g., ["word"]) -> JSON Schema "array"

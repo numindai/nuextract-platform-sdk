@@ -82,8 +82,9 @@ class PaginatedResponseT(BaseModel):
         _items = []
         if self.items:
             for _item_items in self.items:
-                if _item_items:
-                    _items.append(_item_items.to_dict())
+                _items.append(
+                    _item_items.to_dict() if _item_items is not None else None
+                )
             _dict["items"] = _items
         return _dict
 

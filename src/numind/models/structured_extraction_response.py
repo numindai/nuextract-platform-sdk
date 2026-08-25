@@ -139,8 +139,11 @@ class StructuredExtractionResponse(BaseModel):
         _items = []
         if self.selected_examples:
             for _item_selected_examples in self.selected_examples:
-                if _item_selected_examples:
-                    _items.append(_item_selected_examples.to_dict())
+                _items.append(
+                    _item_selected_examples.to_dict()
+                    if _item_selected_examples is not None
+                    else None
+                )
             _dict["selectedExamples"] = _items
         return _dict
 

@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.3.2.post1"
+version = "0.3.3"
 description = "SDK to interact with the NuMind models API."
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     { name = "Nathan Fradet", email="nathan@numind.ai" },
 ]
@@ -24,11 +24,12 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Operating System :: OS Independent",
 ]
 dependencies = [
@@ -45,7 +46,6 @@ dependencies = [
     "schwifty >= 2025.9.0",  # for NuExtract output validation
     "stringzilla >= 4.6.1",  # for NuExtract output validation
     "sympy >= 1.14.0",  # for NuExtract output correction
-    "eval-type-backport >= 0.2.2; python_version < '3.10'",  # Pydantic on Python 3.9
 ]
 
 [project.optional-dependencies]
@@ -148,11 +148,6 @@ extend-select = [
 # difficult to comply and/or would add a lot of noqa exceptions. ANN002 is used as it
 # adds very few "noqa" exceptions, but ANN003 would add too much complexity.
 
-# B905
-# The `strict` keyword argument for the `zip` built-in method appeared with Python
-# 3.10. As we support previous versions, we cannot comply (yet) with this rule. The
-# exclusion should be removed when dropping support for Python 3.9.
-
 # D107
 # We document classes at the class level (D101). This documentation should cover the
 # way classes are initialized. So we do not document `__init__` methods.
@@ -177,24 +172,18 @@ extend-select = [
 # set with ruff format anyway. This exclusion could be removed when this behavior is
 # fixed in ruff.
 
-# UP038
-# Recommends to | type union with `isinstance`, which is only supported since Python
-# 3.10. The exclusion should be removed when dropping support for Python 3.9.
-
 # (ISC001)
 # May cause conflicts when used with the ruff formatter. They recommend to disable it.
 # We leave it enabled but keep this in mind.
 
 ignore = [
     "ANN003",
-    "B905",
     "COM812",
     "D107",
     "D203",
     "D212",
     "FBT001",
     "FBT002",
-    "UP038",
 ]
 
 [tool.ruff.lint.per-file-ignores]

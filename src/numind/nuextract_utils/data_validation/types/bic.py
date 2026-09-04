@@ -5,8 +5,10 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-import schwifty
-from schwifty.exceptions import SchwiftyException
+try:
+    import schwifty
+except ImportError:
+    schwifty = None
 
 from .base import SemanticType
 
@@ -55,7 +57,11 @@ class BIC(SemanticType):
         _ = input_text
         if error is None:
             return value
-        if not isinstance(value, str) or error.error_message in {
+        if not isinstance(value, str):
+            return None
+        if schwifty is None:
+            return value
+        if error.error_message in {
             ERR_LABEL_LEAF_VALUE_BIC_CANNOT_BE_PARSED,
             ERR_LABEL_LEAF_VALUE_IS_NOT_A_VALID_BIC,
         }:
@@ -76,6 +82,8 @@ class BIC(SemanticType):
         """
         if not isinstance(value, str):
             return ERR_LABEL_LEAF_VALUE_BIC_IS_NOT_STRING
+        if schwifty is None:
+            return None
         try:
             bic = schwifty.BIC(value)
             if not bic.validate(enforce_swift_compliance=True):
@@ -83,6 +91,6 @@ class BIC(SemanticType):
             if str(bic) != value:
                 return ERR_LABEL_LEAF_VALUE_IS_VALID_BIC_BUT_IS_MESSY_STRING
 
-        except SchwiftyException:
+        except schwifty.exceptions.SchwiftyException:
             return ERR_LABEL_LEAF_VALUE_BIC_CANNOT_BE_PARSED
         return None

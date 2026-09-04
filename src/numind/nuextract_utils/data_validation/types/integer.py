@@ -5,7 +5,10 @@ from __future__ import annotations
 from tokenize import TokenError
 from typing import TYPE_CHECKING
 
-from sympy import sympify
+try:
+    from sympy import sympify
+except ImportError:
+    sympify = None
 
 from .base import SemanticType
 
@@ -51,11 +54,11 @@ class Integer(SemanticType):
                 return int_val
 
             # Try to evaluate mathematical expression, rounding the result
-            try:
-                return int(sympify(value).evalf().round())
-            except (TokenError, SyntaxError, TypeError):
-                # fall back to leaf type method
-                pass
+            if sympify is not None:
+                try:
+                    return int(sympify(value).evalf().round())
+                except (TokenError, SyntaxError, TypeError):
+                    pass
 
         # Nothing worked, returning None
         return None

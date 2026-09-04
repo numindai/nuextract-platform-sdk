@@ -6,7 +6,10 @@ import re
 import unicodedata
 from typing import TYPE_CHECKING
 
-from emval import EmailValidator
+try:
+    from emval import EmailValidator
+except ImportError:
+    EmailValidator = None
 
 from .base import SemanticType
 
@@ -17,12 +20,16 @@ ERR_LABEL_EMAIL_ADDRESS_IS_MALFORMED = (
     "label leaf email address value is not RFC 3987 compliant"
 )
 
-EMAIL_VALIDATOR = EmailValidator(
-    allow_smtputf8=True,
-    allow_empty_local=False,
-    allow_quoted_local=False,
-    allow_domain_literal=True,
-    deliverable_address=False,
+EMAIL_VALIDATOR = (
+    EmailValidator(
+        allow_smtputf8=True,
+        allow_empty_local=False,
+        allow_quoted_local=False,
+        allow_domain_literal=True,
+        deliverable_address=False,
+    )
+    if EmailValidator is not None
+    else None
 )
 CHAR_FIXES = {
     " at ": "@",
@@ -53,7 +60,7 @@ class EmailAddress(SemanticType):
 
     # idn-email is RFC 6531 which includes RFC 5322
     json_schema_format = ("idn-email", "email", "email-address")
-    email_validator: EmailValidator = EMAIL_VALIDATOR
+    email_validator = EMAIL_VALIDATOR
 
     @classmethod
     def coerce(
@@ -73,6 +80,8 @@ class EmailAddress(SemanticType):
         _ = error
         if not isinstance(value, str):
             return str(value)
+        if cls.email_validator is None:
+            return value
 
         # Try to correct string to an email
         email_fixed = cls.fix_malformed_email_address(value)
@@ -196,6 +205,8 @@ class EmailAddress(SemanticType):
         """
         if not isinstance(value, str):
             return ERR_LABEL_EMAIL_ADDRESS_IS_MALFORMED  # Or handle as per your design
+        if cls.email_validator is None:
+            return None
 
         # RFC 5321 and 5322 state that the domain part is case-insensitive.
         # For validation, we should ensure it is indeed lowercase or consider it

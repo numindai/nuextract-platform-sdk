@@ -7,9 +7,13 @@ And has been made stricter to handle more specific edge cases.
 
 from __future__ import annotations
 
+import re as _stdlib_re
 import sys as _sys
 
-import regex as _re
+try:
+    import regex as _re
+except ImportError:
+    _re = _stdlib_re
 
 # Copyright (c) 2011 Daniel Gerber.
 #
@@ -135,6 +139,7 @@ This is free software. You may show your appreciation with a `donation`_.
 """
 
 NARROW_BUILD = _sys.maxunicode == 0xFFFF
+REGEX = _re is not _stdlib_re
 
 _common_rules = (
     ########   SCHEME   ########
@@ -450,7 +455,10 @@ def get_compiled_pattern(rule: str, flags: int = 0) -> _re.Pattern:
     """
     cache, key = get_compiled_pattern.cache, (rule, flags)
     if key not in cache:
-        pats = bmp_patterns if NARROW_BUILD else patterns
+        if REGEX:
+            pats = bmp_patterns if NARROW_BUILD else patterns
+        else:
+            pats = bmp_upatterns_no_names if NARROW_BUILD else upatterns_no_names
         p = pats.get(rule) or rule % pats
         cache[key] = _re.compile(p, flags)
     return cache[key]
@@ -518,7 +526,10 @@ def parse(string: str, rule: str = "IRI_reference") -> dict:
         m = match(string, rule)
         if not m:
             raise ValueError(_ := f"{string} is not a valid {rule}.")
-        return _i2u(m.groupdict())
+        if REGEX:
+            return _i2u(m.groupdict())
+        if rule not in REFERENCE_RULES:
+            raise ValueError(_ := f"Cannot parse rule {rule} without regex.")
     return _i2u(_iri_non_validating_re.match(string).groupdict())
 
 

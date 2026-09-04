@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import importlib.resources
 from typing import TYPE_CHECKING
-
-from defusedxml import ElementTree
+from xml.etree import ElementTree as ET
 
 from .base import SemanticType
 
@@ -20,7 +19,7 @@ with (
     .joinpath("ucum-essence.xml")
     .open("rb") as _file
 ):
-    tree = ElementTree.parse(_file)
+    tree = ET.parse(_file)  # noqa: S314 - trusted bundled XML
     root = tree.getroot()
 
     ns = {"ucum": "http://unitsofmeasure.org/ucum-essence"}

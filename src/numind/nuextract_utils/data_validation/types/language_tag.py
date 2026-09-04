@@ -6,8 +6,7 @@ import importlib.resources
 import re
 from collections import defaultdict
 from dataclasses import dataclass
-
-from defusedxml import ElementTree
+from xml.etree import ElementTree as ET
 
 from numind.nuextract_utils.data_validation.models import ErrorJson
 
@@ -73,7 +72,7 @@ with (
     .joinpath("CLDR likelySubtags.xml")
     .open("rb") as _file
 ):
-    tree = ElementTree.parse(_file)
+    tree = ET.parse(_file)  # noqa: S314 - trusted bundled XML
     root = tree.getroot()
 
     # Find the <likelySubtags> element first (for robustness)

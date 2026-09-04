@@ -22,8 +22,8 @@ content-type = "text/markdown"
 file = "LICENSE"
 
 [project.optional-dependencies]
-build = [ "openapi-generator-cli", "uv", "PyYAML", "toml",]
 data-validation = [ "cdifflib >= 1.2.9", "emval >= 0.1.3", "phonenumbers >= 9.0.24", "rapidfuzz >= 3.13.0", "regex >= 2026.1.15", "schwifty >= 2025.9.0", "stringzilla >= 4.6.1", "sympy >= 1.14.0",]
+build = [ "openapi-generator-cli", "uv", "PyYAML", "toml",]
 tests = [ "pytest-asyncio", "pytest-cov", "pytest-rerunfailures", "pytest-dependency",]
 
 [project.urls]

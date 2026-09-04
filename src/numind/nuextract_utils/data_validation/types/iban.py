@@ -5,8 +5,10 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-import schwifty
-from schwifty.exceptions import SchwiftyException
+try:
+    import schwifty
+except ImportError:
+    schwifty = None
 
 from .base import SemanticType
 
@@ -55,7 +57,11 @@ class IBAN(SemanticType):
         _ = input_text
         if error is None:
             return value
-        if not isinstance(value, str) or error.error_message in {
+        if not isinstance(value, str):
+            return None
+        if schwifty is None:
+            return value
+        if error.error_message in {
             ERR_LABEL_LEAF_VALUE_IBAN_CANNOT_BE_PARSED,
             ERR_LABEL_LEAF_VALUE_IS_NOT_A_VALID_IBAN,
         }:
@@ -76,6 +82,8 @@ class IBAN(SemanticType):
         """
         if not isinstance(value, str):
             return ERR_LABEL_LEAF_VALUE_IBAN_IS_NOT_STRING
+        if schwifty is None:
+            return None
         try:
             iban = schwifty.IBAN(value)
             if not iban.validate(validate_bban=True):
@@ -83,6 +91,6 @@ class IBAN(SemanticType):
             if str(iban) != value:
                 return ERR_LABEL_LEAF_VALUE_IS_VALID_IBAN_BUT_IS_MESSY_STRING
 
-        except SchwiftyException:
+        except schwifty.exceptions.SchwiftyException:
             return ERR_LABEL_LEAF_VALUE_IBAN_CANNOT_BE_PARSED
         return None

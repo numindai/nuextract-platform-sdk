@@ -7,12 +7,19 @@ import re
 from collections import Counter
 from typing import TYPE_CHECKING
 
-import phonenumbers
+try:
+    import phonenumbers
+except ImportError:
+    phonenumbers = None
 
 from .base import SemanticType
 
 if TYPE_CHECKING:
+    from phonenumbers import PhoneNumber as ParsedPhoneNumber
+
     from numind.nuextract_utils.data_validation.models import ErrorJson
+else:
+    ParsedPhoneNumber = object
 
 INDEL_WEIGHTS = (2, 2, 1)
 
@@ -91,6 +98,10 @@ class PhoneNumber(SemanticType):
         _ = input_text
         if error is None:
             return value
+        if not isinstance(value, str):
+            return str(value)
+        if phonenumbers is None:
+            return value
 
         # Either an invalid number that cannot be fixed or a string from which no valid
         # NSN or E.164 number can be extracted, just return None without trying anything
@@ -139,6 +150,11 @@ class PhoneNumber(SemanticType):
         :return: error message if the value is not in the input text, otherwise
             ``None``.
         """
+        if not isinstance(value, str):
+            return ERR_LABEL_PHONE_NUMBER_CANNOT_BE_PARSED
+        if phonenumbers is None:
+            return None
+
         # Try to parse it directly, assuming region code is provided
         with contextlib.suppress(phonenumbers.NumberParseException):
             phone_number = phonenumbers.parse(value)
@@ -181,7 +197,7 @@ class PhoneNumber(SemanticType):
     @staticmethod
     def get_valid_regions_for_phone_number(
         phone_str: str,
-    ) -> dict[str, phonenumbers.PhoneNumber]:
+    ) -> dict[str, ParsedPhoneNumber]:
         """
         Return a dictionary mapping region codes (ISO 3166) to parsed phone numbers.
 
@@ -191,6 +207,9 @@ class PhoneNumber(SemanticType):
         :param phone_str: string containing a phone number.
         :return: dictionary mapping region codes (ISO 3166) to parsed phone numbers.
         """
+        if phonenumbers is None:
+            return {}
+
         valid_phone_numbers = {}
         for region_code in phonenumbers.SUPPORTED_REGIONS:
             for match in phonenumbers.PhoneNumberMatcher(phone_str, region_code):
@@ -204,7 +223,7 @@ class PhoneNumber(SemanticType):
         return valid_phone_numbers
 
 
-def normalize_phone_number(phone_str: str) -> phonenumbers.PhoneNumber | str | None:
+def normalize_phone_number(phone_str: str) -> ParsedPhoneNumber | str | None:
     """
     Normalize a phone number string, preferably to a E.164 format if it is valid.
 
@@ -227,6 +246,8 @@ def normalize_phone_number(phone_str: str) -> phonenumbers.PhoneNumber | str | N
     """
     if not isinstance(phone_str, str):
         return None
+    if phonenumbers is None:
+        return phone_str
 
     # Try with the `PhoneNumberMatcher` to search in messy strings and keep the matched
     # substring
@@ -240,9 +261,9 @@ def normalize_phone_number(phone_str: str) -> phonenumbers.PhoneNumber | str | N
 
 
 def _get_most_likely_phone_number(
-    phone_numbers: dict[str, phonenumbers.PhoneNumber],
+    phone_numbers: dict[str, ParsedPhoneNumber],
     # possible_country_codes: Collection[str] | None = None,
-) -> phonenumbers.PhoneNumber | str:
+) -> ParsedPhoneNumber | str:
     """Determine the most likely region code."""
     # Base case, there is only one possibility
     if len(phone_numbers) == 1:

@@ -2,15 +2,31 @@
 
 from __future__ import annotations
 
+import re
 from collections import Counter
-from difflib import Match
+from difflib import Match, SequenceMatcher
 from string import punctuation
 from typing import TYPE_CHECKING, Literal
 
-import regex
-import stringzilla as sz
-from cdifflib import CSequenceMatcher
-from rapidfuzz.distance import Indel
+try:
+    import regex
+except ImportError:
+    regex = None
+
+try:
+    import stringzilla as sz
+except ImportError:
+    sz = None
+
+try:
+    from cdifflib import CSequenceMatcher
+except ImportError:
+    CSequenceMatcher = SequenceMatcher
+
+try:
+    from rapidfuzz.distance import Indel
+except ImportError:
+    Indel = None
 
 from .base import SemanticType
 from .string_ import (
@@ -67,18 +83,22 @@ UNICODE_RANGES_LANGUAGES_WITHOUT_SPACES_PATTERN = (
     "[" + "".join(UNICODE_RANGES_LANGUAGES_WITHOUT_SPACES) + "]"
 )
 
-# Word splitting regex
-SCRIPT_SEGMENT_PATTERN = regex.compile(
-    r"\p{Han}+|"  # Chinese characters
-    r"\p{Hiragana}+|"  # Japanese hiragana
-    r"\p{Katakana}+|"  # Japanese katakana
-    r"\p{Hangul}+|"  # Korean
-    r"\p{Thai}+|"  # Thai
-    r"\p{Khmer}+|"  # Khmer
-    r"\p{Lao}+|"  # Lao
-    r"\p{Myanmar}+|"  # Burmese
-    # Everything else
-    r"[^\p{Han}\p{Hiragana}\p{Katakana}\p{Hangul}\p{Thai}\p{Khmer}\p{Lao}\p{Myanmar}]+"
+# Word splitting patterns use Unicode script properties when regex is installed.
+SCRIPT_SEGMENT_PATTERN = (
+    regex.compile(
+        r"\p{Han}+|"  # Chinese characters
+        r"\p{Hiragana}+|"  # Japanese hiragana
+        r"\p{Katakana}+|"  # Japanese katakana
+        r"\p{Hangul}+|"  # Korean
+        r"\p{Thai}+|"  # Thai
+        r"\p{Khmer}+|"  # Khmer
+        r"\p{Lao}+|"  # Lao
+        r"\p{Myanmar}+|"  # Burmese
+        # Everything else
+        r"[^\p{Han}\p{Hiragana}\p{Katakana}\p{Hangul}\p{Thai}\p{Khmer}\p{Lao}\p{Myanmar}]+"
+    )
+    if regex is not None
+    else None
 )
 SCRIPTS_CHECK = [
     ("Han", r"\p{Han}"),
@@ -98,21 +118,29 @@ SCRIPTS_CHECK = [
     ("Tamil", r"\p{Tamil}"),
     ("Greek", r"\p{Greek}"),
 ]
-UNIVERSAL_TOKENIZE_PATTERN = regex.compile(
-    r"\p{L}\d+(?:\.\d+)+|"  # Version numbers like v1.2.3
-    r"\d+(?:\.\d+)+|"
-    r"[\p{L}\p{M}\d]+"
+UNIVERSAL_TOKENIZE_PATTERN = (
+    regex.compile(
+        r"\p{L}\d+(?:\.\d+)+|"  # Version numbers like v1.2.3
+        r"\d+(?:\.\d+)+|"
+        r"[\p{L}\p{M}\d]+"
+    )
+    if regex is not None
+    else None
 )
-SCRIPT_TOKENIZE_PATTERNS = {
-    "Han": regex.compile(r"\p{Han}+"),
-    "Hiragana": regex.compile(r"\p{Hiragana}+"),
-    "Katakana": regex.compile(r"\p{Katakana}+"),
-    "Hangul": regex.compile(r"\p{Hangul}+"),
-    "Thai": regex.compile(r"\p{Thai}+"),
-    "Khmer": regex.compile(r"\p{Khmer}+"),
-    "Lao": regex.compile(r"\p{Lao}+"),
-    "Myanmar": regex.compile(r"\p{Myanmar}+"),
-}
+SCRIPT_TOKENIZE_PATTERNS = (
+    {
+        "Han": regex.compile(r"\p{Han}+"),
+        "Hiragana": regex.compile(r"\p{Hiragana}+"),
+        "Katakana": regex.compile(r"\p{Katakana}+"),
+        "Hangul": regex.compile(r"\p{Hangul}+"),
+        "Thai": regex.compile(r"\p{Thai}+"),
+        "Khmer": regex.compile(r"\p{Khmer}+"),
+        "Lao": regex.compile(r"\p{Lao}+"),
+        "Myanmar": regex.compile(r"\p{Myanmar}+"),
+    }
+    if regex is not None
+    else {}
+)
 
 # Constants used to validate a verbatim string fix.
 # One of these two limits must be met to validate a fixes verbatim string. Using both
@@ -237,6 +265,9 @@ class VerbatimString(SemanticType):
 
         # Verbatim string absent from input text --> try to "verbatimize"
         if error.error_message == ERR_LABEL_VERBATIM_STRING_ABSENT_FROM_INPUT:
+            if Indel is None:
+                return None
+
             # If we have a list, try to find the best match in ONE of the strings
             if isinstance(input_text, list):
                 corrected_substring = find_closest_verbatim_string_in_list(
@@ -333,7 +364,7 @@ def is_verbatim_string_valid(verbatim_string: str, text_input: str) -> str | Non
     If any newline (``"\n"``) or return carriage (``"\r"``) is present in the string,
     it is considered non-valid.
 
-    This method uses stringzilla to make the substring search process a bit faster.
+    This method uses stringzilla, when available, to make substring search faster.
 
     :param verbatim_string: string to validate.
     :param text_input: text input to extract the information from the schema from.
@@ -342,11 +373,22 @@ def is_verbatim_string_valid(verbatim_string: str, text_input: str) -> str | Non
     :return: error message in case the string is not considered verbatim.
     """
     if any(
-        sz.contains(verbatim_string, item) for item in ESCAPE_CHARACTERS_NOT_IN_STRING
+        sz.contains(verbatim_string, item)
+        if sz is not None
+        else item in verbatim_string
+        for item in ESCAPE_CHARACTERS_NOT_IN_STRING
     ):
         return ERR_LABEL_VERBATIM_STRING_CONTAIN_INVALID_ESCAPE_CHARACTERS
-    if not sz.contains(text_input, verbatim_string):
-        if sz.contains(text_input.lower(), verbatim_string.lower()):
+    if not (
+        sz.contains(text_input, verbatim_string)
+        if sz is not None
+        else verbatim_string in text_input
+    ):
+        if (
+            sz.contains(text_input.lower(), verbatim_string.lower())
+            if sz is not None
+            else verbatim_string.lower() in text_input.lower()
+        ):
             return ERR_LABEL_VERBATIM_STRING_IN_INPUT_BUT_LETTER_CASE_NOT_RESPECTED
         return ERR_LABEL_VERBATIM_STRING_ABSENT_FROM_INPUT
     return None
@@ -371,6 +413,8 @@ def smart_tokenize(text: str) -> list[str]:
     """
     if not text:
         return []
+    if regex is None:
+        return re.findall(r"\w+(?:\.\w+)*", text)
 
     # Segment text by script boundaries
     segments = []
@@ -392,6 +436,8 @@ def smart_tokenize(text: str) -> list[str]:
 def _detect_script_fast(text: str) -> str | None:
     """Detect script in text using regex, returns ISO 15924 script code."""
     if not text or not text.strip():
+        return None
+    if regex is None:
         return None
 
     # Check for specific scripts first (these are unambiguous)
@@ -418,6 +464,8 @@ def _tokenize_segment(text: str, script: str | None = None) -> list[str]:
     """Tokenize a text segment based on its script."""
     if not text or not text.strip():
         return []
+    if regex is None:
+        return re.findall(r"\w+(?:\.\w+)*", text)
 
     # For scripts without word boundaries, use script-specific patterns
     if script in SCRIPT_TOKENIZE_PATTERNS:
@@ -438,7 +486,7 @@ def _convert_string_to_comply_with_verbatim_string(text_input: str) -> str:
     for space_char in UNICODE_SPACES:
         text_input = text_input.replace(space_char, " ")
     # Collapse multiple ASCII spaces into one (without touching newlines)
-    text_input = regex.sub(r" {2,}", " ", text_input)
+    text_input = re.sub(r" {2,}", " ", text_input)
     # import string  # uncomment to measure against without punctuation
     # translator = str.maketrans('', '', string.punctuation)
     # text_input = text_input.translate(translator)
@@ -603,6 +651,9 @@ def find_closest_verbatim_string(
         level.
     :return: contiguous substring from the ``text``.
     """
+    if Indel is None:
+        return ""
+
     # Original character-level implementation
     matcher = CSequenceMatcher(None, text, substring)
     match = matcher.find_longest_match(0, len(text), 0, len(substring))
@@ -732,7 +783,7 @@ def find_closest_verbatim_string_in_list(
     :param word_level: If True, perform matching at word level
     :return: Best matching contiguous substring found within one of the texts
     """
-    if not text_list:
+    if not text_list or Indel is None:
         return ""
 
     best_match = ""
@@ -760,4 +811,4 @@ def contains_no_space_script(text: str) -> bool:
         typically doesn't use spaces.
     """
     # Compile one big regex pattern from all ranges
-    return bool(regex.search(UNICODE_RANGES_LANGUAGES_WITHOUT_SPACES_PATTERN, text))
+    return bool(re.search(UNICODE_RANGES_LANGUAGES_WITHOUT_SPACES_PATTERN, text))

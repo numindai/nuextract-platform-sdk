@@ -8,7 +8,11 @@ from typing import TYPE_CHECKING
 
 import orjson
 from json_repair import repair_json
-from rapidfuzz.distance import Indel
+
+try:
+    from rapidfuzz.distance import Indel
+except ImportError:
+    Indel = None
 
 from .constants import (
     ERR_INPUT_SCHEMA_LEAF_TYPE_INVALID,
@@ -48,6 +52,9 @@ if TYPE_CHECKING:
 def _find_closest_value_indel(
     enum: Sequence[str], value: str, max_indel_distance: int
 ) -> tuple[int, int] | None:
+    if Indel is None:
+        return None
+
     indel_distances = [
         (idx, indel_dist)
         for idx, input_val in enumerate(enum)
@@ -180,7 +187,8 @@ def _correct_input_schema(
                 correction_made = False
                 for leaf_type in leaf_types:
                     if (
-                        indel_distance_threshold is not None
+                        Indel is not None
+                        and indel_distance_threshold is not None
                         and Indel.distance(erroneous_value, leaf_type)
                         <= indel_distance_threshold
                     ):
@@ -331,6 +339,9 @@ def _correct_output_schema(
         # `output_node_name` lower or equal to indel_distance_node_name.
         # --> get node names that can replace `output_node_name` (which is missing
         # from either the input or output schema)
+        if Indel is None:
+            return None
+
         errors_at_same_location = [
             (idx, error)
             for idx, error in enumerate(errors)

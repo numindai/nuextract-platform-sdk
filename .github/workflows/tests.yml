@@ -26,7 +26,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install the project
-        run: uv sync --extra tests
+        run: uv sync --extra tests data-validation
 
       - name: Run tests
         env:

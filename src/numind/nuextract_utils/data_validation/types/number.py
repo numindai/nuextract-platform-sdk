@@ -6,7 +6,10 @@ from contextlib import suppress
 from tokenize import TokenError
 from typing import TYPE_CHECKING
 
-from sympy import sympify
+try:
+    from sympy import sympify
+except ImportError:
+    sympify = None
 
 from .base import SemanticType
 
@@ -46,11 +49,13 @@ class Number(SemanticType):
         if isinstance(value, (float, int)):
             return value
         if isinstance(value, str):
-            try:
-                math_express_result = sympify(value).evalf()
-                return float(math_express_result)
-            except (TokenError, SyntaxError, TypeError):
-                return cls.convert_str_to_float(value)
+            if sympify is not None:
+                try:
+                    math_express_result = sympify(value).evalf()
+                    return float(math_express_result)
+                except (TokenError, SyntaxError, TypeError):
+                    pass
+            return cls.convert_str_to_float(value)
         return None
 
     @staticmethod

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "numind"
-version = "0.3.3"
+version = "0.3.4"
 description = "SDK to interact with the NuMind models API."
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
@@ -36,18 +36,20 @@ dependencies = [
     "urllib3",
     "orjson",  # for JSON schema conversion methods
     "jsonschema",  # for JSON schema conversion methods
-    "cdifflib >= 1.2.9",  # for NuExtract output validation
-    "emval >= 0.1.3",  # for NuExtract output validation
     "json-repair >= 0.44.1",  # for NuExtract output correction
-    "phonenumbers >= 9.0.24",  # for NuExtract output validation
-    "rapidfuzz >= 3.13.0",  # for NuExtract output correction
-    "regex >= 2026.1.15",  # for NuExtract output validation
-    "schwifty >= 2025.9.0",  # for NuExtract output validation
-    "stringzilla >= 4.6.1",  # for NuExtract output validation
-    "sympy >= 1.14.0",  # for NuExtract output correction
 ]
 
 [project.optional-dependencies]
+data-validation = [
+    "cdifflib >= 1.2.9",  # faster NuExtract output validation
+    "emval >= 0.1.3",  # semantic email validation
+    "phonenumbers >= 9.0.24",  # semantic phone number validation
+    "rapidfuzz >= 3.13.0",  # fuzzy NuExtract output correction
+    "regex >= 2026.1.15",  # advanced Unicode-aware validation
+    "schwifty >= 2025.9.0",  # semantic IBAN and BIC validation
+    "stringzilla >= 4.6.1",  # faster substring validation
+    "sympy >= 1.14.0",  # mathematical expression correction
+]
 build = [
     "openapi-generator-cli",  # to build the client
     "uv",  # to run ruff and packaging
@@ -71,7 +73,7 @@ Issues = "https://github.com/numindai/nuextract-platform-sdk/issues"
 packages = ["src/numind"]
 
 [tool.hatch.envs.test]
-features = ["tests"]  # references to "tests" optional dependencies
+features = ["tests", "data-validation"]
 
 [tool.hatch.envs.test.scripts]
 test = "pytest"

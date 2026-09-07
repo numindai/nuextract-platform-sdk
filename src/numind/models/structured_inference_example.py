@@ -26,8 +26,10 @@ class StructuredInferenceExample(BaseModel):
     StructuredInferenceExample
     """
 
-    example_id: StrictStr = Field(
-        description="Unique example identifier.", alias="exampleId"
+    example_id: Optional[StrictStr] = Field(
+        default=None,
+        description="Unique example identifier, when backed by a saved project example.",
+        alias="exampleId",
     )
     example_name: StrictStr = Field(
         description="Example name (filename if any, or the beginning of the text).",

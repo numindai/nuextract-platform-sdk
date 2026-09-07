@@ -9,8 +9,9 @@ from unittest.mock import AsyncMock, Mock, call
 
 import pytest
 
-from numind import FailedJobStatusResponse, NuMind, NuMindAsync
+from numind import NuMind, NuMindAsync
 from numind.models import ConvertRequest
+from numind.numind import FailedJobStatusResponse
 
 if TYPE_CHECKING:
     from pathlib import Path

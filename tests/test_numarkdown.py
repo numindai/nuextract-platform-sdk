@@ -8,7 +8,8 @@ from unittest.mock import AsyncMock, Mock, call
 
 import pytest
 
-from numind import FailedJobStatusResponse, NuMind, NuMindAsync
+from numind import NuMind, NuMindAsync
+from numind.numind import FailedJobStatusResponse
 
 from .conftest import TEST_CASES_NUMARKDOWN
 

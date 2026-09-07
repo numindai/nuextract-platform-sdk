@@ -9,11 +9,13 @@ from unittest.mock import AsyncMock, Mock, call
 
 import pytest
 
-from numind import NuMind, NuMindAsync
+from numind import FailedJobStatusResponse, NuMind, NuMindAsync
 from numind.models import ConvertRequest
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from numind.models import JobStatusResponse
 
 
 def test_extract_structured_data_submits_and_polls(
@@ -77,17 +79,61 @@ def test_extract_structured_data_submits_and_polls(
     assert result is extraction_result
 
 
-@pytest.mark.asyncio
-async def test_extract_structured_data_async_returns_failed_status(
+def test_extract_structured_data_reports_failed_job_event_stream(
     monkeypatch: pytest.MonkeyPatch,
+    failed_job_status_response: JobStatusResponse,
+) -> None:
+    client = NuMind(client=object())
+    submit_job = Mock(return_value=SimpleNamespace(job_id="job-id"))
+    get_job_status = Mock(return_value=failed_job_status_response)
+    get_job_result = Mock()
+    failed_job_event_stream = (
+        'event: result\ndata: {"code":413,"message":"Request Entity Too Large"}'
+    )
+    get_job_event_stream = Mock(return_value=failed_job_event_stream)
+    monkeypatch.setattr(client, "post_api_structured_extraction_jobs", submit_job)
+    monkeypatch.setattr(client, "get_api_jobs_jobid_status", get_job_status)
+    monkeypatch.setattr(
+        client,
+        "get_api_structured_extraction_jobs_structuredextractionjobid",
+        get_job_result,
+    )
+    monkeypatch.setattr(client, "get_api_jobs_jobid_stream", get_job_event_stream)
+
+    with pytest.raises(RuntimeError) as raised_error:
+        client.extract_structured_data(
+            template={"value": "string"}, input_text="target document"
+        )
+
+    get_job_result.assert_not_called()
+    get_job_event_stream.assert_called_once_with("job-id")
+    expected_failed_job_status = FailedJobStatusResponse(
+        **failed_job_status_response.model_dump(),
+        reason=failed_job_event_stream,
+    )
+    assert str(raised_error.value) == (
+        "NuExtract job job-id ended with status failed:\n"
+        f"{expected_failed_job_status.to_json()}"
+    )
+
+
+@pytest.mark.asyncio
+async def test_extract_structured_data_async_returns_failed_job_status(
+    monkeypatch: pytest.MonkeyPatch,
+    failed_job_status_response: JobStatusResponse,
 ) -> None:
     client = NuMindAsync(client=object())
     incomplete_job_status = SimpleNamespace(completed_at=None, status="running")
-    failed_job_status = SimpleNamespace(completed_at="now", status="failed")
 
     submit_job = AsyncMock(return_value=SimpleNamespace(job_id="job-id"))
-    get_job_status = AsyncMock(side_effect=[incomplete_job_status, failed_job_status])
+    get_job_status = AsyncMock(
+        side_effect=[incomplete_job_status, failed_job_status_response]
+    )
     get_job_result = AsyncMock()
+    failed_job_event_stream = (
+        'event: result\ndata: {"code":413,"message":"Request Entity Too Large"}'
+    )
+    get_job_event_stream = AsyncMock(return_value=failed_job_event_stream)
     sleep = AsyncMock()
     monkeypatch.setattr(client, "post_api_structured_extraction_jobs", submit_job)
     monkeypatch.setattr(client, "get_api_jobs_jobid_status", get_job_status)
@@ -96,12 +142,14 @@ async def test_extract_structured_data_async_returns_failed_status(
         "get_api_structured_extraction_jobs_structuredextractionjobid",
         get_job_result,
     )
+    monkeypatch.setattr(client, "get_api_jobs_jobid_stream", get_job_event_stream)
     monkeypatch.setattr("numind.numind.asyncio.sleep", sleep)
 
     result = await client.extract_structured_data(
         template={"value": "string"},
         input_text="target document",
         job_status_polling_delay=0.5,
+        raise_on_job_fail=False,
     )
 
     submit_job.assert_awaited_once_with(
@@ -122,4 +170,8 @@ async def test_extract_structured_data_async_returns_failed_status(
     ]
     sleep.assert_awaited_once_with(0.5)
     get_job_result.assert_not_awaited()
-    assert result is failed_job_status
+    get_job_event_stream.assert_awaited_once_with("job-id")
+    assert result == FailedJobStatusResponse(
+        **failed_job_status_response.model_dump(),
+        reason=failed_job_event_stream,
+    )

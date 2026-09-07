@@ -199,6 +199,8 @@ print(response.result)
 
 `extract_structured_data` and `extract_content` poll job status every four seconds by
 default. Use `job_status_polling_delay` to select a different interval in seconds.
+Failed jobs raise `RuntimeError` by default. Set `raise_on_job_fail=False` to return a
+`FailedJobStatusResponse` containing the complete job status and its failure reason.
 
 # Documentation
 
@@ -415,4 +417,3 @@ Authentication schemes defined for the API:
  - **openid**: OpenID connect
  - **profile**: view profile
  - **email**: view email
-

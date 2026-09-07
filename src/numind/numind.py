@@ -82,6 +82,12 @@ STRUCTURED_EXTRACTION_SETTING_NAMES = {
 }
 
 
+class FailedJobStatusResponse(JobStatusResponse):
+    """Represent a terminal failed job together with its reported reason."""
+
+    reason: str
+
+
 class NuMind(
     DocumentsApi,
     StructuredExtractionExamplesApi,
@@ -115,8 +121,9 @@ class NuMind(
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
         job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
         **kwargs,
-    ) -> StructuredExtractionResponse | JobStatusResponse:
+    ) -> StructuredExtractionResponse | FailedJobStatusResponse:
         """
         Extract structured data from an input document.
 
@@ -137,11 +144,15 @@ class NuMind(
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
         :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
         :param kwargs: structured extraction settings, such as ``temperature``, and
             submission options such as ``timeout``.
-        :return: the API response.
+        :return: extraction result, or failed job details when raising is disabled.
         :raises ValueError: if exactly one document input is not provided.
         :raises KeyError: if an unknown extraction setting is provided.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
         job_timeout = kwargs.pop("timeout", None)
         extraction_request_json, document_bytes, example_files = (
@@ -164,7 +175,12 @@ class NuMind(
 
         job_status = self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            return job_status
+            failed_job_event_stream = self.get_api_jobs_jobid_stream(job_id)
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
         return self.get_api_structured_extraction_jobs_structuredextractionjobid(job_id)
 
     def _poll_job_status(
@@ -244,23 +260,33 @@ class NuMind(
         self,
         input_file: Path | str | bytes | None = None,
         job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
         **kwargs,
-    ) -> ContentExtractionResponse | JobStatusResponse:
+    ) -> ContentExtractionResponse | FailedJobStatusResponse:
         """
         Extract Markdown content from an input file.
 
         :param input_file: input file to extract content from, provided as a
             ``pathlib.Path`` or string path, or bytes.
         :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: content extraction result or unsuccessful terminal job status.
+        :return: extraction result, or failed job details when raising is disabled.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
         input_bytes, _ = _parse_input_file(input_file)
         job_id = self.post_api_content_extraction_jobs(input_bytes, **kwargs).job_id
         job_status = self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            return job_status
+            failed_job_event_stream = self.get_api_jobs_jobid_stream(job_id)
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
         return self.get_api_content_extraction_jobs_contentextractionjobid(job_id)
 
 
@@ -297,8 +323,9 @@ class NuMindAsync(
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
         job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
         **kwargs,
-    ) -> StructuredExtractionResponse | JobStatusResponse:
+    ) -> StructuredExtractionResponse | FailedJobStatusResponse:
         """
         Extract structured data from an input document.
 
@@ -319,11 +346,15 @@ class NuMindAsync(
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
         :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
         :param kwargs: structured extraction settings, such as ``temperature``, and
             submission options such as ``timeout``.
-        :return: the API response.
+        :return: extraction result, or failed job details when raising is disabled.
         :raises ValueError: if exactly one document input is not provided.
         :raises KeyError: if an unknown extraction setting is provided.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
         job_timeout = kwargs.pop("timeout", None)
         extraction_request_json, document_bytes, example_files = (
@@ -348,7 +379,12 @@ class NuMindAsync(
 
         job_status = await self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            return job_status
+            failed_job_event_stream = await self.get_api_jobs_jobid_stream(job_id)
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
         return await self.get_api_structured_extraction_jobs_structuredextractionjobid(
             job_id
         )
@@ -434,17 +470,22 @@ class NuMindAsync(
         self,
         input_file: Path | str | bytes | None = None,
         job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
         **kwargs,
-    ) -> ContentExtractionResponse | JobStatusResponse:
+    ) -> ContentExtractionResponse | FailedJobStatusResponse:
         """
         Extract Markdown content from an input file.
 
         :param input_file: input file to extract content from, provided as a
             ``pathlib.Path`` or string path, or bytes.
         :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: content extraction result or unsuccessful terminal job status.
+        :return: extraction result, or failed job details when raising is disabled.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
         input_bytes, _ = _parse_input_file(input_file)
         job_id = (
@@ -452,7 +493,12 @@ class NuMindAsync(
         ).job_id
         job_status = await self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            return job_status
+            failed_job_event_stream = await self.get_api_jobs_jobid_stream(job_id)
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
         return await self.get_api_content_extraction_jobs_contentextractionjobid(job_id)
 
 
@@ -593,3 +639,30 @@ def _parse_template(template: dict | BaseModel | str) -> dict:
         else:
             template = template.model_dump()
     return template
+
+
+def _raise_or_return_failed_job_response(
+    job_status: JobStatusResponse,
+    reason: str,
+    raise_on_job_fail: bool,
+) -> FailedJobStatusResponse:
+    """
+    Build a failed-job response and optionally raise it as a runtime error.
+
+    :param job_status: terminal status returned by the jobs API.
+    :param reason: error details returned by the job event stream.
+    :param raise_on_job_fail: whether to raise instead of returning the response.
+    :return: failed job details when raising is disabled.
+    :raises RuntimeError: if ``raise_on_job_fail`` is true.
+    """
+    failed_job_status = FailedJobStatusResponse(
+        **job_status.model_dump(),
+        reason=reason,
+    )
+    if raise_on_job_fail:
+        failed_job_error_message = (
+            f"NuExtract job {failed_job_status.id} ended with status "
+            f"{failed_job_status.status}:\n{failed_job_status.to_json()}"
+        )
+        raise RuntimeError(failed_job_error_message)
+    return failed_job_status

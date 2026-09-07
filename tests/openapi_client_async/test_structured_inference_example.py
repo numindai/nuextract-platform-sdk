@@ -42,7 +42,6 @@ class TestStructuredInferenceExample(unittest.TestCase):
             )
         else:
             return StructuredInferenceExample(
-                example_id = '',
                 example_name = '',
                 tokens_count = 56,
         )

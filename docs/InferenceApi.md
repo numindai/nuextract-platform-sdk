@@ -135,6 +135,8 @@ Name | Type | Description  | Notes
  If the model returns an invalid response, the ***result*** contains an empty template.
  In this case, the raw response is additionally included in ***rawResponse*** field,
  together with the error message.
+ If the model does not finish normally, the job result is returned with HTTP code 206,
+ even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.
 
 #### Error Responses:
 `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.
@@ -264,6 +266,8 @@ Name | Type | Description  | Notes
  If the model returns an invalid response, the ***result*** contains an empty template.
  In this case, the raw response is additionally included in ***rawResponse*** field,
  together with the error message.
+ If the model does not finish normally, the job result is returned with HTTP code 206,
+ even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.
  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.
 
 #### Error Responses:

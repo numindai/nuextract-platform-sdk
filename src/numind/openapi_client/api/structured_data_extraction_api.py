@@ -68,7 +68,7 @@ class StructuredDataExtractionApi:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
-          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
+          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
@@ -144,7 +144,7 @@ class StructuredDataExtractionApi:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
-          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
+          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
@@ -220,7 +220,7 @@ class StructuredDataExtractionApi:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
-          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
+          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
@@ -310,6 +310,402 @@ class StructuredDataExtractionApi:
         return self.api_client.param_serialize(
             method="GET",
             resource_path="/api/structured-extraction/jobs/{structuredExtractionJobId}",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    def post_api_structured_extraction_jobs(
+        self,
+        request: Annotated[
+            StrictStr,
+            Field(
+                description="String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`."
+            ),
+        ],
+        document: Annotated[
+            Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+            Field(description="Target document to process."),
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        example_files: Annotated[
+            Optional[
+                List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]
+            ],
+            Field(
+                description="Example documents, ordered to match `request.examples`. Attach exactly one file for each example result."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> JobIdResponse:
+        """
+        post_api_structured_extraction_jobs
+
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `degradedMode`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+
+        :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
+        :type request: str
+        :param document: Target document to process. (required)
+        :type document: bytes
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param example_files: Example documents, ordered to match `request.examples`. Attach exactly one file for each example result.
+        :type example_files: List[bytes]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_structured_extraction_jobs_serialize(
+            request=request,
+            document=document,
+            x_organization_id=x_organization_id,
+            timeout=timeout,
+            example_files=example_files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def post_api_structured_extraction_jobs_with_http_info(
+        self,
+        request: Annotated[
+            StrictStr,
+            Field(
+                description="String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`."
+            ),
+        ],
+        document: Annotated[
+            Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+            Field(description="Target document to process."),
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        example_files: Annotated[
+            Optional[
+                List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]
+            ],
+            Field(
+                description="Example documents, ordered to match `request.examples`. Attach exactly one file for each example result."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[JobIdResponse]:
+        """
+        post_api_structured_extraction_jobs
+
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `degradedMode`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+
+        :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
+        :type request: str
+        :param document: Target document to process. (required)
+        :type document: bytes
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param example_files: Example documents, ordered to match `request.examples`. Attach exactly one file for each example result.
+        :type example_files: List[bytes]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_structured_extraction_jobs_serialize(
+            request=request,
+            document=document,
+            x_organization_id=x_organization_id,
+            timeout=timeout,
+            example_files=example_files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def post_api_structured_extraction_jobs_without_preload_content(
+        self,
+        request: Annotated[
+            StrictStr,
+            Field(
+                description="String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`."
+            ),
+        ],
+        document: Annotated[
+            Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+            Field(description="Target document to process."),
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        example_files: Annotated[
+            Optional[
+                List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]
+            ],
+            Field(
+                description="Example documents, ordered to match `request.examples`. Attach exactly one file for each example result."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        post_api_structured_extraction_jobs
+
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `degradedMode`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+
+        :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
+        :type request: str
+        :param document: Target document to process. (required)
+        :type document: bytes
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param example_files: Example documents, ordered to match `request.examples`. Attach exactly one file for each example result.
+        :type example_files: List[bytes]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_structured_extraction_jobs_serialize(
+            request=request,
+            document=document,
+            x_organization_id=x_organization_id,
+            timeout=timeout,
+            example_files=example_files,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _post_api_structured_extraction_jobs_serialize(
+        self,
+        request,
+        document,
+        x_organization_id,
+        timeout,
+        example_files,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            "exampleFiles": "csv",
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
+        # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
+        # process the form parameters
+        if request is not None:
+            _form_params.append(("request", request))
+        if document is not None:
+            _files["document"] = document
+        if example_files is not None:
+            _files["exampleFiles"] = example_files
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json", "text/plain"]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params["Content-Type"] = _content_type
+        else:
+            _default_content_type = self.api_client.select_header_content_type(
+                ["multipart/form-data"]
+            )
+            if _default_content_type is not None:
+                _header_params["Content-Type"] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/api/structured-extraction/jobs",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -415,7 +811,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -590,7 +986,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -765,7 +1161,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str

@@ -48,6 +48,7 @@ def test_extract_structured_data_submits_and_polls(
             (example_path, {"value": "second"}),
         ],
         convert_request=ConvertRequest(rasterizationDPI=200),
+        job_status_polling_delay=0.25,
         max_output_tokens=500,
         timeout="10m",
     )
@@ -71,7 +72,7 @@ def test_extract_structured_data_submits_and_polls(
         ],
     }
     assert get_job_status.call_args_list == [call("job-id"), call("job-id")]
-    sleep.assert_called_once_with(1)
+    sleep.assert_called_once_with(0.25)
     get_job_result.assert_called_once_with("job-id")
     assert result is extraction_result
 
@@ -98,7 +99,9 @@ async def test_extract_structured_data_async_returns_failed_status(
     monkeypatch.setattr("numind.numind.asyncio.sleep", sleep)
 
     result = await client.extract_structured_data(
-        template={"value": "string"}, input_text="target document"
+        template={"value": "string"},
+        input_text="target document",
+        job_status_polling_delay=0.5,
     )
 
     submit_job.assert_awaited_once_with(
@@ -117,6 +120,6 @@ async def test_extract_structured_data_async_returns_failed_status(
         call("job-id"),
         call("job-id"),
     ]
-    sleep.assert_awaited_once_with(1)
+    sleep.assert_awaited_once_with(0.5)
     get_job_result.assert_not_awaited()
     assert result is failed_job_status

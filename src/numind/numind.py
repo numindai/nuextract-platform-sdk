@@ -67,9 +67,8 @@ from .openapi_client_async import (
     TemplateGenerationApi as TemplateGenerationApiAsync,
 )
 
-MESSAGE_STATUS_COMPLETED = "result"
 JOB_STATUS_COMPLETED = "completed"
-JOB_POLLING_DELAY_SECONDS = 1
+JOB_POLLING_DELAY_SECONDS = 4
 STRUCTURED_EXTRACTION_SETTING_NAMES = {
     "temperature": "temperature",
     "dpi": "rasterizationDPI",
@@ -115,6 +114,7 @@ class NuMind(
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
         **kwargs,
     ) -> StructuredExtractionResponse | JobStatusResponse:
         """
@@ -136,6 +136,7 @@ class NuMind(
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
+        :param job_status_polling_delay: seconds to wait between job status requests.
         :param kwargs: structured extraction settings, such as ``temperature``, and
             submission options such as ``timeout``.
         :return: the API response.
@@ -161,23 +162,33 @@ class NuMind(
             example_files=example_files or None,
         ).job_id
 
-        # Wait until the job reaches a terminal state before requesting its result.
-        while True:
-            job_status = self.get_api_jobs_jobid_status(job_id)
-            if job_status.completed_at is not None:
-                break
-            time.sleep(JOB_POLLING_DELAY_SECONDS)
-
+        job_status = self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
             return job_status
         return self.get_api_structured_extraction_jobs_structuredextractionjobid(job_id)
+
+    def _poll_job_status(
+        self, job_id: str, job_status_polling_delay: float
+    ) -> JobStatusResponse:
+        """
+        Poll a job until it reaches a terminal state.
+
+        :param job_id: asynchronous job identifier.
+        :param job_status_polling_delay: seconds between status requests.
+        :return: terminal job status.
+        """
+        while True:
+            job_status = self.get_api_jobs_jobid_status(job_id)
+            if job_status.completed_at is not None:
+                return job_status
+            time.sleep(job_status_polling_delay)
 
     def add_examples_to_structured_extraction_project(
         self,
         project_id: str,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
         convert_request: ConvertRequest | None = None,
-    ) -> tuple[list[str], list[str]]:
+    ) -> tuple[list[str | None], list[str]]:
         """
         Add ICL (In-Context Learning) examples to a project.
 
@@ -188,8 +199,9 @@ class NuMind(
         :param convert_request: ``numind.models.ConvertRequest`` object holding the file
             conversion configuration, such as the DPI. If ``None`` is provided, the
             project's conversion configuration will be used. (default: ``None``)
+        :return: file IDs (``None`` for text inputs) and document IDs.
         """
-        files_ids, documents_ids = [], []
+        file_ids, document_ids = [], []
         if convert_request is None:
             project_info = self.get_api_structured_extraction_structuredprojectid(
                 project_id
@@ -198,55 +210,58 @@ class NuMind(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
             )
         for example_input, example_output in examples:
-            # Prepare the example input and output, upload the input as file
-            example_output = _parse_template(example_output)
-            if isinstance(example_input, (Path, bytes)):
-                example_input, file_name = _parse_input_file(example_input)
-                file_id = self.post_api_files(file_name, example_input).file_id
+            prepared_example_input, example_file_name, parsed_example_output = (
+                _prepare_structured_example(example_input, example_output)
+            )
+
+            # Upload files or create text documents for the normalized input.
+            if isinstance(prepared_example_input, bytes):
+                file_id = self.post_api_files(
+                    example_file_name, prepared_example_input
+                ).file_id
                 document_id = self.post_api_files_fileid_convert_to_document(
                     file_id, convert_request
                 ).doc_info.actual_instance.document_id
             else:
                 file_id = None
                 document_id = self.post_api_documents_text(
-                    TextRequest(text=example_input)
+                    TextRequest(text=prepared_example_input)
                 ).doc_info.actual_instance.document_id
-            files_ids.append(file_id)
-            documents_ids.append(document_id)
+            file_ids.append(file_id)
+            document_ids.append(document_id)
 
             # Add the example to the project
             self.post_api_structured_extraction_structuredprojectid_examples(
                 project_id,
                 CreateOrUpdateStructuredExampleRequest(
-                    documentId=StrictStr(document_id), result=example_output
+                    documentId=StrictStr(document_id), result=parsed_example_output
                 ),
             )
 
-        return files_ids, documents_ids
+        return file_ids, document_ids
 
     def extract_content(
-        self, input_file: Path | str | bytes | None = None, **kwargs
-    ) -> ContentExtractionResponse:
+        self,
+        input_file: Path | str | bytes | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        **kwargs,
+    ) -> ContentExtractionResponse | JobStatusResponse:
         """
         Extract Markdown content from an input file.
 
         :param input_file: input file to extract content from, provided as a
             ``pathlib.Path`` or string path, or bytes.
+        :param job_status_polling_delay: seconds to wait between job status requests.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: ``numind.models.ContentExtractionResponse`` object.
+        :return: content extraction result or unsuccessful terminal job status.
         """
-        input_, _ = _parse_input_file(input_file)
-        job_id_response = self.post_api_content_extraction_jobs(input_, **kwargs)
-        job_output = self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
-        )
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return ContentExtractionResponse(
-            **json.loads(json.loads(messages[-1]["data"])["outputData"])
-        )
+        input_bytes, _ = _parse_input_file(input_file)
+        job_id = self.post_api_content_extraction_jobs(input_bytes, **kwargs).job_id
+        job_status = self._poll_job_status(job_id, job_status_polling_delay)
+        if job_status.status != JOB_STATUS_COMPLETED:
+            return job_status
+        return self.get_api_content_extraction_jobs_contentextractionjobid(job_id)
 
 
 class NuMindAsync(
@@ -281,6 +296,7 @@ class NuMindAsync(
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
         **kwargs,
     ) -> StructuredExtractionResponse | JobStatusResponse:
         """
@@ -302,6 +318,7 @@ class NuMindAsync(
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
+        :param job_status_polling_delay: seconds to wait between job status requests.
         :param kwargs: structured extraction settings, such as ``temperature``, and
             submission options such as ``timeout``.
         :return: the API response.
@@ -329,25 +346,35 @@ class NuMindAsync(
             )
         ).job_id
 
-        # Wait until the job reaches a terminal state before requesting its result.
-        while True:
-            job_status = await self.get_api_jobs_jobid_status(job_id)
-            if job_status.completed_at is not None:
-                break
-            await asyncio.sleep(JOB_POLLING_DELAY_SECONDS)
-
+        job_status = await self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
             return job_status
         return await self.get_api_structured_extraction_jobs_structuredextractionjobid(
             job_id
         )
 
+    async def _poll_job_status(
+        self, job_id: str, job_status_polling_delay: float
+    ) -> JobStatusResponse:
+        """
+        Poll a job until it reaches a terminal state.
+
+        :param job_id: asynchronous job identifier.
+        :param job_status_polling_delay: seconds between status requests.
+        :return: terminal job status.
+        """
+        while True:
+            job_status = await self.get_api_jobs_jobid_status(job_id)
+            if job_status.completed_at is not None:
+                return job_status
+            await asyncio.sleep(job_status_polling_delay)
+
     async def add_examples_to_structured_extraction_project(
         self,
         project_id: str,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
         convert_request: ConvertRequest | None = None,
-    ) -> tuple[list[str], list[str]]:
+    ) -> tuple[list[str | None], list[str]]:
         """
         Add ICL (In-Context Learning) examples to a project.
 
@@ -358,8 +385,9 @@ class NuMindAsync(
         :param convert_request: ``numind.models.ConvertRequest`` object holding the file
             conversion configuration, such as the DPI. If ``None`` is provided, the
             project's conversion configuration will be used. (default: ``None``)
+        :return: file IDs (``None`` for text inputs) and document IDs.
         """
-        files_ids, documents_ids = [], []
+        file_ids, document_ids = [], []
         if convert_request is None:
             project_info = await self.get_api_structured_extraction_structuredprojectid(
                 project_id
@@ -368,11 +396,15 @@ class NuMindAsync(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
             )
         for example_input, example_output in examples:
-            # Prepare the example input and output, upload the input as file
-            example_output = _parse_template(example_output)
-            if isinstance(example_input, (Path, bytes)):
-                example_input, file_name = _parse_input_file(example_input)
-                file_id = (await self.post_api_files(file_name, example_input)).file_id
+            prepared_example_input, example_file_name, parsed_example_output = (
+                _prepare_structured_example(example_input, example_output)
+            )
+
+            # Upload files or create text documents for the normalized input.
+            if isinstance(prepared_example_input, bytes):
+                file_id = (
+                    await self.post_api_files(example_file_name, prepared_example_input)
+                ).file_id
                 document_id = (
                     await self.post_api_files_fileid_convert_to_document(
                         file_id, convert_request
@@ -381,44 +413,47 @@ class NuMindAsync(
             else:
                 file_id = None
                 document_id = (
-                    await self.post_api_documents_text(TextRequest(text=example_input))
+                    await self.post_api_documents_text(
+                        TextRequest(text=prepared_example_input)
+                    )
                 ).doc_info.actual_instance.document_id
-            files_ids.append(file_id)
-            documents_ids.append(document_id)
+            file_ids.append(file_id)
+            document_ids.append(document_id)
 
             # Add the example to the project
             await self.post_api_structured_extraction_structuredprojectid_examples(
                 project_id,
                 CreateOrUpdateStructuredExampleRequest(
-                    documentId=StrictStr(document_id), result=example_output
+                    documentId=StrictStr(document_id), result=parsed_example_output
                 ),
             )
 
-        return files_ids, documents_ids
+        return file_ids, document_ids
 
     async def extract_content(
-        self, input_file: Path | str | bytes | None = None, **kwargs
-    ) -> ContentExtractionResponse:
+        self,
+        input_file: Path | str | bytes | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        **kwargs,
+    ) -> ContentExtractionResponse | JobStatusResponse:
         """
         Extract Markdown content from an input file.
 
         :param input_file: input file to extract content from, provided as a
             ``pathlib.Path`` or string path, or bytes.
+        :param job_status_polling_delay: seconds to wait between job status requests.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: ``numind.models.ContentExtractionResponse`` object.
+        :return: content extraction result or unsuccessful terminal job status.
         """
-        input_, _ = _parse_input_file(input_file)
-        job_id_response = await self.post_api_content_extraction_jobs(input_, **kwargs)
-        job_output = await self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
-        )
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return ContentExtractionResponse(
-            **json.loads(json.loads(messages[-1]["data"])["outputData"])
-        )
+        input_bytes, _ = _parse_input_file(input_file)
+        job_id = (
+            await self.post_api_content_extraction_jobs(input_bytes, **kwargs)
+        ).job_id
+        job_status = await self._poll_job_status(job_id, job_status_polling_delay)
+        if job_status.status != JOB_STATUS_COMPLETED:
+            return job_status
+        return await self.get_api_content_extraction_jobs_contentextractionjobid(job_id)
 
 
 def _prepare_client(
@@ -501,22 +536,41 @@ def _prepare_structured_extraction_job(
 
     example_files = []
     if examples:
-        extraction_request["examples"] = [
-            {"result": _parse_template(example_output)}
-            for _, example_output in examples
-        ]
-        for example_input, _ in examples:
-            if isinstance(example_input, (Path, bytes)):
-                example_bytes, example_file_name = _parse_input_file(example_input)
+        parsed_example_results = []
+        for example_input, example_output in examples:
+            prepared_example_input, example_file_name, parsed_example_output = (
+                _prepare_structured_example(example_input, example_output)
+            )
+            parsed_example_results.append({"result": parsed_example_output})
+            if isinstance(prepared_example_input, bytes):
                 example_files.append(
-                    (example_file_name, example_bytes)
+                    (example_file_name, prepared_example_input)
                     if example_file_name
-                    else example_bytes
+                    else prepared_example_input
                 )
             else:
-                example_files.append(example_input.encode())
+                example_files.append(prepared_example_input.encode())
+        extraction_request["examples"] = parsed_example_results
 
     return json.dumps(extraction_request), document_bytes, example_files
+
+
+def _prepare_structured_example(
+    example_input: str | Path | bytes,
+    example_output: dict | BaseModel | str,
+) -> tuple[str | bytes, str, dict]:
+    """
+    Normalize one structured extraction example.
+
+    :param example_input: text, path, or bytes used as the example document.
+    :param example_output: expected structured extraction output.
+    :return: normalized input, file name when applicable, and parsed output.
+    """
+    parsed_example_output = _parse_template(example_output)
+    if isinstance(example_input, (Path, bytes)):
+        example_bytes, example_file_name = _parse_input_file(example_input)
+        return example_bytes, example_file_name, parsed_example_output
+    return example_input, "", parsed_example_output
 
 
 def _parse_input_file(input_file: Path | str | bytes) -> tuple[bytes, str]:
@@ -539,33 +593,3 @@ def _parse_template(template: dict | BaseModel | str) -> dict:
         else:
             template = template.model_dump()
     return template
-
-
-def _parse_sse_string(raw: str) -> list[dict[str, str]]:
-    messages = []
-    msg = {}
-    data_buf = []
-    for line in raw.splitlines():
-        if not line.strip():  # blank line = end of message
-            if data_buf or msg:
-                msg["data"] = "\n".join(data_buf)
-                messages.append(msg)
-                msg, data_buf = {}, []
-            continue
-
-        if line.startswith(":"):  # comment line
-            continue
-
-        field, _, value = line.partition(":")
-        value = value.lstrip(" ")
-        if field == "data":
-            data_buf.append(value)
-        else:
-            msg[field] = value
-
-    # handle final pending message
-    if data_buf or msg:
-        msg["data"] = "\n".join(data_buf)
-        messages.append(msg)
-
-    return messages

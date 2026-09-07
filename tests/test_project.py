@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -68,12 +69,10 @@ def test_add_examples_to_project(
     project_id = request.config.cache.get("project_id", None)
     examples = request.config.cache.get("examples", None)
     for idx in range(len(examples)):  # convert str paths to Path
-        try:
+        with suppress(OSError, RuntimeError):
             example_path = Path(examples[idx][0])
             if example_path.is_file():
                 examples[idx] = (example_path, examples[idx][1])
-        except (OSError, RuntimeError):
-            continue
     _ = numind_client.add_examples_to_structured_extraction_project(
         project_id, examples
     )
@@ -84,11 +83,19 @@ def test_infer_text(numind_client: NuMind, request: pytest.FixtureRequest) -> No
     project_id = request.config.cache.get("project_id", None)
     text_cases = request.config.cache.get("text_cases", None)
     for input_text in text_cases:
-        result = numind_client.extract_structured_data(
-            project_id, input_text=input_text
+        job_id = numind_client.post_api_structured_extraction_structuredprojectid_jobs(
+            project_id, input_text.encode()
+        ).job_id
+        numind_client.get_api_jobs_jobid_stream(
+            job_id, _headers={"Accept": "text/event-stream"}
+        )
+        result = (
+            numind_client.get_api_structured_extraction_jobs_structuredextractionjobid(
+                job_id
+            )
         )
         if not isinstance(result, StructuredExtractionResponse):
-            raise ValueError(_ := "One request did not succeed")
+            raise TypeError(_ := "One request did not succeed")
 
 
 @pytest.mark.asyncio
@@ -99,13 +106,33 @@ async def test_infer_text_async(
     project_id = request.config.cache.get("project_id", None)
     text_cases = request.config.cache.get("text_cases", None)
 
-    tasks = [
-        numind_client_async.extract_structured_data(project_id, input_text=input_text)
-        for input_text in text_cases
-    ]
-    results = await asyncio.gather(*tasks)
+    job_id_responses = await asyncio.gather(
+        *[
+            numind_client_async.post_api_structured_extraction_structuredprojectid_jobs(
+                project_id, input_text.encode()
+            )
+            for input_text in text_cases
+        ]
+    )
+    await asyncio.gather(
+        *[
+            numind_client_async.get_api_jobs_jobid_stream(
+                job_id_response.job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
+            for job_id_response in job_id_responses
+        ]
+    )
+    results = await asyncio.gather(
+        *[
+            numind_client_async.get_api_structured_extraction_jobs_structuredextractionjobid(
+                job_id_response.job_id
+            )
+            for job_id_response in job_id_responses
+        ]
+    )
     if any(not isinstance(res, StructuredExtractionResponse) for res in results):
-        raise ValueError(_ := "One request did not succeed")
+        raise TypeError(_ := "One request did not succeed")
 
 
 @pytest.mark.dependency(name="infer_file", depends=["create_project"])
@@ -116,12 +143,19 @@ def test_infer_file(numind_client: NuMind, request: pytest.FixtureRequest) -> No
         file_path = Path(file_path)
         with file_path.open("rb") as file:
             input_file = file.read()
-        # TODO test async route, check status is among the expected ones
-        result = numind_client.extract_structured_data(
-            project_id, input_file=input_file, **EXTRACT_KWARGS
+        job_id = numind_client.post_api_structured_extraction_structuredprojectid_jobs(
+            project_id, input_file, **EXTRACT_KWARGS
+        ).job_id
+        numind_client.get_api_jobs_jobid_stream(
+            job_id, _headers={"Accept": "text/event-stream"}
+        )
+        result = (
+            numind_client.get_api_structured_extraction_jobs_structuredextractionjobid(
+                job_id
+            )
         )
         if not isinstance(result, StructuredExtractionResponse):
-            raise ValueError(_ := "One request did not succeed")
+            raise TypeError(_ := "One request did not succeed")
 
 
 # TODO remove dependency, make it run whether these tests failed or not

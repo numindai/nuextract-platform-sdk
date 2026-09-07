@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
+import time
 from pathlib import Path
 
 from pydantic import BaseModel, StrictStr
 
-from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
+from .constants import NUMIND_API_KEY_ENV_VAR_NAME
 from .models import (
     ContentExtractionResponse,
     ConvertRequest,
     CreateOrUpdateStructuredExampleRequest,
-    CreateStructuredProjectRequest,
     JobStatusResponse,
     StructuredExtractionResponse,
     TextRequest,
@@ -60,7 +61,7 @@ from .openapi_client_async import (
     StructuredExtractionExamplesApi as StructuredExtractionExamplesApiAsync,
 )
 from .openapi_client_async import (
-    StructuredExtractionProjectManagementApi as StructuredExtractionProjectManagementApiAsync,
+    StructuredExtractionProjectManagementApi as StructuredExtractionProjectManagementApiAsync,  # noqa: E501
 )
 from .openapi_client_async import (
     TemplateGenerationApi as TemplateGenerationApiAsync,
@@ -68,6 +69,18 @@ from .openapi_client_async import (
 
 MESSAGE_STATUS_COMPLETED = "result"
 JOB_STATUS_COMPLETED = "completed"
+JOB_POLLING_DELAY_SECONDS = 1
+STRUCTURED_EXTRACTION_SETTING_NAMES = {
+    "temperature": "temperature",
+    "dpi": "rasterizationDPI",
+    "max_output_tokens": "maxOutputTokens",
+    "degraded_mode": "degradedMode",
+    "max_example_token_number": "maxExampleTokenNumber",
+    "max_example_number": "maxExampleNumber",
+    "min_example_similarity": "minExampleSimilarity",
+    "enable_thinking": "enableThinking",
+    "random_seed": "randomSeed",
+}
 
 
 class NuMind(
@@ -96,8 +109,7 @@ class NuMind(
 
     def extract_structured_data(
         self,
-        project_id: str | None = None,
-        template: dict | BaseModel | str | None = None,
+        template: dict | BaseModel | str,
         instructions: str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
@@ -106,94 +118,59 @@ class NuMind(
         **kwargs,
     ) -> StructuredExtractionResponse | JobStatusResponse:
         """
-        Send an inference request to the API for either a text or a file input.
+        Extract structured data from an input document.
 
-        Either the ``project_id`` or ``template`` argument has to be provided. The
-        former references to an existing project to which a template and examples are
-        associated. The latter allows to quickly infer from a template and input data
-        on the fly.
+        Submit a projectless extraction job and wait for its result.
 
-        :param project_id: id of the associated project. (default: ``None``)
         :param template: template of the structured output describing the information to
-            extract. (default: ``None``)
+            extract.
         :param instructions: instructions the model should follow when extracting
             structured data.
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
         :param examples: ICL (In-Context Learning) examples to add to the inference.
-            This argument is only used when this method is used "on the fly" with no
-            attached project, i.e. when ``project_id`` is not provided.
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
-        :param kwargs: additional keyword arguments to pass to the
-            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
-            method, such as ``temperature``.
+        :param kwargs: structured extraction settings, such as ``temperature``, and
+            submission options such as ``timeout``.
         :return: the API response.
+        :raises ValueError: if exactly one document input is not provided.
+        :raises KeyError: if an unknown extraction setting is provided.
         """
-        if bool(input_text is None) ^ bool(input_file is not None):
-            msg = (
-                "An input has to be provided with either the `input_text` or"
-                "`input_file_path` argument."
+        job_timeout = kwargs.pop("timeout", None)
+        extraction_request_json, document_bytes, example_files = (
+            _prepare_structured_extraction_job(
+                template,
+                instructions,
+                input_text,
+                input_file,
+                examples,
+                convert_request,
+                kwargs,
             )
-            raise ValueError(msg)
-
-        # If the project_id argument wasn't provided, create a temporary project
-        if not (project_id_provided := project_id is not None):
-            if template is None:
-                msg = "Either a `project_id` or `template` as to be provided."
-                raise ValueError(msg)
-            template = _parse_template(template)
-            project_id = self.post_api_structured_extraction(
-                CreateStructuredProjectRequest(
-                    name=TMP_PROJECT_NAME,
-                    description="",
-                    template=template,
-                    instructions=instructions,
-                )
-            ).id
-
-            # Add examples to the project, only when project_id is not provided so to
-            # prevent users from adding examples with this method.
-            if examples is not None and len(examples) > 0:
-                self.add_examples_to_structured_extraction_project(
-                    project_id, examples, convert_request
-                )
-
-        # Determine input
-        if input_text is not None:
-            input_ = input_text.encode()
-        else:
-            input_, _ = _parse_input_file(input_file)
-
-        # Call model using server sent events streaming
-        job_id_response = self.post_api_structured_extraction_structuredprojectid_jobs(
-            project_id, input_, **kwargs
         )
-        job_output = self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
-        )
+        job_id = self.post_api_structured_extraction_jobs(
+            extraction_request_json,
+            document_bytes,
+            timeout=job_timeout,
+            example_files=example_files or None,
+        ).job_id
 
-        # Parsing the server's response
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        last_message_data = json.loads(messages[-1]["data"])
-        if last_message_data["status"] != JOB_STATUS_COMPLETED:
-            output = JobStatusResponse(**last_message_data)
-        else:
-            output = json.loads(last_message_data["outputData"])
-            output = StructuredExtractionResponse(**output)
+        # Wait until the job reaches a terminal state before requesting its result.
+        while True:
+            job_status = self.get_api_jobs_jobid_status(job_id)
+            if job_status.completed_at is not None:
+                break
+            time.sleep(JOB_POLLING_DELAY_SECONDS)
 
-        # Delete temporary project if necessary
-        if not project_id_provided:
-            self.delete_api_structured_extraction_structuredprojectid(project_id)
-
-        return output
+        if job_status.status != JOB_STATUS_COMPLETED:
+            return job_status
+        return self.get_api_structured_extraction_jobs_structuredextractionjobid(job_id)
 
     def add_examples_to_structured_extraction_project(
         self,
@@ -298,108 +275,72 @@ class NuMindAsync(
 
     async def extract_structured_data(
         self,
-        project_id: str | None = None,
-        template: dict | BaseModel | str | None = None,
+        template: dict | BaseModel | str,
         instructions: str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
         **kwargs,
-    ) -> StructuredExtractionResponse:
+    ) -> StructuredExtractionResponse | JobStatusResponse:
         """
-        Send an inference request to the API for either a text or a file input.
+        Extract structured data from an input document.
 
-        Either the ``project_id`` or ``template`` argument has to be provided. The
-        former references to an existing project to which a template and examples are
-        associated. The latter allows to quickly infer from a template and input data
-        on the fly.
+        Submit a projectless extraction job and wait for its result.
 
-        :param project_id: id of the associated project. (default: ``None``)
         :param template: template of the structured output describing the information to
-            extract. (default: ``None``)
+            extract.
         :param instructions: instructions the model should follow when extracting
             structured data.
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
         :param examples: ICL (In-Context Learning) examples to add to the inference.
-            This argument is only used when this method is used "on the fly" with no
-            attached project, i.e. when ``project_id`` is not provided.
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
-        :param kwargs: additional keyword arguments to pass to the
-            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
-            method, such as ``temperature``.
+        :param kwargs: structured extraction settings, such as ``temperature``, and
+            submission options such as ``timeout``.
         :return: the API response.
+        :raises ValueError: if exactly one document input is not provided.
+        :raises KeyError: if an unknown extraction setting is provided.
         """
-        if bool(input_text is None) ^ bool(input_file is not None):
-            msg = (
-                "An input has to be provided with either the `input_text` or"
-                "`input_file_path` argument."
-            )
-            raise ValueError(msg)
-
-        # If the project_id argument wasn't provided, create a temporary project
-        if not (project_id_provided := project_id is not None):
-            if template is None:
-                msg = "Either a `project_id` or `template` as to be provided."
-                raise ValueError(msg)
-            template = _parse_template(template)
-            project_id = (
-                await self.post_api_structured_extraction(
-                    CreateStructuredProjectRequest(
-                        name=TMP_PROJECT_NAME,
-                        description="",
-                        template=template,
-                        instructions=instructions,
-                    )
-                )
-            ).id
-
-            # Add examples to the project, only when project_id is not provided so to
-            # prevent users from adding examples with this method.
-            if examples is not None and len(examples) > 0:
-                await self.add_examples_to_structured_extraction_project(
-                    project_id, examples, convert_request
-                )
-
-        # Determine input
-        if input_text is not None:
-            input_ = input_text.encode()
-        else:
-            input_, _ = _parse_input_file(input_file)
-
-        # Call model using server sent events streaming
-        job_id_response = (
-            await self.post_api_structured_extraction_structuredprojectid_jobs(
-                project_id, input_, **kwargs
+        job_timeout = kwargs.pop("timeout", None)
+        extraction_request_json, document_bytes, example_files = (
+            _prepare_structured_extraction_job(
+                template,
+                instructions,
+                input_text,
+                input_file,
+                examples,
+                convert_request,
+                kwargs,
             )
         )
-        job_output = await self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
+        job_id = (
+            await self.post_api_structured_extraction_jobs(
+                extraction_request_json,
+                document_bytes,
+                timeout=job_timeout,
+                example_files=example_files or None,
+            )
+        ).job_id
+
+        # Wait until the job reaches a terminal state before requesting its result.
+        while True:
+            job_status = await self.get_api_jobs_jobid_status(job_id)
+            if job_status.completed_at is not None:
+                break
+            await asyncio.sleep(JOB_POLLING_DELAY_SECONDS)
+
+        if job_status.status != JOB_STATUS_COMPLETED:
+            return job_status
+        return await self.get_api_structured_extraction_jobs_structuredextractionjobid(
+            job_id
         )
-
-        # Parsing the server's response
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        last_message_data = json.loads(messages[-1]["data"])
-        if last_message_data["status"] != JOB_STATUS_COMPLETED:
-            output = JobStatusResponse(**last_message_data)
-        else:
-            output = json.loads(last_message_data["outputData"])
-            output = StructuredExtractionResponse(**output)
-
-        # Delete temporary project if necessary
-        if not project_id_provided:
-            await self.delete_api_structured_extraction_structuredprojectid(project_id)
-
-        return output
 
     async def add_examples_to_structured_extraction_project(
         self,
@@ -506,6 +447,78 @@ def _prepare_client(
     return ApiClientAsync(configuration) if async_client else ApiClient(configuration)
 
 
+def _prepare_structured_extraction_job(
+    template: dict | BaseModel | str,
+    instructions: str | None,
+    input_text: str | None,
+    input_file: Path | str | bytes | None,
+    examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None,
+    convert_request: ConvertRequest | None,
+    extraction_settings: dict,
+) -> tuple[str, bytes, list[bytes | tuple[str, bytes]]]:
+    """
+    Build the manifest and multipart files for a projectless extraction job.
+
+    :param template: structured output schema.
+    :param instructions: optional extraction instructions.
+    :param input_text: text document to extract from.
+    :param input_file: file document to extract from.
+    :param examples: optional input and expected-output pairs.
+    :param convert_request: optional rasterization configuration.
+    :param extraction_settings: inference settings using SDK argument names.
+    :return: serialized manifest, document bytes, and ordered example files.
+    :raises ValueError: if exactly one document input is not provided.
+    :raises KeyError: if an unknown extraction setting is provided.
+    """
+    if bool(input_text is None) ^ bool(input_file is not None):
+        msg = (
+            "An input has to be provided with either the `input_text` or "
+            "`input_file` argument."
+        )
+        raise ValueError(msg)
+
+    document_bytes = (
+        input_text.encode()
+        if input_text is not None
+        else _parse_input_file(input_file)[0]
+    )
+
+    request_settings = (
+        convert_request.model_dump(by_alias=True) if convert_request is not None else {}
+    )
+    request_settings.update(
+        {
+            STRUCTURED_EXTRACTION_SETTING_NAMES[setting_name]: setting_value
+            for setting_name, setting_value in extraction_settings.items()
+            if setting_value is not None
+        }
+    )
+    extraction_request = {
+        "schema": _parse_template(template),
+        "instructions": instructions or "",
+        "settings": request_settings,
+    }
+
+    example_files = []
+    if examples:
+        extraction_request["examples"] = [
+            {"result": _parse_template(example_output)}
+            for _, example_output in examples
+        ]
+        for example_input, _ in examples:
+            if isinstance(example_input, (Path, bytes)):
+                example_bytes, example_file_name = _parse_input_file(example_input)
+                example_files.append(
+                    (example_file_name, example_bytes)
+                    if example_file_name
+                    else example_bytes
+                )
+            else:
+                example_files.append(example_input.encode())
+
+    return json.dumps(extraction_request), document_bytes, example_files
+
+
 def _parse_input_file(input_file: Path | str | bytes) -> tuple[bytes, str]:
     """Read an ``input_file`` argument provided in upstream methods."""
     file_name = ""
@@ -524,7 +537,7 @@ def _parse_template(template: dict | BaseModel | str) -> dict:
         if isinstance(template, str):
             template = json.loads(template)
         else:
-            template = BaseModel().model_dump()
+            template = template.model_dump()
     return template
 
 

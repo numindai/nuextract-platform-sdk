@@ -360,9 +360,7 @@ Class | Method | HTTP request | Description
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
 *InferenceApi* | [**post_api_content_extraction_contentprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_content_extraction_contentprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentProjectId}/jobs/document/{documentId} | 
 *InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/document/{documentId} | 
-*InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 *InferenceApi* | [**post_api_template_generation_jobs_document_documentid**](docs/InferenceApi.md#post_api_template_generation_jobs_document_documentid) | **POST** /api/template-generation/jobs/document/{documentId} | 
-*InferenceApi* | [**post_api_template_generation_jobs_text**](docs/InferenceApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
@@ -372,6 +370,7 @@ Class | Method | HTTP request | Description
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_jobs) | **POST** /api/structured-extraction/jobs | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
+*StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 *StructuredExtractionExamplesApi* | [**delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **DELETE** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
 *StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredprojectid_examples**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredprojectid_examples) | **GET** /api/structured-extraction/{structuredProjectId}/examples | 
 *StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **GET** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
@@ -392,6 +391,7 @@ Class | Method | HTTP request | Description
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_unshare**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_unshare) | **POST** /api/structured-extraction/{structuredProjectId}/unshare | 
 *TemplateGenerationApi* | [**get_api_template_generation_jobs_templatejobid**](docs/TemplateGenerationApi.md#get_api_template_generation_jobs_templatejobid) | **GET** /api/template-generation/jobs/{templateJobId} | 
 *TemplateGenerationApi* | [**post_api_template_generation_jobs**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs) | **POST** /api/template-generation/jobs | 
+*TemplateGenerationApi* | [**post_api_template_generation_jobs_text**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 
 
 ### Documentation For Models

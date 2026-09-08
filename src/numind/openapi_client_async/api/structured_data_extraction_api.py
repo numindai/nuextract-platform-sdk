@@ -24,6 +24,7 @@ from pydantic import (
 from numind.api_response import ApiResponse
 from numind.models.job_id_response import JobIdResponse
 from numind.models.structured_extraction_response import StructuredExtractionResponse
+from numind.models.text_request import TextRequest
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
 
@@ -106,6 +107,7 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
+            "206": "StructuredExtractionResponse",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -182,6 +184,7 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
+            "206": "StructuredExtractionResponse",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -258,6 +261,7 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
+            "206": "StructuredExtractionResponse",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1341,6 +1345,596 @@ class StructuredDataExtractionApi:
         return self.api_client.param_serialize(
             method="POST",
             resource_path="/api/structured-extraction/{structuredProjectId}/jobs",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    async def post_api_structured_extraction_structuredprojectid_jobs_text(
+        self,
+        structured_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
+        ],
+        text_request: TextRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        max_example_token_number: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
+            ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
+            ),
+        ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> JobIdResponse:
+        """
+        post_api_structured_extraction_structuredprojectid_jobs_text
+
+          Performs structured information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param text_request: (required)
+        :type text_request: TextRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
+        :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
+        :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+            structured_project_id=structured_project_id,
+            text_request=text_request,
+            x_organization_id=x_organization_id,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
+            random_seed=random_seed,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    async def post_api_structured_extraction_structuredprojectid_jobs_text_with_http_info(
+        self,
+        structured_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
+        ],
+        text_request: TextRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        max_example_token_number: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
+            ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
+            ),
+        ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[JobIdResponse]:
+        """
+        post_api_structured_extraction_structuredprojectid_jobs_text
+
+          Performs structured information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param text_request: (required)
+        :type text_request: TextRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
+        :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
+        :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+            structured_project_id=structured_project_id,
+            text_request=text_request,
+            x_organization_id=x_organization_id,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
+            random_seed=random_seed,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        await response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    async def post_api_structured_extraction_structuredprojectid_jobs_text_without_preload_content(
+        self,
+        structured_project_id: Annotated[
+            StrictStr,
+            Field(description="Unique structured extraction project identifier."),
+        ],
+        text_request: TextRequest,
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        temperature: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=2, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+            ),
+        ] = None,
+        max_output_tokens: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+            ),
+        ] = None,
+        max_example_token_number: Annotated[
+            Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
+            Field(
+                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+            ),
+        ] = None,
+        max_example_number: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+            ),
+        ] = None,
+        min_example_similarity: Annotated[
+            Optional[
+                Union[
+                    Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                    Annotated[int, Field(le=1, strict=True, ge=0)],
+                ]
+            ],
+            Field(
+                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
+            ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
+            ),
+        ] = None,
+        random_seed: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+            ),
+        ] = None,
+        timeout: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        post_api_structured_extraction_structuredprojectid_jobs_text
+
+          Performs structured information extraction inference on the provided text as an async job.  The text content must be compatible with the template of the project.  Inference parameters **temperature**, **maxOutputTokens** and **maxExampleTokenNumber**  can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  Additionally, the response contains `documentId`, which allows to reuse this text **Document** in the future.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+
+        :param structured_project_id: Unique structured extraction project identifier. (required)
+        :type structured_project_id: str
+        :param text_request: (required)
+        :type text_request: TextRequest
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :type temperature: float
+        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :type max_output_tokens: int
+        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :type max_example_token_number: int
+        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :type max_example_number: int
+        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :type min_example_similarity: float
+        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
+        :type enable_thinking: bool
+        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :type random_seed: str
+        :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
+        :type timeout: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+            structured_project_id=structured_project_id,
+            text_request=text_request,
+            x_organization_id=x_organization_id,
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            max_example_token_number=max_example_token_number,
+            max_example_number=max_example_number,
+            min_example_similarity=min_example_similarity,
+            enable_thinking=enable_thinking,
+            random_seed=random_seed,
+            timeout=timeout,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = await self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _post_api_structured_extraction_structuredprojectid_jobs_text_serialize(
+        self,
+        structured_project_id,
+        text_request,
+        x_organization_id,
+        temperature,
+        max_output_tokens,
+        max_example_token_number,
+        max_example_number,
+        min_example_similarity,
+        enable_thinking,
+        random_seed,
+        timeout,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if structured_project_id is not None:
+            _path_params["structuredProjectId"] = structured_project_id
+        # process the query parameters
+        if temperature is not None:
+            _query_params.append(("temperature", temperature))
+
+        if max_output_tokens is not None:
+            _query_params.append(("maxOutputTokens", max_output_tokens))
+
+        if max_example_token_number is not None:
+            _query_params.append(("maxExampleTokenNumber", max_example_token_number))
+
+        if max_example_number is not None:
+            _query_params.append(("maxExampleNumber", max_example_number))
+
+        if min_example_similarity is not None:
+            _query_params.append(("minExampleSimilarity", min_example_similarity))
+
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
+
+        if random_seed is not None:
+            _query_params.append(("randomSeed", random_seed))
+
+        if timeout is not None:
+            _query_params.append(("timeout", timeout))
+
+        # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
+        # process the form parameters
+        # process the body parameter
+        if text_request is not None:
+            _body_params = text_request
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json", "text/plain"]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params["Content-Type"] = _content_type
+        else:
+            _default_content_type = self.api_client.select_header_content_type(
+                ["application/json"]
+            )
+            if _default_content_type is not None:
+                _header_params["Content-Type"] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/api/structured-extraction/{structuredProjectId}/jobs/text",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

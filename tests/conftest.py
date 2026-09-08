@@ -16,10 +16,27 @@ import pytest
 import pytest_asyncio
 
 from numind import NuMind, NuMindAsync
+from numind.models import JobStatusResponse
 
 NUMIND_API_KEY_TEST_ENV_VAR_NAME = "NUMIND_API_KEY_TESTS"
 EXTRACT_KWARGS = {"temperature": 0.1, "max_output_tokens": 600}
 TESTS_NAME_PREFIX = "tests-sdk"
+
+
+@pytest.fixture
+def failed_job_status_response() -> JobStatusResponse:
+    """Build a complete terminal job status for extraction failure tests."""
+    return JobStatusResponse(
+        id="job-id",
+        jobType="extraction",
+        status="failed",
+        ownerUser="user-id",
+        startedAt="2026-09-07T10:00:00Z",
+        completedAt="2026-09-07T10:00:01Z",
+        createdAt="2026-09-07T09:59:59Z",
+        updatedAt="2026-09-07T10:00:01Z",
+        timeoutSeconds=600,
+    )
 
 
 def _read_test_case_examples(

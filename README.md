@@ -16,7 +16,6 @@ You must first get an API key on the [NuExtract platform](https://nuextract.ai/a
 
 ```python
 import os
-
 from numind import NuMind
 
 # Create a client object to interact with the API
@@ -25,60 +24,30 @@ from numind import NuMind
 client = NuMind(api_key=os.environ["NUMIND_API_KEY"])
 ```
 
-### Create an async client
+You can create an **async** client by using the `NuMindAsync` class.
+The methods and their usages are the same as for the sync `NuMind` client.
 
-You can create an **async** client by using the `NuMindAsync` class:
+### Extract structured data
 
-```python
-import asyncio
-from numind import NuMindAsync
-
-client = NuMindAsync(api_key="API_KEY")
-requests = [{}]
-
-
-async def main():
-    return [
-        await client.extract_structured_data(project_id, **request_kwargs)
-        for request_kwargs in requests
-    ]
-
-
-responses = asyncio.run(main())
-```
-
-The methods and their usages are the same as for the sync `NuMind` client except that API methods are coroutines that must be awaited.
-
-### NuExtract: Extract structured information "on the fly"
-
-If you want to extract structured information from data without projects but just by providing the input template, you can use the `extract` method which provides a more user-friendly way to interact with the API:
+If you want to extract structured information without a project, provide the template directly to `extract_structured_data`:
 
 ```python
 template = {
     "destination": {
         "name": "verbatim-string",
         "zip_code": "string",
-        "country": "string",
+        "country": "country",
     },
     "accommodation": "verbatim-string",
     "activities": ["verbatim-string"],
-    "duration": {
-        "time_unit": ["day", "week", "month", "year"],
-        "time_quantity": "integer",
-    },
+    "duration": "duration",
 }
-input_text = """My dream vacation would be a month-long escape to the stunning islands of Tahiti.
-I’d stay in an overwater bungalow in Bora Bora, waking up to crystal-clear turquoise waters and breathtaking sunrises.
-Days would be spent snorkeling with vibrant marine life, paddleboarding over coral gardens, and basking on pristine white-sand beaches.
-I’d explore lush rainforests, hidden waterfalls, and the rich Polynesian culture through traditional dance, music, and cuisine.
-Evenings would be filled with romantic beachside dinners under the stars, with the soothing sound of waves as the perfect backdrop."""
-
-output = client.extract_structured_data(template=template, input_text=input_text)
-print(output)
-
-# Can also work with files, replace the path with your own
-# from pathlib import Path
-# output = client.extract(template=template, input_file="file.ppt")
+input_file_path = Path("to", "file.pdf")
+response = client.extract_structured_data(
+    template=template,
+    input_file=input_file_path,
+)
+print(response.result)
 ```
 
 ```json
@@ -86,7 +55,7 @@ print(output)
     "destination": {
         "name": "Tahiti",
         "zip_code": "98730",
-        "country": "France"
+        "country": "FR"
     },
     "accommodation": "overwater bungalow in Bora Bora",
     "activities": [
@@ -95,16 +64,13 @@ print(output)
         "basking",
         "explore lush rainforests, hidden waterfalls, and the rich Polynesian culture"
     ],
-    "duration": {
-        "time_unit": null,
-        "time_quantity": null
-    }
+    "duration": null
 }
 ```
 
 ### Create a good template
 
-NuExtract uses JSON extraction templates which specify the information to retrieve and their types, which are:
+NuExtract uses JSON extraction templates which specify the information to retrieve and their types:
 
 * **string**: a text, whose value can be abstract, i.e. totally free and can be deduced from calculations, reasoning, external knowledge;
 * **verbatim-string**: a purely extractive text whose value must be present in the document. Some flexibility might be allowed on the formatting, e.g. new lines and escaped characters (e.g. `\n`) in a documents might be represented with a space;
@@ -155,16 +121,26 @@ otherwise it is `None`, and `incompatibilities` identifies the affected location
 
 ### Inferring a template
 
-The "infer_template" method allows to quickly create a template that you can start to work with from a text description.
+Template generation is asynchronous. Submit a natural-language description, poll the job status, and retrieve the generated template once complete.
 
 ```python
-from numind.openapi_client import TemplateRequest
-from pydantic import StrictStr
+import time
+
+from numind.models import TemplateRequest
 
 description = "Create a template that extracts key information from an order confirmation email. The template should be able to pull details like the order ID, customer ID, date and time of the order, status, total amount, currency, item details (product ID, quantity, and unit price), shipping address, any customer requests or delivery preferences, and the estimated delivery date."
-input_schema = client.post_api_infer_template(
-    template_request=TemplateRequest(description=StrictStr(description))
-)
+job_id = client.post_api_template_generation_jobs_text(
+    TemplateRequest(description=description)
+).job_id
+
+job_status = client.get_api_jobs_jobid_status(job_id)
+while job_status.completed_at is None:
+    time.sleep(4)
+    job_status = client.get_api_jobs_jobid_status(job_id)
+if job_status.status != "completed":
+    raise RuntimeError(f"Template generation failed with status {job_status.status}")
+
+template = client.get_api_template_generation_jobs_templatejobid(job_id).result
 ```
 
 ### Create a project
@@ -172,15 +148,16 @@ input_schema = client.post_api_infer_template(
 A project allows to define an information extraction task from a template and examples.
 
 ```python
-from numind.openapi_client import CreateProjectRequest
+from numind.models import CreateStructuredProjectRequest
 
 project_id = client.post_api_structured_extraction(
-    CreateProjectRequest(
+    CreateStructuredProjectRequest(
         name="vacation",
         description="Extraction of locations and activities",
         template=template,
+        instructions="",
     )
-)
+).id
 ```
 
 The `project_id` can also be found in the "API" tab of a project on the NuExtract website.
@@ -195,8 +172,7 @@ example_1_input = "This is a text example"
 example_1_expected_output = {
     "destination": {"name": None, "zip_code": None, "country": None}
 }
-with Path("example_2.odt").open("rb") as file:  # read bytes
-    example_2_input = file.read()
+example_2_input = Path("example_2.odt")
 example_2_expected_output = {
     "destination": {"name": None, "zip_code": None, "country": None}
 }
@@ -209,33 +185,20 @@ examples = [
 client.add_examples_to_structured_extraction_project(project_id, examples)
 ```
 
-### Extract structured information from text
-
-```python
-output_schema = client.extract_structured_data(project_id, input_text=input_text)
-```
-
-### Extract structured information from a file
-
-```python
-from pathlib import Path
-
-file_path = Path("document.odt")
-with file_path.open("rb") as file:
-    input_file = file.read()
-output_schema = client.extract(project_id, input_file=input_file)
-```
-
-### NuMarkdown: Convert a document to a RAG-ready Markdown
+### Convert a document to a RAG-ready Markdown
 
 ```python
 from pathlib import Path
 
 file_path = Path("document.pdf")
-with file_path.open("rb") as file:
-    input_file = file.read()
-markdown = client.extract_content(input_file)
+response = client.extract_content(file_path, job_status_polling_delay=2.0)
+print(response.result)
 ```
+
+`extract_structured_data` and `extract_content` poll job status every four seconds by
+default. Use `job_status_polling_delay` to select a different interval in seconds.
+Failed jobs raise `RuntimeError` by default. Set `raise_on_job_fail=False` to return a
+`FailedJobStatusResponse` containing the complete job status and its failure reason.
 
 # Documentation
 
@@ -360,9 +323,7 @@ Class | Method | HTTP request | Description
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
 *InferenceApi* | [**post_api_content_extraction_contentprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_content_extraction_contentprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentProjectId}/jobs/document/{documentId} | 
 *InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/document/{documentId} | 
-*InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 *InferenceApi* | [**post_api_template_generation_jobs_document_documentid**](docs/InferenceApi.md#post_api_template_generation_jobs_document_documentid) | **POST** /api/template-generation/jobs/document/{documentId} | 
-*InferenceApi* | [**post_api_template_generation_jobs_text**](docs/InferenceApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
@@ -372,6 +333,7 @@ Class | Method | HTTP request | Description
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_jobs) | **POST** /api/structured-extraction/jobs | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
+*StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 *StructuredExtractionExamplesApi* | [**delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#delete_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **DELETE** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
 *StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredprojectid_examples**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredprojectid_examples) | **GET** /api/structured-extraction/{structuredProjectId}/examples | 
 *StructuredExtractionExamplesApi* | [**get_api_structured_extraction_structuredprojectid_examples_structuredexampleid**](docs/StructuredExtractionExamplesApi.md#get_api_structured_extraction_structuredprojectid_examples_structuredexampleid) | **GET** /api/structured-extraction/{structuredProjectId}/examples/{structuredExampleId} | 
@@ -392,6 +354,7 @@ Class | Method | HTTP request | Description
 *StructuredExtractionProjectManagementApi* | [**post_api_structured_extraction_structuredprojectid_unshare**](docs/StructuredExtractionProjectManagementApi.md#post_api_structured_extraction_structuredprojectid_unshare) | **POST** /api/structured-extraction/{structuredProjectId}/unshare | 
 *TemplateGenerationApi* | [**get_api_template_generation_jobs_templatejobid**](docs/TemplateGenerationApi.md#get_api_template_generation_jobs_templatejobid) | **GET** /api/template-generation/jobs/{templateJobId} | 
 *TemplateGenerationApi* | [**post_api_template_generation_jobs**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs) | **POST** /api/template-generation/jobs | 
+*TemplateGenerationApi* | [**post_api_template_generation_jobs_text**](docs/TemplateGenerationApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 
 
 ### Documentation For Models

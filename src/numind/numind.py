@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
+import time
 from pathlib import Path
 
 from pydantic import BaseModel, StrictStr
 
-from .constants import NUMIND_API_KEY_ENV_VAR_NAME, TMP_PROJECT_NAME
+from .constants import NUMIND_API_KEY_ENV_VAR_NAME
 from .models import (
     ContentExtractionResponse,
     ConvertRequest,
     CreateOrUpdateStructuredExampleRequest,
-    CreateStructuredProjectRequest,
     JobStatusResponse,
     StructuredExtractionResponse,
     TextRequest,
@@ -60,14 +61,31 @@ from .openapi_client_async import (
     StructuredExtractionExamplesApi as StructuredExtractionExamplesApiAsync,
 )
 from .openapi_client_async import (
-    StructuredExtractionProjectManagementApi as StructuredExtractionProjectManagementApiAsync,
+    StructuredExtractionProjectManagementApi as StructuredExtractionProjectManagementApiAsync,  # noqa: E501
 )
 from .openapi_client_async import (
     TemplateGenerationApi as TemplateGenerationApiAsync,
 )
 
-MESSAGE_STATUS_COMPLETED = "result"
 JOB_STATUS_COMPLETED = "completed"
+JOB_POLLING_DELAY_SECONDS = 4
+STRUCTURED_EXTRACTION_SETTING_NAMES = {
+    "temperature": "temperature",
+    "dpi": "rasterizationDPI",
+    "max_output_tokens": "maxOutputTokens",
+    "degraded_mode": "degradedMode",
+    "max_example_token_number": "maxExampleTokenNumber",
+    "max_example_number": "maxExampleNumber",
+    "min_example_similarity": "minExampleSimilarity",
+    "enable_thinking": "enableThinking",
+    "random_seed": "randomSeed",
+}
+
+
+class FailedJobStatusResponse(JobStatusResponse):
+    """Represent a terminal failed job together with its reported reason."""
+
+    reason: str
 
 
 class NuMind(
@@ -96,111 +114,100 @@ class NuMind(
 
     def extract_structured_data(
         self,
-        project_id: str | None = None,
-        template: dict | BaseModel | str | None = None,
+        template: dict | BaseModel | str,
         instructions: str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
         **kwargs,
-    ) -> StructuredExtractionResponse | JobStatusResponse:
+    ) -> StructuredExtractionResponse | FailedJobStatusResponse:
         """
-        Send an inference request to the API for either a text or a file input.
+        Extract structured data from an input document.
 
-        Either the ``project_id`` or ``template`` argument has to be provided. The
-        former references to an existing project to which a template and examples are
-        associated. The latter allows to quickly infer from a template and input data
-        on the fly.
+        Submit a projectless extraction job and wait for its result.
 
-        :param project_id: id of the associated project. (default: ``None``)
         :param template: template of the structured output describing the information to
-            extract. (default: ``None``)
+            extract.
         :param instructions: instructions the model should follow when extracting
             structured data.
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
         :param examples: ICL (In-Context Learning) examples to add to the inference.
-            This argument is only used when this method is used "on the fly" with no
-            attached project, i.e. when ``project_id`` is not provided.
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
-        :param kwargs: additional keyword arguments to pass to the
-            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
-            method, such as ``temperature``.
-        :return: the API response.
+        :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
+        :param kwargs: structured extraction settings, such as ``temperature``, and
+            submission options such as ``timeout``.
+        :return: extraction result, or failed job details when raising is disabled.
+        :raises ValueError: if exactly one document input is not provided.
+        :raises KeyError: if an unknown extraction setting is provided.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
-        if bool(input_text is None) ^ bool(input_file is not None):
-            msg = (
-                "An input has to be provided with either the `input_text` or"
-                "`input_file_path` argument."
+        job_timeout = kwargs.pop("timeout", None)
+        extraction_request_json, document_bytes, example_files = (
+            _prepare_structured_extraction_job(
+                template,
+                instructions,
+                input_text,
+                input_file,
+                examples,
+                convert_request,
+                kwargs,
             )
-            raise ValueError(msg)
-
-        # If the project_id argument wasn't provided, create a temporary project
-        if not (project_id_provided := project_id is not None):
-            if template is None:
-                msg = "Either a `project_id` or `template` as to be provided."
-                raise ValueError(msg)
-            template = _parse_template(template)
-            project_id = self.post_api_structured_extraction(
-                CreateStructuredProjectRequest(
-                    name=TMP_PROJECT_NAME,
-                    description="",
-                    template=template,
-                    instructions=instructions,
-                )
-            ).id
-
-            # Add examples to the project, only when project_id is not provided so to
-            # prevent users from adding examples with this method.
-            if examples is not None and len(examples) > 0:
-                self.add_examples_to_structured_extraction_project(
-                    project_id, examples, convert_request
-                )
-
-        # Determine input
-        if input_text is not None:
-            input_ = input_text.encode()
-        else:
-            input_, _ = _parse_input_file(input_file)
-
-        # Call model using server sent events streaming
-        job_id_response = self.post_api_structured_extraction_structuredprojectid_jobs(
-            project_id, input_, **kwargs
         )
-        job_output = self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
-        )
+        job_id = self.post_api_structured_extraction_jobs(
+            extraction_request_json,
+            document_bytes,
+            timeout=job_timeout,
+            example_files=example_files or None,
+        ).job_id
 
-        # Parsing the server's response
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        last_message_data = json.loads(messages[-1]["data"])
-        if last_message_data["status"] != JOB_STATUS_COMPLETED:
-            output = JobStatusResponse(**last_message_data)
-        else:
-            output = json.loads(last_message_data["outputData"])
-            output = StructuredExtractionResponse(**output)
+        job_status = self._poll_job_status(job_id, job_status_polling_delay)
+        if job_status.status != JOB_STATUS_COMPLETED:
+            failed_job_event_stream = self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
+        return self.get_api_structured_extraction_jobs_structuredextractionjobid(job_id)
 
-        # Delete temporary project if necessary
-        if not project_id_provided:
-            self.delete_api_structured_extraction_structuredprojectid(project_id)
+    def _poll_job_status(
+        self, job_id: str, job_status_polling_delay: float
+    ) -> JobStatusResponse:
+        """
+        Poll a job until it reaches a terminal state.
 
-        return output
+        :param job_id: asynchronous job identifier.
+        :param job_status_polling_delay: seconds between status requests.
+        :return: terminal job status.
+        """
+        while True:
+            job_status = self.get_api_jobs_jobid_status(job_id)
+            if job_status.completed_at is not None:
+                return job_status
+            time.sleep(job_status_polling_delay)
 
     def add_examples_to_structured_extraction_project(
         self,
         project_id: str,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
         convert_request: ConvertRequest | None = None,
-    ) -> tuple[list[str], list[str]]:
+    ) -> tuple[list[str | None], list[str]]:
         """
         Add ICL (In-Context Learning) examples to a project.
 
@@ -211,8 +218,9 @@ class NuMind(
         :param convert_request: ``numind.models.ConvertRequest`` object holding the file
             conversion configuration, such as the DPI. If ``None`` is provided, the
             project's conversion configuration will be used. (default: ``None``)
+        :return: file IDs (``None`` for text inputs) and document IDs.
         """
-        files_ids, documents_ids = [], []
+        file_ids, document_ids = [], []
         if convert_request is None:
             project_info = self.get_api_structured_extraction_structuredprojectid(
                 project_id
@@ -221,55 +229,71 @@ class NuMind(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
             )
         for example_input, example_output in examples:
-            # Prepare the example input and output, upload the input as file
-            example_output = _parse_template(example_output)
-            if isinstance(example_input, (Path, bytes)):
-                example_input, file_name = _parse_input_file(example_input)
-                file_id = self.post_api_files(file_name, example_input).file_id
+            prepared_example_input, example_file_name, parsed_example_output = (
+                _prepare_structured_example(example_input, example_output)
+            )
+
+            # Upload files or create text documents for the normalized input.
+            if isinstance(prepared_example_input, bytes):
+                file_id = self.post_api_files(
+                    example_file_name, prepared_example_input
+                ).file_id
                 document_id = self.post_api_files_fileid_convert_to_document(
                     file_id, convert_request
                 ).doc_info.actual_instance.document_id
             else:
                 file_id = None
                 document_id = self.post_api_documents_text(
-                    TextRequest(text=example_input)
+                    TextRequest(text=prepared_example_input)
                 ).doc_info.actual_instance.document_id
-            files_ids.append(file_id)
-            documents_ids.append(document_id)
+            file_ids.append(file_id)
+            document_ids.append(document_id)
 
             # Add the example to the project
             self.post_api_structured_extraction_structuredprojectid_examples(
                 project_id,
                 CreateOrUpdateStructuredExampleRequest(
-                    documentId=StrictStr(document_id), result=example_output
+                    documentId=StrictStr(document_id), result=parsed_example_output
                 ),
             )
 
-        return files_ids, documents_ids
+        return file_ids, document_ids
 
     def extract_content(
-        self, input_file: Path | str | bytes | None = None, **kwargs
-    ) -> ContentExtractionResponse:
+        self,
+        input_file: Path | str | bytes | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
+        **kwargs,
+    ) -> ContentExtractionResponse | FailedJobStatusResponse:
         """
         Extract Markdown content from an input file.
 
         :param input_file: input file to extract content from, provided as a
             ``pathlib.Path`` or string path, or bytes.
+        :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: ``numind.models.ContentExtractionResponse`` object.
+        :return: extraction result, or failed job details when raising is disabled.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
-        input_, _ = _parse_input_file(input_file)
-        job_id_response = self.post_api_content_extraction_jobs(input_, **kwargs)
-        job_output = self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
-        )
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return ContentExtractionResponse(
-            **json.loads(json.loads(messages[-1]["data"])["outputData"])
-        )
+        input_bytes, _ = _parse_input_file(input_file)
+        job_id = self.post_api_content_extraction_jobs(input_bytes, **kwargs).job_id
+        job_status = self._poll_job_status(job_id, job_status_polling_delay)
+        if job_status.status != JOB_STATUS_COMPLETED:
+            failed_job_event_stream = self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
+        return self.get_api_content_extraction_jobs_contentextractionjobid(job_id)
 
 
 class NuMindAsync(
@@ -298,115 +322,104 @@ class NuMindAsync(
 
     async def extract_structured_data(
         self,
-        project_id: str | None = None,
-        template: dict | BaseModel | str | None = None,
+        template: dict | BaseModel | str,
         instructions: str | None = None,
         input_text: str | None = None,
         input_file: Path | str | bytes | None = None,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None = None,
         convert_request: ConvertRequest | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
         **kwargs,
-    ) -> StructuredExtractionResponse:
+    ) -> StructuredExtractionResponse | FailedJobStatusResponse:
         """
-        Send an inference request to the API for either a text or a file input.
+        Extract structured data from an input document.
 
-        Either the ``project_id`` or ``template`` argument has to be provided. The
-        former references to an existing project to which a template and examples are
-        associated. The latter allows to quickly infer from a template and input data
-        on the fly.
+        Submit a projectless extraction job and wait for its result.
 
-        :param project_id: id of the associated project. (default: ``None``)
         :param template: template of the structured output describing the information to
-            extract. (default: ``None``)
+            extract.
         :param instructions: instructions the model should follow when extracting
             structured data.
         :param input_text: text input as a string.
         :param input_file: input file, either as bytes or as a path (``str`` or
             ``pathlib.Path``) to the file to send to the API.
         :param examples: ICL (In-Context Learning) examples to add to the inference.
-            This argument is only used when this method is used "on the fly" with no
-            attached project, i.e. when ``project_id`` is not provided.
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
         :param convert_request: ``ConvertRequest`` object holding the file conversion
             configuration, such as the DPI. If ``None`` is provided, the default API
             conversion configuration will be used. (default: ``None``)
-        :param kwargs: additional keyword arguments to pass to the
-            ``post_api_structured_extraction_structuredextractionprojectid_jobs``
-            method, such as ``temperature``.
-        :return: the API response.
+        :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
+        :param kwargs: structured extraction settings, such as ``temperature``, and
+            submission options such as ``timeout``.
+        :return: extraction result, or failed job details when raising is disabled.
+        :raises ValueError: if exactly one document input is not provided.
+        :raises KeyError: if an unknown extraction setting is provided.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
-        if bool(input_text is None) ^ bool(input_file is not None):
-            msg = (
-                "An input has to be provided with either the `input_text` or"
-                "`input_file_path` argument."
-            )
-            raise ValueError(msg)
-
-        # If the project_id argument wasn't provided, create a temporary project
-        if not (project_id_provided := project_id is not None):
-            if template is None:
-                msg = "Either a `project_id` or `template` as to be provided."
-                raise ValueError(msg)
-            template = _parse_template(template)
-            project_id = (
-                await self.post_api_structured_extraction(
-                    CreateStructuredProjectRequest(
-                        name=TMP_PROJECT_NAME,
-                        description="",
-                        template=template,
-                        instructions=instructions,
-                    )
-                )
-            ).id
-
-            # Add examples to the project, only when project_id is not provided so to
-            # prevent users from adding examples with this method.
-            if examples is not None and len(examples) > 0:
-                await self.add_examples_to_structured_extraction_project(
-                    project_id, examples, convert_request
-                )
-
-        # Determine input
-        if input_text is not None:
-            input_ = input_text.encode()
-        else:
-            input_, _ = _parse_input_file(input_file)
-
-        # Call model using server sent events streaming
-        job_id_response = (
-            await self.post_api_structured_extraction_structuredprojectid_jobs(
-                project_id, input_, **kwargs
+        job_timeout = kwargs.pop("timeout", None)
+        extraction_request_json, document_bytes, example_files = (
+            _prepare_structured_extraction_job(
+                template,
+                instructions,
+                input_text,
+                input_file,
+                examples,
+                convert_request,
+                kwargs,
             )
         )
-        job_output = await self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
+        job_id = (
+            await self.post_api_structured_extraction_jobs(
+                extraction_request_json,
+                document_bytes,
+                timeout=job_timeout,
+                example_files=example_files or None,
+            )
+        ).job_id
+
+        job_status = await self._poll_job_status(job_id, job_status_polling_delay)
+        if job_status.status != JOB_STATUS_COMPLETED:
+            failed_job_event_stream = await self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
+        return await self.get_api_structured_extraction_jobs_structuredextractionjobid(
+            job_id
         )
 
-        # Parsing the server's response
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        last_message_data = json.loads(messages[-1]["data"])
-        if last_message_data["status"] != JOB_STATUS_COMPLETED:
-            output = JobStatusResponse(**last_message_data)
-        else:
-            output = json.loads(last_message_data["outputData"])
-            output = StructuredExtractionResponse(**output)
+    async def _poll_job_status(
+        self, job_id: str, job_status_polling_delay: float
+    ) -> JobStatusResponse:
+        """
+        Poll a job until it reaches a terminal state.
 
-        # Delete temporary project if necessary
-        if not project_id_provided:
-            await self.delete_api_structured_extraction_structuredprojectid(project_id)
-
-        return output
+        :param job_id: asynchronous job identifier.
+        :param job_status_polling_delay: seconds between status requests.
+        :return: terminal job status.
+        """
+        while True:
+            job_status = await self.get_api_jobs_jobid_status(job_id)
+            if job_status.completed_at is not None:
+                return job_status
+            await asyncio.sleep(job_status_polling_delay)
 
     async def add_examples_to_structured_extraction_project(
         self,
         project_id: str,
         examples: list[tuple[str | Path | bytes, dict | BaseModel | str]],
         convert_request: ConvertRequest | None = None,
-    ) -> tuple[list[str], list[str]]:
+    ) -> tuple[list[str | None], list[str]]:
         """
         Add ICL (In-Context Learning) examples to a project.
 
@@ -417,8 +430,9 @@ class NuMindAsync(
         :param convert_request: ``numind.models.ConvertRequest`` object holding the file
             conversion configuration, such as the DPI. If ``None`` is provided, the
             project's conversion configuration will be used. (default: ``None``)
+        :return: file IDs (``None`` for text inputs) and document IDs.
         """
-        files_ids, documents_ids = [], []
+        file_ids, document_ids = [], []
         if convert_request is None:
             project_info = await self.get_api_structured_extraction_structuredprojectid(
                 project_id
@@ -427,11 +441,15 @@ class NuMindAsync(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
             )
         for example_input, example_output in examples:
-            # Prepare the example input and output, upload the input as file
-            example_output = _parse_template(example_output)
-            if isinstance(example_input, (Path, bytes)):
-                example_input, file_name = _parse_input_file(example_input)
-                file_id = (await self.post_api_files(file_name, example_input)).file_id
+            prepared_example_input, example_file_name, parsed_example_output = (
+                _prepare_structured_example(example_input, example_output)
+            )
+
+            # Upload files or create text documents for the normalized input.
+            if isinstance(prepared_example_input, bytes):
+                file_id = (
+                    await self.post_api_files(example_file_name, prepared_example_input)
+                ).file_id
                 document_id = (
                     await self.post_api_files_fileid_convert_to_document(
                         file_id, convert_request
@@ -440,44 +458,60 @@ class NuMindAsync(
             else:
                 file_id = None
                 document_id = (
-                    await self.post_api_documents_text(TextRequest(text=example_input))
+                    await self.post_api_documents_text(
+                        TextRequest(text=prepared_example_input)
+                    )
                 ).doc_info.actual_instance.document_id
-            files_ids.append(file_id)
-            documents_ids.append(document_id)
+            file_ids.append(file_id)
+            document_ids.append(document_id)
 
             # Add the example to the project
             await self.post_api_structured_extraction_structuredprojectid_examples(
                 project_id,
                 CreateOrUpdateStructuredExampleRequest(
-                    documentId=StrictStr(document_id), result=example_output
+                    documentId=StrictStr(document_id), result=parsed_example_output
                 ),
             )
 
-        return files_ids, documents_ids
+        return file_ids, document_ids
 
     async def extract_content(
-        self, input_file: Path | str | bytes | None = None, **kwargs
-    ) -> ContentExtractionResponse:
+        self,
+        input_file: Path | str | bytes | None = None,
+        job_status_polling_delay: float = JOB_POLLING_DELAY_SECONDS,
+        raise_on_job_fail: bool = True,
+        **kwargs,
+    ) -> ContentExtractionResponse | FailedJobStatusResponse:
         """
         Extract Markdown content from an input file.
 
         :param input_file: input file to extract content from, provided as a
             ``pathlib.Path`` or string path, or bytes.
+        :param job_status_polling_delay: seconds to wait between job status requests.
+        :param raise_on_job_fail: whether to raise when the job fails. If false, return
+            the terminal job status and failure reason.
         :param kwargs: keyword arguments to pass to the
             ``client.post_api_content_extraction_jobs`` method.
-        :return: ``numind.models.ContentExtractionResponse`` object.
+        :return: extraction result, or failed job details when raising is disabled.
+        :raises RuntimeError: if the extraction job fails and ``raise_on_job_fail`` is
+            true.
         """
-        input_, _ = _parse_input_file(input_file)
-        job_id_response = await self.post_api_content_extraction_jobs(input_, **kwargs)
-        job_output = await self.get_api_jobs_jobid_stream(
-            job_id_response.job_id, _headers={"Accept": "text/event-stream"}
-        )
-        messages = _parse_sse_string(job_output)
-        if messages[-1]["event"] != MESSAGE_STATUS_COMPLETED:
-            raise ValueError(_ := f"Request couldn't be completed:\n{messages[-1]}")
-        return ContentExtractionResponse(
-            **json.loads(json.loads(messages[-1]["data"])["outputData"])
-        )
+        input_bytes, _ = _parse_input_file(input_file)
+        job_id = (
+            await self.post_api_content_extraction_jobs(input_bytes, **kwargs)
+        ).job_id
+        job_status = await self._poll_job_status(job_id, job_status_polling_delay)
+        if job_status.status != JOB_STATUS_COMPLETED:
+            failed_job_event_stream = await self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
+            return _raise_or_return_failed_job_response(
+                job_status,
+                failed_job_event_stream,
+                raise_on_job_fail,
+            )
+        return await self.get_api_content_extraction_jobs_contentextractionjobid(job_id)
 
 
 def _prepare_client(
@@ -506,6 +540,97 @@ def _prepare_client(
     return ApiClientAsync(configuration) if async_client else ApiClient(configuration)
 
 
+def _prepare_structured_extraction_job(
+    template: dict | BaseModel | str,
+    instructions: str | None,
+    input_text: str | None,
+    input_file: Path | str | bytes | None,
+    examples: list[tuple[str | Path | bytes, dict | BaseModel | str]] | None,
+    convert_request: ConvertRequest | None,
+    extraction_settings: dict,
+) -> tuple[str, bytes, list[bytes | tuple[str, bytes]]]:
+    """
+    Build the manifest and multipart files for a projectless extraction job.
+
+    :param template: structured output schema.
+    :param instructions: optional extraction instructions.
+    :param input_text: text document to extract from.
+    :param input_file: file document to extract from.
+    :param examples: optional input and expected-output pairs.
+    :param convert_request: optional rasterization configuration.
+    :param extraction_settings: inference settings using SDK argument names.
+    :return: serialized manifest, document bytes, and ordered example files.
+    :raises ValueError: if exactly one document input is not provided.
+    :raises KeyError: if an unknown extraction setting is provided.
+    """
+    if bool(input_text is None) ^ bool(input_file is not None):
+        msg = (
+            "An input has to be provided with either the `input_text` or "
+            "`input_file` argument."
+        )
+        raise ValueError(msg)
+
+    document_bytes = (
+        input_text.encode()
+        if input_text is not None
+        else _parse_input_file(input_file)[0]
+    )
+
+    request_settings = (
+        convert_request.model_dump(by_alias=True) if convert_request is not None else {}
+    )
+    request_settings.update(
+        {
+            STRUCTURED_EXTRACTION_SETTING_NAMES[setting_name]: setting_value
+            for setting_name, setting_value in extraction_settings.items()
+            if setting_value is not None
+        }
+    )
+    extraction_request = {
+        "schema": _parse_template(template),
+        "instructions": instructions or "",
+        "settings": request_settings,
+    }
+
+    example_files = []
+    if examples:
+        parsed_example_results = []
+        for example_input, example_output in examples:
+            prepared_example_input, example_file_name, parsed_example_output = (
+                _prepare_structured_example(example_input, example_output)
+            )
+            parsed_example_results.append({"result": parsed_example_output})
+            if isinstance(prepared_example_input, bytes):
+                example_files.append(
+                    (example_file_name, prepared_example_input)
+                    if example_file_name
+                    else prepared_example_input
+                )
+            else:
+                example_files.append(prepared_example_input.encode())
+        extraction_request["examples"] = parsed_example_results
+
+    return json.dumps(extraction_request), document_bytes, example_files
+
+
+def _prepare_structured_example(
+    example_input: str | Path | bytes,
+    example_output: dict | BaseModel | str,
+) -> tuple[str | bytes, str, dict]:
+    """
+    Normalize one structured extraction example.
+
+    :param example_input: text, path, or bytes used as the example document.
+    :param example_output: expected structured extraction output.
+    :return: normalized input, file name when applicable, and parsed output.
+    """
+    parsed_example_output = _parse_template(example_output)
+    if isinstance(example_input, (Path, bytes)):
+        example_bytes, example_file_name = _parse_input_file(example_input)
+        return example_bytes, example_file_name, parsed_example_output
+    return example_input, "", parsed_example_output
+
+
 def _parse_input_file(input_file: Path | str | bytes) -> tuple[bytes, str]:
     """Read an ``input_file`` argument provided in upstream methods."""
     file_name = ""
@@ -524,35 +649,32 @@ def _parse_template(template: dict | BaseModel | str) -> dict:
         if isinstance(template, str):
             template = json.loads(template)
         else:
-            template = BaseModel().model_dump()
+            template = template.model_dump()
     return template
 
 
-def _parse_sse_string(raw: str) -> list[dict[str, str]]:
-    messages = []
-    msg = {}
-    data_buf = []
-    for line in raw.splitlines():
-        if not line.strip():  # blank line = end of message
-            if data_buf or msg:
-                msg["data"] = "\n".join(data_buf)
-                messages.append(msg)
-                msg, data_buf = {}, []
-            continue
+def _raise_or_return_failed_job_response(
+    job_status: JobStatusResponse,
+    reason: str,
+    raise_on_job_fail: bool,
+) -> FailedJobStatusResponse:
+    """
+    Build a failed-job response and optionally raise it as a runtime error.
 
-        if line.startswith(":"):  # comment line
-            continue
-
-        field, _, value = line.partition(":")
-        value = value.lstrip(" ")
-        if field == "data":
-            data_buf.append(value)
-        else:
-            msg[field] = value
-
-    # handle final pending message
-    if data_buf or msg:
-        msg["data"] = "\n".join(data_buf)
-        messages.append(msg)
-
-    return messages
+    :param job_status: terminal status returned by the jobs API.
+    :param reason: error details returned by the job event stream.
+    :param raise_on_job_fail: whether to raise instead of returning the response.
+    :return: failed job details when raising is disabled.
+    :raises RuntimeError: if ``raise_on_job_fail`` is true.
+    """
+    failed_job_status = FailedJobStatusResponse(
+        **job_status.model_dump(),
+        reason=reason,
+    )
+    if raise_on_job_fail:
+        failed_job_error_message = (
+            f"NuExtract job {failed_job_status.id} ended with status "
+            f"{failed_job_status.status}:\n{failed_job_status.to_json()}"
+        )
+        raise RuntimeError(failed_job_error_message)
+    return failed_job_status

@@ -34,6 +34,9 @@ class TestStructuredDataExtractionApi(unittest.TestCase):
     def test_post_api_structured_extraction_structuredprojectid_jobs(self) -> None:
         """Test case for post_api_structured_extraction_structuredprojectid_jobs"""
 
+    def test_post_api_structured_extraction_structuredprojectid_jobs_text(self) -> None:
+        """Test case for post_api_structured_extraction_structuredprojectid_jobs_text"""
+
 
 if __name__ == "__main__":
     unittest.main()

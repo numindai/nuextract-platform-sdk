@@ -175,7 +175,10 @@ class NuMind(
 
         job_status = self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            failed_job_event_stream = self.get_api_jobs_jobid_stream(job_id)
+            failed_job_event_stream = self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
             return _raise_or_return_failed_job_response(
                 job_status,
                 failed_job_event_stream,
@@ -281,7 +284,10 @@ class NuMind(
         job_id = self.post_api_content_extraction_jobs(input_bytes, **kwargs).job_id
         job_status = self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            failed_job_event_stream = self.get_api_jobs_jobid_stream(job_id)
+            failed_job_event_stream = self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
             return _raise_or_return_failed_job_response(
                 job_status,
                 failed_job_event_stream,
@@ -379,7 +385,10 @@ class NuMindAsync(
 
         job_status = await self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            failed_job_event_stream = await self.get_api_jobs_jobid_stream(job_id)
+            failed_job_event_stream = await self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
             return _raise_or_return_failed_job_response(
                 job_status,
                 failed_job_event_stream,
@@ -493,7 +502,10 @@ class NuMindAsync(
         ).job_id
         job_status = await self._poll_job_status(job_id, job_status_polling_delay)
         if job_status.status != JOB_STATUS_COMPLETED:
-            failed_job_event_stream = await self.get_api_jobs_jobid_stream(job_id)
+            failed_job_event_stream = await self.get_api_jobs_jobid_stream(
+                job_id,
+                _headers={"Accept": "text/event-stream"},
+            )
             return _raise_or_return_failed_job_response(
                 job_status,
                 failed_job_event_stream,

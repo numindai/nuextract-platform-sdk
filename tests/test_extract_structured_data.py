@@ -107,7 +107,10 @@ def test_extract_structured_data_reports_failed_job_event_stream(
         )
 
     get_job_result.assert_not_called()
-    get_job_event_stream.assert_called_once_with("job-id")
+    get_job_event_stream.assert_called_once_with(
+        "job-id",
+        _headers={"Accept": "text/event-stream"},
+    )
     expected_failed_job_status = FailedJobStatusResponse(
         **failed_job_status_response.model_dump(),
         reason=failed_job_event_stream,
@@ -171,7 +174,10 @@ async def test_extract_structured_data_async_returns_failed_job_status(
     ]
     sleep.assert_awaited_once_with(0.5)
     get_job_result.assert_not_awaited()
-    get_job_event_stream.assert_awaited_once_with("job-id")
+    get_job_event_stream.assert_awaited_once_with(
+        "job-id",
+        _headers={"Accept": "text/event-stream"},
+    )
     assert result == FailedJobStatusResponse(
         **failed_job_status_response.model_dump(),
         reason=failed_job_event_stream,

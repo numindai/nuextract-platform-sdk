@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_api_template_generation_jobs_templatejobid**](TemplateGenerationApi.md#get_api_template_generation_jobs_templatejobid) | **GET** /api/template-generation/jobs/{templateJobId} | 
 [**post_api_template_generation_jobs**](TemplateGenerationApi.md#post_api_template_generation_jobs) | **POST** /api/template-generation/jobs | 
+[**post_api_template_generation_jobs_text**](TemplateGenerationApi.md#post_api_template_generation_jobs_text) | **POST** /api/template-generation/jobs/text | 
 
 
 # **get_api_template_generation_jobs_templatejobid**
@@ -197,6 +198,107 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** |  |  -  |
 **400** | Invalid value for: query parameter rasterizationDPI, Invalid value for: body |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_api_template_generation_jobs_text**
+> JobIdResponse post_api_template_generation_jobs_text(template_request, x_organization_id=x_organization_id, timeout=timeout)
+
+
+ Derive a template from the provided natural language description as an async job.
+ Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.
+ The resulting template is a JSON object that can be used as a project template.
+
+#### Response:
+ Returns a JSON containing the job ID that can be used to retrieve the job status and results.
+
+ If the job is completed successfully, the job's output data will contain the derived template.
+ The response is an empty template if the derivation fails.
+
+#### Error Responses:
+`404 Not Found` - If a **Project** with the specified `projectId` does not exist.
+
+`403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+   
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.models.job_id_response import JobIdResponse
+from numind.models.template_request import TemplateRequest
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.TemplateGenerationApi(api_client)
+    template_request = {
+        "description": "[EXAMPLE ONLY] Create a template that extracts key information from an order confirmation email. The template should be able to pull details like the order ID, customer ID, date and time of the order, status, total amount, currency, item details (product ID, quantity, and unit price), shipping address, any customer requests or delivery preferences, and the estimated delivery date."
+    }  # TemplateRequest |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+
+    try:
+        api_response = api_instance.post_api_template_generation_jobs_text(
+            template_request, x_organization_id=x_organization_id, timeout=timeout
+        )
+        print(
+            "The response of TemplateGenerationApi->post_api_template_generation_jobs_text:\n"
+        )
+        pprint(api_response)
+    except Exception as e:
+        print(
+            "Exception when calling TemplateGenerationApi->post_api_template_generation_jobs_text: %s\n"
+            % e
+        )
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **template_request** | [**TemplateRequest**](TemplateRequest.md)|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+ **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+
+### Return type
+
+[**JobIdResponse**](JobIdResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json, text/plain
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**400** | Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

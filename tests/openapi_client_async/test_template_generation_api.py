@@ -31,6 +31,9 @@ class TestTemplateGenerationApi(unittest.IsolatedAsyncioTestCase):
     async def test_post_api_template_generation_jobs(self) -> None:
         """Test case for post_api_template_generation_jobs"""
 
+    async def test_post_api_template_generation_jobs_text(self) -> None:
+        """Test case for post_api_template_generation_jobs_text"""
+
 
 if __name__ == "__main__":
     unittest.main()

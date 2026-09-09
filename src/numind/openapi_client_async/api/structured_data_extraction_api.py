@@ -107,7 +107,6 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
-            "206": "StructuredExtractionResponse",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -184,7 +183,6 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
-            "206": "StructuredExtractionResponse",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -261,7 +259,6 @@ class StructuredDataExtractionApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "StructuredExtractionResponse",
-            "206": "StructuredExtractionResponse",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(

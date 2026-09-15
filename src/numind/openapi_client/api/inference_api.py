@@ -392,7 +392,7 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -465,7 +465,7 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -558,7 +558,7 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -631,7 +631,7 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
@@ -724,7 +724,7 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6."
+                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -797,7 +797,7 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.6.
+        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
         :type temperature: float
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int

@@ -315,7 +315,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     )
     content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
     update_content_project_settings_request = {
-        "temperature": 1,
+        "temperature": 0.8,
         "rasterizationDPI": 170,
         "maxOutputTokens": 10000,
         "enableThinking": true,
@@ -394,7 +394,7 @@ A **Project** is created with default settings:
 
  Setting | Default |
 ---------|---------|
- `temperature` | 1.0 |
+ `temperature` | 0.8 |
  `rasterizationDPI` | 170 |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
@@ -499,7 +499,7 @@ Default values are:
 
  Setting | Default |
 -----------|--------|
- `temperature` | 1.0 |
+ `temperature` | 0.8 |
  `rasterizationDPI` | 170 |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |

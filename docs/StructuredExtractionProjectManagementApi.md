@@ -565,7 +565,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     )
     structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
     update_structured_project_settings_request = {
-        "temperature": 0.6,
+        "temperature": 0.2,
         "rasterizationDPI": 170,
         "maxOutputTokens": 0,
         "degradedMode": "Reject",
@@ -650,7 +650,7 @@ A **Project** is created with default settings:
 
  Setting | Default |
 ---------|---------|
- `temperature` | 0.6 |
+ `temperature` | 0.2 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
@@ -990,7 +990,7 @@ Default values are:
 
  Setting | Default |
 -----------|---------|
- `temperature` | 0.6 |
+ `temperature` | 0.2 |
  `rasterizationDPI` | 170|
  `maxOutputTokens` | 0 (no limit) |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |

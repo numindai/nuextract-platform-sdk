@@ -42,7 +42,9 @@ __all__ = [
     "ContentExtractionResponse",
     "ContentProjectResponse",
     "ContentProjectSettingsResponse",
+    "ContentProjectSettingsResponseRasterizationDPI",
     "ConvertRequest",
+    "ConvertRequestRasterizationDPI",
     "CreateContentProjectRequest",
     "CreateOrUpdateStructuredExampleRequest",
     "CreateStructuredProjectRequest",
@@ -53,13 +55,16 @@ __all__ = [
     "HealthResponse",
     "ImageInfo",
     "ImportProjectResponse",
-    "InferenceStatus",
     "InferenceValidationError",
     "InformationResponse",
     "InvalidInformation",
     "JobIdResponse",
+    "JobReportResponse",
     "JobStatusResponse",
     "PaginatedResponseT",
+    "PostProcessingErrorResponse",
+    "PostProcessingRepairResponse",
+    "PostProcessingReportResponse",
     "ServiceStatus",
     "Structured",
     "StructuredExampleResponse",
@@ -67,14 +72,17 @@ __all__ = [
     "StructuredInferenceExample",
     "StructuredProjectResponse",
     "StructuredProjectSettingsResponse",
+    "StructuredProjectSettingsResponseRasterizationDPI",
     "TemplateRequest",
     "TemplateResponse",
     "TextInfo",
     "TextRequest",
     "UpdateContentProjectRequest",
     "UpdateContentProjectSettingsRequest",
+    "UpdateContentProjectSettingsRequestRasterizationDPI",
     "UpdateStructuredProjectRequest",
     "UpdateStructuredProjectSettingsRequest",
+    "UpdateStructuredProjectSettingsRequestRasterizationDPI",
     "ValidInformation",
     "VersionResponse",
 ]
@@ -129,7 +137,13 @@ from numind.models.content_project_response import (
 from numind.models.content_project_settings_response import (
     ContentProjectSettingsResponse as ContentProjectSettingsResponse,
 )
+from numind.models.content_project_settings_response_rasterization_dpi import (
+    ContentProjectSettingsResponseRasterizationDPI as ContentProjectSettingsResponseRasterizationDPI,
+)
 from numind.models.convert_request import ConvertRequest as ConvertRequest
+from numind.models.convert_request_rasterization_dpi import (
+    ConvertRequestRasterizationDPI as ConvertRequestRasterizationDPI,
+)
 from numind.models.create_content_project_request import (
     CreateContentProjectRequest as CreateContentProjectRequest,
 )
@@ -148,7 +162,6 @@ from numind.models.image_info import ImageInfo as ImageInfo
 from numind.models.import_project_response import (
     ImportProjectResponse as ImportProjectResponse,
 )
-from numind.models.inference_status import InferenceStatus as InferenceStatus
 from numind.models.inference_validation_error import (
     InferenceValidationError as InferenceValidationError,
 )
@@ -157,8 +170,18 @@ from numind.models.information_response import (
 )
 from numind.models.invalid_information import InvalidInformation as InvalidInformation
 from numind.models.job_id_response import JobIdResponse as JobIdResponse
+from numind.models.job_report_response import JobReportResponse as JobReportResponse
 from numind.models.job_status_response import JobStatusResponse as JobStatusResponse
 from numind.models.paginated_response_t import PaginatedResponseT as PaginatedResponseT
+from numind.models.post_processing_error_response import (
+    PostProcessingErrorResponse as PostProcessingErrorResponse,
+)
+from numind.models.post_processing_repair_response import (
+    PostProcessingRepairResponse as PostProcessingRepairResponse,
+)
+from numind.models.post_processing_report_response import (
+    PostProcessingReportResponse as PostProcessingReportResponse,
+)
 from numind.models.service_status import ServiceStatus as ServiceStatus
 from numind.models.structured import Structured as Structured
 from numind.models.structured_example_response import (
@@ -176,6 +199,9 @@ from numind.models.structured_project_response import (
 from numind.models.structured_project_settings_response import (
     StructuredProjectSettingsResponse as StructuredProjectSettingsResponse,
 )
+from numind.models.structured_project_settings_response_rasterization_dpi import (
+    StructuredProjectSettingsResponseRasterizationDPI as StructuredProjectSettingsResponseRasterizationDPI,
+)
 from numind.models.template_request import TemplateRequest as TemplateRequest
 from numind.models.template_response import TemplateResponse as TemplateResponse
 from numind.models.text_info import TextInfo as TextInfo
@@ -186,11 +212,17 @@ from numind.models.update_content_project_request import (
 from numind.models.update_content_project_settings_request import (
     UpdateContentProjectSettingsRequest as UpdateContentProjectSettingsRequest,
 )
+from numind.models.update_content_project_settings_request_rasterization_dpi import (
+    UpdateContentProjectSettingsRequestRasterizationDPI as UpdateContentProjectSettingsRequestRasterizationDPI,
+)
 from numind.models.update_structured_project_request import (
     UpdateStructuredProjectRequest as UpdateStructuredProjectRequest,
 )
 from numind.models.update_structured_project_settings_request import (
     UpdateStructuredProjectSettingsRequest as UpdateStructuredProjectSettingsRequest,
+)
+from numind.models.update_structured_project_settings_request_rasterization_dpi import (
+    UpdateStructuredProjectSettingsRequestRasterizationDPI as UpdateStructuredProjectSettingsRequestRasterizationDPI,
 )
 from numind.models.valid_information import ValidInformation as ValidInformation
 from numind.models.version_response import VersionResponse as VersionResponse

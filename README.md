@@ -325,6 +325,7 @@ Class | Method | HTTP request | Description
 *InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/document/{documentId} | 
 *InferenceApi* | [**post_api_template_generation_jobs_document_documentid**](docs/InferenceApi.md#post_api_template_generation_jobs_document_documentid) | **POST** /api/template-generation/jobs/document/{documentId} | 
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
+*JobsApi* | [**get_api_jobs_jobid_reports**](docs/JobsApi.md#get_api_jobs_jobid_reports) | **GET** /api/jobs/{jobId}/reports | 
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 *JobsApi* | [**post_api_jobs_jobid_cancel**](docs/JobsApi.md#post_api_jobs_jobid_cancel) | **POST** /api/jobs/{jobId}/cancel | 
@@ -363,7 +364,9 @@ Class | Method | HTTP request | Description
  - [ContentExtractionResponse](docs/ContentExtractionResponse.md)
  - [ContentProjectResponse](docs/ContentProjectResponse.md)
  - [ContentProjectSettingsResponse](docs/ContentProjectSettingsResponse.md)
+ - [ContentProjectSettingsResponseRasterizationDPI](docs/ContentProjectSettingsResponseRasterizationDPI.md)
  - [ConvertRequest](docs/ConvertRequest.md)
+ - [ConvertRequestRasterizationDPI](docs/ConvertRequestRasterizationDPI.md)
  - [CreateContentProjectRequest](docs/CreateContentProjectRequest.md)
  - [CreateOrUpdateStructuredExampleRequest](docs/CreateOrUpdateStructuredExampleRequest.md)
  - [CreateStructuredProjectRequest](docs/CreateStructuredProjectRequest.md)
@@ -374,13 +377,16 @@ Class | Method | HTTP request | Description
  - [HealthResponse](docs/HealthResponse.md)
  - [ImageInfo](docs/ImageInfo.md)
  - [ImportProjectResponse](docs/ImportProjectResponse.md)
- - [InferenceStatus](docs/InferenceStatus.md)
  - [InferenceValidationError](docs/InferenceValidationError.md)
  - [InformationResponse](docs/InformationResponse.md)
  - [InvalidInformation](docs/InvalidInformation.md)
  - [JobIdResponse](docs/JobIdResponse.md)
+ - [JobReportResponse](docs/JobReportResponse.md)
  - [JobStatusResponse](docs/JobStatusResponse.md)
  - [PaginatedResponseT](docs/PaginatedResponseT.md)
+ - [PostProcessingErrorResponse](docs/PostProcessingErrorResponse.md)
+ - [PostProcessingRepairResponse](docs/PostProcessingRepairResponse.md)
+ - [PostProcessingReportResponse](docs/PostProcessingReportResponse.md)
  - [ServiceStatus](docs/ServiceStatus.md)
  - [Structured](docs/Structured.md)
  - [StructuredExampleResponse](docs/StructuredExampleResponse.md)
@@ -388,14 +394,17 @@ Class | Method | HTTP request | Description
  - [StructuredInferenceExample](docs/StructuredInferenceExample.md)
  - [StructuredProjectResponse](docs/StructuredProjectResponse.md)
  - [StructuredProjectSettingsResponse](docs/StructuredProjectSettingsResponse.md)
+ - [StructuredProjectSettingsResponseRasterizationDPI](docs/StructuredProjectSettingsResponseRasterizationDPI.md)
  - [TemplateRequest](docs/TemplateRequest.md)
  - [TemplateResponse](docs/TemplateResponse.md)
  - [TextInfo](docs/TextInfo.md)
  - [TextRequest](docs/TextRequest.md)
  - [UpdateContentProjectRequest](docs/UpdateContentProjectRequest.md)
  - [UpdateContentProjectSettingsRequest](docs/UpdateContentProjectSettingsRequest.md)
+ - [UpdateContentProjectSettingsRequestRasterizationDPI](docs/UpdateContentProjectSettingsRequestRasterizationDPI.md)
  - [UpdateStructuredProjectRequest](docs/UpdateStructuredProjectRequest.md)
  - [UpdateStructuredProjectSettingsRequest](docs/UpdateStructuredProjectSettingsRequest.md)
+ - [UpdateStructuredProjectSettingsRequestRasterizationDPI](docs/UpdateStructuredProjectSettingsRequestRasterizationDPI.md)
  - [ValidInformation](docs/ValidInformation.md)
  - [VersionResponse](docs/VersionResponse.md)
 

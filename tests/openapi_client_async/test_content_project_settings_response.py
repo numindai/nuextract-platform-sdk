@@ -38,7 +38,7 @@ class TestContentProjectSettingsResponse(unittest.TestCase):
         if include_optional:
             return ContentProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 enable_thinking = True,
                 random_seed = ''
@@ -46,7 +46,7 @@ class TestContentProjectSettingsResponse(unittest.TestCase):
         else:
             return ContentProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 enable_thinking = True,
                 random_seed = '',

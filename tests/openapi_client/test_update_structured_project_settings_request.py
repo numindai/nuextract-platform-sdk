@@ -38,7 +38,7 @@ class TestUpdateStructuredProjectSettingsRequest(unittest.TestCase):
         if include_optional:
             return UpdateStructuredProjectSettingsRequest(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 degraded_mode = '',
                 max_example_token_number = 0,

@@ -41,7 +41,7 @@ class ImageInfo(BaseModel):
         description="Possible transformations that can be done with this document.",
         alias="possibleTransformations",
     )
-    dpi: Optional[Annotated[int, Field(le=300, strict=True, gt=0)]] = Field(
+    dpi: Optional[Annotated[int, Field(le=600, strict=True, gt=0)]] = Field(
         default=None,
         description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.",
     )

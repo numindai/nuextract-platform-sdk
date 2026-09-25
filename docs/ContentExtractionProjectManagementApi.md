@@ -275,7 +275,7 @@ Name | Type | Description  | Notes
 
 Update the settings of an existing **Content Extraction Project**.
 
-Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
+Omitted fields keep their current value. Set `rasterizationDPI` to `"automatic"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
 
 #### Error Responses:
 `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.
@@ -316,7 +316,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
     update_content_project_settings_request = {
         "temperature": 0.8,
-        "rasterizationDPI": 170,
+        "rasterizationDPI": "automatic",
         "maxOutputTokens": 10000,
         "enableThinking": true,
         "randomSeed": "2022",
@@ -395,7 +395,7 @@ A **Project** is created with default settings:
  Setting | Default |
 ---------|---------|
  `temperature` | 0.8 |
- `rasterizationDPI` | 170 |
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
@@ -500,7 +500,7 @@ Default values are:
  Setting | Default |
 -----------|--------|
  `temperature` | 0.8 |
- `rasterizationDPI` | 170 |
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |

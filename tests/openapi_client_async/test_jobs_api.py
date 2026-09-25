@@ -26,6 +26,9 @@ class TestJobsApi(unittest.IsolatedAsyncioTestCase):
     async def test_get_api_jobs(self) -> None:
         """Test case for get_api_jobs"""
 
+    async def test_get_api_jobs_jobid_reports(self) -> None:
+        """Test case for get_api_jobs_jobid_reports"""
+
     async def test_get_api_jobs_jobid_status(self) -> None:
         """Test case for get_api_jobs_jobid_status"""
 

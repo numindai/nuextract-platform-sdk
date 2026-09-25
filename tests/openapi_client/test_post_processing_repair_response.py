@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.inference_status import InferenceStatus
+from numind.models.post_processing_repair_response import PostProcessingRepairResponse
 
 
-class TestInferenceStatus(unittest.TestCase):
-    """InferenceStatus unit test stubs"""
+class TestPostProcessingRepairResponse(unittest.TestCase):
+    """PostProcessingRepairResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,30 +23,41 @@ class TestInferenceStatus(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> InferenceStatus:
+    def make_instance(self, include_optional) -> PostProcessingRepairResponse:
         """
-        Test InferenceStatus
+        Test PostProcessingRepairResponse
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `InferenceStatus`
+        # uncomment below to create an instance of `PostProcessingRepairResponse`
         """
-        model = InferenceStatus()
+        model = PostProcessingRepairResponse()
         if include_optional:
-            return InferenceStatus(
-                running = 56,
-                waiting = 56
+            return PostProcessingRepairResponse(
+                sequence = 56,
+                code = '',
+                message = '',
+                path = '',
+                before = '',
+                after = '',
+                details = {
+                    'key' : ''
+                    }
             )
         else:
-            return InferenceStatus(
-                running = 56,
-                waiting = 56,
+            return PostProcessingRepairResponse(
+                sequence = 56,
+                code = '',
+                message = '',
+                details = {
+                    'key' : ''
+                    },
         )
         """
 
-    def testInferenceStatus(self):
-        """Test InferenceStatus"""
+    def testPostProcessingRepairResponse(self):
+        """Test PostProcessingRepairResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

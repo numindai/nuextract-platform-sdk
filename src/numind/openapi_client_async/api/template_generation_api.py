@@ -336,9 +336,9 @@ class TemplateGenerationApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         timeout: Annotated[
@@ -368,8 +368,8 @@ class TemplateGenerationApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored.
+        :type rasterization_dpi: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -429,9 +429,9 @@ class TemplateGenerationApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         timeout: Annotated[
@@ -461,8 +461,8 @@ class TemplateGenerationApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored.
+        :type rasterization_dpi: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -522,9 +522,9 @@ class TemplateGenerationApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         timeout: Annotated[
@@ -554,8 +554,8 @@ class TemplateGenerationApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored.
+        :type rasterization_dpi: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one

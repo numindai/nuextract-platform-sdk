@@ -11,11 +11,13 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.inference_status import InferenceStatus
+from numind.models.structured_project_settings_response_rasterization_dpi import (
+    StructuredProjectSettingsResponseRasterizationDPI,
+)
 
 
-class TestInferenceStatus(unittest.TestCase):
-    """InferenceStatus unit test stubs"""
+class TestStructuredProjectSettingsResponseRasterizationDPI(unittest.TestCase):
+    """StructuredProjectSettingsResponseRasterizationDPI unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,30 +25,28 @@ class TestInferenceStatus(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> InferenceStatus:
+    def make_instance(
+        self, include_optional
+    ) -> StructuredProjectSettingsResponseRasterizationDPI:
         """
-        Test InferenceStatus
+        Test StructuredProjectSettingsResponseRasterizationDPI
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `InferenceStatus`
+        # uncomment below to create an instance of `StructuredProjectSettingsResponseRasterizationDPI`
         """
-        model = InferenceStatus()
+        model = StructuredProjectSettingsResponseRasterizationDPI()
         if include_optional:
-            return InferenceStatus(
-                running = 56,
-                waiting = 56
+            return StructuredProjectSettingsResponseRasterizationDPI(
             )
         else:
-            return InferenceStatus(
-                running = 56,
-                waiting = 56,
+            return StructuredProjectSettingsResponseRasterizationDPI(
         )
         """
 
-    def testInferenceStatus(self):
-        """Test InferenceStatus"""
+    def testStructuredProjectSettingsResponseRasterizationDPI(self):
+        """Test StructuredProjectSettingsResponseRasterizationDPI"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

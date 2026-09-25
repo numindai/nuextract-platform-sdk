@@ -522,8 +522,19 @@ Name | Type | Description  | Notes
 
 Update the settings of an existing **Structured Extraction Project**.
 
-Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
+Omitted fields keep their current value. Set `rasterizationDPI` to `"automatic"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
 
+#### DPI request examples:
+
+ Request body | Effect |
+ --- | --- |
+ `{"rasterizationDPI":"automatic"}` | Select automatic resolution. |
+ `{"rasterizationDPI":155}` | Select a fixed resolution of 155 DPI. |
+ `{"rasterizationDPI":"200"}` | Select 200 DPI; responses encode this as the number `200`. |
+ `{}` or `{"rasterizationDPI":null}` | Keep the current setting. |
+
+The `automatic` keyword is case-insensitive. Fixed values must be whole numbers between 1 and 600, inclusive.
+Values such as `0`, `601`, `155.5`, `"155.5"`, `""`, and `true` are rejected.
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
@@ -566,7 +577,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
     update_structured_project_settings_request = {
         "temperature": 0.2,
-        "rasterizationDPI": 170,
+        "rasterizationDPI": "automatic",
         "maxOutputTokens": 0,
         "degradedMode": "Reject",
         "maxExampleTokenNumber": 90000,
@@ -651,7 +662,7 @@ A **Project** is created with default settings:
  Setting | Default |
 ---------|---------|
  `temperature` | 0.2 |
- `rasterizationDPI` | 170|
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 0 (no limit) |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
  `degradedMode` (deprecated) | Reject|
@@ -793,8 +804,8 @@ It is allowed to duplicate locked **Projects** and **Reference Projects**.
 
 #### Effect:
 - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**.
-- If the target organization is the same as the source, the project name is changed to "Original Name (copy)".
-- If the target organization is different from the source, all **Documents** associated with the **Project** are copied.
+- If the destination ownership scope is the same as the source, the project name is changed to "Original Name (copy)" and its **Documents** are reused.
+- If the destination ownership scope differs, all **Documents** associated with the **Project** are copied into the destination scope. Personal projects owned by different users are different ownership scopes.
 
 #### Response:
  The response contains a newly generated
@@ -991,7 +1002,7 @@ Default values are:
  Setting | Default |
 -----------|---------|
  `temperature` | 0.2 |
- `rasterizationDPI` | 170|
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 0 (no limit) |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
  `degradedMode`  (deprecated) | Reject|

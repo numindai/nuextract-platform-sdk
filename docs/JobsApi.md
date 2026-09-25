@@ -5,6 +5,7 @@ All URIs are relative to *https://nuextract.ai*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_api_jobs**](JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
+[**get_api_jobs_jobid_reports**](JobsApi.md#get_api_jobs_jobid_reports) | **GET** /api/jobs/{jobId}/reports | 
 [**get_api_jobs_jobid_status**](JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 [**get_api_jobs_jobid_stream**](JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 [**post_api_jobs_jobid_cancel**](JobsApi.md#post_api_jobs_jobid_cancel) | **POST** /api/jobs/{jobId}/cancel | 
@@ -96,6 +97,98 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** |  |  -  |
 **400** | Invalid value for: query parameter skip, Invalid value for: query parameter perPage |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_api_jobs_jobid_reports**
+> List[JobReportResponse] get_api_jobs_jobid_reports(job_id, x_organization_id=x_organization_id)
+
+
+ Get the inference post-processing reports associated with a job.
+
+ For fan-out jobs, the response also includes reports produced by child
+ jobs, ordered by child index. If an inference job succeeds without any
+ repairs or post-processing errors, no report is stored and the response
+ does not include an entry for that job. The response can therefore be
+ empty while a job is still running, after it succeeds without
+ post-processing issues, or for job types that do not run inference
+ directly.
+
+ Reports are retained until their associated jobs are deleted.
+
+#### Error Responses:
+`404 Not Found` - If a job with the specified ID does not exist.
+
+`403 Forbidden` - If the user does not have permission to access this job.
+   
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.models.job_report_response import JobReportResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.JobsApi(api_client)
+    job_id = "job_id_example"  # str | Unique job identifier.
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+
+    try:
+        api_response = api_instance.get_api_jobs_jobid_reports(
+            job_id, x_organization_id=x_organization_id
+        )
+        print("The response of JobsApi->get_api_jobs_jobid_reports:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling JobsApi->get_api_jobs_jobid_reports: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **job_id** | **str**| Unique job identifier. | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+
+### Return type
+
+[**List[JobReportResponse]**](JobReportResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -38,7 +38,7 @@ class TestStructuredProjectSettingsResponse(unittest.TestCase):
         if include_optional:
             return StructuredProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 max_example_token_number = 0,
                 max_example_number = 56,
@@ -49,7 +49,7 @@ class TestStructuredProjectSettingsResponse(unittest.TestCase):
         else:
             return StructuredProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 max_example_token_number = 0,
                 max_example_number = 56,

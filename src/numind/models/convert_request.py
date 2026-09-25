@@ -14,11 +14,15 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
+
+from numind.models.convert_request_rasterization_dpi import (
+    ConvertRequestRasterizationDPI,
+)
 
 
 class ConvertRequest(BaseModel):
@@ -26,11 +30,12 @@ class ConvertRequest(BaseModel):
     ConvertRequest
     """
 
-    rasterization_dpi: Annotated[int, Field(le=300, strict=True, gt=0)] = Field(
-        description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.   Ranges between 1 and 300.",
-        alias="rasterizationDPI",
+    rasterization_dpi: ConvertRequestRasterizationDPI = Field(alias="rasterizationDPI")
+    token_budget_type: StrictStr = Field(
+        description="Token budget allocation used while converting the document: `per-page` applies a separate budget to each page, while `all-pages` shares one budget across the entire document.",
+        alias="tokenBudgetType",
     )
-    __properties: ClassVar[List[str]] = ["rasterizationDPI"]
+    __properties: ClassVar[List[str]] = ["rasterizationDPI", "tokenBudgetType"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -70,6 +75,9 @@ class ConvertRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of rasterization_dpi
+        if self.rasterization_dpi:
+            _dict["rasterizationDPI"] = self.rasterization_dpi.to_dict()
         return _dict
 
     @classmethod
@@ -81,5 +89,14 @@ class ConvertRequest(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({"rasterizationDPI": obj.get("rasterizationDPI")})
+        _obj = cls.model_validate(
+            {
+                "rasterizationDPI": ConvertRequestRasterizationDPI.from_dict(
+                    obj["rasterizationDPI"]
+                )
+                if obj.get("rasterizationDPI") is not None
+                else None,
+                "tokenBudgetType": obj.get("tokenBudgetType"),
+            }
+        )
         return _obj

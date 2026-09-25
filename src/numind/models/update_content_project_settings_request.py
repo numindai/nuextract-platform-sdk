@@ -20,6 +20,10 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
+from numind.models.update_content_project_settings_request_rasterization_dpi import (
+    UpdateContentProjectSettingsRequestRasterizationDPI,
+)
+
 
 class UpdateContentProjectSettingsRequest(BaseModel):
     """
@@ -32,12 +36,8 @@ class UpdateContentProjectSettingsRequest(BaseModel):
             Annotated[int, Field(le=2, strict=True, ge=0)],
         ]
     ] = Field(default=None, description="Model temperature (optional).")
-    rasterization_dpi: Optional[Annotated[int, Field(le=300, strict=True, gt=0)]] = (
-        Field(
-            default=None,
-            description="Resolution used to convert formatted documents to images (optional).",
-            alias="rasterizationDPI",
-        )
+    rasterization_dpi: Optional[UpdateContentProjectSettingsRequestRasterizationDPI] = (
+        Field(default=None, alias="rasterizationDPI")
     )
     max_output_tokens: Optional[StrictInt] = Field(
         default=None,
@@ -100,6 +100,9 @@ class UpdateContentProjectSettingsRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of rasterization_dpi
+        if self.rasterization_dpi:
+            _dict["rasterizationDPI"] = self.rasterization_dpi.to_dict()
         return _dict
 
     @classmethod
@@ -114,7 +117,11 @@ class UpdateContentProjectSettingsRequest(BaseModel):
         _obj = cls.model_validate(
             {
                 "temperature": obj.get("temperature"),
-                "rasterizationDPI": obj.get("rasterizationDPI"),
+                "rasterizationDPI": UpdateContentProjectSettingsRequestRasterizationDPI.from_dict(
+                    obj["rasterizationDPI"]
+                )
+                if obj.get("rasterizationDPI") is not None
+                else None,
                 "maxOutputTokens": obj.get("maxOutputTokens"),
                 "enableThinking": obj.get("enableThinking"),
                 "randomSeed": obj.get("randomSeed"),

@@ -120,6 +120,7 @@ Name | Type | Description  | Notes
 
  The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.
  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.
+ `settings.rasterizationDPI` accepts `"automatic"` or an integer from 1 to 600, such as `200`. Numeric strings such as `"200"` are also accepted.
 
 #### Request JSON:
 ```json
@@ -278,9 +279,9 @@ Name | Type | Description  | Notes
 
 
  Extract structured information from the provided text or file as an async job. Some files are converted to images -
- the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,
+ the **dpi** query parameter accepts `automatic` or an integer from 1 to 600 for this request. When **temperature**, **dpi**,
  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,
- they are set to their project-setting values.
+ they are set to their project-setting values. The project DPI setting can be `"automatic"` or a fixed DPI number.
 
 #### Response:
  Returns a JSON containing the job ID that can be used to retrieve the job status and results.
@@ -328,7 +329,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     body = None  # bytes |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     temperature = 3.4  # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2. (optional)
-    dpi = 56  # int | DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+    dpi = "dpi_example"  # str | Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. (optional)
     max_output_tokens = 56  # int | Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. (optional)
     max_example_token_number = 56  # int | Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. (optional)
     max_example_number = 56  # int | Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. (optional)
@@ -376,7 +377,7 @@ Name | Type | Description  | Notes
  **body** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request &#x60;temperature&#x60; -&gt; project setting. New and reset projects default to 0.2. | [optional] 
- **dpi** | **int**| DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
+ **dpi** | **str**| Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
  **max_output_tokens** | **int**| Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit. | [optional] 
  **max_example_token_number** | **int**| Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model. | [optional] 
  **max_example_number** | **int**| Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit. | [optional] 
@@ -403,7 +404,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter dpi, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter maxExampleNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter maxExampleNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

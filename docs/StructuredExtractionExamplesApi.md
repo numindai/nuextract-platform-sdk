@@ -298,11 +298,8 @@ Once created, this **Example** will be automatically applied to subsequent infer
 In such cases, the **Example** will be skipped.
 
 #### Note:
- If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.
  If the **Document** ownership scope does not match the **Project** ownership scope, the **Example** creation will fail.
-
-#### Effect:
- If the **Project** is a **Reference Project**, the **Document** used to create this **Example** will be automatically shared for read access to all users.
+ Sharing a **Reference Project** does not make its **Documents** independently accessible through the document endpoints.
 
 #### Response:
  The response contains `exampleId`, which is required to update or delete this **Example**.

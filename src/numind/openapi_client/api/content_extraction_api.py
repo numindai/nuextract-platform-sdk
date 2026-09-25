@@ -350,9 +350,9 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default automatic dpi."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -404,8 +404,8 @@ class ContentExtractionApi:
         :type project_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default automatic dpi.
+        :type rasterization_dpi: str
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit.
         :type max_output_tokens: int
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
@@ -493,9 +493,9 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default automatic dpi."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -547,8 +547,8 @@ class ContentExtractionApi:
         :type project_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default automatic dpi.
+        :type rasterization_dpi: str
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit.
         :type max_output_tokens: int
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
@@ -636,9 +636,9 @@ class ContentExtractionApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default automatic dpi."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -690,8 +690,8 @@ class ContentExtractionApi:
         :type project_id: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default automatic dpi.
+        :type rasterization_dpi: str
         :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit.
         :type max_output_tokens: int
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.

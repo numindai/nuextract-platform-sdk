@@ -69,7 +69,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `enableThinking`: project setting  - `thinkingTokenBudget`: project setting  - `loopDetection`: project setting  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -161,7 +161,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `enableThinking`: project setting  - `thinkingTokenBudget`: project setting  - `loopDetection`: project setting  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -253,7 +253,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `enableThinking`: project setting  - `thinkingTokenBudget`: project setting  - `loopDetection`: project setting  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -430,6 +430,18 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -477,6 +489,10 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -512,6 +528,8 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -596,6 +614,18 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -643,6 +673,10 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -678,6 +712,8 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -762,6 +798,18 @@ class InferenceApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -809,6 +857,10 @@ class InferenceApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -844,6 +896,8 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -873,6 +927,8 @@ class InferenceApi:
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         random_seed,
         timeout,
         _request_auth,
@@ -917,6 +973,12 @@ class InferenceApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))
@@ -966,6 +1028,24 @@ class InferenceApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Disabled by default."
+            ),
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Enabled by default."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -993,6 +1073,12 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning (optional). Disabled by default.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Enabled by default.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1019,6 +1105,9 @@ class InferenceApi:
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1028,6 +1117,7 @@ class InferenceApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
+            "400": "str",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1049,6 +1139,24 @@ class InferenceApi:
             Optional[StrictStr],
             Field(
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Disabled by default."
+            ),
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Enabled by default."
             ),
         ] = None,
         timeout: Annotated[
@@ -1078,6 +1186,12 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning (optional). Disabled by default.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Enabled by default.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1104,6 +1218,9 @@ class InferenceApi:
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1113,6 +1230,7 @@ class InferenceApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
+            "400": "str",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1134,6 +1252,24 @@ class InferenceApi:
             Optional[StrictStr],
             Field(
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Enable thinking/reasoning (optional). Disabled by default."
+            ),
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Enabled by default."
             ),
         ] = None,
         timeout: Annotated[
@@ -1163,6 +1299,12 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning (optional). Disabled by default.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Enabled by default.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1189,6 +1331,9 @@ class InferenceApi:
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1198,6 +1343,7 @@ class InferenceApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
+            "400": "str",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1209,6 +1355,9 @@ class InferenceApi:
         self,
         document_id,
         x_organization_id,
+        enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         timeout,
         _request_auth,
         _content_type,
@@ -1233,6 +1382,15 @@ class InferenceApi:
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
+
         if timeout is not None:
             _query_params.append(("timeout", timeout))
 
@@ -1245,7 +1403,7 @@ class InferenceApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
+                ["application/json", "text/plain"]
             )
 
         # authentication setting

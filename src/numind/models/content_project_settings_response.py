@@ -20,6 +20,10 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
+from numind.models.content_project_settings_response_rasterization_dpi import (
+    ContentProjectSettingsResponseRasterizationDPI,
+)
+
 
 class ContentProjectSettingsResponse(BaseModel):
     """
@@ -30,9 +34,8 @@ class ContentProjectSettingsResponse(BaseModel):
         Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
         Annotated[int, Field(le=2, strict=True, ge=0)],
     ] = Field(description="Model temperature.")
-    rasterization_dpi: Annotated[int, Field(le=300, strict=True, gt=0)] = Field(
-        description="Resolution used to convert formatted documents to images.",
-        alias="rasterizationDPI",
+    rasterization_dpi: ContentProjectSettingsResponseRasterizationDPI = Field(
+        alias="rasterizationDPI"
     )
     max_output_tokens: StrictInt = Field(
         description="Maximum number of output tokens. Must be positive. Set to 0 for no limit.",
@@ -40,6 +43,14 @@ class ContentProjectSettingsResponse(BaseModel):
     )
     enable_thinking: StrictBool = Field(
         description="Enable thinking/reasoning.", alias="enableThinking"
+    )
+    thinking_token_budget: StrictInt = Field(
+        description="Maximum number of thinking tokens. Set to 0 for no limit.",
+        alias="thinkingTokenBudget",
+    )
+    loop_detection: StrictBool = Field(
+        description="Stop the generation when the model repeats itself.",
+        alias="loopDetection",
     )
     random_seed: StrictStr = Field(
         description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.",
@@ -50,6 +61,8 @@ class ContentProjectSettingsResponse(BaseModel):
         "rasterizationDPI",
         "maxOutputTokens",
         "enableThinking",
+        "thinkingTokenBudget",
+        "loopDetection",
         "randomSeed",
     ]
 
@@ -91,6 +104,9 @@ class ContentProjectSettingsResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of rasterization_dpi
+        if self.rasterization_dpi:
+            _dict["rasterizationDPI"] = self.rasterization_dpi.to_dict()
         return _dict
 
     @classmethod
@@ -105,9 +121,15 @@ class ContentProjectSettingsResponse(BaseModel):
         _obj = cls.model_validate(
             {
                 "temperature": obj.get("temperature"),
-                "rasterizationDPI": obj.get("rasterizationDPI"),
+                "rasterizationDPI": ContentProjectSettingsResponseRasterizationDPI.from_dict(
+                    obj["rasterizationDPI"]
+                )
+                if obj.get("rasterizationDPI") is not None
+                else None,
                 "maxOutputTokens": obj.get("maxOutputTokens"),
                 "enableThinking": obj.get("enableThinking"),
+                "thinkingTokenBudget": obj.get("thinkingTokenBudget"),
+                "loopDetection": obj.get("loopDetection"),
                 "randomSeed": obj.get("randomSeed"),
             }
         )

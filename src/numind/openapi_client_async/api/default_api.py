@@ -15,7 +15,6 @@ from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
 from numind.models.health_response import HealthResponse
-from numind.models.inference_status import InferenceStatus
 from numind.models.version_response import VersionResponse
 from numind.openapi_client_async.api_client import ApiClient, RequestSerialized
 from numind.openapi_client_async.rest import RESTResponseType
@@ -545,7 +544,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, InferenceStatus]:
+    ) -> Dict[str, str]:
         """
         get_api_inference_status
 
@@ -578,7 +577,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "Dict[str, InferenceStatus]",
+            "200": "Dict[str, str]",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -604,7 +603,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, InferenceStatus]]:
+    ) -> ApiResponse[Dict[str, str]]:
         """
         get_api_inference_status
 
@@ -637,7 +636,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "Dict[str, InferenceStatus]",
+            "200": "Dict[str, str]",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -696,7 +695,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "Dict[str, InferenceStatus]",
+            "200": "Dict[str, str]",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(

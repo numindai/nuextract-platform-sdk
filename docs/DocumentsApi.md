@@ -184,14 +184,21 @@ Name | Type | Description  | Notes
 > DocumentResponse post_api_documents_documentid_new_owner(document_id, x_organization_id=x_organization_id, x_organization=x_organization)
 
 
- Transfer the ownership of a **Document** to another user or organization. Since documents are immutable,
- a new document with a new DocumentId, as well as a new File with a new FileId will be created.
- If the document already belongs to the specified user or organization, the initial document will be returned.
+ Copy a **Document** into another ownership scope controlled by the authenticated user.
+ Without the `x-organization` header, the destination is the user's personal scope. With the header,
+ the destination is that organization. Since documents are immutable, the operation creates a new
+ **Document** with a new `documentId` and a new **File** with a new `fileId`.
+
+ The user must have direct access to the source **Document**. Access to a **Reference Project** that
+ references the **Document** is not sufficient. Copying all documents while duplicating a shared
+ **Reference Project** is handled by the project duplication endpoint.
+
+ If the **Document** already belongs to the destination ownership scope, the original **Document** is returned.
 
 #### Error Responses:
 `404 Not Found` - If a **Document** with the specified `documentId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to read this **Document** or is not a member of the specified Organization.
+`403 Forbidden` - If the user does not have direct access to this **Document** or is not a member of the destination organization.
    
 
 ### Example

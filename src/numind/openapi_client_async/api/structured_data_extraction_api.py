@@ -374,7 +374,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `degradedMode`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -481,7 +481,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `degradedMode`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -588,7 +588,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `degradedMode`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -736,6 +736,12 @@ class StructuredDataExtractionApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        dpi: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -745,12 +751,6 @@ class StructuredDataExtractionApi:
             ],
             Field(
                 description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
-            ),
-        ] = None,
-        dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
-            Field(
-                description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -788,6 +788,18 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -815,7 +827,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **dpi** query parameter accepts `automatic` or an integer from 1 to 600 for this request. When **temperature**, **dpi**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values. The project DPI setting can be `\"automatic\"` or a fixed DPI number.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -823,10 +835,10 @@ class StructuredDataExtractionApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param dpi: Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
+        :type dpi: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
         :type temperature: float
-        :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
-        :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
         :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
@@ -837,6 +849,10 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -867,13 +883,15 @@ class StructuredDataExtractionApi:
                 structured_project_id=structured_project_id,
                 body=body,
                 x_organization_id=x_organization_id,
-                temperature=temperature,
                 dpi=dpi,
+                temperature=temperature,
                 max_output_tokens=max_output_tokens,
                 max_example_token_number=max_example_token_number,
                 max_example_number=max_example_number,
                 min_example_similarity=min_example_similarity,
                 enable_thinking=enable_thinking,
+                thinking_token_budget=thinking_token_budget,
+                loop_detection=loop_detection,
                 random_seed=random_seed,
                 timeout=timeout,
                 _request_auth=_request_auth,
@@ -911,6 +929,12 @@ class StructuredDataExtractionApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        dpi: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -920,12 +944,6 @@ class StructuredDataExtractionApi:
             ],
             Field(
                 description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
-            ),
-        ] = None,
-        dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
-            Field(
-                description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -963,6 +981,18 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -990,7 +1020,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **dpi** query parameter accepts `automatic` or an integer from 1 to 600 for this request. When **temperature**, **dpi**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values. The project DPI setting can be `\"automatic\"` or a fixed DPI number.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -998,10 +1028,10 @@ class StructuredDataExtractionApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param dpi: Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
+        :type dpi: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
         :type temperature: float
-        :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
-        :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
         :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
@@ -1012,6 +1042,10 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1042,13 +1076,15 @@ class StructuredDataExtractionApi:
                 structured_project_id=structured_project_id,
                 body=body,
                 x_organization_id=x_organization_id,
-                temperature=temperature,
                 dpi=dpi,
+                temperature=temperature,
                 max_output_tokens=max_output_tokens,
                 max_example_token_number=max_example_token_number,
                 max_example_number=max_example_number,
                 min_example_similarity=min_example_similarity,
                 enable_thinking=enable_thinking,
+                thinking_token_budget=thinking_token_budget,
+                loop_detection=loop_detection,
                 random_seed=random_seed,
                 timeout=timeout,
                 _request_auth=_request_auth,
@@ -1086,6 +1122,12 @@ class StructuredDataExtractionApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        dpi: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
+            ),
+        ] = None,
         temperature: Annotated[
             Optional[
                 Union[
@@ -1095,12 +1137,6 @@ class StructuredDataExtractionApi:
             ],
             Field(
                 description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
-            ),
-        ] = None,
-        dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
-            Field(
-                description="DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored."
             ),
         ] = None,
         max_output_tokens: Annotated[
@@ -1138,6 +1174,18 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -1165,7 +1213,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs
 
-          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **rasterizationDPI** parameter controls their resolution. When **temperature**, **rasterizationDPI**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Extract structured information from the provided text or file as an async job. Some files are converted to images -  the **dpi** query parameter accepts `automatic` or an integer from 1 to 600 for this request. When **temperature**, **dpi**,  **maxOutputTokens** and **maxExampleTokenNumber** parameters are not specified,  they are set to their project-setting values. The project DPI setting can be `\"automatic\"` or a fixed DPI number.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template via post-processing  of the raw model output. In the event that the raw model output did not conform to the template,  it is included in the ***rawResponse*** field, together with the corresponding error message,  and an HTTP code 206 is returned.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -1173,10 +1221,10 @@ class StructuredDataExtractionApi:
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param dpi: Resolution for file rasterization: automatic or an integer from 1 to 600 (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
+        :type dpi: str
         :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
         :type temperature: float
-        :param dpi: DPI for file rasterization (optional).  When not specified, the project value is used.   If the file is already an image or a text, this parameter is ignored.
-        :type dpi: int
         :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
         :type max_output_tokens: int
         :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
@@ -1187,6 +1235,10 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1217,13 +1269,15 @@ class StructuredDataExtractionApi:
                 structured_project_id=structured_project_id,
                 body=body,
                 x_organization_id=x_organization_id,
-                temperature=temperature,
                 dpi=dpi,
+                temperature=temperature,
                 max_output_tokens=max_output_tokens,
                 max_example_token_number=max_example_token_number,
                 max_example_number=max_example_number,
                 min_example_similarity=min_example_similarity,
                 enable_thinking=enable_thinking,
+                thinking_token_budget=thinking_token_budget,
+                loop_detection=loop_detection,
                 random_seed=random_seed,
                 timeout=timeout,
                 _request_auth=_request_auth,
@@ -1248,13 +1302,15 @@ class StructuredDataExtractionApi:
         structured_project_id,
         body,
         x_organization_id,
-        temperature,
         dpi,
+        temperature,
         max_output_tokens,
         max_example_token_number,
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         random_seed,
         timeout,
         _request_auth,
@@ -1280,11 +1336,11 @@ class StructuredDataExtractionApi:
         if structured_project_id is not None:
             _path_params["structuredProjectId"] = structured_project_id
         # process the query parameters
-        if temperature is not None:
-            _query_params.append(("temperature", temperature))
-
         if dpi is not None:
             _query_params.append(("dpi", dpi))
+
+        if temperature is not None:
+            _query_params.append(("temperature", temperature))
 
         if max_output_tokens is not None:
             _query_params.append(("maxOutputTokens", max_output_tokens))
@@ -1300,6 +1356,12 @@ class StructuredDataExtractionApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))
@@ -1417,6 +1479,18 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -1464,6 +1538,10 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1499,6 +1577,8 @@ class StructuredDataExtractionApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -1581,6 +1661,18 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -1628,6 +1720,10 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1663,6 +1759,8 @@ class StructuredDataExtractionApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -1745,6 +1843,18 @@ class StructuredDataExtractionApi:
                 description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
             ),
         ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting."
+            ),
+        ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
@@ -1792,6 +1902,10 @@ class StructuredDataExtractionApi:
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
         :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of thinking tokens (optional). Only used when thinking is enabled.  Resolution order: request `thinkingTokenBudget` -> project setting.   Set to 0 for no limit.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself (optional). Resolution order: request `loopDetection` -> project setting.
+        :type loop_detection: bool
         :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
@@ -1827,6 +1941,8 @@ class StructuredDataExtractionApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -1856,6 +1972,8 @@ class StructuredDataExtractionApi:
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         random_seed,
         timeout,
         _request_auth,
@@ -1898,6 +2016,12 @@ class StructuredDataExtractionApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))

@@ -44,9 +44,11 @@ class TestContentProjectResponse(unittest.TestCase):
                 updated_at = '',
                 settings = numind.models.content_project_settings_response.ContentProjectSettingsResponse(
                     temperature = 0.0, 
-                    rasterization_dpi = 0, 
+                    rasterization_dpi = null, 
                     max_output_tokens = 56, 
                     enable_thinking = True, 
+                    thinking_token_budget = 56, 
+                    loop_detection = True, 
                     random_seed = '', )
             )
         else:
@@ -59,9 +61,11 @@ class TestContentProjectResponse(unittest.TestCase):
                 updated_at = '',
                 settings = numind.models.content_project_settings_response.ContentProjectSettingsResponse(
                     temperature = 0.0, 
-                    rasterization_dpi = 0, 
+                    rasterization_dpi = null, 
                     max_output_tokens = 56, 
                     enable_thinking = True, 
+                    thinking_token_budget = 56, 
+                    loop_detection = True, 
                     random_seed = '', ),
         )
         """

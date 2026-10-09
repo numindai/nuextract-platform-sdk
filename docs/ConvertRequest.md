@@ -5,7 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**rasterization_dpi** | **int** | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch.   Ranges between 1 and 300. | 
+**rasterization_dpi** | [**ConvertRequestRasterizationDPI**](ConvertRequestRasterizationDPI.md) |  | 
+**token_budget_type** | **str** | Token budget allocation used while converting the document: &#x60;per-page&#x60; applies a separate budget to each page, while &#x60;all-pages&#x60; shares one budget across the entire document. | 
 
 ## Example
 

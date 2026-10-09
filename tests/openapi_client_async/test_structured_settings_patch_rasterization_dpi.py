@@ -11,13 +11,13 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.update_content_project_settings_request import (
-    UpdateContentProjectSettingsRequest,
+from numind.models.structured_settings_patch_rasterization_dpi import (
+    StructuredSettingsPatchRasterizationDPI,
 )
 
 
-class TestUpdateContentProjectSettingsRequest(unittest.TestCase):
-    """UpdateContentProjectSettingsRequest unit test stubs"""
+class TestStructuredSettingsPatchRasterizationDPI(unittest.TestCase):
+    """StructuredSettingsPatchRasterizationDPI unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,31 +25,28 @@ class TestUpdateContentProjectSettingsRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> UpdateContentProjectSettingsRequest:
+    def make_instance(
+        self, include_optional
+    ) -> StructuredSettingsPatchRasterizationDPI:
         """
-        Test UpdateContentProjectSettingsRequest
+        Test StructuredSettingsPatchRasterizationDPI
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `UpdateContentProjectSettingsRequest`
+        # uncomment below to create an instance of `StructuredSettingsPatchRasterizationDPI`
         """
-        model = UpdateContentProjectSettingsRequest()
+        model = StructuredSettingsPatchRasterizationDPI()
         if include_optional:
-            return UpdateContentProjectSettingsRequest(
-                temperature = 0.0,
-                rasterization_dpi = 0,
-                max_output_tokens = 56,
-                enable_thinking = True,
-                random_seed = ''
+            return StructuredSettingsPatchRasterizationDPI(
             )
         else:
-            return UpdateContentProjectSettingsRequest(
+            return StructuredSettingsPatchRasterizationDPI(
         )
         """
 
-    def testUpdateContentProjectSettingsRequest(self):
-        """Test UpdateContentProjectSettingsRequest"""
+    def testStructuredSettingsPatchRasterizationDPI(self):
+        """Test StructuredSettingsPatchRasterizationDPI"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

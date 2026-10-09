@@ -270,12 +270,12 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **patch_api_content_extraction_contentprojectid_settings**
-> ContentProjectResponse patch_api_content_extraction_contentprojectid_settings(content_project_id, update_content_project_settings_request, x_organization_id=x_organization_id)
+> ContentProjectResponse patch_api_content_extraction_contentprojectid_settings(content_project_id, content_settings_patch, x_organization_id=x_organization_id)
 
 
 Update the settings of an existing **Content Extraction Project**.
 
-Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
+Omitted fields keep their current value. Set `rasterizationDPI` to `"automatic"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
 
 #### Error Responses:
 `404 Not Found` - If a **Content Extraction Project** with the specified `contentProjectId` does not exist.
@@ -290,9 +290,7 @@ Omitted fields keep their current value. Set `randomSeed` to a string containing
 ```python
 import numind.openapi_client
 from numind.models.content_project_response import ContentProjectResponse
-from numind.models.update_content_project_settings_request import (
-    UpdateContentProjectSettingsRequest,
-)
+from numind.models.content_settings_patch import ContentSettingsPatch
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -314,20 +312,22 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         api_client
     )
     content_project_id = "content_project_id_example"  # str | Unique content extraction project identifier.
-    update_content_project_settings_request = {
+    content_settings_patch = {
         "temperature": 0.8,
-        "rasterizationDPI": 170,
+        "rasterizationDPI": "automatic",
         "maxOutputTokens": 10000,
         "enableThinking": true,
+        "thinkingTokenBudget": 15000,
+        "loopDetection": true,
         "randomSeed": "2022",
-    }  # UpdateContentProjectSettingsRequest |
+    }  # ContentSettingsPatch |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
         api_response = (
             api_instance.patch_api_content_extraction_contentprojectid_settings(
                 content_project_id,
-                update_content_project_settings_request,
+                content_settings_patch,
                 x_organization_id=x_organization_id,
             )
         )
@@ -350,7 +350,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **content_project_id** | **str**| Unique content extraction project identifier. | 
- **update_content_project_settings_request** | [**UpdateContentProjectSettingsRequest**](UpdateContentProjectSettingsRequest.md)|  | 
+ **content_settings_patch** | [**ContentSettingsPatch**](ContentSettingsPatch.md)|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
@@ -395,9 +395,11 @@ A **Project** is created with default settings:
  Setting | Default |
 ---------|---------|
  `temperature` | 0.8 |
- `rasterizationDPI` | 170 |
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
+ `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
 
 The **Project** is owned by the authenticated user and, when applicable, the authenticated organization.
@@ -500,9 +502,11 @@ Default values are:
  Setting | Default |
 -----------|--------|
  `temperature` | 0.8 |
- `rasterizationDPI` | 170 |
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
+ `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
 
 #### Error Responses:

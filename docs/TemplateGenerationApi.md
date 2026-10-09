@@ -102,7 +102,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_template_generation_jobs**
-> JobIdResponse post_api_template_generation_jobs(body, x_organization_id=x_organization_id, rasterization_dpi=rasterization_dpi, timeout=timeout)
+> JobIdResponse post_api_template_generation_jobs(body, x_organization_id=x_organization_id, rasterization_dpi=rasterization_dpi, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, timeout=timeout)
 
 
  Derive a template from the provided **File** as an async job.
@@ -147,7 +147,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     api_instance = numind.openapi_client.TemplateGenerationApi(api_client)
     body = None  # bytes |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    rasterization_dpi = 56  # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+    rasterization_dpi = "rasterization_dpi_example"  # str | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use 'null' or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored. (optional)
+    enable_thinking = True  # bool | Enable thinking/reasoning (optional). Disabled by default. (optional)
+    thinking_token_budget = 56  # int | Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit. (optional)
+    loop_detection = True  # bool | Stop the generation when the model repeats itself (optional). Enabled by default. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
@@ -155,6 +158,9 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
             body,
             x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
         )
         print(
@@ -177,7 +183,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
- **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
+ **rasterization_dpi** | **str**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Use &#39;null&#39; or an integer between 1 and 600. If not specified, the default value automatic dpi is used.   If the file is already an image or a text, this parameter is ignored. | [optional] 
+ **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Disabled by default. | [optional] 
+ **thinking_token_budget** | **int**| Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit. | [optional] 
+ **loop_detection** | **bool**| Stop the generation when the model repeats itself (optional). Enabled by default. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type
@@ -198,13 +207,13 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter rasterizationDPI, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter enableThinking, Invalid value for: query parameter thinkingTokenBudget, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_template_generation_jobs_text**
-> JobIdResponse post_api_template_generation_jobs_text(template_request, x_organization_id=x_organization_id, timeout=timeout)
+> JobIdResponse post_api_template_generation_jobs_text(template_request, x_organization_id=x_organization_id, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, timeout=timeout)
 
 
  Derive a template from the provided natural language description as an async job.
@@ -253,11 +262,19 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         "description": "[EXAMPLE ONLY] Create a template that extracts key information from an order confirmation email. The template should be able to pull details like the order ID, customer ID, date and time of the order, status, total amount, currency, item details (product ID, quantity, and unit price), shipping address, any customer requests or delivery preferences, and the estimated delivery date."
     }  # TemplateRequest |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    enable_thinking = True  # bool | Enable thinking/reasoning (optional). Disabled by default. (optional)
+    thinking_token_budget = 56  # int | Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit. (optional)
+    loop_detection = True  # bool | Stop the generation when the model repeats itself (optional). Enabled by default. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
         api_response = api_instance.post_api_template_generation_jobs_text(
-            template_request, x_organization_id=x_organization_id, timeout=timeout
+            template_request,
+            x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
+            timeout=timeout,
         )
         print(
             "The response of TemplateGenerationApi->post_api_template_generation_jobs_text:\n"
@@ -279,6 +296,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **template_request** | [**TemplateRequest**](TemplateRequest.md)|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+ **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Disabled by default. | [optional] 
+ **thinking_token_budget** | **int**| Maximum number of thinking tokens (optional). Only used when thinking is enabled.   Defaults to 15000. Set to 0 for no limit. | [optional] 
+ **loop_detection** | **bool**| Stop the generation when the model repeats itself (optional). Enabled by default. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type
@@ -299,7 +319,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter enableThinking, Invalid value for: query parameter thinkingTokenBudget, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

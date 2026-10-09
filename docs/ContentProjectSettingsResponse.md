@@ -7,9 +7,11 @@ Project settings.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **temperature** | **float** | Model temperature. | 
-**rasterization_dpi** | **int** | Resolution used to convert formatted documents to images. | 
+**rasterization_dpi** | [**ContentProjectSettingsResponseRasterizationDPI**](ContentProjectSettingsResponseRasterizationDPI.md) |  | 
 **max_output_tokens** | **int** | Maximum number of output tokens. Must be positive. Set to 0 for no limit. | 
 **enable_thinking** | **bool** | Enable thinking/reasoning. | 
+**thinking_token_budget** | **int** | Maximum number of thinking tokens. Set to 0 for no limit. | 
+**loop_detection** | **bool** | Stop the generation when the model repeats itself. | 
 **random_seed** | **str** | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | 
 
 ## Example

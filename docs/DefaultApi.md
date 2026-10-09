@@ -134,14 +134,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_inference_status**
-> Dict[str, InferenceStatus] get_api_inference_status()
+> Dict[str, str] get_api_inference_status()
 
 ### Example
 
 
 ```python
 import numind.openapi_client
-from numind.models.inference_status import InferenceStatus
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -171,7 +170,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Dict[str, InferenceStatus]**](InferenceStatus.md)
+**Dict[str, str]**
 
 ### Authorization
 

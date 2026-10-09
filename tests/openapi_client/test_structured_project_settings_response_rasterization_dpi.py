@@ -11,13 +11,13 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.update_structured_project_settings_request import (
-    UpdateStructuredProjectSettingsRequest,
+from numind.models.structured_project_settings_response_rasterization_dpi import (
+    StructuredProjectSettingsResponseRasterizationDPI,
 )
 
 
-class TestUpdateStructuredProjectSettingsRequest(unittest.TestCase):
-    """UpdateStructuredProjectSettingsRequest unit test stubs"""
+class TestStructuredProjectSettingsResponseRasterizationDPI(unittest.TestCase):
+    """StructuredProjectSettingsResponseRasterizationDPI unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,35 +25,28 @@ class TestUpdateStructuredProjectSettingsRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> UpdateStructuredProjectSettingsRequest:
+    def make_instance(
+        self, include_optional
+    ) -> StructuredProjectSettingsResponseRasterizationDPI:
         """
-        Test UpdateStructuredProjectSettingsRequest
+        Test StructuredProjectSettingsResponseRasterizationDPI
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `UpdateStructuredProjectSettingsRequest`
+        # uncomment below to create an instance of `StructuredProjectSettingsResponseRasterizationDPI`
         """
-        model = UpdateStructuredProjectSettingsRequest()
+        model = StructuredProjectSettingsResponseRasterizationDPI()
         if include_optional:
-            return UpdateStructuredProjectSettingsRequest(
-                temperature = 0.0,
-                rasterization_dpi = 0,
-                max_output_tokens = 56,
-                degraded_mode = '',
-                max_example_token_number = 0,
-                max_example_number = 56,
-                min_example_similarity = 0.0,
-                enable_thinking = True,
-                random_seed = ''
+            return StructuredProjectSettingsResponseRasterizationDPI(
             )
         else:
-            return UpdateStructuredProjectSettingsRequest(
+            return StructuredProjectSettingsResponseRasterizationDPI(
         )
         """
 
-    def testUpdateStructuredProjectSettingsRequest(self):
-        """Test UpdateStructuredProjectSettingsRequest"""
+    def testStructuredProjectSettingsResponseRasterizationDPI(self):
+        """Test StructuredProjectSettingsResponseRasterizationDPI"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

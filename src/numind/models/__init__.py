@@ -19,6 +19,10 @@ from numind.models.content_project_response import ContentProjectResponse
 from numind.models.content_project_settings_response import (
     ContentProjectSettingsResponse,
 )
+from numind.models.content_project_settings_response_rasterization_dpi import (
+    ContentProjectSettingsResponseRasterizationDPI,
+)
+from numind.models.content_settings_patch import ContentSettingsPatch
 from numind.models.convert_request import ConvertRequest
 from numind.models.create_content_project_request import CreateContentProjectRequest
 from numind.models.create_or_update_structured_example_request import (
@@ -35,12 +39,18 @@ from numind.models.health_response import HealthResponse
 from numind.models.image_info import ImageInfo
 from numind.models.import_project_response import ImportProjectResponse
 from numind.models.inference_status import InferenceStatus
+from numind.models.inference_status_response import InferenceStatusResponse
 from numind.models.inference_validation_error import InferenceValidationError
 from numind.models.information_response import InformationResponse
 from numind.models.invalid_information import InvalidInformation
 from numind.models.job_id_response import JobIdResponse
+from numind.models.job_report_response import JobReportResponse
 from numind.models.job_status_response import JobStatusResponse
 from numind.models.paginated_response_t import PaginatedResponseT
+from numind.models.post_processing_error_response import PostProcessingErrorResponse
+from numind.models.post_processing_repair_response import PostProcessingRepairResponse
+from numind.models.post_processing_report_response import PostProcessingReportResponse
+from numind.models.reference_project_response import ReferenceProjectResponse
 from numind.models.service_status import ServiceStatus
 from numind.models.structured import Structured
 from numind.models.structured_example_response import StructuredExampleResponse
@@ -50,19 +60,14 @@ from numind.models.structured_project_response import StructuredProjectResponse
 from numind.models.structured_project_settings_response import (
     StructuredProjectSettingsResponse,
 )
+from numind.models.structured_settings_patch import StructuredSettingsPatch
 from numind.models.template_request import TemplateRequest
 from numind.models.template_response import TemplateResponse
 from numind.models.text_info import TextInfo
 from numind.models.text_request import TextRequest
 from numind.models.update_content_project_request import UpdateContentProjectRequest
-from numind.models.update_content_project_settings_request import (
-    UpdateContentProjectSettingsRequest,
-)
 from numind.models.update_structured_project_request import (
     UpdateStructuredProjectRequest,
-)
-from numind.models.update_structured_project_settings_request import (
-    UpdateStructuredProjectSettingsRequest,
 )
 from numind.models.valid_information import ValidInformation
 from numind.models.version_response import VersionResponse

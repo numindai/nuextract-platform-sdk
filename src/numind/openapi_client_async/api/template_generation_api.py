@@ -13,6 +13,7 @@ from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import (
     Field,
+    StrictBool,
     StrictBytes,
     StrictFloat,
     StrictInt,
@@ -336,10 +337,23 @@ class TemplateGenerationApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text."
             ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         timeout: Annotated[
             Optional[StrictStr],
@@ -362,14 +376,20 @@ class TemplateGenerationApi:
         """
         post_api_template_generation_jobs
 
-          Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
+          Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The `rasterizationDPI` parameter controls the conversion resolution and defaults to `automatic` when omitted.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param body: (required)
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
+        :type rasterization_dpi: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -397,6 +417,9 @@ class TemplateGenerationApi:
             body=body,
             x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -429,10 +452,23 @@ class TemplateGenerationApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text."
             ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         timeout: Annotated[
             Optional[StrictStr],
@@ -455,14 +491,20 @@ class TemplateGenerationApi:
         """
         post_api_template_generation_jobs
 
-          Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
+          Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The `rasterizationDPI` parameter controls the conversion resolution and defaults to `automatic` when omitted.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param body: (required)
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
+        :type rasterization_dpi: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -490,6 +532,9 @@ class TemplateGenerationApi:
             body=body,
             x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -522,10 +567,23 @@ class TemplateGenerationApi:
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text."
             ),
+        ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         timeout: Annotated[
             Optional[StrictStr],
@@ -548,14 +606,20 @@ class TemplateGenerationApi:
         """
         post_api_template_generation_jobs
 
-          Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.
+          Derive a template from the provided **File** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The **File** can be a text document, an image, or any document that can be converted to an image (e.g. PDF, Excel, etc.).  The `rasterizationDPI` parameter controls the conversion resolution and defaults to `automatic` when omitted.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `403 Forbidden` - If the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param body: (required)
         :type body: bytes
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. If not specified, the default value 170 dpi is used.   If the file is already an image or a text, this parameter is ignored.
-        :type rasterization_dpi: int
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
+        :type rasterization_dpi: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -583,6 +647,9 @@ class TemplateGenerationApi:
             body=body,
             x_organization_id=x_organization_id,
             rasterization_dpi=rasterization_dpi,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -605,6 +672,9 @@ class TemplateGenerationApi:
         body,
         x_organization_id,
         rasterization_dpi,
+        enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         timeout,
         _request_auth,
         _content_type,
@@ -629,6 +699,15 @@ class TemplateGenerationApi:
         # process the query parameters
         if rasterization_dpi is not None:
             _query_params.append(("rasterizationDPI", rasterization_dpi))
+
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
@@ -693,6 +772,19 @@ class TemplateGenerationApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -714,12 +806,18 @@ class TemplateGenerationApi:
         """
         post_api_template_generation_jobs_text
 
-          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param template_request: (required)
         :type template_request: TemplateRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -746,6 +844,9 @@ class TemplateGenerationApi:
         _param = self._post_api_template_generation_jobs_text_serialize(
             template_request=template_request,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -777,6 +878,19 @@ class TemplateGenerationApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -798,12 +912,18 @@ class TemplateGenerationApi:
         """
         post_api_template_generation_jobs_text
 
-          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param template_request: (required)
         :type template_request: TemplateRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -830,6 +950,9 @@ class TemplateGenerationApi:
         _param = self._post_api_template_generation_jobs_text_serialize(
             template_request=template_request,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -861,6 +984,19 @@ class TemplateGenerationApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -882,12 +1018,18 @@ class TemplateGenerationApi:
         """
         post_api_template_generation_jobs_text
 
-          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.
+          Derive a template from the provided natural language description as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or if the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param template_request: (required)
         :type template_request: TemplateRequest
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -914,6 +1056,9 @@ class TemplateGenerationApi:
         _param = self._post_api_template_generation_jobs_text_serialize(
             template_request=template_request,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -935,6 +1080,9 @@ class TemplateGenerationApi:
         self,
         template_request,
         x_organization_id,
+        enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         timeout,
         _request_auth,
         _content_type,
@@ -957,6 +1105,15 @@ class TemplateGenerationApi:
 
         # process the path parameters
         # process the query parameters
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
+
         if timeout is not None:
             _query_params.append(("timeout", timeout))
 

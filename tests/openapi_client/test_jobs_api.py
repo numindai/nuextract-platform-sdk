@@ -26,6 +26,9 @@ class TestJobsApi(unittest.TestCase):
     def test_get_api_jobs(self) -> None:
         """Test case for get_api_jobs"""
 
+    def test_get_api_jobs_jobid_reports(self) -> None:
+        """Test case for get_api_jobs_jobid_reports"""
+
     def test_get_api_jobs_jobid_status(self) -> None:
         """Test case for get_api_jobs_jobid_status"""
 

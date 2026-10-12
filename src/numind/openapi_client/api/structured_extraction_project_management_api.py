@@ -11,18 +11,17 @@ Do not edit the class manually.
 
 from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
-from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, validate_call
+from pydantic import Field, StrictFloat, StrictInt, StrictStr, validate_call
 
 from numind.api_response import ApiResponse
 from numind.models.create_structured_project_request import (
     CreateStructuredProjectRequest,
 )
+from numind.models.reference_project_response import ReferenceProjectResponse
 from numind.models.structured_project_response import StructuredProjectResponse
+from numind.models.structured_settings_patch import StructuredSettingsPatch
 from numind.models.update_structured_project_request import (
     UpdateStructuredProjectRequest,
-)
-from numind.models.update_structured_project_settings_request import (
-    UpdateStructuredProjectSettingsRequest,
 )
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.rest import RESTResponseType
@@ -334,10 +333,6 @@ class StructuredExtractionProjectManagementApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
-        reference: Annotated[
-            Optional[StrictBool],
-            Field(description="If **true**, only reference projects are returned."),
-        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -357,8 +352,6 @@ class StructuredExtractionProjectManagementApi:
 
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param reference: If **true**, only reference projects are returned.
-        :type reference: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -382,7 +375,6 @@ class StructuredExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_serialize(
             x_organization_id=x_organization_id,
-            reference=reference,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -391,7 +383,6 @@ class StructuredExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[StructuredProjectResponse]",
-            "400": "str",
             "default": "Error",
         }
         response_data = self.api_client.call_api(
@@ -412,10 +403,6 @@ class StructuredExtractionProjectManagementApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
-        reference: Annotated[
-            Optional[StrictBool],
-            Field(description="If **true**, only reference projects are returned."),
-        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -435,8 +422,6 @@ class StructuredExtractionProjectManagementApi:
 
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param reference: If **true**, only reference projects are returned.
-        :type reference: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -460,7 +445,6 @@ class StructuredExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_serialize(
             x_organization_id=x_organization_id,
-            reference=reference,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -469,7 +453,6 @@ class StructuredExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[StructuredProjectResponse]",
-            "400": "str",
             "default": "Error",
         }
         response_data = self.api_client.call_api(
@@ -490,10 +473,6 @@ class StructuredExtractionProjectManagementApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
-        reference: Annotated[
-            Optional[StrictBool],
-            Field(description="If **true**, only reference projects are returned."),
-        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -513,8 +492,6 @@ class StructuredExtractionProjectManagementApi:
 
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param reference: If **true**, only reference projects are returned.
-        :type reference: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -538,7 +515,6 @@ class StructuredExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._get_api_structured_extraction_serialize(
             x_organization_id=x_organization_id,
-            reference=reference,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -547,7 +523,6 @@ class StructuredExtractionProjectManagementApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[StructuredProjectResponse]",
-            "400": "str",
             "default": "Error",
         }
         response_data = self.api_client.call_api(
@@ -558,7 +533,6 @@ class StructuredExtractionProjectManagementApi:
     def _get_api_structured_extraction_serialize(
         self,
         x_organization_id,
-        reference,
         _request_auth,
         _content_type,
         _headers,
@@ -580,9 +554,6 @@ class StructuredExtractionProjectManagementApi:
 
         # process the path parameters
         # process the query parameters
-        if reference is not None:
-            _query_params.append(("reference", reference))
-
         # process the header parameters
         if x_organization_id is not None:
             _header_params["x-organization-id"] = x_organization_id
@@ -592,7 +563,7 @@ class StructuredExtractionProjectManagementApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json", "text/plain"]
+                ["application/json"]
             )
 
         # authentication setting
@@ -601,6 +572,236 @@ class StructuredExtractionProjectManagementApi:
         return self.api_client.param_serialize(
             method="GET",
             resource_path="/api/structured-extraction",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    def get_api_structured_extraction_reference_projects(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ReferenceProjectResponse]:
+        """
+        get_api_structured_extraction_reference_projects
+
+         Return the **Reference Projects**, with their identifier, name and description only. This endpoint requires no authentication.  A **Reference Project** can be duplicated into the scope of the authenticated user, who then owns the copy.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._get_api_structured_extraction_reference_projects_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "List[ReferenceProjectResponse]",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def get_api_structured_extraction_reference_projects_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ReferenceProjectResponse]]:
+        """
+        get_api_structured_extraction_reference_projects
+
+         Return the **Reference Projects**, with their identifier, name and description only. This endpoint requires no authentication.  A **Reference Project** can be duplicated into the scope of the authenticated user, who then owns the copy.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._get_api_structured_extraction_reference_projects_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "List[ReferenceProjectResponse]",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def get_api_structured_extraction_reference_projects_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        get_api_structured_extraction_reference_projects
+
+         Return the **Reference Projects**, with their identifier, name and description only. This endpoint requires no authentication.  A **Reference Project** can be duplicated into the scope of the authenticated user, who then owns the copy.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._get_api_structured_extraction_reference_projects_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "List[ReferenceProjectResponse]",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _get_api_structured_extraction_reference_projects_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json"]
+            )
+
+        # authentication setting
+        _auth_settings: List[str] = []
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/api/structured-extraction/reference-projects",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -925,7 +1126,7 @@ class StructuredExtractionProjectManagementApi:
         """
         get_api_structured_extraction_structuredprojectid_thumbnail
 
-         Return a thumbnail image for a **Structured Extraction Project**. The thumbnail is the image modality of the most recent playground item in the project.  #### Error Responses: `404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.  `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a thumbnail image for a **Structured Extraction Project**. The thumbnail is the image modality of the most recent playground item in the project.  #### Error Responses: `404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.  `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.  `403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -1004,7 +1205,7 @@ class StructuredExtractionProjectManagementApi:
         """
         get_api_structured_extraction_structuredprojectid_thumbnail
 
-         Return a thumbnail image for a **Structured Extraction Project**. The thumbnail is the image modality of the most recent playground item in the project.  #### Error Responses: `404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.  `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a thumbnail image for a **Structured Extraction Project**. The thumbnail is the image modality of the most recent playground item in the project.  #### Error Responses: `404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.  `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.  `403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -1083,7 +1284,7 @@ class StructuredExtractionProjectManagementApi:
         """
         get_api_structured_extraction_structuredprojectid_thumbnail
 
-         Return a thumbnail image for a **Structured Extraction Project**. The thumbnail is the image modality of the most recent playground item in the project.  #### Error Responses: `404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.  `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.  `403 Forbidden` - If the user does not have permission to view this **Project**.
+         Return a thumbnail image for a **Structured Extraction Project**. The thumbnail is the image modality of the most recent playground item in the project.  #### Error Responses: `404 Not Found (NotFound)` - If a **Project** with the specified `projectId` does not exist.  `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.  `403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -1506,7 +1707,7 @@ class StructuredExtractionProjectManagementApi:
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        update_structured_project_settings_request: UpdateStructuredProjectSettingsRequest,
+        structured_settings_patch: StructuredSettingsPatch,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1528,12 +1729,12 @@ class StructuredExtractionProjectManagementApi:
         """
         patch_api_structured_extraction_structuredprojectid_settings
 
-         Update the settings of an existing **Structured Extraction Project**.  Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Update the settings of an existing **Structured Extraction Project**.  Omitted fields keep their current value. Set `rasterizationDPI` to `\"automatic\"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.  #### DPI request examples:   Request body | Effect |  --- | --- |  `{\"rasterizationDPI\":\"automatic\"}` | Select automatic resolution. |  `{\"rasterizationDPI\":155}` | Select a fixed resolution of 155 DPI. |  `{\"rasterizationDPI\":\"200\"}` | Select 200 DPI; responses encode this as the number `200`. |  `{}` or `{\"rasterizationDPI\":null}` | Keep the current setting. |  The `automatic` keyword is case-insensitive. Fixed values must be whole numbers between 1 and 600, inclusive. Values such as `0`, `601`, `155.5`, `\"155.5\"`, `\"\"`, and `true` are rejected.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
-        :param update_structured_project_settings_request: (required)
-        :type update_structured_project_settings_request: UpdateStructuredProjectSettingsRequest
+        :param structured_settings_patch: (required)
+        :type structured_settings_patch: StructuredSettingsPatch
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1559,7 +1760,7 @@ class StructuredExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._patch_api_structured_extraction_structuredprojectid_settings_serialize(
             structured_project_id=structured_project_id,
-            update_structured_project_settings_request=update_structured_project_settings_request,
+            structured_settings_patch=structured_settings_patch,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1588,7 +1789,7 @@ class StructuredExtractionProjectManagementApi:
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        update_structured_project_settings_request: UpdateStructuredProjectSettingsRequest,
+        structured_settings_patch: StructuredSettingsPatch,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1610,12 +1811,12 @@ class StructuredExtractionProjectManagementApi:
         """
         patch_api_structured_extraction_structuredprojectid_settings
 
-         Update the settings of an existing **Structured Extraction Project**.  Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Update the settings of an existing **Structured Extraction Project**.  Omitted fields keep their current value. Set `rasterizationDPI` to `\"automatic\"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.  #### DPI request examples:   Request body | Effect |  --- | --- |  `{\"rasterizationDPI\":\"automatic\"}` | Select automatic resolution. |  `{\"rasterizationDPI\":155}` | Select a fixed resolution of 155 DPI. |  `{\"rasterizationDPI\":\"200\"}` | Select 200 DPI; responses encode this as the number `200`. |  `{}` or `{\"rasterizationDPI\":null}` | Keep the current setting. |  The `automatic` keyword is case-insensitive. Fixed values must be whole numbers between 1 and 600, inclusive. Values such as `0`, `601`, `155.5`, `\"155.5\"`, `\"\"`, and `true` are rejected.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
-        :param update_structured_project_settings_request: (required)
-        :type update_structured_project_settings_request: UpdateStructuredProjectSettingsRequest
+        :param structured_settings_patch: (required)
+        :type structured_settings_patch: StructuredSettingsPatch
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1641,7 +1842,7 @@ class StructuredExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._patch_api_structured_extraction_structuredprojectid_settings_serialize(
             structured_project_id=structured_project_id,
-            update_structured_project_settings_request=update_structured_project_settings_request,
+            structured_settings_patch=structured_settings_patch,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1670,7 +1871,7 @@ class StructuredExtractionProjectManagementApi:
             StrictStr,
             Field(description="Unique structured extraction project identifier."),
         ],
-        update_structured_project_settings_request: UpdateStructuredProjectSettingsRequest,
+        structured_settings_patch: StructuredSettingsPatch,
         x_organization_id: Annotated[
             Optional[StrictStr],
             Field(
@@ -1692,12 +1893,12 @@ class StructuredExtractionProjectManagementApi:
         """
         patch_api_structured_extraction_structuredprojectid_settings
 
-         Update the settings of an existing **Structured Extraction Project**.  Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.   #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Update the settings of an existing **Structured Extraction Project**.  Omitted fields keep their current value. Set `rasterizationDPI` to `\"automatic\"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `\"random\"` to generate a random seed for each inference.  #### DPI request examples:   Request body | Effect |  --- | --- |  `{\"rasterizationDPI\":\"automatic\"}` | Select automatic resolution. |  `{\"rasterizationDPI\":155}` | Select a fixed resolution of 155 DPI. |  `{\"rasterizationDPI\":\"200\"}` | Select 200 DPI; responses encode this as the number `200`. |  `{}` or `{\"rasterizationDPI\":null}` | Keep the current setting. |  The `automatic` keyword is case-insensitive. Fixed values must be whole numbers between 1 and 600, inclusive. Values such as `0`, `601`, `155.5`, `\"155.5\"`, `\"\"`, and `true` are rejected.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
-        :param update_structured_project_settings_request: (required)
-        :type update_structured_project_settings_request: UpdateStructuredProjectSettingsRequest
+        :param structured_settings_patch: (required)
+        :type structured_settings_patch: StructuredSettingsPatch
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1723,7 +1924,7 @@ class StructuredExtractionProjectManagementApi:
         """  # noqa: E501
         _param = self._patch_api_structured_extraction_structuredprojectid_settings_serialize(
             structured_project_id=structured_project_id,
-            update_structured_project_settings_request=update_structured_project_settings_request,
+            structured_settings_patch=structured_settings_patch,
             x_organization_id=x_organization_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1744,7 +1945,7 @@ class StructuredExtractionProjectManagementApi:
     def _patch_api_structured_extraction_structuredprojectid_settings_serialize(
         self,
         structured_project_id,
-        update_structured_project_settings_request,
+        structured_settings_patch,
         x_organization_id,
         _request_auth,
         _content_type,
@@ -1774,8 +1975,8 @@ class StructuredExtractionProjectManagementApi:
             _header_params["x-organization-id"] = x_organization_id
         # process the form parameters
         # process the body parameter
-        if update_structured_project_settings_request is not None:
-            _body_params = update_structured_project_settings_request
+        if structured_settings_patch is not None:
+            _body_params = structured_settings_patch
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -1836,7 +2037,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction
 
-         Create a new **Structured Extraction Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `degradedMode` (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
+         Create a new **Structured Extraction Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | `automatic` |  `maxOutputTokens` | 0 (no limit) |  `thinkingTokenBudget` | 15000 (0 for no limit) |  `loopDetection` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
 
         :param create_structured_project_request: (required)
         :type create_structured_project_request: CreateStructuredProjectRequest
@@ -1911,7 +2112,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction
 
-         Create a new **Structured Extraction Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `degradedMode` (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
+         Create a new **Structured Extraction Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | `automatic` |  `maxOutputTokens` | 0 (no limit) |  `thinkingTokenBudget` | 15000 (0 for no limit) |  `loopDetection` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
 
         :param create_structured_project_request: (required)
         :type create_structured_project_request: CreateStructuredProjectRequest
@@ -1986,7 +2187,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction
 
-         Create a new **Structured Extraction Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `degradedMode` (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
+         Create a new **Structured Extraction Project** to define an extraction task.  #### Body Fields:   Name | Description | ------|-------------|  `name` | Name of the **Project**. |  `template` | Template of the **Project**. |  `description` | Text description of the **Project** (can be left empty). |  `ownerOrganization` | Optional organization identifier. When specified, the project will belong to the given organization instead of being a personal project. |  #### Effect: A **Project** is created with default settings:   Setting | Default | ---------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | `automatic` |  `maxOutputTokens` | 0 (no limit) |  `thinkingTokenBudget` | 15000 (0 for no limit) |  `loopDetection` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|   If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user. When created, a **Project** is not locked and is owned by the authenticated user and the organization (if specified in the request).  #### Response:  The response contains `projectId`, which  is required to modify the **Project**, perform CRUD operations on project **Examples** and  project **Playground** items, and run inference for this **Project**.
 
         :param create_structured_project_request: (required)
         :type create_structured_project_request: CreateStructuredProjectRequest
@@ -2133,7 +2334,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_duplicate
 
-         Create a copy of an existing **Structured Extraction Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the target organization is the same as the source, the project name is changed to \"Original Name (copy)\". - If the target organization is different from the source, all **Documents** associated with the **Project** are copied.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+         Create a copy of an existing **Structured Extraction Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the destination ownership scope is the same as the source, the project name is changed to \"Original Name (copy)\" and its **Documents** are reused. - If the destination ownership scope differs, all **Documents** associated with the **Project** are copied into the destination scope. Personal projects owned by different users are different ownership scopes.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it, or if the user does not have access to the destination organization.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -2219,7 +2420,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_duplicate
 
-         Create a copy of an existing **Structured Extraction Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the target organization is the same as the source, the project name is changed to \"Original Name (copy)\". - If the target organization is different from the source, all **Documents** associated with the **Project** are copied.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+         Create a copy of an existing **Structured Extraction Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the destination ownership scope is the same as the source, the project name is changed to \"Original Name (copy)\" and its **Documents** are reused. - If the destination ownership scope differs, all **Documents** associated with the **Project** are copied into the destination scope. Personal projects owned by different users are different ownership scopes.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it, or if the user does not have access to the destination organization.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -2305,7 +2506,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_duplicate
 
-         Create a copy of an existing **Structured Extraction Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the target organization is the same as the source, the project name is changed to \"Original Name (copy)\". - If the target organization is different from the source, all **Documents** associated with the **Project** are copied.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+         Create a copy of an existing **Structured Extraction Project**.  It is allowed to duplicate locked **Projects** and **Reference Projects**.   #### Effect: - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**. - If the destination ownership scope is the same as the source, the project name is changed to \"Original Name (copy)\" and its **Documents** are reused. - If the destination ownership scope differs, all **Documents** associated with the **Project** are copied into the destination scope. Personal projects owned by different users are different ownership scopes.  #### Response:  The response contains a newly generated  `projectId`. When duplicated, a new **Project** is always unlocked. The duplicated **Reference Project**  are private and owned by the authenticated user.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it, or if the user does not have access to the destination organization.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -2732,7 +2933,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_reset_settings
 
-         Reset the settings of an existing **Structured Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Structured Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | `automatic` |  `maxOutputTokens` | 0 (no limit) |  `thinkingTokenBudget` | 15000 (0 for no limit) |  `loopDetection` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -2809,7 +3010,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_reset_settings
 
-         Reset the settings of an existing **Structured Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Structured Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | `automatic` |  `maxOutputTokens` | 0 (no limit) |  `thinkingTokenBudget` | 15000 (0 for no limit) |  `loopDetection` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -2886,7 +3087,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_reset_settings
 
-         Reset the settings of an existing **Structured Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | 170|  `maxOutputTokens` | 0 (no limit) |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `degradedMode`  (deprecated) | Reject|  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
+         Reset the settings of an existing **Structured Extraction Project** to their default values.  Default values are:   Setting | Default | -----------|---------|  `temperature` | 0.2 |  `rasterizationDPI` | `automatic` |  `maxOutputTokens` | 0 (no limit) |  `thinkingTokenBudget` | 15000 (0 for no limit) |  `loopDetection` | true |  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to update this **Project**.  `403 Locked` - If the **Project** is locked.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -3016,7 +3217,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_share
 
-         Turn an existing **Structured Extraction Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are shared with the community (read access is granted to all users). - **Project Examples** and **Playground Items** are shared as well. - Only NuMind administrators can update or delete **Reference Projects**. - Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+         Turn an existing **Structured Extraction Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are listed for all users (identifier, name and description only), who can get their thumbnail and duplicate them. - Duplicating a **Reference Project** copies its **Examples** and **Playground Items** into the user's own copy. - Every other operation, including reading the **Project**, its **Examples** and **Playground Items**, and running inference, remains restricted to the project owner.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -3095,7 +3296,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_share
 
-         Turn an existing **Structured Extraction Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are shared with the community (read access is granted to all users). - **Project Examples** and **Playground Items** are shared as well. - Only NuMind administrators can update or delete **Reference Projects**. - Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+         Turn an existing **Structured Extraction Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are listed for all users (identifier, name and description only), who can get their thumbnail and duplicate them. - Duplicating a **Reference Project** copies its **Examples** and **Playground Items** into the user's own copy. - Every other operation, including reading the **Project**, its **Examples** and **Playground Items**, and running inference, remains restricted to the project owner.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -3174,7 +3375,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_share
 
-         Turn an existing **Structured Extraction Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are shared with the community (read access is granted to all users). - **Project Examples** and **Playground Items** are shared as well. - Only NuMind administrators can update or delete **Reference Projects**. - Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**. - The inference is allowed for all users.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
+         Turn an existing **Structured Extraction Project** into a **Reference Project**.  Only NuMind administrators can share a **Project** with other users.  Lock state does not prevent sharing. Likewise, sharing does not change the lock state.  #### Effect:  - **Reference Projects** are listed for all users (identifier, name and description only), who can get their thumbnail and duplicate them. - Duplicating a **Reference Project** copies its **Examples** and **Playground Items** into the user's own copy. - Every other operation, including reading the **Project**, its **Examples** and **Playground Items**, and running inference, remains restricted to the project owner.  #### Error Responses:  `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to share projects (not NuMind admin).
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -3596,7 +3797,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_unshare
 
-         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - Read access is revoked for all users except the project owner. - **Examples** and **Playground Items** are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - The **Project** is no longer listed among the **Reference Projects**. - Only the project owner can get its thumbnail or duplicate it.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -3675,7 +3876,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_unshare
 
-         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - Read access is revoked for all users except the project owner. - **Examples** and **Playground Items** are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - The **Project** is no longer listed among the **Reference Projects**. - Only the project owner can get its thumbnail or duplicate it.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -3754,7 +3955,7 @@ class StructuredExtractionProjectManagementApi:
         """
         post_api_structured_extraction_structuredprojectid_unshare
 
-         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - Read access is revoked for all users except the project owner. - **Examples** and **Playground Items** are no longer publicly accessible. - Only the project owner can manage or delete the project after unsharing. - Inference is restricted to the project owner.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
+         Unshare a **Reference Project** (makes it private).   Lock state does not prevent unsharing. Likewise, unsharing does not change the lock state.  The project owner is the initial owner, not the authenicated user.   #### Effect: - The **Project** is no longer a **Reference Project** and is no longer shared with the community. - The **Project** is no longer listed among the **Reference Projects**. - Only the project owner can get its thumbnail or duplicate it.  #### Error Responses: `404 Not Found` - If a **Project** with the specified `projectId` does not exist.  `403 Forbidden` - If the user does not have permission to unshare projects (not NuMind admin).
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str

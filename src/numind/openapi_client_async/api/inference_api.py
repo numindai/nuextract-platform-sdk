@@ -69,7 +69,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `enableThinking`: project setting  - `thinkingTokenBudget`: project setting  - `loopDetection`: project setting  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -161,7 +161,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `enableThinking`: project setting  - `thinkingTokenBudget`: project setting  - `loopDetection`: project setting  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -253,7 +253,7 @@ class InferenceApi:
         """
         post_api_content_extraction_contentprojectid_jobs_document_documentid
 
-          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Extract content from the provided document in markdown format as an async job.  Inference parameters are resolved from the project settings first, then platform defaults when absent:  - `temperature`: project setting -> platform default  - `maxOutputTokens`: project setting -> platform default  - `enableThinking`: project setting  - `thinkingTokenBudget`: project setting  - `loopDetection`: project setting  - `randomSeed`: project setting (`random` or a fixed 64-bit integer string)  - `rasterizationDPI`: project setting -> platform default (used only when document conversion is needed upstream)  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
 
         :param content_project_id: Unique content extraction project identifier. (required)
         :type content_project_id: str
@@ -392,25 +392,25 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
+                description="Model temperature. Controls output diversity. Ranges between 0 and 2."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
-                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+                description="Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window."
             ),
         ] = None,
         max_example_number: Annotated[
             Optional[StrictInt],
             Field(
-                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -421,19 +421,26 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
+                description="Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         enable_thinking: Annotated[
-            Optional[StrictBool],
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
-                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+                description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
         timeout: Annotated[
@@ -457,7 +464,7 @@ class InferenceApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs_document_documentid
 
-          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.     #### Settings: Request settings override the project settings. Omitted settings use the project's values. New and reset projects use temperature 0.2.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -465,19 +472,23 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
+        :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
         :type max_output_tokens: int
-        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
         :type max_example_number: int
-        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
+        :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
+        :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -512,6 +523,8 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -558,25 +571,25 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
+                description="Model temperature. Controls output diversity. Ranges between 0 and 2."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
-                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+                description="Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window."
             ),
         ] = None,
         max_example_number: Annotated[
             Optional[StrictInt],
             Field(
-                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -587,19 +600,26 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
+                description="Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         enable_thinking: Annotated[
-            Optional[StrictBool],
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
-                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+                description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
         timeout: Annotated[
@@ -623,7 +643,7 @@ class InferenceApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs_document_documentid
 
-          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.     #### Settings: Request settings override the project settings. Omitted settings use the project's values. New and reset projects use temperature 0.2.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -631,19 +651,23 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
+        :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
         :type max_output_tokens: int
-        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
         :type max_example_number: int
-        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
+        :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
+        :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -678,6 +702,8 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -724,25 +750,25 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2."
+                description="Model temperature. Controls output diversity. Ranges between 0 and 2."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
             Optional[Annotated[int, Field(le=130000, strict=True, ge=0)]],
             Field(
-                description="Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model."
+                description="Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window."
             ),
         ] = None,
         max_example_number: Annotated[
             Optional[StrictInt],
             Field(
-                description="Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -753,19 +779,26 @@ class InferenceApi:
                 ]
             ],
             Field(
-                description="Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
+                description="Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match."
             ),
         ] = None,
         enable_thinking: Annotated[
-            Optional[StrictBool],
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
-                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used."
+                description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
         timeout: Annotated[
@@ -789,7 +822,7 @@ class InferenceApi:
         """
         post_api_structured_extraction_structuredprojectid_jobs_document_documentid
 
-          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.
+          Performs structured information extraction inference on the provided document as an async job.  The document must be compatible with the template of the project.  Inference **temperature** can be set in the project settings.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the extracted information.  The ***result*** field is guaranteed to conform to the template.  If the model returns an invalid response, the ***result*** contains an empty template.  In this case, the raw response is additionally included in ***rawResponse*** field,  together with the error message.  If the model does not finish normally, the job result is returned with HTTP code 206,  even when post-processing recovers usable structured information. Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If a **Project** or **Document** with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Project** or access the **Document**,  or if the user's billing quota is exceeded.     #### Settings: Request settings override the project settings. Omitted settings use the project's values. New and reset projects use temperature 0.2.
 
         :param structured_project_id: Unique structured extraction project identifier. (required)
         :type structured_project_id: str
@@ -797,19 +830,23 @@ class InferenceApi:
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting. New and reset projects default to 0.2.
+        :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of output tokens (optional).  When not specified, the project value is used.   Use 0 to indicate no limit.
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
         :type max_output_tokens: int
-        :param max_example_token_number: Controls the maximum number of tokens that can be allocated to the examples.  Must be positive. Ranges in the context window of the model.
+        :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Controls the maximum number of examples to use.  Must be positive. Set to 0 for no limit.
+        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
         :type max_example_number: int
-        :param min_example_similarity: Controls the minimum similarity between the document and the examples.  Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
+        :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting.
+        :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. When not specified, the project setting is used.
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
+        :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -844,6 +881,8 @@ class InferenceApi:
             max_example_number=max_example_number,
             min_example_similarity=min_example_similarity,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -873,6 +912,8 @@ class InferenceApi:
         max_example_number,
         min_example_similarity,
         enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         random_seed,
         timeout,
         _request_auth,
@@ -917,6 +958,12 @@ class InferenceApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))
@@ -966,6 +1013,19 @@ class InferenceApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -987,12 +1047,18 @@ class InferenceApi:
         """
         post_api_template_generation_jobs_document_documentid
 
-          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
+          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1019,6 +1085,9 @@ class InferenceApi:
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1028,6 +1097,7 @@ class InferenceApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
+            "400": "str",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1051,6 +1121,19 @@ class InferenceApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1072,12 +1155,18 @@ class InferenceApi:
         """
         post_api_template_generation_jobs_document_documentid
 
-          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
+          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1104,6 +1193,9 @@ class InferenceApi:
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1113,6 +1205,7 @@ class InferenceApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
+            "400": "str",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1136,6 +1229,19 @@ class InferenceApi:
                 description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
             ),
         ] = None,
+        enable_thinking: Annotated[
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
+            Field(
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+            ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1157,12 +1263,18 @@ class InferenceApi:
         """
         post_api_template_generation_jobs_document_documentid
 
-          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.
+          Derive a template from the provided **Document** as an async job.  Potentially, this endpoint can equally be used to correct the template to conform to the NuExtract standard.  The resulting template is a JSON object that can be used as a project template.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain the derived template.  The response is an empty template if the derivation fails.  #### Error Responses: `404 Not Found` - If a **Document** with the specified `documentId` does not exist.  `403 Forbidden` - If the user does not have permission to run inference on this **Document** or if the user's billing quota is exceeded.     #### Settings: Omitted settings use template-generation defaults: thinking disabled, thinking token budget 15000, and loop detection enabled.
 
         :param document_id: Unique document identifier. (required)
         :type document_id: str
         :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
         :type x_organization_id: str
+        :param enable_thinking: Enable thinking/reasoning.
+        :type enable_thinking: bool
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1189,6 +1301,9 @@ class InferenceApi:
         _param = self._post_api_template_generation_jobs_document_documentid_serialize(
             document_id=document_id,
             x_organization_id=x_organization_id,
+            enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1198,6 +1313,7 @@ class InferenceApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "JobIdResponse",
+            "400": "str",
             "default": "Error",
         }
         response_data = await self.api_client.call_api(
@@ -1209,6 +1325,9 @@ class InferenceApi:
         self,
         document_id,
         x_organization_id,
+        enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         timeout,
         _request_auth,
         _content_type,
@@ -1233,6 +1352,15 @@ class InferenceApi:
         if document_id is not None:
             _path_params["documentId"] = document_id
         # process the query parameters
+        if enable_thinking is not None:
+            _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
+
         if timeout is not None:
             _query_params.append(("timeout", timeout))
 
@@ -1245,7 +1373,7 @@ class InferenceApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/json"]
+                ["application/json", "text/plain"]
             )
 
         # authentication setting

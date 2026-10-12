@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete_api_structured_extraction_structuredprojectid**](StructuredExtractionProjectManagementApi.md#delete_api_structured_extraction_structuredprojectid) | **DELETE** /api/structured-extraction/{structuredProjectId} | 
 [**get_api_structured_extraction**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction) | **GET** /api/structured-extraction | 
+[**get_api_structured_extraction_reference_projects**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_reference_projects) | **GET** /api/structured-extraction/reference-projects | 
 [**get_api_structured_extraction_structuredprojectid**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_structuredprojectid) | **GET** /api/structured-extraction/{structuredProjectId} | 
 [**get_api_structured_extraction_structuredprojectid_thumbnail**](StructuredExtractionProjectManagementApi.md#get_api_structured_extraction_structuredprojectid_thumbnail) | **GET** /api/structured-extraction/{structuredProjectId}/thumbnail | 
 [**patch_api_structured_extraction_structuredprojectid**](StructuredExtractionProjectManagementApi.md#patch_api_structured_extraction_structuredprojectid) | **PATCH** /api/structured-extraction/{structuredProjectId} | 
@@ -111,7 +112,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_structured_extraction**
-> List[StructuredProjectResponse] get_api_structured_extraction(x_organization_id=x_organization_id, reference=reference)
+> List[StructuredProjectResponse] get_api_structured_extraction(x_organization_id=x_organization_id)
 
 
 Return a list of **Structured Extraction Projects** accessible to the authenticated user.
@@ -148,13 +149,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         api_client
     )
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
-    reference = (
-        True  # bool | If **true**, only reference projects are returned. (optional)
-    )
 
     try:
         api_response = api_instance.get_api_structured_extraction(
-            x_organization_id=x_organization_id, reference=reference
+            x_organization_id=x_organization_id
         )
         print(
             "The response of StructuredExtractionProjectManagementApi->get_api_structured_extraction:\n"
@@ -175,7 +173,6 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
- **reference** | **bool**| If **true**, only reference projects are returned. | [optional] 
 
 ### Return type
 
@@ -188,14 +185,85 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter reference |  -  |
+**0** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_api_structured_extraction_reference_projects**
+> List[ReferenceProjectResponse] get_api_structured_extraction_reference_projects()
+
+
+Return the **Reference Projects**, with their identifier, name and description only.
+This endpoint requires no authentication.
+
+A **Reference Project** can be duplicated into the scope of the authenticated user, who then owns the copy.
+  
+
+### Example
+
+
+```python
+import numind.openapi_client
+from numind.models.reference_project_response import ReferenceProjectResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
+
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.StructuredExtractionProjectManagementApi(
+        api_client
+    )
+
+    try:
+        api_response = api_instance.get_api_structured_extraction_reference_projects()
+        print(
+            "The response of StructuredExtractionProjectManagementApi->get_api_structured_extraction_reference_projects:\n"
+        )
+        pprint(api_response)
+    except Exception as e:
+        print(
+            "Exception when calling StructuredExtractionProjectManagementApi->get_api_structured_extraction_reference_projects: %s\n"
+            % e
+        )
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[ReferenceProjectResponse]**](ReferenceProjectResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -301,7 +369,7 @@ The thumbnail is the image modality of the most recent playground item in the pr
 
 `404 Not Found (NoThumbnail)` - If the project exists but has no image playground item to use as thumbnail.
 
-`403 Forbidden` - If the user does not have permission to view this **Project**.
+`403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it.
   
 
 ### Example
@@ -517,13 +585,24 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **patch_api_structured_extraction_structuredprojectid_settings**
-> StructuredProjectResponse patch_api_structured_extraction_structuredprojectid_settings(structured_project_id, update_structured_project_settings_request, x_organization_id=x_organization_id)
+> StructuredProjectResponse patch_api_structured_extraction_structuredprojectid_settings(structured_project_id, structured_settings_patch, x_organization_id=x_organization_id)
 
 
 Update the settings of an existing **Structured Extraction Project**.
 
-Omitted fields keep their current value. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
+Omitted fields keep their current value. Set `rasterizationDPI` to `"automatic"` for automatic resolution, or to an integer from 1 to 600 for a fixed DPI (numeric strings are also accepted). Fixed DPI values are returned as JSON numbers. Set `randomSeed` to a string containing a 64-bit integer for a fixed seed, or to `"random"` to generate a random seed for each inference.
 
+#### DPI request examples:
+
+ Request body | Effect |
+ --- | --- |
+ `{"rasterizationDPI":"automatic"}` | Select automatic resolution. |
+ `{"rasterizationDPI":155}` | Select a fixed resolution of 155 DPI. |
+ `{"rasterizationDPI":"200"}` | Select 200 DPI; responses encode this as the number `200`. |
+ `{}` or `{"rasterizationDPI":null}` | Keep the current setting. |
+
+The `automatic` keyword is case-insensitive. Fixed values must be whole numbers between 1 and 600, inclusive.
+Values such as `0`, `601`, `155.5`, `"155.5"`, `""`, and `true` are rejected.
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
@@ -540,9 +619,7 @@ Omitted fields keep their current value. Set `randomSeed` to a string containing
 ```python
 import numind.openapi_client
 from numind.models.structured_project_response import StructuredProjectResponse
-from numind.models.update_structured_project_settings_request import (
-    UpdateStructuredProjectSettingsRequest,
-)
+from numind.models.structured_settings_patch import StructuredSettingsPatch
 from numind.openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -564,24 +641,25 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         api_client
     )
     structured_project_id = "structured_project_id_example"  # str | Unique structured extraction project identifier.
-    update_structured_project_settings_request = {
+    structured_settings_patch = {
         "temperature": 0.2,
-        "rasterizationDPI": 170,
+        "rasterizationDPI": "automatic",
         "maxOutputTokens": 0,
-        "degradedMode": "Reject",
         "maxExampleTokenNumber": 90000,
         "maxExampleNumber": 0,
         "minExampleSimilarity": 0,
         "enableThinking": false,
+        "thinkingTokenBudget": 15000,
+        "loopDetection": true,
         "randomSeed": "2022",
-    }  # UpdateStructuredProjectSettingsRequest |
+    }  # StructuredSettingsPatch |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
     try:
         api_response = (
             api_instance.patch_api_structured_extraction_structuredprojectid_settings(
                 structured_project_id,
-                update_structured_project_settings_request,
+                structured_settings_patch,
                 x_organization_id=x_organization_id,
             )
         )
@@ -604,7 +682,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **structured_project_id** | **str**| Unique structured extraction project identifier. | 
- **update_structured_project_settings_request** | [**UpdateStructuredProjectSettingsRequest**](UpdateStructuredProjectSettingsRequest.md)|  | 
+ **structured_settings_patch** | [**StructuredSettingsPatch**](StructuredSettingsPatch.md)|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
 
 ### Return type
@@ -651,10 +729,11 @@ A **Project** is created with default settings:
  Setting | Default |
 ---------|---------|
  `temperature` | 0.2 |
- `rasterizationDPI` | 170|
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 0 (no limit) |
+ `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
- `degradedMode` (deprecated) | Reject|
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 
 
@@ -793,8 +872,8 @@ It is allowed to duplicate locked **Projects** and **Reference Projects**.
 
 #### Effect:
 - The duplicated **Project** retains the same template, settings, **Examples** and **Playground Items**.
-- If the target organization is the same as the source, the project name is changed to "Original Name (copy)".
-- If the target organization is different from the source, all **Documents** associated with the **Project** are copied.
+- If the destination ownership scope is the same as the source, the project name is changed to "Original Name (copy)" and its **Documents** are reused.
+- If the destination ownership scope differs, all **Documents** associated with the **Project** are copied into the destination scope. Personal projects owned by different users are different ownership scopes.
 
 #### Response:
  The response contains a newly generated
@@ -804,7 +883,7 @@ It is allowed to duplicate locked **Projects** and **Reference Projects**.
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.
 
-`403 Forbidden` - If the user does not have permission to duplicate this **Project**.
+`403 Forbidden` - If the **Project** is not a **Reference Project** and the user does not have permission to view it, or if the user does not have access to the destination organization.
 
 
 ### Example
@@ -991,10 +1070,11 @@ Default values are:
  Setting | Default |
 -----------|---------|
  `temperature` | 0.2 |
- `rasterizationDPI` | 170|
+ `rasterizationDPI` | `automatic` |
  `maxOutputTokens` | 0 (no limit) |
+ `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
- `degradedMode`  (deprecated) | Reject|
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
 
 #### Error Responses:
@@ -1092,11 +1172,9 @@ Turn an existing **Structured Extraction Project** into a **Reference Project**.
 
 #### Effect:
 
-- **Reference Projects** are shared with the community (read access is granted to all users).
-- **Project Examples** and **Playground Items** are shared as well.
-- Only NuMind administrators can update or delete **Reference Projects**.
-- Only NuMind administrators can create, update, or delete **Examples** and **Playground Items** of **Reference Projects**.
-- The inference is allowed for all users.
+- **Reference Projects** are listed for all users (identifier, name and description only), who can get their thumbnail and duplicate them.
+- Duplicating a **Reference Project** copies its **Examples** and **Playground Items** into the user's own copy.
+- Every other operation, including reading the **Project**, its **Examples** and **Playground Items**, and running inference, remains restricted to the project owner.
 
 #### Error Responses:
 
@@ -1277,10 +1355,8 @@ Unshare a **Reference Project** (makes it private).
 
 #### Effect:
 - The **Project** is no longer a **Reference Project** and is no longer shared with the community.
-- Read access is revoked for all users except the project owner.
-- **Examples** and **Playground Items** are no longer publicly accessible.
-- Only the project owner can manage or delete the project after unsharing.
-- Inference is restricted to the project owner.
+- The **Project** is no longer listed among the **Reference Projects**.
+- Only the project owner can get its thumbnail or duplicate it.
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.

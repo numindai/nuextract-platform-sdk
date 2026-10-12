@@ -346,31 +346,38 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8."
+                description="Model temperature. Controls output diversity. Ranges between 0 and 2."
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         enable_thinking: Annotated[
-            Optional[StrictBool],
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
-                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`."
+                description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
         timeout: Annotated[
@@ -394,7 +401,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default  - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 10000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
 
         :param file: (required)
         :type file: bytes
@@ -402,15 +409,19 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8.
+        :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
-        :type rasterization_dpi: int
-        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
+        :type rasterization_dpi: str
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
         :type max_output_tokens: int
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
+        :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`.
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
+        :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -443,6 +454,8 @@ class ContentExtractionApi:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -489,31 +502,38 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8."
+                description="Model temperature. Controls output diversity. Ranges between 0 and 2."
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         enable_thinking: Annotated[
-            Optional[StrictBool],
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
-                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`."
+                description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
         timeout: Annotated[
@@ -537,7 +557,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default  - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 10000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
 
         :param file: (required)
         :type file: bytes
@@ -545,15 +565,19 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8.
+        :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
-        :type rasterization_dpi: int
-        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
+        :type rasterization_dpi: str
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
         :type max_output_tokens: int
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
+        :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`.
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
+        :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -586,6 +610,8 @@ class ContentExtractionApi:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -632,31 +658,38 @@ class ContentExtractionApi:
                 ]
             ],
             Field(
-                description="Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8."
+                description="Model temperature. Controls output diversity. Ranges between 0 and 2."
             ),
         ] = None,
         rasterization_dpi: Annotated[
-            Optional[Annotated[int, Field(le=300, strict=True, gt=0)]],
+            Optional[StrictStr],
             Field(
-                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi."
+                description="Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text."
             ),
         ] = None,
         max_output_tokens: Annotated[
             Optional[StrictInt],
             Field(
-                description="Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         enable_thinking: Annotated[
-            Optional[StrictBool],
+            Optional[StrictBool], Field(description="Enable thinking/reasoning.")
+        ] = None,
+        thinking_token_budget: Annotated[
+            Optional[StrictInt],
             Field(
-                description="Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
             ),
+        ] = None,
+        loop_detection: Annotated[
+            Optional[StrictBool],
+            Field(description="Stop the generation when the model repeats itself."),
         ] = None,
         random_seed: Annotated[
             Optional[StrictStr],
             Field(
-                description="Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`."
+                description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
         timeout: Annotated[
@@ -680,7 +713,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.  Parameter resolution order:  - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default  - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default  - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default  - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 10000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
 
         :param file: (required)
         :type file: bytes
@@ -688,15 +721,19 @@ class ContentExtractionApi:
         :type x_organization_id: str
         :param project_id: Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events.
         :type project_id: str
-        :param temperature: Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8.
+        :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi.
-        :type rasterization_dpi: int
-        :param max_output_tokens: Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit.
+        :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
+        :type rasterization_dpi: str
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
         :type max_output_tokens: int
-        :param enable_thinking: Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true.
+        :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param random_seed: Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`.
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: int
+        :param loop_detection: Stop the generation when the model repeats itself.
+        :type loop_detection: bool
+        :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -729,6 +766,8 @@ class ContentExtractionApi:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
             _request_auth=_request_auth,
@@ -756,6 +795,8 @@ class ContentExtractionApi:
         rasterization_dpi,
         max_output_tokens,
         enable_thinking,
+        thinking_token_budget,
+        loop_detection,
         random_seed,
         timeout,
         _request_auth,
@@ -793,6 +834,12 @@ class ContentExtractionApi:
 
         if enable_thinking is not None:
             _query_params.append(("enableThinking", enable_thinking))
+
+        if thinking_token_budget is not None:
+            _query_params.append(("thinkingTokenBudget", thinking_token_budget))
+
+        if loop_detection is not None:
+            _query_params.append(("loopDetection", loop_detection))
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))

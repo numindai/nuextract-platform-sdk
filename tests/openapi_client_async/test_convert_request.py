@@ -35,11 +35,13 @@ class TestConvertRequest(unittest.TestCase):
         model = ConvertRequest()
         if include_optional:
             return ConvertRequest(
-                rasterization_dpi = 0
+                rasterization_dpi = None,
+                token_budget_type = ''
             )
         else:
             return ConvertRequest(
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
+                token_budget_type = '',
         )
         """
 

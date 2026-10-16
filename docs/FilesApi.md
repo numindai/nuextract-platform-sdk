@@ -265,6 +265,13 @@ Name | Type | Description  | Notes
  the file is ***converted to an image*** in the background,
  using the **conversion parameters** provided in the request body (e.g., `rasterizationDPI`).
 
+Example request bodies: `{"rasterizationDPI":"automatic","tokenBudgetType":"all-pages"}` for automatic resolution,
+`{"rasterizationDPI":155,"tokenBudgetType":"per-page"}` for fixed resolution, or `{"rasterizationDPI":"200","tokenBudgetType":"all-pages"}` for a numeric string.
+The `automatic` keyword is case-insensitive. Fixed DPI must be a whole number from 1 to 600, inclusive;
+responses encode fixed DPI as a number. Unlike a partial project settings update, this body requires
+`rasterizationDPI` and `tokenBudgetType` (`all-pages` or `per-page`): an omitted or `null` value is rejected,
+as are `0`, `601`, and `155.5` for `rasterizationDPI`.
+
  The resulting image is then saved as a **Document** and can be used for inference or further processing.
 
  Once saved, this **Document** can be used to perform inference,

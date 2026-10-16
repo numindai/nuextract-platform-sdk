@@ -42,6 +42,8 @@ __all__ = [
     "ContentExtractionResponse",
     "ContentProjectResponse",
     "ContentProjectSettingsResponse",
+    "ContentProjectSettingsResponseRasterizationDPI",
+    "ContentSettingsPatch",
     "ConvertRequest",
     "CreateContentProjectRequest",
     "CreateOrUpdateStructuredExampleRequest",
@@ -54,12 +56,18 @@ __all__ = [
     "ImageInfo",
     "ImportProjectResponse",
     "InferenceStatus",
+    "InferenceStatusResponse",
     "InferenceValidationError",
     "InformationResponse",
     "InvalidInformation",
     "JobIdResponse",
+    "JobReportResponse",
     "JobStatusResponse",
     "PaginatedResponseT",
+    "PostProcessingErrorResponse",
+    "PostProcessingRepairResponse",
+    "PostProcessingReportResponse",
+    "ReferenceProjectResponse",
     "ServiceStatus",
     "Structured",
     "StructuredExampleResponse",
@@ -67,14 +75,13 @@ __all__ = [
     "StructuredInferenceExample",
     "StructuredProjectResponse",
     "StructuredProjectSettingsResponse",
+    "StructuredSettingsPatch",
     "TemplateRequest",
     "TemplateResponse",
     "TextInfo",
     "TextRequest",
     "UpdateContentProjectRequest",
-    "UpdateContentProjectSettingsRequest",
     "UpdateStructuredProjectRequest",
-    "UpdateStructuredProjectSettingsRequest",
     "ValidInformation",
     "VersionResponse",
 ]
@@ -129,6 +136,12 @@ from numind.models.content_project_response import (
 from numind.models.content_project_settings_response import (
     ContentProjectSettingsResponse as ContentProjectSettingsResponse,
 )
+from numind.models.content_project_settings_response_rasterization_dpi import (
+    ContentProjectSettingsResponseRasterizationDPI as ContentProjectSettingsResponseRasterizationDPI,
+)
+from numind.models.content_settings_patch import (
+    ContentSettingsPatch as ContentSettingsPatch,
+)
 from numind.models.convert_request import ConvertRequest as ConvertRequest
 from numind.models.create_content_project_request import (
     CreateContentProjectRequest as CreateContentProjectRequest,
@@ -149,6 +162,9 @@ from numind.models.import_project_response import (
     ImportProjectResponse as ImportProjectResponse,
 )
 from numind.models.inference_status import InferenceStatus as InferenceStatus
+from numind.models.inference_status_response import (
+    InferenceStatusResponse as InferenceStatusResponse,
+)
 from numind.models.inference_validation_error import (
     InferenceValidationError as InferenceValidationError,
 )
@@ -157,8 +173,21 @@ from numind.models.information_response import (
 )
 from numind.models.invalid_information import InvalidInformation as InvalidInformation
 from numind.models.job_id_response import JobIdResponse as JobIdResponse
+from numind.models.job_report_response import JobReportResponse as JobReportResponse
 from numind.models.job_status_response import JobStatusResponse as JobStatusResponse
 from numind.models.paginated_response_t import PaginatedResponseT as PaginatedResponseT
+from numind.models.post_processing_error_response import (
+    PostProcessingErrorResponse as PostProcessingErrorResponse,
+)
+from numind.models.post_processing_repair_response import (
+    PostProcessingRepairResponse as PostProcessingRepairResponse,
+)
+from numind.models.post_processing_report_response import (
+    PostProcessingReportResponse as PostProcessingReportResponse,
+)
+from numind.models.reference_project_response import (
+    ReferenceProjectResponse as ReferenceProjectResponse,
+)
 from numind.models.service_status import ServiceStatus as ServiceStatus
 from numind.models.structured import Structured as Structured
 from numind.models.structured_example_response import (
@@ -176,6 +205,9 @@ from numind.models.structured_project_response import (
 from numind.models.structured_project_settings_response import (
     StructuredProjectSettingsResponse as StructuredProjectSettingsResponse,
 )
+from numind.models.structured_settings_patch import (
+    StructuredSettingsPatch as StructuredSettingsPatch,
+)
 from numind.models.template_request import TemplateRequest as TemplateRequest
 from numind.models.template_response import TemplateResponse as TemplateResponse
 from numind.models.text_info import TextInfo as TextInfo
@@ -183,14 +215,8 @@ from numind.models.text_request import TextRequest as TextRequest
 from numind.models.update_content_project_request import (
     UpdateContentProjectRequest as UpdateContentProjectRequest,
 )
-from numind.models.update_content_project_settings_request import (
-    UpdateContentProjectSettingsRequest as UpdateContentProjectSettingsRequest,
-)
 from numind.models.update_structured_project_request import (
     UpdateStructuredProjectRequest as UpdateStructuredProjectRequest,
-)
-from numind.models.update_structured_project_settings_request import (
-    UpdateStructuredProjectSettingsRequest as UpdateStructuredProjectSettingsRequest,
 )
 from numind.models.valid_information import ValidInformation as ValidInformation
 from numind.models.version_response import VersionResponse as VersionResponse

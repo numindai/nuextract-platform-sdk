@@ -14,83 +14,47 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
+from numind.models.post_processing_report_response import PostProcessingReportResponse
 
-class UpdateStructuredProjectSettingsRequest(BaseModel):
+
+class JobReportResponse(BaseModel):
     """
-    UpdateStructuredProjectSettingsRequest
+    JobReportResponse
     """
 
-    temperature: Optional[
-        Union[
-            Annotated[float, Field(le=2.0, strict=True, ge=0.0)],
-            Annotated[int, Field(le=2, strict=True, ge=0)],
-        ]
-    ] = Field(default=None, description="Model temperature (optional).")
-    rasterization_dpi: Optional[Annotated[int, Field(le=300, strict=True, gt=0)]] = (
-        Field(
-            default=None,
-            description="Resolution used to convert formatted documents to images (optional).",
-            alias="rasterizationDPI",
-        )
+    job_id: StrictStr = Field(
+        description="Job that produced this report.", alias="jobId"
     )
-    max_output_tokens: Optional[StrictInt] = Field(
+    parent_job_id: Optional[StrictStr] = Field(
         default=None,
-        description="Maximum number of output tokens (optional). Must be positive. Set to 0 for no limit.",
-        alias="maxOutputTokens",
+        description="Parent job identifier, for a fan-out child job.",
+        alias="parentJobId",
     )
-    degraded_mode: Optional[StrictStr] = Field(
-        default=None,
-        description="Controls whether a response is returned when smart example is not functionning. Rejects by default.",
-        alias="degradedMode",
+    job_type: StrictStr = Field(description="Job type.", alias="jobType")
+    job_index: StrictInt = Field(
+        description="Zero-based position of a fan-out child job.", alias="jobIndex"
     )
-    max_example_token_number: Optional[
-        Annotated[int, Field(le=130000, strict=True, ge=0)]
-    ] = Field(
-        default=None,
-        description="Maximum number of output tokens for smart examples (optional). Must be positive.",
-        alias="maxExampleTokenNumber",
+    report: PostProcessingReportResponse
+    created_at: StrictStr = Field(
+        description="Report creation date.", alias="createdAt"
     )
-    max_example_number: Optional[StrictInt] = Field(
-        default=None,
-        description="Maximum number of examples to use (optional). Must be positive. Set to 0 for no limit.",
-        alias="maxExampleNumber",
-    )
-    min_example_similarity: Optional[
-        Union[
-            Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description="Minimum similarity between the document and the examples (optional). Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.",
-        alias="minExampleSimilarity",
-    )
-    enable_thinking: Optional[StrictBool] = Field(
-        default=None,
-        description="Enable thinking/reasoning (optional).",
-        alias="enableThinking",
-    )
-    random_seed: Optional[StrictStr] = Field(
-        default=None,
-        description="Inference seed setting (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.",
-        alias="randomSeed",
+    updated_at: StrictStr = Field(
+        description="Report last update date.", alias="updatedAt"
     )
     __properties: ClassVar[List[str]] = [
-        "temperature",
-        "rasterizationDPI",
-        "maxOutputTokens",
-        "degradedMode",
-        "maxExampleTokenNumber",
-        "maxExampleNumber",
-        "minExampleSimilarity",
-        "enableThinking",
-        "randomSeed",
+        "jobId",
+        "parentJobId",
+        "jobType",
+        "jobIndex",
+        "report",
+        "createdAt",
+        "updatedAt",
     ]
 
     model_config = ConfigDict(
@@ -110,7 +74,7 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UpdateStructuredProjectSettingsRequest from a JSON string"""
+        """Create an instance of JobReportResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -131,11 +95,14 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of report
+        if self.report:
+            _dict["report"] = self.report.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UpdateStructuredProjectSettingsRequest from a dict"""
+        """Create an instance of JobReportResponse from a dict"""
         if obj is None:
             return None
 
@@ -144,15 +111,15 @@ class UpdateStructuredProjectSettingsRequest(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "temperature": obj.get("temperature"),
-                "rasterizationDPI": obj.get("rasterizationDPI"),
-                "maxOutputTokens": obj.get("maxOutputTokens"),
-                "degradedMode": obj.get("degradedMode"),
-                "maxExampleTokenNumber": obj.get("maxExampleTokenNumber"),
-                "maxExampleNumber": obj.get("maxExampleNumber"),
-                "minExampleSimilarity": obj.get("minExampleSimilarity"),
-                "enableThinking": obj.get("enableThinking"),
-                "randomSeed": obj.get("randomSeed"),
+                "jobId": obj.get("jobId"),
+                "parentJobId": obj.get("parentJobId"),
+                "jobType": obj.get("jobType"),
+                "jobIndex": obj.get("jobIndex"),
+                "report": PostProcessingReportResponse.from_dict(obj["report"])
+                if obj.get("report") is not None
+                else None,
+                "createdAt": obj.get("createdAt"),
+                "updatedAt": obj.get("updatedAt"),
             }
         )
         return _obj

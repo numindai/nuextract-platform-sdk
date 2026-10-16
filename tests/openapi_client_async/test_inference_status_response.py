@@ -11,13 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.update_content_project_settings_request import (
-    UpdateContentProjectSettingsRequest,
-)
+from numind.models.inference_status_response import InferenceStatusResponse
 
 
-class TestUpdateContentProjectSettingsRequest(unittest.TestCase):
-    """UpdateContentProjectSettingsRequest unit test stubs"""
+class TestInferenceStatusResponse(unittest.TestCase):
+    """InferenceStatusResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,31 +23,32 @@ class TestUpdateContentProjectSettingsRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> UpdateContentProjectSettingsRequest:
+    def make_instance(self, include_optional) -> InferenceStatusResponse:
         """
-        Test UpdateContentProjectSettingsRequest
+        Test InferenceStatusResponse
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `UpdateContentProjectSettingsRequest`
+        # uncomment below to create an instance of `InferenceStatusResponse`
         """
-        model = UpdateContentProjectSettingsRequest()
+        model = InferenceStatusResponse()
         if include_optional:
-            return UpdateContentProjectSettingsRequest(
-                temperature = 0.0,
-                rasterization_dpi = 0,
-                max_output_tokens = 56,
-                enable_thinking = True,
-                random_seed = ''
+            return InferenceStatusResponse(
+                inference = numind.models.inference_status.InferenceStatus(
+                    running = 56, 
+                    waiting = 56, )
             )
         else:
-            return UpdateContentProjectSettingsRequest(
+            return InferenceStatusResponse(
+                inference = numind.models.inference_status.InferenceStatus(
+                    running = 56, 
+                    waiting = 56, ),
         )
         """
 
-    def testUpdateContentProjectSettingsRequest(self):
-        """Test UpdateContentProjectSettingsRequest"""
+    def testInferenceStatusResponse(self):
+        """Test InferenceStatusResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

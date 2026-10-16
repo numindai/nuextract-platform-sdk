@@ -38,17 +38,21 @@ class TestContentProjectSettingsResponse(unittest.TestCase):
         if include_optional:
             return ContentProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 enable_thinking = True,
+                thinking_token_budget = 56,
+                loop_detection = True,
                 random_seed = ''
             )
         else:
             return ContentProjectSettingsResponse(
                 temperature = 0.0,
-                rasterization_dpi = 0,
+                rasterization_dpi = None,
                 max_output_tokens = 56,
                 enable_thinking = True,
+                thinking_token_budget = 56,
+                loop_detection = True,
                 random_seed = '',
         )
         """

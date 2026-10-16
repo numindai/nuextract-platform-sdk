@@ -101,18 +101,13 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_content_extraction_jobs**
-> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, random_seed=random_seed, timeout=timeout)
+> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, timeout=timeout)
 
 
  Extract content from the provided file in markdown format as an async job.
  The response contains extracted markdown together with the reasoning trace.
  The model only accepts images. Therefore, some files are converted to images -
  the **rasterizationDPI** parameter controls their resolution.
- Parameter resolution order:
- - `temperature`: request value -> project setting (when `projectId` is provided) -> platform default
- - `rasterizationDPI`: request value -> project setting (when `projectId` is provided) -> platform default
- - `maxOutputTokens`: request value -> project setting (when `projectId` is provided) -> platform default
- - `randomSeed`: request value (`random` or a fixed 64-bit integer string) -> project setting (when `projectId` is provided) -> default `2022`
 
 
 #### Response:
@@ -123,6 +118,12 @@ Name | Type | Description  | Notes
  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.
  and an HTTP code 206 is returned.
     
+#### Settings:
+Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults.
+Platform defaults: temperature 0.8, rasterization DPI `automatic`,
+output token budget 10000, thinking enabled, thinking token budget 15000,
+loop detection enabled, and random seed `2022`.
+
 
 ### Example
 
@@ -152,11 +153,15 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     file = None  # bytes |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     project_id = "project_id_example"  # str | Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. (optional)
-    temperature = 3.4  # float | Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request `temperature` -> project setting (when `projectId` is provided) -> default 0.8. (optional)
-    rasterization_dpi = 56  # int | Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request `rasterizationDPI` -> project setting (when `projectId` is provided) -> default 170 dpi. (optional)
-    max_output_tokens = 56  # int | Maximum number of output tokens (optional). Must be positive. Resolution order: request `maxOutputTokens` -> project setting (when `projectId` is provided) -> default 10000. Set to 0 for no limit. (optional)
-    enable_thinking = True  # bool | Enable thinking/reasoning (optional). Resolution order: request `enableThinking` -> project setting (when `projectId` is provided) -> default true. (optional)
-    random_seed = "random_seed_example"  # str | Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one. Resolution order: request `randomSeed` -> project setting (when `projectId` is provided) -> default `2022`. (optional)
+    temperature = 3.4  # float | Model temperature. Controls output diversity. Ranges between 0 and 2. (optional)
+    rasterization_dpi = "rasterization_dpi_example"  # str | Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text. (optional)
+    max_output_tokens = 56  # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    enable_thinking = True  # bool | Enable thinking/reasoning. (optional)
+    thinking_token_budget = 56  # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    loop_detection = (
+        True  # bool | Stop the generation when the model repeats itself. (optional)
+    )
+    random_seed = "random_seed_example"  # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
@@ -168,6 +173,8 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
             rasterization_dpi=rasterization_dpi,
             max_output_tokens=max_output_tokens,
             enable_thinking=enable_thinking,
+            thinking_token_budget=thinking_token_budget,
+            loop_detection=loop_detection,
             random_seed=random_seed,
             timeout=timeout,
         )
@@ -192,11 +199,13 @@ Name | Type | Description  | Notes
  **file** | **bytes**|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **project_id** | **str**| Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. | [optional] 
- **temperature** | **float**| Model temperature (optional). Controls output diversity.  Ranges between 0 and 2. Resolution order: request &#x60;temperature&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 0.8. | [optional] 
- **rasterization_dpi** | **int**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dot per inch (optional).   Ranges between 1 and 300. Resolution order: request &#x60;rasterizationDPI&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 170 dpi. | [optional] 
- **max_output_tokens** | **int**| Maximum number of output tokens (optional). Must be positive. Resolution order: request &#x60;maxOutputTokens&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default 10000. Set to 0 for no limit. | [optional] 
- **enable_thinking** | **bool**| Enable thinking/reasoning (optional). Resolution order: request &#x60;enableThinking&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default true. | [optional] 
- **random_seed** | **str**| Inference seed override (optional). Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one. Resolution order: request &#x60;randomSeed&#x60; -&gt; project setting (when &#x60;projectId&#x60; is provided) -&gt; default &#x60;2022&#x60;. | [optional] 
+ **temperature** | **float**| Model temperature. Controls output diversity. Ranges between 0 and 2. | [optional] 
+ **rasterization_dpi** | **str**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use &#39;automatic&#39; or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text. | [optional] 
+ **max_output_tokens** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **enable_thinking** | **bool**| Enable thinking/reasoning. | [optional] 
+ **thinking_token_budget** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
+ **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type
@@ -217,7 +226,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter rasterizationDPI, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter enableThinking, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter enableThinking, Invalid value for: query parameter thinkingTokenBudget, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

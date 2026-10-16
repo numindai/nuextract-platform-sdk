@@ -5,16 +5,19 @@ from __future__ import annotations
 import asyncio
 from contextlib import suppress
 from pathlib import Path
-from typing import TYPE_CHECKING
+from types import SimpleNamespace
+from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from numind.models import CreateStructuredProjectRequest, StructuredExtractionResponse
+from numind import NuMind, NuMindAsync
+from numind.models import (
+    ContentProjectSettingsResponseRasterizationDPI,
+    CreateStructuredProjectRequest,
+    StructuredExtractionResponse,
+)
 
 from .conftest import EXTRACT_KWARGS, TEST_CASES_NUEXTRACT
-
-if TYPE_CHECKING:
-    from numind import NuMind, NuMindAsync
 
 
 @pytest.fixture(
@@ -76,6 +79,71 @@ def test_add_examples_to_project(
     _ = numind_client.add_examples_to_structured_extraction_project(
         project_id, examples
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("async_client", [False, True], ids=["sync", "async"])
+@pytest.mark.parametrize("rasterization_dpi", [200, "automatic"])
+async def test_add_examples_uses_project_conversion_settings(
+    monkeypatch: pytest.MonkeyPatch, async_client: bool, rasterization_dpi: int | str
+) -> None:
+    """Convert file examples with project DPI and a document-wide token budget."""
+    client = NuMindAsync(client=object()) if async_client else NuMind(client=object())
+    mock_type = AsyncMock if async_client else Mock
+    get_project = mock_type(
+        return_value=SimpleNamespace(
+            settings=SimpleNamespace(
+                rasterization_dpi=ContentProjectSettingsResponseRasterizationDPI(
+                    rasterization_dpi
+                )
+            )
+        )
+    )
+    upload_file = mock_type(return_value=SimpleNamespace(file_id="file-id"))
+    convert_file = mock_type(
+        return_value=SimpleNamespace(
+            doc_info=SimpleNamespace(
+                actual_instance=SimpleNamespace(document_id="document-id")
+            )
+        )
+    )
+    create_example = mock_type()
+    monkeypatch.setattr(
+        client, "get_api_structured_extraction_structuredprojectid", get_project
+    )
+    monkeypatch.setattr(client, "post_api_files", upload_file)
+    monkeypatch.setattr(
+        client, "post_api_files_fileid_convert_to_document", convert_file
+    )
+    monkeypatch.setattr(
+        client,
+        "post_api_structured_extraction_structuredprojectid_examples",
+        create_example,
+    )
+
+    result = client.add_examples_to_structured_extraction_project(
+        "project-id", [(b"example document", {"value": "example"})]
+    )
+    if async_client:
+        result = await result
+
+    assert result == (["file-id"], ["document-id"])
+    get_project.assert_called_once_with("project-id")
+    upload_file.assert_called_once_with("", b"example document")
+    convert_file.assert_called_once()
+    file_id, convert_request = convert_file.call_args.args
+    assert file_id == "file-id"
+    assert convert_request.to_dict() == {
+        "rasterizationDPI": rasterization_dpi,
+        "tokenBudgetType": "all-pages",
+    }
+    create_example.assert_called_once()
+    example_project_id, example_request = create_example.call_args.args
+    assert example_project_id == "project-id"
+    assert example_request.to_dict() == {
+        "documentId": "document-id",
+        "result": {"value": "example"},
+    }
 
 
 @pytest.mark.dependency(name="infer_text", depends=["create_project"])

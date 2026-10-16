@@ -19,9 +19,11 @@ if TYPE_CHECKING:
     from numind.models import JobStatusResponse
 
 
+@pytest.mark.parametrize("rasterization_dpi", [200, "automatic"])
 def test_extract_structured_data_submits_and_polls(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, rasterization_dpi: int | str
 ) -> None:
+    """Submit scalar DPI settings and file examples, then poll the mocked job."""
     example_path = tmp_path / "example.txt"
     example_path.write_bytes(b"file example")
     client = NuMind(client=object())
@@ -50,7 +52,9 @@ def test_extract_structured_data_submits_and_polls(
             ("text example", '{"value": "first"}'),
             (example_path, {"value": "second"}),
         ],
-        convert_request=ConvertRequest(rasterizationDPI=200),
+        convert_request=ConvertRequest.from_dict(
+            {"rasterizationDPI": rasterization_dpi, "tokenBudgetType": "all-pages"}
+        ),
         job_status_polling_delay=0.25,
         max_output_tokens=500,
         timeout="10m",
@@ -60,7 +64,7 @@ def test_extract_structured_data_submits_and_polls(
     assert json.loads(extraction_request_json) == {
         "schema": {"value": "string"},
         "instructions": "Extract the value.",
-        "settings": {"rasterizationDPI": 200, "maxOutputTokens": 500},
+        "settings": {"rasterizationDPI": rasterization_dpi, "maxOutputTokens": 500},
         "examples": [
             {"result": {"value": "first"}},
             {"result": {"value": "second"}},

@@ -19,6 +19,9 @@ from numind.models.content_project_response import ContentProjectResponse
 from numind.models.content_project_settings_response import (
     ContentProjectSettingsResponse,
 )
+from numind.models.content_project_settings_response_image_width import (
+    ContentProjectSettingsResponseImageWidth,
+)
 from numind.models.content_project_settings_response_rasterization_dpi import (
     ContentProjectSettingsResponseRasterizationDPI,
 )

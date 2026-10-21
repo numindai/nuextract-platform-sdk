@@ -120,6 +120,8 @@ Name | Type | Description  | Notes
 
  The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.
  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.
+ `settings.imageWidth` accepts `"automatic"`, `"original"`, or a positive integer width.
+ It applies only to original standalone images, including uploaded examples; converted document pages use DPI.
  `settings.rasterizationDPI` accepts `"automatic"` or an integer from 1 to 600, such as `200`. Numeric strings such as `"200"` are also accepted.
 
 #### Request JSON:
@@ -277,7 +279,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_structured_extraction_structuredprojectid_jobs**
-> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, dpi=dpi, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, timeout=timeout)
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, dpi=dpi, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
 
 
  Extract structured information from the provided text or file as an async job. Some files are converted to images -
@@ -346,6 +348,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         True  # bool | Stop the generation when the model repeats itself. (optional)
     )
     random_seed = "random_seed_example"  # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
+    image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
@@ -364,6 +367,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
                 thinking_token_budget=thinking_token_budget,
                 loop_detection=loop_detection,
                 random_seed=random_seed,
+                image_width=image_width,
                 timeout=timeout,
             )
         )
@@ -398,6 +402,7 @@ Name | Type | Description  | Notes
  **thinking_token_budget** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
+ **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type
@@ -424,7 +429,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_structured_extraction_structuredprojectid_jobs_text**
-> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, timeout=timeout)
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
 
 
  Performs structured information extraction inference on the provided text as an async job.
@@ -494,10 +499,11 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     thinking_token_budget = 56 # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
     loop_detection = True # bool | Stop the generation when the model repeats itself. (optional)
     random_seed = 'random_seed_example' # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
+    image_width = 'image_width_example' # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = 'timeout_example' # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, timeout=timeout)
+        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
         print("The response of StructuredDataExtractionApi->post_api_structured_extraction_structuredprojectid_jobs_text:\n")
         pprint(api_response)
     except Exception as e:
@@ -523,6 +529,7 @@ Name | Type | Description  | Notes
  **thinking_token_budget** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
+ **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
 
 ### Return type

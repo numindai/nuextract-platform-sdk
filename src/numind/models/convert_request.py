@@ -20,6 +20,9 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
+from numind.models.content_project_settings_response_image_width import (
+    ContentProjectSettingsResponseImageWidth,
+)
 from numind.models.content_project_settings_response_rasterization_dpi import (
     ContentProjectSettingsResponseRasterizationDPI,
 )
@@ -37,7 +40,12 @@ class ConvertRequest(BaseModel):
         description="Token budget allocation used while converting the document: `per-page` applies a separate budget to each page, while `all-pages` shares one budget across the entire document.",
         alias="tokenBudgetType",
     )
-    __properties: ClassVar[List[str]] = ["rasterizationDPI", "tokenBudgetType"]
+    image_width: ContentProjectSettingsResponseImageWidth = Field(alias="imageWidth")
+    __properties: ClassVar[List[str]] = [
+        "rasterizationDPI",
+        "tokenBudgetType",
+        "imageWidth",
+    ]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -80,6 +88,9 @@ class ConvertRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of rasterization_dpi
         if self.rasterization_dpi:
             _dict["rasterizationDPI"] = self.rasterization_dpi.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of image_width
+        if self.image_width:
+            _dict["imageWidth"] = self.image_width.to_dict()
         return _dict
 
     @classmethod
@@ -99,6 +110,11 @@ class ConvertRequest(BaseModel):
                 if obj.get("rasterizationDPI") is not None
                 else None,
                 "tokenBudgetType": obj.get("tokenBudgetType"),
+                "imageWidth": ContentProjectSettingsResponseImageWidth.from_dict(
+                    obj["imageWidth"]
+                )
+                if obj.get("imageWidth") is not None
+                else None,
             }
         )
         return _obj

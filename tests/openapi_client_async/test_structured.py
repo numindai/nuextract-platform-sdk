@@ -57,7 +57,8 @@ class TestStructured(unittest.TestCase):
                         enable_thinking = True, 
                         thinking_token_budget = 56, 
                         loop_detection = True, 
-                        random_seed = '', ), ),
+                        random_seed = '', 
+                        image_width = null, ), ),
                 type = 'structured'
             )
         else:
@@ -84,7 +85,8 @@ class TestStructured(unittest.TestCase):
                         enable_thinking = True, 
                         thinking_token_budget = 56, 
                         loop_detection = True, 
-                        random_seed = '', ), ),
+                        random_seed = '', 
+                        image_width = null, ), ),
                 type = 'structured',
         )
         """

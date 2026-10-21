@@ -57,7 +57,8 @@ class TestImportProjectResponse(unittest.TestCase):
                         enable_thinking = True, 
                         thinking_token_budget = 56, 
                         loop_detection = True, 
-                        random_seed = '', ), ),
+                        random_seed = '', 
+                        image_width = null, ), ),
                 type = 'content'
             )
         else:
@@ -84,7 +85,8 @@ class TestImportProjectResponse(unittest.TestCase):
                         enable_thinking = True, 
                         thinking_token_budget = 56, 
                         loop_detection = True, 
-                        random_seed = '', ), ),
+                        random_seed = '', 
+                        image_width = null, ), ),
                 type = 'content',
         )
         """

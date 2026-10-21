@@ -140,9 +140,9 @@ class NuMind(
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
-        :param convert_request: file conversion configuration. Only its DPI is used;
-            structured extraction manages token budget allocation. If ``None`` is
-            provided, the default API DPI is used. (default: ``None``)
+        :param convert_request: file conversion DPI and image width; structured
+            extraction manages token budget allocation. If ``None`` is provided,
+            the API defaults are used. (default: ``None``)
         :param job_status_polling_delay: seconds to wait between job status requests.
         :param raise_on_job_fail: whether to raise when the job fails. If false, return
             the terminal job status and failure reason.
@@ -216,8 +216,8 @@ class NuMind(
             output. The inputs can be text (``str``) or files (``pathlib.Path`` or
             ``bytes``).
         :param convert_request: file conversion configuration. If ``None`` is provided,
-            use the project's DPI and an ``all-pages`` token budget shared across the
-            document. (default: ``None``)
+            use the project's DPI and image width, with an ``all-pages`` token budget
+            shared across the document. (default: ``None``)
         :return: file IDs (``None`` for text inputs) and document IDs.
         """
         file_ids, document_ids = [], []
@@ -228,6 +228,7 @@ class NuMind(
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
                 tokenBudgetType="all-pages",
+                imageWidth=project_info.settings.image_width,
             )
         for example_input, example_output in examples:
             prepared_example_input, example_file_name, parsed_example_output = (
@@ -349,9 +350,9 @@ class NuMindAsync(
             Examples are pairs of inputs and expected outputs that aim to show practical
             use-cases and expected responses aiming to guide it to produce more accurate
             outputs. (default: ``None``)
-        :param convert_request: file conversion configuration. Only its DPI is used;
-            structured extraction manages token budget allocation. If ``None`` is
-            provided, the default API DPI is used. (default: ``None``)
+        :param convert_request: file conversion DPI and image width; structured
+            extraction manages token budget allocation. If ``None`` is provided,
+            the API defaults are used. (default: ``None``)
         :param job_status_polling_delay: seconds to wait between job status requests.
         :param raise_on_job_fail: whether to raise when the job fails. If false, return
             the terminal job status and failure reason.
@@ -429,8 +430,8 @@ class NuMindAsync(
             output. The inputs can be text (``str``) or files (``pathlib.Path`` or
             ``bytes``).
         :param convert_request: file conversion configuration. If ``None`` is provided,
-            use the project's DPI and an ``all-pages`` token budget shared across the
-            document. (default: ``None``)
+            use the project's DPI and image width, with an ``all-pages`` token budget
+            shared across the document. (default: ``None``)
         :return: file IDs (``None`` for text inputs) and document IDs.
         """
         file_ids, document_ids = [], []
@@ -441,6 +442,7 @@ class NuMindAsync(
             convert_request = ConvertRequest(
                 rasterizationDPI=project_info.settings.rasterization_dpi,
                 tokenBudgetType="all-pages",
+                imageWidth=project_info.settings.image_width,
             )
         for example_input, example_output in examples:
             prepared_example_input, example_file_name, parsed_example_output = (
@@ -559,7 +561,7 @@ def _prepare_structured_extraction_job(
     :param input_text: text document to extract from.
     :param input_file: file document to extract from.
     :param examples: optional input and expected-output pairs.
-    :param convert_request: optional conversion configuration; only its DPI is used.
+    :param convert_request: optional conversion DPI and image width.
     :param extraction_settings: inference settings using SDK argument names.
     :return: serialized manifest, document bytes, and ordered example files.
     :raises ValueError: if exactly one document input is not provided.
@@ -578,9 +580,12 @@ def _prepare_structured_extraction_job(
         else _parse_input_file(input_file)[0]
     )
 
-    # Structured extraction accepts DPI, but not the file conversion token budget mode.
+    # Forward image settings; structured extraction manages its own token budget.
     request_settings = (
-        {"rasterizationDPI": convert_request.rasterization_dpi.to_dict()}
+        {
+            "rasterizationDPI": convert_request.rasterization_dpi.to_dict(),
+            "imageWidth": convert_request.image_width.to_dict(),
+        }
         if convert_request is not None
         else {}
     )

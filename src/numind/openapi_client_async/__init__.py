@@ -42,6 +42,7 @@ __all__ = [
     "ContentExtractionResponse",
     "ContentProjectResponse",
     "ContentProjectSettingsResponse",
+    "ContentProjectSettingsResponseImageWidth",
     "ContentProjectSettingsResponseRasterizationDPI",
     "ContentSettingsPatch",
     "ConvertRequest",
@@ -135,6 +136,9 @@ from numind.models.content_project_response import (
 )
 from numind.models.content_project_settings_response import (
     ContentProjectSettingsResponse as ContentProjectSettingsResponse,
+)
+from numind.models.content_project_settings_response_image_width import (
+    ContentProjectSettingsResponseImageWidth as ContentProjectSettingsResponseImageWidth,
 )
 from numind.models.content_project_settings_response_rasterization_dpi import (
     ContentProjectSettingsResponseRasterizationDPI as ContentProjectSettingsResponseRasterizationDPI,

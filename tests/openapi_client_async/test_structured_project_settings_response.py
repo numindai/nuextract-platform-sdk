@@ -46,7 +46,8 @@ class TestStructuredProjectSettingsResponse(unittest.TestCase):
                 enable_thinking = True,
                 thinking_token_budget = 56,
                 loop_detection = True,
-                random_seed = ''
+                random_seed = '',
+                image_width = None
             )
         else:
             return StructuredProjectSettingsResponse(
@@ -60,6 +61,7 @@ class TestStructuredProjectSettingsResponse(unittest.TestCase):
                 thinking_token_budget = 56,
                 loop_detection = True,
                 random_seed = '',
+                image_width = None,
         )
         """
 

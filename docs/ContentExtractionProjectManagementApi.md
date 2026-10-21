@@ -320,6 +320,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
         "thinkingTokenBudget": 15000,
         "loopDetection": true,
         "randomSeed": "2022",
+        "imageWidth": "automatic",
     }  # ContentSettingsPatch |
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
 
@@ -396,6 +397,7 @@ A **Project** is created with default settings:
 ---------|---------|
  `temperature` | 0.8 |
  `rasterizationDPI` | `automatic` |
+ `imageWidth` | `automatic` |
  `maxOutputTokens` | 10000 |
  `enableThinking` | true |
  `thinkingTokenBudget` | 15000 (0 for no limit) |

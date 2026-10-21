@@ -374,7 +374,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -481,7 +481,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -588,7 +588,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -801,6 +801,12 @@ class StructuredDataExtractionApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -850,6 +856,8 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -888,6 +896,7 @@ class StructuredDataExtractionApi:
                 thinking_token_budget=thinking_token_budget,
                 loop_detection=loop_detection,
                 random_seed=random_seed,
+                image_width=image_width,
                 timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -989,6 +998,12 @@ class StructuredDataExtractionApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1038,6 +1053,8 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1076,6 +1093,7 @@ class StructuredDataExtractionApi:
                 thinking_token_budget=thinking_token_budget,
                 loop_detection=loop_detection,
                 random_seed=random_seed,
+                image_width=image_width,
                 timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1177,6 +1195,12 @@ class StructuredDataExtractionApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1226,6 +1250,8 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1264,6 +1290,7 @@ class StructuredDataExtractionApi:
                 thinking_token_budget=thinking_token_budget,
                 loop_detection=loop_detection,
                 random_seed=random_seed,
+                image_width=image_width,
                 timeout=timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1297,6 +1324,7 @@ class StructuredDataExtractionApi:
         thinking_token_budget,
         loop_detection,
         random_seed,
+        image_width,
         timeout,
         _request_auth,
         _content_type,
@@ -1350,6 +1378,9 @@ class StructuredDataExtractionApi:
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))
+
+        if image_width is not None:
+            _query_params.append(("imageWidth", image_width))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
@@ -1477,6 +1508,12 @@ class StructuredDataExtractionApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1524,6 +1561,8 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1560,6 +1599,7 @@ class StructuredDataExtractionApi:
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
             random_seed=random_seed,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1654,6 +1694,12 @@ class StructuredDataExtractionApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1701,6 +1747,8 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1737,6 +1785,7 @@ class StructuredDataExtractionApi:
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
             random_seed=random_seed,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1831,6 +1880,12 @@ class StructuredDataExtractionApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1878,6 +1933,8 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1914,6 +1971,7 @@ class StructuredDataExtractionApi:
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
             random_seed=random_seed,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1945,6 +2003,7 @@ class StructuredDataExtractionApi:
         thinking_token_budget,
         loop_detection,
         random_seed,
+        image_width,
         timeout,
         _request_auth,
         _content_type,
@@ -1995,6 +2054,9 @@ class StructuredDataExtractionApi:
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))
+
+        if image_width is not None:
+            _query_params.append(("imageWidth", image_width))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

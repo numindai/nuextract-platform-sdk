@@ -365,6 +365,7 @@ Class | Method | HTTP request | Description
  - [ContentExtractionResponse](docs/ContentExtractionResponse.md)
  - [ContentProjectResponse](docs/ContentProjectResponse.md)
  - [ContentProjectSettingsResponse](docs/ContentProjectSettingsResponse.md)
+ - [ContentProjectSettingsResponseImageWidth](docs/ContentProjectSettingsResponseImageWidth.md)
  - [ContentProjectSettingsResponseRasterizationDPI](docs/ContentProjectSettingsResponseRasterizationDPI.md)
  - [ContentSettingsPatch](docs/ContentSettingsPatch.md)
  - [ConvertRequest](docs/ConvertRequest.md)

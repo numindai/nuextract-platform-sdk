@@ -36,12 +36,14 @@ class TestConvertRequest(unittest.TestCase):
         if include_optional:
             return ConvertRequest(
                 rasterization_dpi = None,
-                token_budget_type = ''
+                token_budget_type = '',
+                image_width = None
             )
         else:
             return ConvertRequest(
                 rasterization_dpi = None,
                 token_budget_type = '',
+                image_width = None,
         )
         """
 

@@ -20,6 +20,9 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
+from numind.models.content_project_settings_response_image_width import (
+    ContentProjectSettingsResponseImageWidth,
+)
 from numind.models.content_project_settings_response_rasterization_dpi import (
     ContentProjectSettingsResponseRasterizationDPI,
 )
@@ -65,6 +68,9 @@ class ContentSettingsPatch(BaseModel):
         description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.",
         alias="randomSeed",
     )
+    image_width: Optional[ContentProjectSettingsResponseImageWidth] = Field(
+        default=None, alias="imageWidth"
+    )
     __properties: ClassVar[List[str]] = [
         "temperature",
         "rasterizationDPI",
@@ -73,6 +79,7 @@ class ContentSettingsPatch(BaseModel):
         "thinkingTokenBudget",
         "loopDetection",
         "randomSeed",
+        "imageWidth",
     ]
 
     model_config = ConfigDict(
@@ -116,6 +123,9 @@ class ContentSettingsPatch(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of rasterization_dpi
         if self.rasterization_dpi:
             _dict["rasterizationDPI"] = self.rasterization_dpi.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of image_width
+        if self.image_width:
+            _dict["imageWidth"] = self.image_width.to_dict()
         return _dict
 
     @classmethod
@@ -140,6 +150,11 @@ class ContentSettingsPatch(BaseModel):
                 "thinkingTokenBudget": obj.get("thinkingTokenBudget"),
                 "loopDetection": obj.get("loopDetection"),
                 "randomSeed": obj.get("randomSeed"),
+                "imageWidth": ContentProjectSettingsResponseImageWidth.from_dict(
+                    obj["imageWidth"]
+                )
+                if obj.get("imageWidth") is not None
+                else None,
             }
         )
         return _obj

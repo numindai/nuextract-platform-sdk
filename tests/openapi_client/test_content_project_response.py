@@ -49,7 +49,8 @@ class TestContentProjectResponse(unittest.TestCase):
                     enable_thinking = True, 
                     thinking_token_budget = 56, 
                     loop_detection = True, 
-                    random_seed = '', )
+                    random_seed = '', 
+                    image_width = null, )
             )
         else:
             return ContentProjectResponse(
@@ -66,7 +67,8 @@ class TestContentProjectResponse(unittest.TestCase):
                     enable_thinking = True, 
                     thinking_token_budget = 56, 
                     loop_detection = True, 
-                    random_seed = '', ),
+                    random_seed = '', 
+                    image_width = null, ),
         )
         """
 

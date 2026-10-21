@@ -443,6 +443,12 @@ class InferenceApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -490,6 +496,8 @@ class InferenceApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -526,6 +534,7 @@ class InferenceApi:
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
             random_seed=random_seed,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -622,6 +631,12 @@ class InferenceApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -669,6 +684,8 @@ class InferenceApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -705,6 +722,7 @@ class InferenceApi:
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
             random_seed=random_seed,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -801,6 +819,12 @@ class InferenceApi:
                 description="Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference."
             ),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -848,6 +872,8 @@ class InferenceApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -884,6 +910,7 @@ class InferenceApi:
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
             random_seed=random_seed,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -915,6 +942,7 @@ class InferenceApi:
         thinking_token_budget,
         loop_detection,
         random_seed,
+        image_width,
         timeout,
         _request_auth,
         _content_type,
@@ -967,6 +995,9 @@ class InferenceApi:
 
         if random_seed is not None:
             _query_params.append(("randomSeed", random_seed))
+
+        if image_width is not None:
+            _query_params.append(("imageWidth", image_width))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
@@ -1026,6 +1057,12 @@ class InferenceApi:
             Optional[StrictBool],
             Field(description="Stop the generation when the model repeats itself."),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1059,6 +1096,8 @@ class InferenceApi:
         :type thinking_token_budget: int
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1088,6 +1127,7 @@ class InferenceApi:
             enable_thinking=enable_thinking,
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1134,6 +1174,12 @@ class InferenceApi:
             Optional[StrictBool],
             Field(description="Stop the generation when the model repeats itself."),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1167,6 +1213,8 @@ class InferenceApi:
         :type thinking_token_budget: int
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1196,6 +1244,7 @@ class InferenceApi:
             enable_thinking=enable_thinking,
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1242,6 +1291,12 @@ class InferenceApi:
             Optional[StrictBool],
             Field(description="Stop the generation when the model repeats itself."),
         ] = None,
+        image_width: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+            ),
+        ] = None,
         timeout: Annotated[
             Optional[StrictStr],
             Field(
@@ -1275,6 +1330,8 @@ class InferenceApi:
         :type thinking_token_budget: int
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1304,6 +1361,7 @@ class InferenceApi:
             enable_thinking=enable_thinking,
             thinking_token_budget=thinking_token_budget,
             loop_detection=loop_detection,
+            image_width=image_width,
             timeout=timeout,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1328,6 +1386,7 @@ class InferenceApi:
         enable_thinking,
         thinking_token_budget,
         loop_detection,
+        image_width,
         timeout,
         _request_auth,
         _content_type,
@@ -1360,6 +1419,9 @@ class InferenceApi:
 
         if loop_detection is not None:
             _query_params.append(("loopDetection", loop_detection))
+
+        if image_width is not None:
+            _query_params.append(("imageWidth", image_width))
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))

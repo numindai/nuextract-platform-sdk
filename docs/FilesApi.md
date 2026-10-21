@@ -260,7 +260,12 @@ Name | Type | Description  | Notes
 
  Convert the **File** into a **Document**
 
- - For ***text and image files***, the content is used as-is — no conversion is performed.
+ - For ***text files***, the content is used as-is.
+ - For ***original standalone raster images***, optional `imageWidth` controls resizing:
+ `"automatic"` sets the short side to 1280 pixels, a positive integer sets horizontal width,
+ and `"original"` bypasses processing. Omission defaults to `"original"`.
+ Aspect ratio is preserved and upscaling is allowed. Original upload bytes are retained.
+ This setting never applies to images produced from PDF, TIFF, or other document conversions.
  - For ***other supported file types*** (e.g., PDFs, WORD, PPTX, Excel),
  the file is ***converted to an image*** in the background,
  using the **conversion parameters** provided in the request body (e.g., `rasterizationDPI`).
@@ -269,7 +274,7 @@ Example request bodies: `{"rasterizationDPI":"automatic","tokenBudgetType":"all-
 `{"rasterizationDPI":155,"tokenBudgetType":"per-page"}` for fixed resolution, or `{"rasterizationDPI":"200","tokenBudgetType":"all-pages"}` for a numeric string.
 The `automatic` keyword is case-insensitive. Fixed DPI must be a whole number from 1 to 600, inclusive;
 responses encode fixed DPI as a number. Unlike a partial project settings update, this body requires
-`rasterizationDPI` and `tokenBudgetType` (`all-pages` or `per-page`): an omitted or `null` value is rejected,
+`rasterizationDPI` and `tokenBudgetType` (`all-pages` or `per-page`) are required; omitted or `null` values are rejected,
 as are `0`, `601`, and `155.5` for `rasterizationDPI`.
 
  The resulting image is then saved as a **Document** and can be used for inference or further processing.

@@ -12,6 +12,7 @@ import pytest
 
 from numind import NuMind, NuMindAsync
 from numind.models import (
+    ContentProjectSettingsResponseImageWidth,
     ContentProjectSettingsResponseRasterizationDPI,
     CreateStructuredProjectRequest,
     StructuredExtractionResponse,
@@ -84,10 +85,14 @@ def test_add_examples_to_project(
 @pytest.mark.asyncio
 @pytest.mark.parametrize("async_client", [False, True], ids=["sync", "async"])
 @pytest.mark.parametrize("rasterization_dpi", [200, "automatic"])
+@pytest.mark.parametrize("image_width", [640, "automatic", "original"])
 async def test_add_examples_uses_project_conversion_settings(
-    monkeypatch: pytest.MonkeyPatch, async_client: bool, rasterization_dpi: int | str
+    monkeypatch: pytest.MonkeyPatch,
+    async_client: bool,
+    rasterization_dpi: int | str,
+    image_width: int | str,
 ) -> None:
-    """Convert file examples with project DPI and a document-wide token budget."""
+    """Use project DPI and image width with a document-wide token budget."""
     client = NuMindAsync(client=object()) if async_client else NuMind(client=object())
     mock_type = AsyncMock if async_client else Mock
     get_project = mock_type(
@@ -95,7 +100,8 @@ async def test_add_examples_uses_project_conversion_settings(
             settings=SimpleNamespace(
                 rasterization_dpi=ContentProjectSettingsResponseRasterizationDPI(
                     rasterization_dpi
-                )
+                ),
+                image_width=ContentProjectSettingsResponseImageWidth(image_width),
             )
         )
     )
@@ -136,6 +142,7 @@ async def test_add_examples_uses_project_conversion_settings(
     assert convert_request.to_dict() == {
         "rasterizationDPI": rasterization_dpi,
         "tokenBudgetType": "all-pages",
+        "imageWidth": image_width,
     }
     create_example.assert_called_once()
     example_project_id, example_request = create_example.call_args.args

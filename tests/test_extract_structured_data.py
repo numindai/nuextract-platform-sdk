@@ -19,22 +19,32 @@ if TYPE_CHECKING:
     from numind.models import JobStatusResponse
 
 
+@pytest.mark.asyncio
+@pytest.mark.parametrize("async_client", [False, True], ids=["sync", "async"])
 @pytest.mark.parametrize("rasterization_dpi", [200, "automatic"])
-def test_extract_structured_data_submits_and_polls(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, rasterization_dpi: int | str
+@pytest.mark.parametrize("image_width", [640, "automatic", "original"])
+async def test_extract_structured_data_submits_and_polls(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    async_client: bool,
+    rasterization_dpi: int | str,
+    image_width: int | str,
 ) -> None:
-    """Submit scalar DPI settings and file examples, then poll the mocked job."""
+    """Submit scalar DPI and image width with examples, then poll the mocked job."""
     example_path = tmp_path / "example.txt"
     example_path.write_bytes(b"file example")
-    client = NuMind(client=object())
+    client = NuMindAsync(client=object()) if async_client else NuMind(client=object())
+    mock_type = AsyncMock if async_client else Mock
     extraction_result = object()
     incomplete_job_status = SimpleNamespace(completed_at=None, status="running")
     completed_job_status = SimpleNamespace(completed_at="now", status="completed")
 
-    submit_job = Mock(return_value=SimpleNamespace(job_id="job-id"))
-    get_job_status = Mock(side_effect=[incomplete_job_status, completed_job_status])
-    get_job_result = Mock(return_value=extraction_result)
-    sleep = Mock()
+    submit_job = mock_type(return_value=SimpleNamespace(job_id="job-id"))
+    get_job_status = mock_type(
+        side_effect=[incomplete_job_status, completed_job_status]
+    )
+    get_job_result = mock_type(return_value=extraction_result)
+    sleep = mock_type()
     monkeypatch.setattr(client, "post_api_structured_extraction_jobs", submit_job)
     monkeypatch.setattr(client, "get_api_jobs_jobid_status", get_job_status)
     monkeypatch.setattr(
@@ -42,7 +52,10 @@ def test_extract_structured_data_submits_and_polls(
         "get_api_structured_extraction_jobs_structuredextractionjobid",
         get_job_result,
     )
-    monkeypatch.setattr("numind.numind.time.sleep", sleep)
+    monkeypatch.setattr(
+        "numind.numind.asyncio.sleep" if async_client else "numind.numind.time.sleep",
+        sleep,
+    )
 
     result = client.extract_structured_data(
         template='{"value": "string"}',
@@ -53,18 +66,28 @@ def test_extract_structured_data_submits_and_polls(
             (example_path, {"value": "second"}),
         ],
         convert_request=ConvertRequest.from_dict(
-            {"rasterizationDPI": rasterization_dpi, "tokenBudgetType": "all-pages"}
+            {
+                "rasterizationDPI": rasterization_dpi,
+                "tokenBudgetType": "all-pages",
+                "imageWidth": image_width,
+            }
         ),
         job_status_polling_delay=0.25,
         max_output_tokens=500,
         timeout="10m",
     )
+    if async_client:
+        result = await result
 
     extraction_request_json, document_bytes = submit_job.call_args.args
     assert json.loads(extraction_request_json) == {
         "schema": {"value": "string"},
         "instructions": "Extract the value.",
-        "settings": {"rasterizationDPI": rasterization_dpi, "maxOutputTokens": 500},
+        "settings": {
+            "rasterizationDPI": rasterization_dpi,
+            "imageWidth": image_width,
+            "maxOutputTokens": 500,
+        },
         "examples": [
             {"result": {"value": "first"}},
             {"result": {"value": "second"}},

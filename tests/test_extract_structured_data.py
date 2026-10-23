@@ -73,7 +73,7 @@ async def test_extract_structured_data_submits_and_polls(
             }
         ),
         job_status_polling_delay=0.25,
-        max_output_tokens=500,
+        max_output_tokens="500",
         timeout="10m",
     )
     if async_client:
@@ -86,7 +86,7 @@ async def test_extract_structured_data_submits_and_polls(
         "settings": {
             "rasterizationDPI": rasterization_dpi,
             "imageWidth": image_width,
-            "maxOutputTokens": 500,
+            "maxOutputTokens": "500",
         },
         "examples": [
             {"result": {"value": "first"}},

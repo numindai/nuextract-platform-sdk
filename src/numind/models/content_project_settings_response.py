@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -42,15 +42,15 @@ class ContentProjectSettingsResponse(BaseModel):
     rasterization_dpi: ContentProjectSettingsResponseRasterizationDPI = Field(
         alias="rasterizationDPI"
     )
-    max_output_tokens: StrictInt = Field(
-        description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.",
+    max_output_tokens: StrictStr = Field(
+        description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.",
         alias="maxOutputTokens",
     )
     enable_thinking: StrictBool = Field(
         description="Enable thinking/reasoning.", alias="enableThinking"
     )
-    thinking_token_budget: StrictInt = Field(
-        description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.",
+    thinking_token_budget: StrictStr = Field(
+        description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.",
         alias="thinkingTokenBudget",
     )
     loop_detection: StrictBool = Field(

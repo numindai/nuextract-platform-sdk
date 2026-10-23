@@ -16,7 +16,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -45,9 +45,9 @@ class StructuredSettingsPatch(BaseModel):
     rasterization_dpi: Optional[ContentProjectSettingsResponseRasterizationDPI] = Field(
         default=None, alias="rasterizationDPI"
     )
-    max_output_tokens: Optional[StrictInt] = Field(
+    max_output_tokens: Optional[StrictStr] = Field(
         default=None,
-        description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.",
+        description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.",
         alias="maxOutputTokens",
     )
     max_example_token_number: Optional[
@@ -57,9 +57,9 @@ class StructuredSettingsPatch(BaseModel):
         description="Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.",
         alias="maxExampleTokenNumber",
     )
-    max_example_number: Optional[StrictInt] = Field(
+    max_example_number: Optional[StrictStr] = Field(
         default=None,
-        description="Maximum number of examples to use. Must be positive. Set to 0 for no limit.",
+        description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.",
         alias="maxExampleNumber",
     )
     min_example_similarity: Optional[
@@ -75,9 +75,9 @@ class StructuredSettingsPatch(BaseModel):
     enable_thinking: Optional[StrictBool] = Field(
         default=None, description="Enable thinking/reasoning.", alias="enableThinking"
     )
-    thinking_token_budget: Optional[StrictInt] = Field(
+    thinking_token_budget: Optional[StrictStr] = Field(
         default=None,
-        description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.",
+        description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.",
         alias="thinkingTokenBudget",
     )
     loop_detection: Optional[StrictBool] = Field(

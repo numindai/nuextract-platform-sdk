@@ -19,7 +19,7 @@ from numind import NuMind, NuMindAsync
 from numind.models import JobStatusResponse
 
 NUMIND_API_KEY_TEST_ENV_VAR_NAME = "NUMIND_API_KEY_TESTS"
-EXTRACT_KWARGS = {"temperature": 0.1, "max_output_tokens": 600}
+EXTRACT_KWARGS = {"temperature": 0.1, "max_output_tokens": "600"}
 TESTS_NAME_PREFIX = "tests-sdk"
 
 

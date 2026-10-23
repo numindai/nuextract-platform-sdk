@@ -20,7 +20,8 @@ Method | HTTP request | Description
  Returns a JSON representing the extracted information.
  In case the extraction fails, an empty template is returned.
  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.
- Reaching the output token limit is reported as truncation.
+ `isTruncated` is true when the model stops at a token limit, even if the output also contains invalid JSON.
+ The existing `error` field and HTTP status still report validation errors; `isTruncated` independently indicates that the result may be incomplete.
 
 #### Error Responses:
 `404 Not Found` - If an extraction job with the specified ID does not exist.
@@ -137,12 +138,12 @@ Name | Type | Description  | Notes
   "settings": {
     "temperature": 0.2,
     "rasterizationDPI": 200,
-    "maxOutputTokens": 2048,
+    "maxOutputTokens": "2048",
     "maxExampleTokenNumber": 12000,
-    "maxExampleNumber": 3,
+    "maxExampleNumber": "3",
     "minExampleSimilarity": 0,
     "enableThinking": false,
-    "thinkingTokenBudget": 8000,
+    "thinkingTokenBudget": "8000",
     "loopDetection": true,
     "randomSeed": "99"
   },
@@ -181,6 +182,7 @@ curl -X POST "$BASE_URL/structured-extraction/jobs" \
 `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`,
 `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`.
 Omitted settings use the server defaults for structured extraction.
+`maxExampleNumber` defaults to `"5"`; use `"0"` for no examples, a positive integer string for a limit, or `"Unlimited"` for no count limit.
 
 `examples` is optional. Each example must contain a `result` object that conforms to `schema`.
 
@@ -338,12 +340,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     dpi = "dpi_example"  # str | Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text. (optional)
     temperature = 3.4  # float | Model temperature. Controls output diversity. Ranges between 0 and 2. (optional)
-    max_output_tokens = 56  # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    max_output_tokens = "max_output_tokens_example"  # str | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. (optional)
     max_example_token_number = 56  # int | Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window. (optional)
-    max_example_number = 56  # int | Maximum number of examples to use. Must be positive. Set to 0 for no limit. (optional)
+    max_example_number = "max_example_number_example"  # str | Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit. (optional)
     min_example_similarity = 3.4  # float | Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. (optional)
     enable_thinking = True  # bool | Enable thinking/reasoning. (optional)
-    thinking_token_budget = 56  # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    thinking_token_budget = "thinking_token_budget_example"  # str | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. (optional)
     loop_detection = (
         True  # bool | Stop the generation when the model repeats itself. (optional)
     )
@@ -394,12 +396,12 @@ Name | Type | Description  | Notes
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **dpi** | **str**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use &#39;automatic&#39; or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text. | [optional] 
  **temperature** | **float**| Model temperature. Controls output diversity. Ranges between 0 and 2. | [optional] 
- **max_output_tokens** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **max_output_tokens** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **max_example_token_number** | **int**| Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model&#39;s context window. | [optional] 
- **max_example_number** | **int**| Maximum number of examples to use. Must be positive. Set to 0 for no limit. | [optional] 
+ **max_example_number** | **str**| Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit. | [optional] 
  **min_example_similarity** | **float**| Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | [optional] 
  **enable_thinking** | **bool**| Enable thinking/reasoning. | [optional] 
- **thinking_token_budget** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **thinking_token_budget** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
@@ -423,7 +425,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter maxExampleNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter thinkingTokenBudget, Invalid value for: query parameter loopDetection, Invalid value |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -491,12 +493,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     text_request = {text=[EXAMPLE ONLY] Your order (ID: o-89123) has been successfully processed. The customer ID for this order is c-20485. It was placed on March 10, 2024, at 11:15 AM UTC and is now marked as shipped. The total amount charged is $149.99 USD. The items in this order include: Product ID p-00876 with a quantity of 1 at a unit price of $79.99, and Product ID p-00321 with a quantity of 2 at a unit price of $35.00. The shipping address is 782 Pine St, Austin, TX, 73301, USA. The customer has requested: "Leave package at the front door." Additional delivery preferences include no signature required and standard delivery. The estimated delivery date is March 15, 2024, by 5:00 PM UTC.} # TextRequest | 
     x_organization_id = 'x_organization_id_example' # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     temperature = 3.4 # float | Model temperature. Controls output diversity. Ranges between 0 and 2. (optional)
-    max_output_tokens = 56 # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    max_output_tokens = 'max_output_tokens_example' # str | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. (optional)
     max_example_token_number = 56 # int | Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window. (optional)
-    max_example_number = 56 # int | Maximum number of examples to use. Must be positive. Set to 0 for no limit. (optional)
+    max_example_number = 'max_example_number_example' # str | Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit. (optional)
     min_example_similarity = 3.4 # float | Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. (optional)
     enable_thinking = True # bool | Enable thinking/reasoning. (optional)
-    thinking_token_budget = 56 # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    thinking_token_budget = 'thinking_token_budget_example' # str | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. (optional)
     loop_detection = True # bool | Stop the generation when the model repeats itself. (optional)
     random_seed = 'random_seed_example' # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
     image_width = 'image_width_example' # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
@@ -521,12 +523,12 @@ Name | Type | Description  | Notes
  **text_request** | [**TextRequest**](TextRequest.md)|  | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **temperature** | **float**| Model temperature. Controls output diversity. Ranges between 0 and 2. | [optional] 
- **max_output_tokens** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **max_output_tokens** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **max_example_token_number** | **int**| Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model&#39;s context window. | [optional] 
- **max_example_number** | **int**| Maximum number of examples to use. Must be positive. Set to 0 for no limit. | [optional] 
+ **max_example_number** | **str**| Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit. | [optional] 
  **min_example_similarity** | **float**| Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match. | [optional] 
  **enable_thinking** | **bool**| Enable thinking/reasoning. | [optional] 
- **thinking_token_budget** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **thinking_token_budget** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
@@ -550,7 +552,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter maxExampleNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter thinkingTokenBudget, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -39,9 +39,9 @@ class TestContentProjectSettingsResponse(unittest.TestCase):
             return ContentProjectSettingsResponse(
                 temperature = 0.0,
                 rasterization_dpi = None,
-                max_output_tokens = 56,
+                max_output_tokens = '',
                 enable_thinking = True,
-                thinking_token_budget = 56,
+                thinking_token_budget = '',
                 loop_detection = True,
                 random_seed = '',
                 image_width = None
@@ -50,9 +50,9 @@ class TestContentProjectSettingsResponse(unittest.TestCase):
             return ContentProjectSettingsResponse(
                 temperature = 0.0,
                 rasterization_dpi = None,
-                max_output_tokens = 56,
+                max_output_tokens = '',
                 enable_thinking = True,
-                thinking_token_budget = 56,
+                thinking_token_budget = '',
                 loop_detection = True,
                 random_seed = '',
                 image_width = None,

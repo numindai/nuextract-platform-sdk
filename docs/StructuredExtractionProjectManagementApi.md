@@ -644,12 +644,12 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     structured_settings_patch = {
         "temperature": 0.2,
         "rasterizationDPI": "automatic",
-        "maxOutputTokens": 0,
+        "maxOutputTokens": "120000",
         "maxExampleTokenNumber": 90000,
-        "maxExampleNumber": 0,
+        "maxExampleNumber": "5",
         "minExampleSimilarity": 0,
         "enableThinking": false,
-        "thinkingTokenBudget": 15000,
+        "thinkingTokenBudget": "15000",
         "loopDetection": true,
         "randomSeed": "2022",
         "imageWidth": "automatic",
@@ -732,11 +732,12 @@ A **Project** is created with default settings:
  `temperature` | 0.2 |
  `rasterizationDPI` | `automatic` |
  `imageWidth` | `automatic` |
- `maxOutputTokens` | 0 (no limit) |
- `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `maxOutputTokens` | 120000 |
+ `thinkingTokenBudget` | 15000 (`Unlimited` for no limit) |
  `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
+ `maxExampleNumber` | 5 |
 
 
 If *ownerOrganization* is not provided, the **Project** will be owned by the authenticated user.
@@ -1074,11 +1075,12 @@ Default values are:
  `temperature` | 0.2 |
  `rasterizationDPI` | `automatic` |
  `imageWidth` | `automatic` |
- `maxOutputTokens` | 0 (no limit) |
- `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `maxOutputTokens` | 120000 |
+ `thinkingTokenBudget` | 15000 (`Unlimited` for no limit) |
  `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
  `maxExampleTokenNumber` (former `maxTokensSmartExample`) | 90000|
+ `maxExampleNumber` | 5 |
 
 #### Error Responses:
 `404 Not Found` - If a **Project** with the specified `projectId` does not exist.

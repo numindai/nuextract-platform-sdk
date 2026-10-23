@@ -16,6 +16,7 @@ Method | HTTP request | Description
 
 #### Response:
  Returns a markdown string representing the extracted content.
+ `isTruncated` is true when at least one document part stops at a token limit; the combined result may be incomplete.
 
 #### Error Responses:
 `404 Not Found` - If a content extraction job with the specified ID does not exist.
@@ -121,7 +122,7 @@ Name | Type | Description  | Notes
 #### Settings:
 Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults.
 Platform defaults: temperature 0.8, rasterization DPI `automatic`,
-output token budget 10000, thinking enabled, thinking token budget 15000,
+output token budget 20000, thinking enabled, thinking token budget 15000,
 loop detection enabled, and random seed `2022`.
 
 
@@ -155,9 +156,9 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     project_id = "project_id_example"  # str | Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. (optional)
     temperature = 3.4  # float | Model temperature. Controls output diversity. Ranges between 0 and 2. (optional)
     rasterization_dpi = "rasterization_dpi_example"  # str | Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text. (optional)
-    max_output_tokens = 56  # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    max_output_tokens = "max_output_tokens_example"  # str | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. (optional)
     enable_thinking = True  # bool | Enable thinking/reasoning. (optional)
-    thinking_token_budget = 56  # int | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. (optional)
+    thinking_token_budget = "thinking_token_budget_example"  # str | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. (optional)
     loop_detection = (
         True  # bool | Stop the generation when the model repeats itself. (optional)
     )
@@ -203,9 +204,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| Optional content project identifier. When provided, project settings are used as fallback for inference parameters; this identifier is also attached to usage and billing events. | [optional] 
  **temperature** | **float**| Model temperature. Controls output diversity. Ranges between 0 and 2. | [optional] 
  **rasterization_dpi** | **str**| Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use &#39;automatic&#39; or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text. | [optional] 
- **max_output_tokens** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **max_output_tokens** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **enable_thinking** | **bool**| Enable thinking/reasoning. | [optional] 
- **thinking_token_budget** | **int**| Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+ **thinking_token_budget** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
@@ -229,7 +230,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxOutputTokens, Invalid value for: query parameter enableThinking, Invalid value for: query parameter thinkingTokenBudget, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

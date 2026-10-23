@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **output_token_probability** | **float** | Geometric mean of the output token probabilities. | 
 **selected_examples** | [**List[StructuredInferenceExample]**](StructuredInferenceExample.md) | Examples selected for inference. | [optional] 
 **random_seed** | **int** | Random seed used for this inference. | 
+**is_truncated** | **bool** | True when the model stopped at a token limit, independently of JSON validation errors. The result may be incomplete. | 
 
 ## Example
 

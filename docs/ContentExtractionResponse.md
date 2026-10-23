@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **logprobs** | **float** | Logprob of the inference result (sum of logprobs of all tokens). | 
 **output_token_probability** | **float** | Geometric mean of the output token probabilities. | 
 **random_seed** | **int** | Random seed used for this inference. | 
+**is_truncated** | **bool** | True when at least one document part stopped at a token limit. The result may be incomplete. | 
 
 ## Example
 

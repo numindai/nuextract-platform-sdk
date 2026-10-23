@@ -346,9 +346,9 @@ class TemplateGenerationApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -392,8 +392,8 @@ class TemplateGenerationApi:
         :type rasterization_dpi: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -470,9 +470,9 @@ class TemplateGenerationApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -516,8 +516,8 @@ class TemplateGenerationApi:
         :type rasterization_dpi: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -594,9 +594,9 @@ class TemplateGenerationApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -640,8 +640,8 @@ class TemplateGenerationApi:
         :type rasterization_dpi: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -807,9 +807,9 @@ class TemplateGenerationApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -851,8 +851,8 @@ class TemplateGenerationApi:
         :type x_organization_id: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -922,9 +922,9 @@ class TemplateGenerationApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -966,8 +966,8 @@ class TemplateGenerationApi:
         :type x_organization_id: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -1037,9 +1037,9 @@ class TemplateGenerationApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1081,8 +1081,8 @@ class TemplateGenerationApi:
         :type x_organization_id: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.

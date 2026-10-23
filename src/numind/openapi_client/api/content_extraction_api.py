@@ -68,7 +68,7 @@ class ContentExtractionApi:
         """
         get_api_content_extraction_jobs_contentextractionjobid
 
-          Get content extraction result of a specific job by its unique identifier.  #### Response:  Returns a markdown string representing the extracted content.  #### Error Responses: `404 Not Found` - If a content extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
+          Get content extraction result of a specific job by its unique identifier.  #### Response:  Returns a markdown string representing the extracted content.  `isTruncated` is true when at least one document part stops at a token limit; the combined result may be incomplete.  #### Error Responses: `404 Not Found` - If a content extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param content_extraction_job_id: Unique content extraction job identifier. (required)
         :type content_extraction_job_id: str
@@ -144,7 +144,7 @@ class ContentExtractionApi:
         """
         get_api_content_extraction_jobs_contentextractionjobid
 
-          Get content extraction result of a specific job by its unique identifier.  #### Response:  Returns a markdown string representing the extracted content.  #### Error Responses: `404 Not Found` - If a content extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
+          Get content extraction result of a specific job by its unique identifier.  #### Response:  Returns a markdown string representing the extracted content.  `isTruncated` is true when at least one document part stops at a token limit; the combined result may be incomplete.  #### Error Responses: `404 Not Found` - If a content extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param content_extraction_job_id: Unique content extraction job identifier. (required)
         :type content_extraction_job_id: str
@@ -220,7 +220,7 @@ class ContentExtractionApi:
         """
         get_api_content_extraction_jobs_contentextractionjobid
 
-          Get content extraction result of a specific job by its unique identifier.  #### Response:  Returns a markdown string representing the extracted content.  #### Error Responses: `404 Not Found` - If a content extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
+          Get content extraction result of a specific job by its unique identifier.  #### Response:  Returns a markdown string representing the extracted content.  `isTruncated` is true when at least one document part stops at a token limit; the combined result may be incomplete.  #### Error Responses: `404 Not Found` - If a content extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job.
 
         :param content_extraction_job_id: Unique content extraction job identifier. (required)
         :type content_extraction_job_id: str
@@ -356,18 +356,18 @@ class ContentExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         enable_thinking: Annotated[
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -407,7 +407,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 10000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 20000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
 
         :param file: (required)
         :type file: bytes
@@ -419,12 +419,12 @@ class ContentExtractionApi:
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
         :type rasterization_dpi: str
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -521,18 +521,18 @@ class ContentExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         enable_thinking: Annotated[
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -572,7 +572,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 10000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 20000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
 
         :param file: (required)
         :type file: bytes
@@ -584,12 +584,12 @@ class ContentExtractionApi:
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
         :type rasterization_dpi: str
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -686,18 +686,18 @@ class ContentExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         enable_thinking: Annotated[
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -737,7 +737,7 @@ class ContentExtractionApi:
         """
         post_api_content_extraction_jobs
 
-          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 10000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
+          Extract content from the provided file in markdown format as an async job.  The response contains extracted markdown together with the reasoning trace.  The model only accepts images. Therefore, some files are converted to images -  the **rasterizationDPI** parameter controls their resolution.   #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data will contain a JSON representing the inference result.  The ***result*** field contains the extracted markdown. The ***thinking*** field contains the reasoning trace.  If one of the fields ***result*** or ***thinking*** is empty, the ***rawResponse*** field contains the raw model output.  and an HTTP code 206 is returned.      #### Settings: Request settings override the project settings when `projectId` is provided; otherwise omitted settings use platform defaults. Platform defaults: temperature 0.8, rasterization DPI `automatic`, output token budget 20000, thinking enabled, thinking token budget 15000, loop detection enabled, and random seed `2022`.
 
         :param file: (required)
         :type file: bytes
@@ -749,12 +749,12 @@ class ContentExtractionApi:
         :type temperature: float
         :param rasterization_dpi: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
         :type rasterization_dpi: str
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.

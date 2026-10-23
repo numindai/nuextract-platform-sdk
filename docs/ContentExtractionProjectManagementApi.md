@@ -315,9 +315,9 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     content_settings_patch = {
         "temperature": 0.8,
         "rasterizationDPI": "automatic",
-        "maxOutputTokens": 10000,
+        "maxOutputTokens": "20000",
         "enableThinking": true,
-        "thinkingTokenBudget": 15000,
+        "thinkingTokenBudget": "15000",
         "loopDetection": true,
         "randomSeed": "2022",
         "imageWidth": "automatic",
@@ -398,9 +398,9 @@ A **Project** is created with default settings:
  `temperature` | 0.8 |
  `rasterizationDPI` | `automatic` |
  `imageWidth` | `automatic` |
- `maxOutputTokens` | 10000 |
+ `maxOutputTokens` | 20000 |
  `enableThinking` | true |
- `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `thinkingTokenBudget` | 15000 (`Unlimited` for no limit) |
  `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
 
@@ -505,9 +505,9 @@ Default values are:
 -----------|--------|
  `temperature` | 0.8 |
  `rasterizationDPI` | `automatic` |
- `maxOutputTokens` | 10000 |
+ `maxOutputTokens` | 20000 |
  `enableThinking` | true |
- `thinkingTokenBudget` | 15000 (0 for no limit) |
+ `thinkingTokenBudget` | 15000 (`Unlimited` for no limit) |
  `loopDetection` | true |
  `randomSeed` | 2022 (-9223372036854775808 to 9223372036854775807, or `random`) |
 

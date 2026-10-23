@@ -16,7 +16,15 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictFloat,
+    StrictInt,
+    StrictStr,
+)
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -76,6 +84,10 @@ class StructuredExtractionResponse(BaseModel):
     random_seed: StrictInt = Field(
         description="Random seed used for this inference.", alias="randomSeed"
     )
+    is_truncated: StrictBool = Field(
+        description="True when the model stopped at a token limit, independently of JSON validation errors. The result may be incomplete.",
+        alias="isTruncated",
+    )
     __properties: ClassVar[List[str]] = [
         "result",
         "thinkingTrace",
@@ -89,6 +101,7 @@ class StructuredExtractionResponse(BaseModel):
         "outputTokenProbability",
         "selectedExamples",
         "randomSeed",
+        "isTruncated",
     ]
 
     model_config = ConfigDict(
@@ -179,6 +192,7 @@ class StructuredExtractionResponse(BaseModel):
                 if obj.get("selectedExamples") is not None
                 else None,
                 "randomSeed": obj.get("randomSeed"),
+                "isTruncated": obj.get("isTruncated"),
             }
         )
         return _obj

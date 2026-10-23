@@ -16,7 +16,15 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictFloat,
+    StrictInt,
+    StrictStr,
+)
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
@@ -58,6 +66,10 @@ class ContentExtractionResponse(BaseModel):
     random_seed: StrictInt = Field(
         description="Random seed used for this inference.", alias="randomSeed"
     )
+    is_truncated: StrictBool = Field(
+        description="True when at least one document part stopped at a token limit. The result may be incomplete.",
+        alias="isTruncated",
+    )
     __properties: ClassVar[List[str]] = [
         "result",
         "thinkingTrace",
@@ -68,6 +80,7 @@ class ContentExtractionResponse(BaseModel):
         "logprobs",
         "outputTokenProbability",
         "randomSeed",
+        "isTruncated",
     ]
 
     model_config = ConfigDict(
@@ -130,6 +143,7 @@ class ContentExtractionResponse(BaseModel):
                 "logprobs": obj.get("logprobs"),
                 "outputTokenProbability": obj.get("outputTokenProbability"),
                 "randomSeed": obj.get("randomSeed"),
+                "isTruncated": obj.get("isTruncated"),
             }
         )
         return _obj

@@ -7,9 +7,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **temperature** | **float** | Model temperature. Controls output diversity. Ranges between 0 and 2. | [optional] 
 **rasterization_dpi** | [**ContentProjectSettingsResponseRasterizationDPI**](ContentProjectSettingsResponseRasterizationDPI.md) |  | [optional] 
-**max_output_tokens** | **int** | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+**max_output_tokens** | **str** | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
 **enable_thinking** | **bool** | Enable thinking/reasoning. | [optional] 
-**thinking_token_budget** | **int** | Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled. | [optional] 
+**thinking_token_budget** | **str** | Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
 **loop_detection** | **bool** | Stop the generation when the model repeats itself. | [optional] 
 **random_seed** | **str** | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
 **image_width** | [**ContentProjectSettingsResponseImageWidth**](ContentProjectSettingsResponseImageWidth.md) |  | [optional] 

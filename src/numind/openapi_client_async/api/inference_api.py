@@ -396,9 +396,9 @@ class InferenceApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -408,9 +408,9 @@ class InferenceApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -428,9 +428,9 @@ class InferenceApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -480,18 +480,18 @@ class InferenceApi:
         :type x_organization_id: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -584,9 +584,9 @@ class InferenceApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -596,9 +596,9 @@ class InferenceApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -616,9 +616,9 @@ class InferenceApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -668,18 +668,18 @@ class InferenceApi:
         :type x_organization_id: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -772,9 +772,9 @@ class InferenceApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -784,9 +784,9 @@ class InferenceApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -804,9 +804,9 @@ class InferenceApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -856,18 +856,18 @@ class InferenceApi:
         :type x_organization_id: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -1048,9 +1048,9 @@ class InferenceApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1092,8 +1092,8 @@ class InferenceApi:
         :type x_organization_id: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -1165,9 +1165,9 @@ class InferenceApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1209,8 +1209,8 @@ class InferenceApi:
         :type x_organization_id: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
@@ -1282,9 +1282,9 @@ class InferenceApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1326,8 +1326,8 @@ class InferenceApi:
         :type x_organization_id: str
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.

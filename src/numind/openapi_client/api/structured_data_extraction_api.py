@@ -69,7 +69,7 @@ class StructuredDataExtractionApi:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
-          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
+          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  `isTruncated` is true when the model stops at a token limit, even if the output also contains invalid JSON.  The existing `error` field and HTTP status still report validation errors; `isTruncated` independently indicates that the result may be incomplete.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
@@ -146,7 +146,7 @@ class StructuredDataExtractionApi:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
-          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
+          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  `isTruncated` is true when the model stops at a token limit, even if the output also contains invalid JSON.  The existing `error` field and HTTP status still report validation errors; `isTruncated` independently indicates that the result may be incomplete.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
@@ -223,7 +223,7 @@ class StructuredDataExtractionApi:
         """
         get_api_structured_extraction_jobs_structuredextractionjobid
 
-          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  Reaching the output token limit is reported as truncation.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
+          Get structured extraction result of a specific job by its unique identifier.  #### Response:  Returns a JSON representing the extracted information.  In case the extraction fails, an empty template is returned.  HTTP code 206 is returned when the response contains an inference error, including whenever the model does not finish normally.  `isTruncated` is true when the model stops at a token limit, even if the output also contains invalid JSON.  The existing `error` field and HTTP status still report validation errors; `isTruncated` independently indicates that the result may be incomplete.  #### Error Responses: `404 Not Found` - If an extraction job with the specified ID does not exist.  `403 Forbidden` - If the user does not have permission to access this job, or if the job failed because the user's billing quota was exceeded.
 
         :param structured_extraction_job_id: Unique structured extraction job identifier. (required)
         :type structured_extraction_job_id: str
@@ -374,7 +374,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": \"2048\",     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": \"3\",     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": \"8000\",     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction. `maxExampleNumber` defaults to `\"5\"`; use `\"0\"` for no examples, a positive integer string for a limit, or `\"Unlimited\"` for no count limit.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -481,7 +481,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": \"2048\",     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": \"3\",     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": \"8000\",     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction. `maxExampleNumber` defaults to `\"5\"`; use `\"0\"` for no examples, a positive integer string for a limit, or `\"Unlimited\"` for no count limit.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -588,7 +588,7 @@ class StructuredDataExtractionApi:
         """
         post_api_structured_extraction_jobs
 
-          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": 2048,     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": 3,     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": 8000,     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
+          Submit a projectless structured extraction job.   This endpoint uses `multipart/form-data`. The multipart body must contain:   - `request`: a string field containing JSON. `Content-Type: application/json` is recommended, but plain string parts from Swagger UI are accepted.  - `document`: the target file to extract from  - `exampleFiles`: zero or more example files, in the same order as `request.examples`   The `request` JSON contains the schema, optional instructions, optional settings, and optional example outputs.  Example files themselves are not embedded in JSON; they are attached as `exampleFiles` multipart parts.  `settings.imageWidth` accepts `\"automatic\"`, `\"original\"`, or a positive integer width.  It applies only to original standalone images, including uploaded examples; converted document pages use DPI.  `settings.rasterizationDPI` accepts `\"automatic\"` or an integer from 1 to 600, such as `200`. Numeric strings such as `\"200\"` are also accepted.  #### Request JSON: ```json {   \"schema\": {     \"invoiceNumber\": \"string\",     \"invoiceDate\": \"date\",     \"vendor\": \"string\",     \"total\": \"number\"   },   \"instructions\": \"Extract the invoice fields exactly as written in the document.\",   \"settings\": {     \"temperature\": 0.2,     \"rasterizationDPI\": 200,     \"maxOutputTokens\": \"2048\",     \"maxExampleTokenNumber\": 12000,     \"maxExampleNumber\": \"3\",     \"minExampleSimilarity\": 0,     \"enableThinking\": false,     \"thinkingTokenBudget\": \"8000\",     \"loopDetection\": true,     \"randomSeed\": \"99\"   },   \"examples\": [     {       \"result\": {         \"invoiceNumber\": \"INV-001\",         \"invoiceDate\": \"2026-08-31\",         \"vendor\": \"ACME Corp\",         \"total\": 123.45       }     }   ] } ```   In this example, attach one `exampleFiles` part for the single item in `examples`.  If `examples` has two items, attach two `exampleFiles` parts, ordered the same way.  If `examples` is omitted or empty, do not attach `exampleFiles`.  #### cURL Example: ```bash curl -X POST \"$BASE_URL/structured-extraction/jobs\" \\   -H \"Authorization: Bearer $TOKEN\" \\   -F 'request=@request.json;type=application/json' \\   -F 'document=@invoice.pdf' \\   -F 'exampleFiles=@example-invoice.pdf' ```  #### Fields: `schema` is required and uses the same NuExtract schema format as structured projects.  `instructions` is optional. Omit it or use an empty string when no extra guidance is needed.  `settings` is optional. Supported keys are `temperature`, `rasterizationDPI`, `maxOutputTokens`, `maxExampleTokenNumber`, `maxExampleNumber`, `minExampleSimilarity`, `enableThinking`, `thinkingTokenBudget`, `loopDetection` and `randomSeed`. `randomSeed` must be a string containing a 64-bit integer or `random`. Omitted settings use the server defaults for structured extraction. `maxExampleNumber` defaults to `\"5\"`; use `\"0\"` for no examples, a positive integer string for a limit, or `\"Unlimited\"` for no count limit.  `examples` is optional. Each example must contain a `result` object that conforms to `schema`.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.  #### Error Responses: `400 Bad Request` - If the `request` field is not valid JSON, the schema is invalid, an example result does not conform to the schema, or the number of `examples` does not match the number of `exampleFiles` parts.
 
         :param request: String field containing the JSON request manifest. Contains `schema`, optional `instructions`, optional `settings`, and optional `examples`. (required)
         :type request: str
@@ -754,9 +754,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -766,9 +766,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -786,9 +786,9 @@ class StructuredDataExtractionApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -840,18 +840,18 @@ class StructuredDataExtractionApi:
         :type dpi: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -951,9 +951,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -963,9 +963,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -983,9 +983,9 @@ class StructuredDataExtractionApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1037,18 +1037,18 @@ class StructuredDataExtractionApi:
         :type dpi: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -1148,9 +1148,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -1160,9 +1160,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -1180,9 +1180,9 @@ class StructuredDataExtractionApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1234,18 +1234,18 @@ class StructuredDataExtractionApi:
         :type dpi: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -1461,9 +1461,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -1473,9 +1473,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -1493,9 +1493,9 @@ class StructuredDataExtractionApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1545,18 +1545,18 @@ class StructuredDataExtractionApi:
         :type x_organization_id: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -1647,9 +1647,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -1659,9 +1659,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -1679,9 +1679,9 @@ class StructuredDataExtractionApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1731,18 +1731,18 @@ class StructuredDataExtractionApi:
         :type x_organization_id: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
@@ -1833,9 +1833,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_output_tokens: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         max_example_token_number: Annotated[
@@ -1845,9 +1845,9 @@ class StructuredDataExtractionApi:
             ),
         ] = None,
         max_example_number: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of examples to use. Must be positive. Set to 0 for no limit."
+                description="Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit."
             ),
         ] = None,
         min_example_similarity: Annotated[
@@ -1865,9 +1865,9 @@ class StructuredDataExtractionApi:
             Optional[StrictBool], Field(description="Enable thinking/reasoning.")
         ] = None,
         thinking_token_budget: Annotated[
-            Optional[StrictInt],
+            Optional[StrictStr],
             Field(
-                description="Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled."
+                description="Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled."
             ),
         ] = None,
         loop_detection: Annotated[
@@ -1917,18 +1917,18 @@ class StructuredDataExtractionApi:
         :type x_organization_id: str
         :param temperature: Model temperature. Controls output diversity. Ranges between 0 and 2.
         :type temperature: float
-        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type max_output_tokens: int
+        :param max_output_tokens: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type max_output_tokens: str
         :param max_example_token_number: Maximum number of tokens allocated to smart examples. Must be between 0 and 130000, within the model's context window.
         :type max_example_token_number: int
-        :param max_example_number: Maximum number of examples to use. Must be positive. Set to 0 for no limit.
-        :type max_example_number: int
+        :param max_example_number: Maximum number of examples to use. Given as a string: 0 for no examples, a positive integer string for a limit, or Unlimited for no count limit.
+        :type max_example_number: str
         :param min_example_similarity: Minimum similarity between the document and the examples. Must be between 0 and 1. Set to 0 for any similarity and 1 for exact match.
         :type min_example_similarity: float
         :param enable_thinking: Enable thinking/reasoning.
         :type enable_thinking: bool
-        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Use a positive integer, or 0 for no limit. The thinking budget is only used when thinking is enabled.
-        :type thinking_token_budget: int
+        :param thinking_token_budget: Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled.
+        :type thinking_token_budget: str
         :param loop_detection: Stop the generation when the model repeats itself.
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.

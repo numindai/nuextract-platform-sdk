@@ -70,10 +70,11 @@ def _build_leaf_schema(
         return deepcopy(leaf_schema_overrides[normalized_type_name])
 
     if normalized_type_name.lower() in JSON_SCHEMA_PRIMITIVES:
-        leaf["type"] = normalized_type_name.lower()
+        primitive_type = normalized_type_name.lower()
+        leaf["type"] = [primitive_type, "null"] if primitive_type != "null" else "null"
         return leaf
 
-    leaf["type"] = "string"
+    leaf["type"] = ["string", "null"]
     format_key = "description" if set_type_in_description else "format"
     leaf[format_key] = _iter_custom_type_schema_values(normalized_type_name)[0]
     return leaf
@@ -157,8 +158,9 @@ def convert_nuextract_template_to_json_schema(
 
     This function recursively processes the input dictionary to build a
     JSON Schema. It handles:
-    - Simple types (e.g., "integer", "string").
-    - Custom types, which are mapped to {"type": "string", "format": "custom-type"}.
+    - Simple types (e.g., {"type": ["integer", "null"]}).
+    - Custom types, mapped to strings with a ``format`` annotation.
+    - Enums, which include ``null`` among their allowed values.
     - Lists, which are mapped to JSON Schema arrays.
     - Nested dictionaries, which are mapped to JSON Schema objects.
 
@@ -171,7 +173,8 @@ def convert_nuextract_template_to_json_schema(
         ``format``. (default: ``False``)
     :param leaf_schema_overrides: optional mapping from NuExtract leaf type names to
         complete JSON Schema nodes. Overrides apply recursively and take precedence
-        over the built-in primitive and semantic type mappings. (default: ``None``)
+        over the built-in primitive and semantic type mappings, including their
+        nullability. (default: ``None``)
     :return: A dictionary representing the equivalent JSON Schema.
     :raise TypeError: If the input contains unsupported types.
     """
@@ -193,7 +196,7 @@ def convert_nuextract_template_to_json_schema(
                 raise ValueError(_ := "Empty list in input template")
             # Enum / Classification
             if is_object_enum(value):
-                return {"enum": value}
+                return {"enum": [*value, None]}
             # Multiclassification is handled as an array of enums, returned by the
             # following recursive call, which also handles arrays of primitives.
             # Recursively call _build_node on the first element to define item schema

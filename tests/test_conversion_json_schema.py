@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+from jsonschema import Draft202012Validator, FormatChecker
 
 from numind.nuextract_utils.template_conversion import (
     convert_json_schema_to_nuextract_template,
@@ -78,42 +79,51 @@ TEST_CASES_NUEXTRACT_TO_JSON_SCHEMA = [
         {
             "type": "object",
             "properties": {
-                "test1": {"type": "string"},
-                "int1": {"type": "integer"},
-                "verbstr1": {"type": "string", "x-verbatim": True},
-                "date_time": {"type": "string", "format": "date-time"},
-                "date": {"type": "string", "format": "date"},
-                "time": {"type": "string", "format": "time"},
-                "duration": {"type": "string", "format": "duration"},
-                "choices": {"enum": ["red", "amber", "green"]},
+                "test1": {"type": ["string", "null"]},
+                "int1": {"type": ["integer", "null"]},
+                "verbstr1": {"type": ["string", "null"], "x-verbatim": True},
+                "date_time": {"type": ["string", "null"], "format": "date-time"},
+                "date": {"type": ["string", "null"], "format": "date"},
+                "time": {"type": ["string", "null"], "format": "time"},
+                "duration": {"type": ["string", "null"], "format": "duration"},
+                "choices": {"enum": ["red", "amber", "green", None]},
                 "multi-choices": {
-                    "items": {"enum": ["red", "amber", "green"]},
+                    "items": {"enum": ["red", "amber", "green", None]},
                     "type": "array",
                 },
                 "countries": {
                     "format": "country-code-ISO_3166-1_2chars",
-                    "type": "string",
+                    "type": ["string", "null"],
                 },
-                "regions": {"format": "region-code-ISO_3166-2:US", "type": "string"},
+                "regions": {
+                    "format": "region-code-ISO_3166-2:US",
+                    "type": ["string", "null"],
+                },
                 "currencies": {
                     "format": "currency-code-ISO_4217_3chars",
-                    "type": "string",
+                    "type": ["string", "null"],
                 },
                 "languages": {
                     "format": "language-code-ISO_639-3_3chars",
-                    "type": "string",
+                    "type": ["string", "null"],
                 },
-                "scripts": {"format": "script-code-ISO_15924-4chars", "type": "string"},
+                "scripts": {
+                    "format": "script-code-ISO_15924-4chars",
+                    "type": ["string", "null"],
+                },
                 "language-tags": {
                     "format": "language-tag-IETF-BCP-47",
-                    "type": "string",
+                    "type": ["string", "null"],
                 },
-                "urls": {"format": "iri", "type": "string"},
-                "email-addresses": {"format": "idn-email", "type": "string"},
-                "phone-numbers": {"format": "phone-number-E.164", "type": "string"},
-                "ibans": {"format": "iban-ISO_13616-1", "type": "string"},
-                "bics": {"format": "bice-code-ISO_9362", "type": "string"},
-                "bool": {"type": "boolean"},
+                "urls": {"format": "iri", "type": ["string", "null"]},
+                "email-addresses": {"format": "idn-email", "type": ["string", "null"]},
+                "phone-numbers": {
+                    "format": "phone-number-E.164",
+                    "type": ["string", "null"],
+                },
+                "ibans": {"format": "iban-ISO_13616-1", "type": ["string", "null"]},
+                "bics": {"format": "bice-code-ISO_9362", "type": ["string", "null"]},
+                "bool": {"type": ["boolean", "null"]},
             },
         },
     )
@@ -217,6 +227,59 @@ def test_json_schema_round_trip(nuextract_template: dict) -> None:
     assert descriptions == []
 
 
+@pytest.mark.parametrize("set_type_in_description", [False, True])
+@pytest.mark.parametrize(
+    ("leaf_template", "valid_value", "invalid_value"),
+    [
+        ("string", "text", 42),
+        ("integer", 42, 1.5),
+        ("number", 1.5, "text"),
+        ("boolean", False, "text"),
+        ("verbatim-string", "text", 42),
+        ("date", "2026-10-27", 42),
+        ("country", "FR", 42),
+        ("null", None, "text"),
+        (["open", "closed"], "open", "unknown"),
+    ],
+)
+def test_json_schema_conversion_validates_nullable_leaves(
+    leaf_template: str | list[str],
+    valid_value: object,
+    invalid_value: object,
+    set_type_in_description: bool,
+) -> None:
+    """Accept null leaves recursively while enforcing types and containers."""
+    template = {
+        "value": leaf_template,
+        "nested": {"value": leaf_template},
+        "items": [leaf_template],
+    }
+    json_schema = convert_nuextract_template_to_json_schema(
+        template,
+        set_all_properties_required=True,
+        set_type_in_description=set_type_in_description,
+    )
+    Draft202012Validator.check_schema(json_schema)
+    validator = Draft202012Validator(json_schema, format_checker=FormatChecker())
+
+    for value in (None, valid_value):
+        validator.validate(
+            {"value": value, "nested": {"value": value}, "items": [value]}
+        )
+
+    null_output = {"value": None, "nested": {"value": None}, "items": [None]}
+    for invalid_output in (
+        {**null_output, "value": invalid_value},
+        {**null_output, "nested": {"value": invalid_value}},
+        {**null_output, "items": [invalid_value]},
+        {**null_output, "nested": None},
+        {**null_output, "items": None},
+        {**null_output, "nested": {}},
+        {},
+    ):
+        assert not validator.is_valid(invalid_output)
+
+
 def test_json_schema_conversion_applies_object_annotations_to_every_object() -> None:
     json_schema = convert_nuextract_template_to_json_schema(
         {
@@ -229,10 +292,10 @@ def test_json_schema_conversion_applies_object_annotations_to_every_object() -> 
     assert json_schema == {
         "type": "object",
         "properties": {
-            "name": {"type": "string"},
+            "name": {"type": ["string", "null"]},
             "address": {
                 "type": "object",
-                "properties": {"city": {"type": "string"}},
+                "properties": {"city": {"type": ["string", "null"]}},
                 "additionalProperties": False,
             },
         },
@@ -264,7 +327,7 @@ def test_json_schema_conversion_applies_leaf_schema_overrides() -> None:
     assert json_schema == {
         "type": "object",
         "properties": {
-            "name": {"type": "string"},
+            "name": {"type": ["string", "null"]},
             "name_bboxes": {
                 "type": "array",
                 "items": bbox_json_schema,

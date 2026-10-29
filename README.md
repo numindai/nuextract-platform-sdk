@@ -277,6 +277,8 @@ Everything you can do on the web platform can be done via API -
 - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage)
 - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs`
 - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}`
+- Starting a localization **Job** from a completed structured extraction via `POST /api/localization/jobs/from-extraction/{sourceJobId}`
+- Reading localization via `GET /api/localization/jobs/{localizationJobId}` (check progress with `GET /api/jobs/{localizationJobId}/status`)
 - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`
 
 ##### Content extraction
@@ -329,9 +331,16 @@ Class | Method | HTTP request | Description
 *JobsApi* | [**get_api_jobs_jobid_status**](docs/JobsApi.md#get_api_jobs_jobid_status) | **GET** /api/jobs/{jobId}/status | 
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 *JobsApi* | [**post_api_jobs_jobid_cancel**](docs/JobsApi.md#post_api_jobs_jobid_cancel) | **POST** /api/jobs/{jobId}/cancel | 
+*LocalizationApi* | [**get_api_localization_jobs_localizationjobid**](docs/LocalizationApi.md#get_api_localization_jobs_localizationjobid) | **GET** /api/localization/jobs/{localizationJobId} | 
+*LocalizationApi* | [**post_api_localization_jobs_from_extraction_sourcejobid**](docs/LocalizationApi.md#post_api_localization_jobs_from_extraction_sourcejobid) | **POST** /api/localization/jobs/from-extraction/{sourceJobId} | 
+*ProjectImportExportApi* | [**get_api_extraction_export_jobs_jobid_download**](docs/ProjectImportExportApi.md#get_api_extraction_export_jobs_jobid_download) | **GET** /api/extraction/export/jobs/{jobId}/download | 
 *ProjectImportExportApi* | [**get_api_extraction_projectkind_projectid_export**](docs/ProjectImportExportApi.md#get_api_extraction_projectkind_projectid_export) | **GET** /api/extraction/{projectKind}/{projectId}/export | 
 *ProjectImportExportApi* | [**post_api_extraction_import**](docs/ProjectImportExportApi.md#post_api_extraction_import) | **POST** /api/extraction/import | 
+*ProjectImportExportApi* | [**post_api_extraction_import_jobs**](docs/ProjectImportExportApi.md#post_api_extraction_import_jobs) | **POST** /api/extraction/import/jobs | 
+*ProjectImportExportApi* | [**post_api_extraction_projectkind_projectid_export_jobs**](docs/ProjectImportExportApi.md#post_api_extraction_projectkind_projectid_export_jobs) | **POST** /api/extraction/{projectKind}/{projectId}/export/jobs | 
+*StructuredDataExtractionApi* | [**get_api_localization_jobs_localizationjobid**](docs/StructuredDataExtractionApi.md#get_api_localization_jobs_localizationjobid) | **GET** /api/localization/jobs/{localizationJobId} | 
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
+*StructuredDataExtractionApi* | [**post_api_localization_jobs_from_extraction_sourcejobid**](docs/StructuredDataExtractionApi.md#post_api_localization_jobs_from_extraction_sourcejobid) | **POST** /api/localization/jobs/from-extraction/{sourceJobId} | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_jobs) | **POST** /api/structured-extraction/jobs | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
@@ -361,6 +370,7 @@ Class | Method | HTTP request | Description
 
 ### Documentation For Models
 
+ - [BoundingBox](docs/BoundingBox.md)
  - [Content](docs/Content.md)
  - [ContentExtractionResponse](docs/ContentExtractionResponse.md)
  - [ContentProjectResponse](docs/ContentProjectResponse.md)
@@ -372,6 +382,7 @@ Class | Method | HTTP request | Description
  - [CreateContentProjectRequest](docs/CreateContentProjectRequest.md)
  - [CreateOrUpdateStructuredExampleRequest](docs/CreateOrUpdateStructuredExampleRequest.md)
  - [CreateStructuredProjectRequest](docs/CreateStructuredProjectRequest.md)
+ - [DiscardedLocalization](docs/DiscardedLocalization.md)
  - [DocumentInfo](docs/DocumentInfo.md)
  - [DocumentResponse](docs/DocumentResponse.md)
  - [Error](docs/Error.md)
@@ -387,6 +398,8 @@ Class | Method | HTTP request | Description
  - [JobIdResponse](docs/JobIdResponse.md)
  - [JobReportResponse](docs/JobReportResponse.md)
  - [JobStatusResponse](docs/JobStatusResponse.md)
+ - [LocalizationResponse](docs/LocalizationResponse.md)
+ - [LocalizationValue](docs/LocalizationValue.md)
  - [PaginatedResponseT](docs/PaginatedResponseT.md)
  - [PostProcessingErrorResponse](docs/PostProcessingErrorResponse.md)
  - [PostProcessingRepairResponse](docs/PostProcessingRepairResponse.md)

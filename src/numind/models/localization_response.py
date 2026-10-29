@@ -1,0 +1,161 @@
+"""
+NuExtract Platform
+
+ NB: you can also interact with this API via the [Python SDK](https://github.com/numindai/nuextract-platform-sdk).  ## Extracting Information from Documents  Once your structured extraction project is ready, submit a document to the endpoint:  `https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`  To use it, you need:  - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api) - To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project  This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:  `https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):  ```bash NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -F \"file=@${FILE_NAME}\" | jq -r '.jobId')  curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and request values in the following code:  ```python import asyncio from numind import NuMindAsync  client = NuMindAsync(api_key=api_key) requests = [{}]  async def main():     return [         await client.extract_structured_data(project_id, **request_kwargs)         for request_kwargs in requests     ]  responses = asyncio.run(main()) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  ### Main resources  - **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId` - **Content Extraction Project** - user project for content extraction, identified by `contentProjectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example** - **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document - **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`  ### Most common API operations  #### Structured extraction  - Creating a **Structured Extraction Project** via `POST /api/structured-extraction` - Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}` - Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs` - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}` - Starting a localization **Job** from a completed structured extraction via `POST /api/localization/jobs/from-extraction/{sourceJobId}` - Reading localization via `GET /api/localization/jobs/{localizationJobId}` (check progress with `GET /api/jobs/{localizationJobId}/status`) - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`  #### Content extraction  - Creating a **Content Extraction Project** via `POST /api/content-extraction` - Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a content extraction **Job** via `POST /api/content-extraction/jobs` - Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`  ## Testing with a temporary authorization  This documentation allows you to directly test the API. Select `oauth2uth` in the \"Authentication\" box, set the `Client ID` value to `nuextract`, and click on \"Authorize\". You can then open an API endpoint, e.g. `POST /api/structured-extraction/{structuredProjectId}/jobs`, press “Test Request”, fill out the body, and press “Send” to start a job.
+
+The version of the OpenAPI document:
+Generated by OpenAPI Generator (https://openapi-generator.tech)
+
+Do not edit the class manually.
+"""  # noqa: E501
+
+from __future__ import annotations
+
+import json
+import pprint
+import re  # noqa: F401
+from typing import Any, ClassVar, Dict, List, Optional, Set
+
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic_core import to_jsonable_python
+from typing_extensions import Self
+
+from numind.models.discarded_localization import DiscardedLocalization
+from numind.models.localization_value import LocalizationValue
+
+
+class LocalizationResponse(BaseModel):
+    """
+    LocalizationResponse
+    """
+
+    localization: Dict[str, Optional[LocalizationValue]] = Field(
+        description="Localization groups. Each field contains a list of boxes with a one-based document page number and a bbox array of normalized [x1, y1, x2, y2] coordinates (0–1)."
+    )
+    discarded_localization_count: StrictInt = Field(
+        description="Number of localization validation errors.",
+        alias="discardedLocalizationCount",
+    )
+    discarded_localizations: Optional[List[DiscardedLocalization]] = Field(
+        default=None,
+        description="Localization validation errors, including invalid boxes and missing or unexpected fields.",
+        alias="discardedLocalizations",
+    )
+    diagnostics: Optional[List[StrictStr]] = Field(
+        default=None, description="Diagnostics explaining why results are partial."
+    )
+    input_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Input tokens used for localization inference, when available.",
+        alias="inputTokens",
+    )
+    output_tokens: Optional[StrictInt] = Field(
+        default=None,
+        description="Output tokens used for localization inference, when available.",
+        alias="outputTokens",
+    )
+    raw_model_output: StrictStr = Field(
+        description="Exact model content before localization post-processing.",
+        alias="rawModelOutput",
+    )
+    __properties: ClassVar[List[str]] = [
+        "localization",
+        "discardedLocalizationCount",
+        "discardedLocalizations",
+        "diagnostics",
+        "inputTokens",
+        "outputTokens",
+        "rawModelOutput",
+    ]
+
+    model_config = ConfigDict(
+        validate_by_name=True,
+        validate_by_alias=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
+
+    def to_str(self) -> str:
+        """Returns the string representation of the model using alias"""
+        return pprint.pformat(self.model_dump(by_alias=True))
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the model using alias"""
+        return json.dumps(to_jsonable_python(self.to_dict()))
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of LocalizationResponse from a JSON string"""
+        return cls.from_dict(json.loads(json_str))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """
+        Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        excluded_fields: Set[str] = set([])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
+        )
+        # override the default output from pydantic by calling `to_dict()` of each value in localization (dict)
+        _field_dict = {}
+        if self.localization:
+            for _key_localization in self.localization:
+                _field_dict[_key_localization] = (
+                    self.localization[_key_localization].to_dict()
+                    if self.localization[_key_localization] is not None
+                    else None
+                )
+            _dict["localization"] = _field_dict
+        # override the default output from pydantic by calling `to_dict()` of each item in discarded_localizations (list)
+        _items = []
+        if self.discarded_localizations:
+            for _item_discarded_localizations in self.discarded_localizations:
+                _items.append(
+                    _item_discarded_localizations.to_dict()
+                    if _item_discarded_localizations is not None
+                    else None
+                )
+            _dict["discardedLocalizations"] = _items
+        return _dict
+
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of LocalizationResponse from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+
+        _obj = cls.model_validate(
+            {
+                "localization": dict(
+                    (_k, LocalizationValue.from_dict(_v))
+                    for _k, _v in obj["localization"].items()
+                )
+                if obj.get("localization") is not None
+                else None,
+                "discardedLocalizationCount": obj.get("discardedLocalizationCount"),
+                "discardedLocalizations": [
+                    DiscardedLocalization.from_dict(_item)
+                    for _item in obj["discardedLocalizations"]
+                ]
+                if obj.get("discardedLocalizations") is not None
+                else None,
+                "diagnostics": obj.get("diagnostics"),
+                "inputTokens": obj.get("inputTokens"),
+                "outputTokens": obj.get("outputTokens"),
+                "rawModelOutput": obj.get("rawModelOutput"),
+            }
+        )
+        return _obj

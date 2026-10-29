@@ -102,7 +102,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_template_generation_jobs**
-> JobIdResponse post_api_template_generation_jobs(body, x_organization_id=x_organization_id, rasterization_dpi=rasterization_dpi, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, image_width=image_width, timeout=timeout)
+> JobIdResponse post_api_template_generation_jobs(body, x_organization_id=x_organization_id, rasterization_dpi=rasterization_dpi, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, image_width=image_width, timeout=timeout, low_priority=low_priority)
 
 
  Derive a template from the provided **File** as an async job.
@@ -160,6 +160,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     )
     image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
     try:
         api_response = api_instance.post_api_template_generation_jobs(
@@ -171,6 +172,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
         )
         print(
             "The response of TemplateGenerationApi->post_api_template_generation_jobs:\n"
@@ -198,6 +200,7 @@ Name | Type | Description  | Notes
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 
 ### Return type
 
@@ -217,13 +220,13 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body, Invalid value for: query parameter lowPriority |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_template_generation_jobs_text**
-> JobIdResponse post_api_template_generation_jobs_text(template_request, x_organization_id=x_organization_id, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, image_width=image_width, timeout=timeout)
+> JobIdResponse post_api_template_generation_jobs_text(template_request, x_organization_id=x_organization_id, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, image_width=image_width, timeout=timeout, low_priority=low_priority)
 
 
  Derive a template from the provided natural language description as an async job.
@@ -283,6 +286,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     )
     image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
     try:
         api_response = api_instance.post_api_template_generation_jobs_text(
@@ -293,6 +297,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
         )
         print(
             "The response of TemplateGenerationApi->post_api_template_generation_jobs_text:\n"
@@ -319,6 +324,7 @@ Name | Type | Description  | Notes
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 
 ### Return type
 
@@ -338,7 +344,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body, Invalid value for: query parameter lowPriority |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -4,11 +4,110 @@ All URIs are relative to *https://nuextract.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_api_localization_jobs_localizationjobid**](StructuredDataExtractionApi.md#get_api_localization_jobs_localizationjobid) | **GET** /api/localization/jobs/{localizationJobId} | 
 [**get_api_structured_extraction_jobs_structuredextractionjobid**](StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
+[**post_api_localization_jobs_from_extraction_sourcejobid**](StructuredDataExtractionApi.md#post_api_localization_jobs_from_extraction_sourcejobid) | **POST** /api/localization/jobs/from-extraction/{sourceJobId} | 
 [**post_api_structured_extraction_jobs**](StructuredDataExtractionApi.md#post_api_structured_extraction_jobs) | **POST** /api/structured-extraction/jobs | 
 [**post_api_structured_extraction_structuredprojectid_jobs**](StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
 [**post_api_structured_extraction_structuredprojectid_jobs_text**](StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
 
+
+# **get_api_localization_jobs_localizationjobid**
+> LocalizationResponse get_api_localization_jobs_localizationjobid(localization_job_id, x_organization_id=x_organization_id)
+
+
+Retrieve the result of a completed localization job.
+
+The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves.
+`page` is a one-based document page number.
+`bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).
+
+Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes,
+`discardedLocalizations` and `diagnostics` explaining any partial result.
+`400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
+    
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.models.localization_response import LocalizationResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.StructuredDataExtractionApi(api_client)
+    localization_job_id = "localization_job_id_example"  # str |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+
+    try:
+        api_response = api_instance.get_api_localization_jobs_localizationjobid(
+            localization_job_id, x_organization_id=x_organization_id
+        )
+        print(
+            "The response of StructuredDataExtractionApi->get_api_localization_jobs_localizationjobid:\n"
+        )
+        pprint(api_response)
+    except Exception as e:
+        print(
+            "Exception when calling StructuredDataExtractionApi->get_api_localization_jobs_localizationjobid: %s\n"
+            % e
+        )
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **localization_job_id** | **str**|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+
+### Return type
+
+[**LocalizationResponse**](LocalizationResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Job completed successfully. |  -  |
+**206** | Job completed with a partial result. |  -  |
+**400** | Invalid request or job not completed (JobNotCompleted). |  -  |
+**401** | Missing or invalid authentication. |  -  |
+**403** | Localization is disabled, access is denied, or quota is exceeded (QuotaExceeded). |  -  |
+**404** | Job, project or document not found in the active scope. |  -  |
+**409** | Localization job canceled (JobCanceled). |  -  |
+**429** | Localization job failed with a rate-limit error. |  -  |
+**500** | Localization job failed or timed out (JobTimeout), or its stored result is unreadable. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_api_structured_extraction_jobs_structuredextractionjobid**
 > StructuredExtractionResponse get_api_structured_extraction_jobs_structuredextractionjobid(structured_extraction_job_id, x_organization_id=x_organization_id)
@@ -107,8 +206,105 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **post_api_localization_jobs_from_extraction_sourcejobid**
+> JobIdResponse post_api_localization_jobs_from_extraction_sourcejobid(source_job_id, x_organization_id=x_organization_id, low_priority=low_priority)
+
+
+Start localization inference from a completed structured extraction job, with or without a project.
+The extraction must have no partial error, and its document must contain image pages.
+Uses the source job's temperature, maxOutputTokens, loopDetection and randomSeed settings.
+
+Returns a `jobId`. Poll GET `/api/jobs/{jobId}/status`, then retrieve the completed result
+with GET `/api/localization/jobs/{jobId}`.
+    
+
+### Example
+
+* OAuth Authentication (oauth2Auth):
+
+```python
+import numind.openapi_client
+from numind.models.job_id_response import JobIdResponse
+from numind.openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://nuextract.ai
+# See configuration.py for a list of all supported configuration parameters.
+configuration = numind.openapi_client.Configuration(host="https://nuextract.ai")
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with numind.openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = numind.openapi_client.StructuredDataExtractionApi(api_client)
+    source_job_id = "source_job_id_example"  # str |
+    x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
+    low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
+
+    try:
+        api_response = (
+            api_instance.post_api_localization_jobs_from_extraction_sourcejobid(
+                source_job_id,
+                x_organization_id=x_organization_id,
+                low_priority=low_priority,
+            )
+        )
+        print(
+            "The response of StructuredDataExtractionApi->post_api_localization_jobs_from_extraction_sourcejobid:\n"
+        )
+        pprint(api_response)
+    except Exception as e:
+        print(
+            "Exception when calling StructuredDataExtractionApi->post_api_localization_jobs_from_extraction_sourcejobid: %s\n"
+            % e
+        )
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **source_job_id** | **str**|  | 
+ **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
+
+### Return type
+
+[**JobIdResponse**](JobIdResponse.md)
+
+### Authorization
+
+[oauth2Auth](../README.md#oauth2Auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**400** | Invalid request or job not completed (JobNotCompleted). |  -  |
+**401** | Missing or invalid authentication. |  -  |
+**403** | Localization is disabled or access is denied. |  -  |
+**404** | Job, project or document not found in the active scope. |  -  |
+**500** | Invalid stored job data or internal error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **post_api_structured_extraction_jobs**
-> JobIdResponse post_api_structured_extraction_jobs(request, document, x_organization_id=x_organization_id, timeout=timeout, example_files=example_files)
+> JobIdResponse post_api_structured_extraction_jobs(request, document, x_organization_id=x_organization_id, timeout=timeout, low_priority=low_priority, example_files=example_files)
 
 
  Submit a projectless structured extraction job.
@@ -223,6 +419,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     document = None  # bytes | Target document to process.
     x_organization_id = "x_organization_id_example"  # str | Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
     example_files = None  # List[bytes] | Example documents, ordered to match `request.examples`. Attach exactly one file for each example result. (optional)
 
     try:
@@ -231,6 +428,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
             document,
             x_organization_id=x_organization_id,
             timeout=timeout,
+            low_priority=low_priority,
             example_files=example_files,
         )
         print(
@@ -255,6 +453,7 @@ Name | Type | Description  | Notes
  **document** | **bytes**| Target document to process. | 
  **x_organization_id** | **str**| Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
  **example_files** | **List[bytes]**| Example documents, ordered to match &#x60;request.examples&#x60;. Attach exactly one file for each example result. | [optional] 
 
 ### Return type
@@ -275,13 +474,13 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: body |  -  |
+**400** | Invalid value for: body, Invalid value for: query parameter lowPriority |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_structured_extraction_structuredprojectid_jobs**
-> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, dpi=dpi, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs(structured_project_id, body, x_organization_id=x_organization_id, dpi=dpi, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout, low_priority=low_priority)
 
 
  Extract structured information from the provided text or file as an async job. Some files are converted to images -
@@ -352,6 +551,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     random_seed = "random_seed_example"  # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
     image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
     try:
         api_response = (
@@ -371,6 +571,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
                 random_seed=random_seed,
                 image_width=image_width,
                 timeout=timeout,
+                low_priority=low_priority,
             )
         )
         print(
@@ -406,6 +607,7 @@ Name | Type | Description  | Notes
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 
 ### Return type
 
@@ -425,13 +627,13 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value, Invalid value for: query parameter lowPriority |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_structured_extraction_structuredprojectid_jobs_text**
-> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
+> JobIdResponse post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout, low_priority=low_priority)
 
 
  Performs structured information extraction inference on the provided text as an async job.
@@ -503,9 +705,10 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     random_seed = 'random_seed_example' # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
     image_width = 'image_width_example' # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = 'timeout_example' # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    low_priority = False # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
     try:
-        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
+        api_response = api_instance.post_api_structured_extraction_structuredprojectid_jobs_text(structured_project_id, text_request, x_organization_id=x_organization_id, temperature=temperature, max_output_tokens=max_output_tokens, max_example_token_number=max_example_token_number, max_example_number=max_example_number, min_example_similarity=min_example_similarity, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout, low_priority=low_priority)
         print("The response of StructuredDataExtractionApi->post_api_structured_extraction_structuredprojectid_jobs_text:\n")
         pprint(api_response)
     except Exception as e:
@@ -533,6 +736,7 @@ Name | Type | Description  | Notes
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 
 ### Return type
 
@@ -552,7 +756,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter maxExampleTokenNumber, Invalid value for: query parameter minExampleSimilarity, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body, Invalid value for: query parameter lowPriority |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

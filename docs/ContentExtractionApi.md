@@ -102,7 +102,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_api_content_extraction_jobs**
-> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout)
+> JobIdResponse post_api_content_extraction_jobs(file, x_organization_id=x_organization_id, project_id=project_id, temperature=temperature, rasterization_dpi=rasterization_dpi, max_output_tokens=max_output_tokens, enable_thinking=enable_thinking, thinking_token_budget=thinking_token_budget, loop_detection=loop_detection, random_seed=random_seed, image_width=image_width, timeout=timeout, low_priority=low_priority)
 
 
  Extract content from the provided file in markdown format as an async job.
@@ -165,6 +165,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     random_seed = "random_seed_example"  # str | Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference. (optional)
     image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
+    low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
     try:
         api_response = api_instance.post_api_content_extraction_jobs(
@@ -180,6 +181,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
             random_seed=random_seed,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
         )
         print(
             "The response of ContentExtractionApi->post_api_content_extraction_jobs:\n"
@@ -211,6 +213,7 @@ Name | Type | Description  | Notes
  **random_seed** | **str**| Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or &#x60;random&#x60; to generate one for each inference. | [optional] 
  **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
+ **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 
 ### Return type
 
@@ -230,7 +233,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** |  |  -  |
-**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body |  -  |
+**400** | Invalid value for: query parameter temperature, Invalid value for: query parameter enableThinking, Invalid value for: query parameter loopDetection, Invalid value for: body, Invalid value for: query parameter lowPriority |  -  |
 **0** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -1,7 +1,7 @@
 """
 NuExtract Platform
 
- NB: you can also interact with this API via the [Python SDK](https://github.com/numindai/nuextract-platform-sdk).  ## Extracting Information from Documents  Once your structured extraction project is ready, submit a document to the endpoint:  `https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`  To use it, you need:  - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api) - To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project  This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:  `https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):  ```bash NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -F \"file=@${FILE_NAME}\" | jq -r '.jobId')  curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and request values in the following code:  ```python import asyncio from numind import NuMindAsync  client = NuMindAsync(api_key=api_key) requests = [{}]  async def main():     return [         await client.extract_structured_data(project_id, **request_kwargs)         for request_kwargs in requests     ]  responses = asyncio.run(main()) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  ### Main resources  - **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId` - **Content Extraction Project** - user project for content extraction, identified by `contentProjectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example** - **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document - **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`  ### Most common API operations  #### Structured extraction  - Creating a **Structured Extraction Project** via `POST /api/structured-extraction` - Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}` - Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs` - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}` - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`  #### Content extraction  - Creating a **Content Extraction Project** via `POST /api/content-extraction` - Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a content extraction **Job** via `POST /api/content-extraction/jobs` - Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`  ## Testing with a temporary authorization  This documentation allows you to directly test the API. Select `oauth2uth` in the \"Authentication\" box, set the `Client ID` value to `nuextract`, and click on \"Authorize\". You can then open an API endpoint, e.g. `POST /api/structured-extraction/{structuredProjectId}/jobs`, press “Test Request”, fill out the body, and press “Send” to start a job.
+ NB: you can also interact with this API via the [Python SDK](https://github.com/numindai/nuextract-platform-sdk).  ## Extracting Information from Documents  Once your structured extraction project is ready, submit a document to the endpoint:  `https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`  To use it, you need:  - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api) - To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project  This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:  `https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):  ```bash NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -F \"file=@${FILE_NAME}\" | jq -r '.jobId')  curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and request values in the following code:  ```python import asyncio from numind import NuMindAsync  client = NuMindAsync(api_key=api_key) requests = [{}]  async def main():     return [         await client.extract_structured_data(project_id, **request_kwargs)         for request_kwargs in requests     ]  responses = asyncio.run(main()) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  ### Main resources  - **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId` - **Content Extraction Project** - user project for content extraction, identified by `contentProjectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example** - **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document - **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`  ### Most common API operations  #### Structured extraction  - Creating a **Structured Extraction Project** via `POST /api/structured-extraction` - Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}` - Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs` - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}` - Starting a localization **Job** from a completed structured extraction via `POST /api/localization/jobs/from-extraction/{sourceJobId}` - Reading localization via `GET /api/localization/jobs/{localizationJobId}` (check progress with `GET /api/jobs/{localizationJobId}/status`) - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`  #### Content extraction  - Creating a **Content Extraction Project** via `POST /api/content-extraction` - Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a content extraction **Job** via `POST /api/content-extraction/jobs` - Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`  ## Testing with a temporary authorization  This documentation allows you to directly test the API. Select `oauth2uth` in the \"Authentication\" box, set the `Client ID` value to `nuextract`, and click on \"Authorize\". You can then open an API endpoint, e.g. `POST /api/structured-extraction/{structuredProjectId}/jobs`, press “Test Request”, fill out the body, and press “Send” to start a job.
 
 The version of the OpenAPI document:
 Generated by OpenAPI Generator (https://openapi-generator.tech)
@@ -367,6 +367,12 @@ class TemplateGenerationApi:
                 description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
             ),
         ] = None,
+        low_priority: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Submit this job with lower scheduling priority in the job queue and inference engine."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -400,6 +406,8 @@ class TemplateGenerationApi:
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
+        :param low_priority: Submit this job with lower scheduling priority in the job queue and inference engine.
+        :type low_priority: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -430,6 +438,7 @@ class TemplateGenerationApi:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -491,6 +500,12 @@ class TemplateGenerationApi:
                 description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
             ),
         ] = None,
+        low_priority: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Submit this job with lower scheduling priority in the job queue and inference engine."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -524,6 +539,8 @@ class TemplateGenerationApi:
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
+        :param low_priority: Submit this job with lower scheduling priority in the job queue and inference engine.
+        :type low_priority: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -554,6 +571,7 @@ class TemplateGenerationApi:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -615,6 +633,12 @@ class TemplateGenerationApi:
                 description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
             ),
         ] = None,
+        low_priority: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Submit this job with lower scheduling priority in the job queue and inference engine."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -648,6 +672,8 @@ class TemplateGenerationApi:
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
+        :param low_priority: Submit this job with lower scheduling priority in the job queue and inference engine.
+        :type low_priority: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -678,6 +704,7 @@ class TemplateGenerationApi:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -704,6 +731,7 @@ class TemplateGenerationApi:
         loop_detection,
         image_width,
         timeout,
+        low_priority,
         _request_auth,
         _content_type,
         _headers,
@@ -742,6 +770,9 @@ class TemplateGenerationApi:
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
+
+        if low_priority is not None:
+            _query_params.append(("lowPriority", low_priority))
 
         # process the header parameters
         if x_organization_id is not None:
@@ -828,6 +859,12 @@ class TemplateGenerationApi:
                 description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
             ),
         ] = None,
+        low_priority: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Submit this job with lower scheduling priority in the job queue and inference engine."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -859,6 +896,8 @@ class TemplateGenerationApi:
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
+        :param low_priority: Submit this job with lower scheduling priority in the job queue and inference engine.
+        :type low_priority: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -888,6 +927,7 @@ class TemplateGenerationApi:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -943,6 +983,12 @@ class TemplateGenerationApi:
                 description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
             ),
         ] = None,
+        low_priority: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Submit this job with lower scheduling priority in the job queue and inference engine."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -974,6 +1020,8 @@ class TemplateGenerationApi:
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
+        :param low_priority: Submit this job with lower scheduling priority in the job queue and inference engine.
+        :type low_priority: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1003,6 +1051,7 @@ class TemplateGenerationApi:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1058,6 +1107,12 @@ class TemplateGenerationApi:
                 description="Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h"
             ),
         ] = None,
+        low_priority: Annotated[
+            Optional[StrictBool],
+            Field(
+                description="Submit this job with lower scheduling priority in the job queue and inference engine."
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1089,6 +1144,8 @@ class TemplateGenerationApi:
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
+        :param low_priority: Submit this job with lower scheduling priority in the job queue and inference engine.
+        :type low_priority: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1118,6 +1175,7 @@ class TemplateGenerationApi:
             loop_detection=loop_detection,
             image_width=image_width,
             timeout=timeout,
+            low_priority=low_priority,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1143,6 +1201,7 @@ class TemplateGenerationApi:
         loop_detection,
         image_width,
         timeout,
+        low_priority,
         _request_auth,
         _content_type,
         _headers,
@@ -1178,6 +1237,9 @@ class TemplateGenerationApi:
 
         if timeout is not None:
             _query_params.append(("timeout", timeout))
+
+        if low_priority is not None:
+            _query_params.append(("lowPriority", low_priority))
 
         # process the header parameters
         if x_organization_id is not None:

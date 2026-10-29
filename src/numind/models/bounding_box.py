@@ -1,0 +1,93 @@
+"""
+NuExtract Platform
+
+ NB: you can also interact with this API via the [Python SDK](https://github.com/numindai/nuextract-platform-sdk).  ## Extracting Information from Documents  Once your structured extraction project is ready, submit a document to the endpoint:  `https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`  To use it, you need:  - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api) - To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project  This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:  `https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):  ```bash NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -F \"file=@${FILE_NAME}\" | jq -r '.jobId')  curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and request values in the following code:  ```python import asyncio from numind import NuMindAsync  client = NuMindAsync(api_key=api_key) requests = [{}]  async def main():     return [         await client.extract_structured_data(project_id, **request_kwargs)         for request_kwargs in requests     ]  responses = asyncio.run(main()) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  ### Main resources  - **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId` - **Content Extraction Project** - user project for content extraction, identified by `contentProjectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example** - **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document - **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`  ### Most common API operations  #### Structured extraction  - Creating a **Structured Extraction Project** via `POST /api/structured-extraction` - Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}` - Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs` - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}` - Starting a localization **Job** from a completed structured extraction via `POST /api/localization/jobs/from-extraction/{sourceJobId}` - Reading localization via `GET /api/localization/jobs/{localizationJobId}` (check progress with `GET /api/jobs/{localizationJobId}/status`) - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`  #### Content extraction  - Creating a **Content Extraction Project** via `POST /api/content-extraction` - Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a content extraction **Job** via `POST /api/content-extraction/jobs` - Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`  ## Testing with a temporary authorization  This documentation allows you to directly test the API. Select `oauth2uth` in the \"Authentication\" box, set the `Client ID` value to `nuextract`, and click on \"Authorize\". You can then open an API endpoint, e.g. `POST /api/structured-extraction/{structuredProjectId}/jobs`, press “Test Request”, fill out the body, and press “Send” to start a job.
+
+The version of the OpenAPI document:
+Generated by OpenAPI Generator (https://openapi-generator.tech)
+
+Do not edit the class manually.
+"""  # noqa: E501
+
+from __future__ import annotations
+
+import json
+import pprint
+import re  # noqa: F401
+from typing import Annotated, Any, ClassVar, Dict, List, Optional, Set, Union
+
+from pydantic import BaseModel, ConfigDict, Field
+from pydantic_core import to_jsonable_python
+from typing_extensions import Self
+
+
+class BoundingBox(BaseModel):
+    """
+    BoundingBox
+    """
+
+    page: Annotated[int, Field(strict=True, ge=1)] = Field(
+        description="One-based document page number."
+    )
+    bbox: Annotated[
+        List[
+            Union[
+                Annotated[float, Field(le=1.0, strict=True, ge=0.0)],
+                Annotated[int, Field(le=1, strict=True, ge=0)],
+            ]
+        ],
+        Field(min_length=4, max_length=4),
+    ] = Field(description="Normalized [x1, y1, x2, y2] coordinates (0–1).")
+    __properties: ClassVar[List[str]] = ["page", "bbox"]
+
+    model_config = ConfigDict(
+        validate_by_name=True,
+        validate_by_alias=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
+
+    def to_str(self) -> str:
+        """Returns the string representation of the model using alias"""
+        return pprint.pformat(self.model_dump(by_alias=True))
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the model using alias"""
+        return json.dumps(to_jsonable_python(self.to_dict()))
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of BoundingBox from a JSON string"""
+        return cls.from_dict(json.loads(json_str))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """
+        Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        excluded_fields: Set[str] = set([])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
+        )
+        return _dict
+
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of BoundingBox from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+
+        _obj = cls.model_validate({"page": obj.get("page"), "bbox": obj.get("bbox")})
+        return _obj

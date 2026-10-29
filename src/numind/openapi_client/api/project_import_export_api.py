@@ -1,7 +1,7 @@
 """
 NuExtract Platform
 
- NB: you can also interact with this API via the [Python SDK](https://github.com/numindai/nuextract-platform-sdk).  ## Extracting Information from Documents  Once your structured extraction project is ready, submit a document to the endpoint:  `https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`  To use it, you need:  - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api) - To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project  This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:  `https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):  ```bash NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -F \"file=@${FILE_NAME}\" | jq -r '.jobId')  curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and request values in the following code:  ```python import asyncio from numind import NuMindAsync  client = NuMindAsync(api_key=api_key) requests = [{}]  async def main():     return [         await client.extract_structured_data(project_id, **request_kwargs)         for request_kwargs in requests     ]  responses = asyncio.run(main()) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  ### Main resources  - **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId` - **Content Extraction Project** - user project for content extraction, identified by `contentProjectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example** - **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document - **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`  ### Most common API operations  #### Structured extraction  - Creating a **Structured Extraction Project** via `POST /api/structured-extraction` - Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}` - Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs` - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}` - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`  #### Content extraction  - Creating a **Content Extraction Project** via `POST /api/content-extraction` - Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a content extraction **Job** via `POST /api/content-extraction/jobs` - Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`  ## Testing with a temporary authorization  This documentation allows you to directly test the API. Select `oauth2uth` in the \"Authentication\" box, set the `Client ID` value to `nuextract`, and click on \"Authorize\". You can then open an API endpoint, e.g. `POST /api/structured-extraction/{structuredProjectId}/jobs`, press “Test Request”, fill out the body, and press “Send” to start a job.
+ NB: you can also interact with this API via the [Python SDK](https://github.com/numindai/nuextract-platform-sdk).  ## Extracting Information from Documents  Once your structured extraction project is ready, submit a document to the endpoint:  `https://nuextract.ai/api/structured-extraction/{structuredProjectId}/jobs`  To use it, you need:  - To create an API key in the [Account section](https://nuextract.ai/app/user?content=api) - To replace `{structuredProjectId}` by the project ID found in the API tab of the structured extraction project  This endpoint creates an asynchronous extraction job. Use the returned `jobId` to retrieve the result from:  `https://nuextract.ai/api/structured-extraction/jobs/{structuredExtractionJobId}`  You can test your extraction endpoint in your terminal using this command-line example with curl (make sure that you replace values of `STRUCTURED_PROJECT_ID` and `NUEXTRACT_API_KEY`):  ```bash NUEXTRACT_API_KEY=\"_your_api_key_here_\"; \\ STRUCTURED_PROJECT_ID=\"a24fd84a-44ab-4fd4-95a9-bebd46e4768b\"; \\ JOB_ID=$(curl \"https://nuextract.ai/api/structured-extraction/${STRUCTURED_PROJECT_ID}/jobs\" \\   -X POST \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" \\   -F \"file=@${FILE_NAME}\" | jq -r '.jobId')  curl \"https://nuextract.ai/api/structured-extraction/jobs/${JOB_ID}\" \\   -H \"Authorization: Bearer ${NUEXTRACT_API_KEY}\" ```  You can also use the [Python SDK](https://github.com/numindai/nuextract-platform-sdk#documentation), by replacing the `project_id`, `api_key` and request values in the following code:  ```python import asyncio from numind import NuMindAsync  client = NuMindAsync(api_key=api_key) requests = [{}]  async def main():     return [         await client.extract_structured_data(project_id, **request_kwargs)         for request_kwargs in requests     ]  responses = asyncio.run(main()) ```  ## Using the Platform via API  Everything you can do on the web platform can be done via API -  check the [user guide](https://www.notion.so/User-Guide-17c16b1df8c580d3a579ebfb24ddbea7?pvs=21) to learn about how the platform works.  This can be useful to create projects automatically, or to make your production more robust for example.  ### Main resources  - **Structured Extraction Project** - user project for structured extraction, identified by `structuredProjectId` - **Content Extraction Project** - user project for content extraction, identified by `contentProjectId` - **File** - uploaded file,  identified by `fileId`, stored up to two weeks if not tied to an **Example** - **Document** - internal representation of a document, identified by `documentId`, created from a File, stored up to two weeks if not tied to an Example - **Example** - document-extraction pair given to teach NuExtract, identified by `structuredExampleId`, created from a Document - **Job** - asynchronous extraction task, identified by `structuredExtractionJobId`  ### Most common API operations  #### Structured extraction  - Creating a **Structured Extraction Project** via `POST /api/structured-extraction` - Changing the template of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}` - Changing settings of a **Structured Extraction Project** via `PATCH /api/structured-extraction/{structuredProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs` - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}` - Starting a localization **Job** from a completed structured extraction via `POST /api/localization/jobs/from-extraction/{sourceJobId}` - Reading localization via `GET /api/localization/jobs/{localizationJobId}` (check progress with `GET /api/jobs/{localizationJobId}/status`) - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`  #### Content extraction  - Creating a **Content Extraction Project** via `POST /api/content-extraction` - Changing settings of a **Content Extraction Project** via `PATCH /api/content-extraction/{contentProjectId}/settings` - Uploading a file to a **File** via `POST /api/files` (up to 2 weeks storage) - Starting a content extraction **Job** via `POST /api/content-extraction/jobs` - Reading a content extraction **Job** result via `GET /api/content-extraction/jobs/{contentExtractionJobId}`  ## Testing with a temporary authorization  This documentation allows you to directly test the API. Select `oauth2uth` in the \"Authentication\" box, set the `Client ID` value to `nuextract`, and click on \"Authorize\". You can then open an API endpoint, e.g. `POST /api/structured-extraction/{structuredProjectId}/jobs`, press “Test Request”, fill out the body, and press “Send” to start a job.
 
 The version of the OpenAPI document:
 Generated by OpenAPI Generator (https://openapi-generator.tech)
@@ -9,6 +9,7 @@ Generated by OpenAPI Generator (https://openapi-generator.tech)
 Do not edit the class manually.
 """  # noqa: E501
 
+import warnings
 from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import (
@@ -22,6 +23,7 @@ from pydantic import (
 
 from numind.api_response import ApiResponse
 from numind.models.import_project_response import ImportProjectResponse
+from numind.models.job_id_response import JobIdResponse
 from numind.openapi_client.api_client import ApiClient, RequestSerialized
 from numind.openapi_client.rest import RESTResponseType
 
@@ -38,6 +40,287 @@ class ProjectImportExportApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+    @validate_call
+    def get_api_extraction_export_jobs_jobid_download(
+        self,
+        job_id: Annotated[
+            StrictStr, Field(description="Unique project export job identifier.")
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """
+        get_api_extraction_export_jobs_jobid_download
+
+          Download the zip archive produced by a completed project export job.  #### Error Responses: `400 Bad Request` - If the job is not a project export job, or has not completed yet.  `404 Not Found` - If the job does not exist, or its archive has expired.  `403 Forbidden` - If the user does not have permission to access this job.  `409 Conflict` - If the job was canceled.  `500 Internal Server Error` - If the job timed out.  If the job failed, the response is the job's own error, with its status code.
+
+        :param job_id: Unique project export job identifier. (required)
+        :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._get_api_extraction_export_jobs_jobid_download_serialize(
+            job_id=job_id,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "bytes",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def get_api_extraction_export_jobs_jobid_download_with_http_info(
+        self,
+        job_id: Annotated[
+            StrictStr, Field(description="Unique project export job identifier.")
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """
+        get_api_extraction_export_jobs_jobid_download
+
+          Download the zip archive produced by a completed project export job.  #### Error Responses: `400 Bad Request` - If the job is not a project export job, or has not completed yet.  `404 Not Found` - If the job does not exist, or its archive has expired.  `403 Forbidden` - If the user does not have permission to access this job.  `409 Conflict` - If the job was canceled.  `500 Internal Server Error` - If the job timed out.  If the job failed, the response is the job's own error, with its status code.
+
+        :param job_id: Unique project export job identifier. (required)
+        :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._get_api_extraction_export_jobs_jobid_download_serialize(
+            job_id=job_id,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "bytes",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def get_api_extraction_export_jobs_jobid_download_without_preload_content(
+        self,
+        job_id: Annotated[
+            StrictStr, Field(description="Unique project export job identifier.")
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        get_api_extraction_export_jobs_jobid_download
+
+          Download the zip archive produced by a completed project export job.  #### Error Responses: `400 Bad Request` - If the job is not a project export job, or has not completed yet.  `404 Not Found` - If the job does not exist, or its archive has expired.  `403 Forbidden` - If the user does not have permission to access this job.  `409 Conflict` - If the job was canceled.  `500 Internal Server Error` - If the job timed out.  If the job failed, the response is the job's own error, with its status code.
+
+        :param job_id: Unique project export job identifier. (required)
+        :type job_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._get_api_extraction_export_jobs_jobid_download_serialize(
+            job_id=job_id,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "bytes",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _get_api_extraction_export_jobs_jobid_download_serialize(
+        self,
+        job_id,
+        x_organization_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if job_id is not None:
+            _path_params["jobId"] = job_id
+        # process the query parameters
+        # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/zip", "application/json"]
+            )
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/api/extraction/export/jobs/{jobId}/download",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
 
     @validate_call
     def get_api_extraction_projectkind_projectid_export(
@@ -67,7 +350,7 @@ class ProjectImportExportApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytes:
         """
-        get_api_extraction_projectkind_projectid_export
+        (Deprecated) get_api_extraction_projectkind_projectid_export
 
         Exports a project as a zip archive.
 
@@ -98,6 +381,11 @@ class ProjectImportExportApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
+        warnings.warn(
+            "GET /api/extraction/{projectKind}/{projectId}/export is deprecated.",
+            DeprecationWarning,
+        )
+
         _param = self._get_api_extraction_projectkind_projectid_export_serialize(
             project_kind=project_kind,
             project_id=project_id,
@@ -150,7 +438,7 @@ class ProjectImportExportApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytes]:
         """
-        get_api_extraction_projectkind_projectid_export
+        (Deprecated) get_api_extraction_projectkind_projectid_export
 
         Exports a project as a zip archive.
 
@@ -181,6 +469,11 @@ class ProjectImportExportApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
+        warnings.warn(
+            "GET /api/extraction/{projectKind}/{projectId}/export is deprecated.",
+            DeprecationWarning,
+        )
+
         _param = self._get_api_extraction_projectkind_projectid_export_serialize(
             project_kind=project_kind,
             project_id=project_id,
@@ -233,7 +526,7 @@ class ProjectImportExportApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        get_api_extraction_projectkind_projectid_export
+        (Deprecated) get_api_extraction_projectkind_projectid_export
 
         Exports a project as a zip archive.
 
@@ -264,6 +557,11 @@ class ProjectImportExportApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
+        warnings.warn(
+            "GET /api/extraction/{projectKind}/{projectId}/export is deprecated.",
+            DeprecationWarning,
+        )
+
         _param = self._get_api_extraction_projectkind_projectid_export_serialize(
             project_kind=project_kind,
             project_id=project_id,
@@ -367,7 +665,7 @@ class ProjectImportExportApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ImportProjectResponse:
         """
-        post_api_extraction_import
+        (Deprecated) post_api_extraction_import
 
         Imports a project from a zip archive.
 
@@ -396,6 +694,8 @@ class ProjectImportExportApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
+        warnings.warn("POST /api/extraction/import is deprecated.", DeprecationWarning)
+
         _param = self._post_api_extraction_import_serialize(
             body=body,
             x_organization_id=x_organization_id,
@@ -442,7 +742,7 @@ class ProjectImportExportApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ImportProjectResponse]:
         """
-        post_api_extraction_import
+        (Deprecated) post_api_extraction_import
 
         Imports a project from a zip archive.
 
@@ -471,6 +771,8 @@ class ProjectImportExportApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
+        warnings.warn("POST /api/extraction/import is deprecated.", DeprecationWarning)
+
         _param = self._post_api_extraction_import_serialize(
             body=body,
             x_organization_id=x_organization_id,
@@ -517,7 +819,7 @@ class ProjectImportExportApi:
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """
-        post_api_extraction_import
+        (Deprecated) post_api_extraction_import
 
         Imports a project from a zip archive.
 
@@ -546,6 +848,8 @@ class ProjectImportExportApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
+        warnings.warn("POST /api/extraction/import is deprecated.", DeprecationWarning)
+
         _param = self._post_api_extraction_import_serialize(
             body=body,
             x_organization_id=x_organization_id,
@@ -628,6 +932,607 @@ class ProjectImportExportApi:
         return self.api_client.param_serialize(
             method="POST",
             resource_path="/api/extraction/import",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    def post_api_extraction_import_jobs(
+        self,
+        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> JobIdResponse:
+        """
+        post_api_extraction_import_jobs
+
+          Import a project from a zip archive produced by a project export, in an async job.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data contains the imported project.  #### Error Responses: `400 Bad Request` - If the archive is not a valid project archive.
+
+        :param body: (required)
+        :type body: bytes
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_extraction_import_jobs_serialize(
+            body=body,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def post_api_extraction_import_jobs_with_http_info(
+        self,
+        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[JobIdResponse]:
+        """
+        post_api_extraction_import_jobs
+
+          Import a project from a zip archive produced by a project export, in an async job.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data contains the imported project.  #### Error Responses: `400 Bad Request` - If the archive is not a valid project archive.
+
+        :param body: (required)
+        :type body: bytes
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_extraction_import_jobs_serialize(
+            body=body,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def post_api_extraction_import_jobs_without_preload_content(
+        self,
+        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        post_api_extraction_import_jobs
+
+          Import a project from a zip archive produced by a project export, in an async job.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   If the job is completed successfully, the job's output data contains the imported project.  #### Error Responses: `400 Bad Request` - If the archive is not a valid project archive.
+
+        :param body: (required)
+        :type body: bytes
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_extraction_import_jobs_serialize(
+            body=body,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _post_api_extraction_import_jobs_serialize(
+        self,
+        body,
+        x_organization_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
+        # process the form parameters
+        # process the body parameter
+        if body is not None:
+            # convert to byte array if the input is a file name (str)
+            if isinstance(body, str):
+                with open(body, "rb") as _fp:
+                    _body_params = _fp.read()
+            elif isinstance(body, tuple):
+                # drop the filename from the tuple
+                _body_params = body[1]
+            else:
+                _body_params = body
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json", "text/plain"]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params["Content-Type"] = _content_type
+        else:
+            _default_content_type = self.api_client.select_header_content_type(
+                ["application/octet-stream"]
+            )
+            if _default_content_type is not None:
+                _header_params["Content-Type"] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/api/extraction/import/jobs",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    def post_api_extraction_projectkind_projectid_export_jobs(
+        self,
+        project_kind: Annotated[
+            StrictStr, Field(description="Project kind to export.")
+        ],
+        project_id: Annotated[
+            StrictStr, Field(description="Unique project identifier.")
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> JobIdResponse:
+        """
+        post_api_extraction_projectkind_projectid_export_jobs
+
+          Export a project as a zip archive, in an async job.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   Once the job is completed, download the archive with `GET /extraction/export/jobs/{jobId}/download`.  The archive can be downloaded until the job is deleted.  #### Error Responses: `404 Not Found` - If the project does not exist.  `403 Forbidden` - If the user does not have permission to access this project.
+
+        :param project_kind: Project kind to export. (required)
+        :type project_kind: str
+        :param project_id: Unique project identifier. (required)
+        :type project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_extraction_projectkind_projectid_export_jobs_serialize(
+            project_kind=project_kind,
+            project_id=project_id,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def post_api_extraction_projectkind_projectid_export_jobs_with_http_info(
+        self,
+        project_kind: Annotated[
+            StrictStr, Field(description="Project kind to export.")
+        ],
+        project_id: Annotated[
+            StrictStr, Field(description="Unique project identifier.")
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[JobIdResponse]:
+        """
+        post_api_extraction_projectkind_projectid_export_jobs
+
+          Export a project as a zip archive, in an async job.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   Once the job is completed, download the archive with `GET /extraction/export/jobs/{jobId}/download`.  The archive can be downloaded until the job is deleted.  #### Error Responses: `404 Not Found` - If the project does not exist.  `403 Forbidden` - If the user does not have permission to access this project.
+
+        :param project_kind: Project kind to export. (required)
+        :type project_kind: str
+        :param project_id: Unique project identifier. (required)
+        :type project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_extraction_projectkind_projectid_export_jobs_serialize(
+            project_kind=project_kind,
+            project_id=project_id,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def post_api_extraction_projectkind_projectid_export_jobs_without_preload_content(
+        self,
+        project_kind: Annotated[
+            StrictStr, Field(description="Project kind to export.")
+        ],
+        project_id: Annotated[
+            StrictStr, Field(description="Unique project identifier.")
+        ],
+        x_organization_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key."
+            ),
+        ] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+            ],
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """
+        post_api_extraction_projectkind_projectid_export_jobs
+
+          Export a project as a zip archive, in an async job.  #### Response:  Returns a JSON containing the job ID that can be used to retrieve the job status and results.   Once the job is completed, download the archive with `GET /extraction/export/jobs/{jobId}/download`.  The archive can be downloaded until the job is deleted.  #### Error Responses: `404 Not Found` - If the project does not exist.  `403 Forbidden` - If the user does not have permission to access this project.
+
+        :param project_kind: Project kind to export. (required)
+        :type project_kind: str
+        :param project_id: Unique project identifier. (required)
+        :type project_id: str
+        :param x_organization_id: Optional organization to use for this request.   No header means that the user personal account will be used.   This token is *only* used by the _frontend_ application and *will be ignored if used with the API*. When using the api, the organization used will be the one of the api key.
+        :type x_organization_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+        _param = self._post_api_extraction_projectkind_projectid_export_jobs_serialize(
+            project_kind=project_kind,
+            project_id=project_id,
+            x_organization_id=x_organization_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            "200": "JobIdResponse",
+            "400": "str",
+            "default": "Error",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _post_api_extraction_projectkind_projectid_export_jobs_serialize(
+        self,
+        project_kind,
+        project_id,
+        x_organization_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {}
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if project_kind is not None:
+            _path_params["projectKind"] = project_kind
+        if project_id is not None:
+            _path_params["projectId"] = project_id
+        # process the query parameters
+        # process the header parameters
+        if x_organization_id is not None:
+            _header_params["x-organization-id"] = x_organization_id
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/json", "text/plain"]
+            )
+
+        # authentication setting
+        _auth_settings: List[str] = ["oauth2Auth"]
+
+        return self.api_client.param_serialize(
+            method="POST",
+            resource_path="/api/extraction/{projectKind}/{projectId}/export/jobs",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

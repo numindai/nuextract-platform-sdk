@@ -35,9 +35,12 @@ with (
 
 class Country(SemanticType):
     """
-    Uppercase 2-characters country code following the ISO 3166-1 standard.
+    Uppercase country code following the ISO 3166-1 standard.
 
-    :examples: `FR` (France), `SG` (Singapore), `KR` (South Korea, "Korea, Republic of")
+    Use ISO 3166-1 alpha-2 for current countries, ISO 3166-3 alpha-4 for historical
+    ones.
+
+    :examples: `FR` (France), `SG` (Singapore), `CSHH` (Czechoslovakia)
     """
 
     json_schema_format = ("country-code-ISO_3166-1_2chars", "country-code")

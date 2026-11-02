@@ -45,17 +45,15 @@ class URL(SemanticType):
 
     An IRI extends the URI syntax defined in RFC 3986 by allowing Unicode characters
     beyond the ASCII set. It can identify resources using schemes such as HTTP, HTTPS,
-    FTP, or mailto. When IRIs are transmitted in protocols that require ASCII-only
-    encoding, they are converted to URIs through percent-encoding and Punycode (for
-    internationalized domain names, per IDNA2008).
+    FTP, or mailto.
 
     Components:
-    - **Scheme**: protocol identifier, e.g., "http", "https", "ftp".
-    - **Authority**: includes user info, host, and port. Hosts may be internationalized
+    1. Scheme: protocol identifier, e.g., "http", "https", "ftp".
+    2. Authority: includes user info, host, and port. Hosts may be internationalized
       domain names (IDN, RFC 5890+) using Unicode.
-    - **Path**: hierarchical part of the resource, may include Unicode characters.
-    - **Query**: additional data, introduced by "?", may include Unicode.
-    - **Fragment**: identifier within the resource, introduced by "#".
+    3. Path: hierarchical part of the resource, may include Unicode characters.
+    4. Query: additional data, introduced by "?", may include Unicode.
+    5. Fragment: identifier within the resource, introduced by "#".
 
     :examples: `http://www.example.com/` (HTTP URL with ASCII-only host and no
     path/query/fragment), `https://例子.测试/路径?查询=值#片段` (HTTPS IRI with an

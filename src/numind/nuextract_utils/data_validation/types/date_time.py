@@ -305,14 +305,14 @@ class DateTime(SemanticType):
 
 class Date(DateTime):
     """
-    An ISO 8601 compliant date string.
+    An ISO 8601-1 date preserving available precision.
 
     It may feature "reduced accuracy" and be of the form "YYYY-MM-DD", "YYYY-MM",
     "YYYY", "--MM-DD" (month and day with nullified year value), "YYYY-Www" (week date,
     the lowercase "w" characters are replaced with the week number) or "YYYY-Www-D"
     (week date with day number between 1 and 7).
 
-    :examples: `2024-01-15`, `2024-01`, `2024`, `--12-25`
+    :examples: `2025-03`, `--03-12`, `2025-05-31`
     """
 
     ISO_NON_COMPLIANT_ERR = ERR_LABEL_DATE_VALUE_NOT_ISO_8601_COMPLIANT
@@ -354,14 +354,14 @@ class Date(DateTime):
 
 class Time(DateTime):
     """
-    An ISO 8601 compliant time string.
+    An ISO 8601-1 time.
 
     It may feature "reduced accuracy" and be of the
     form "hh:mm:ss.s", "hh:mm:ss", "hh:mm" or "hh". It may also include a timezone
-    component of the form "+hh-mm", "-hh-mm", "+hh" or "-hh" appended to the former
-    part.
+    component of the form "+hh-mm", "-hh-mm", "+hh", "-hh" or "Z" (UTC) appended to
+    the former part.
 
-    :examples: `14:30:57`, `18:01`, `14`, `14:30:45.123Z`
+    :examples: `14:30:57`, `18:01`, `14`, `14:30:45.123Z`, `14:00+05:30`
     """
 
     ISO_NON_COMPLIANT_ERR = ERR_LABEL_TIME_VALUE_NOT_ISO_8601_COMPLIANT

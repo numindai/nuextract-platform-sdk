@@ -174,15 +174,12 @@ ERR_LABEL_VALUE_IS_TOO_LONG = "label value verbatim-string is too long"
 
 class VerbatimString(SemanticType):
     """
-    A `string` as it strictly is in the input.
+    An extract preserving wording, case, accents, and symbols.
 
-    This type is purely extractive as the string should be present exactly as it is in
-    the input, preserving all characters including accents, symbols, emojis or any
-    unicode character. The verbatim string shouldn’t contain new lines, tabs or multiple
-    consecutive white spaces. These elements should be represented with one white space.
+    Only line-break and hyphenation repair are allowed.
 
-    :examples: `John Doe`, `1120 Santa Monica Boulevard`
-    """  # noqa:RUF002
+    :examples: `Jean Dupont` (from "Jean    Dupont"), `John Doe`, `🤗`, `漢`
+    """
 
     ratio_max_fixable: float = VERBATIM_STRING_FIX_INDEL_RATIO_THRESHOLD
     ratio_min_set_to_null: float = VERBATIM_STRING_FIX_INDEL_RATIO_SET_TO_NULL

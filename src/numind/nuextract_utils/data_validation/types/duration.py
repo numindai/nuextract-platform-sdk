@@ -47,7 +47,7 @@ TEXTUAL_DURATION_COMPONENTS = {
 
 class Duration(SemanticType):
     """
-    An ISO 8601 compliant duration string ("PnYnMnDTnHnMnS" where "n" are integers).
+    An ISO 8601-2:2019 duration string ("PnYnMnDTnHnMnS" where "n" are integers).
 
     It contains a date and a time parts separated with a "T" character, which contain
     several components: "nY" for years, "nM" for months (in the date part), "nW" for
@@ -59,7 +59,7 @@ class Duration(SemanticType):
     teh other date components ("Y"/"M"/"D").
 
     :examples: `P2Y1M3D` (2 years, 1 month, 3 days), `PT1M30S` (1 minute, 30 seconds),
-    `P3W` (3 weeks)
+    `P3W` (3 weeks), `-P3D` (three days in advance)
     """
 
     @classmethod

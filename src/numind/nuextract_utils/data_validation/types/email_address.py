@@ -49,13 +49,9 @@ CHAR_FIXES = {
 
 class EmailAddress(SemanticType):
     """
-    An email address string complying the RFC 5322 and RFC 6531 standards.
+    An email address complying to RFC 5322 and RFC 6531.
 
-    It is composed of a local part (username), the "@" separator, and a domain name.
-    The local part may include dots, hyphens, underscores, or quoted strings, while the
-    domain follows DNS naming rules and may include internationalized characters.
-
-    :examples: `firstname.lastname@example.com`, `用户@例子.公司`
+    :examples: `jean.doe@example.com`, `用户@例子.公司`
     """
 
     # idn-email is RFC 6531 which includes RFC 5322
@@ -205,8 +201,6 @@ class EmailAddress(SemanticType):
         """
         if not isinstance(value, str):
             return ERR_LABEL_EMAIL_ADDRESS_IS_MALFORMED  # Or handle as per your design
-        if cls.email_validator is None:
-            return None
 
         # RFC 5321 and 5322 state that the domain part is case-insensitive.
         # For validation, we should ensure it is indeed lowercase or consider it

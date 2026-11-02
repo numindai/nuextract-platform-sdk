@@ -106,20 +106,20 @@ class LanguageTag(SemanticType):
     A language tag identifies a language, optionally including its script, region, and
     variant. Its components must follow specific ISO or registry standards:
 
-    - **Language subtag**: 2–3 letters (ISO 639-1/2) identifying the language, e.g.,
+    1. Language subtag: 2-3 letters (ISO 639-1/2) identifying the language, e.g.,
     "en" for English;
-    - **Script subtag** (optional): 4 letters (ISO 15924) indicating the writing system,
+    2. (optional) Script subtag: 4 letters (ISO 15924) indicating the writing system,
     e.g., "Latn".
-    - **Region subtag** (optional): 2 letters (ISO 3166-1) or 3 digits (UN M.49)
+    3. (optional) Region subtag: 2 letters (ISO 3166-1) or 3 digits (UN M.49)
     specifying a country or region, e.g., "US".
-    - **Variant subtags** (optional): 4–8 alphanumeric characters providing dialect,
+    4. (optional) Variant subtags: 4-8 alphanumeric characters providing dialect,
     orthography, or other variations, e.g., "oxendict".
-    - **Extensions and private-use subtags**: single-letter extensions and subtags for
-    custom usage, e.g., "x-custom".
+    5. (optional) Extensions and private-use subtags: single-letter extensions and
+    subtags for custom usage, e.g., "x-custom".
 
     :examples: `en-US` (English, United States), `zh-Hans-CN` (Simplified Chinese,
     China), `sl-rozaj` (Slovenian, Resian dialect)
-    """  # noqa:RUF002
+    """
 
     json_schema_format = ("language-tag-IETF-BCP-47", "language-tag")
     # Class-level cached properties that auto-invalidate when source changes

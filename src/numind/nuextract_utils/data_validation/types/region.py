@@ -1,4 +1,4 @@
-"""Country type."""
+"""Country subdivision types."""
 
 from __future__ import annotations
 
@@ -42,66 +42,76 @@ SUPPORTED_COUNTRIES = (
 )
 _EXAMPLES = {
     "US": (
-        "`NY` (New York state), `DC` (District of Columbia), `GU` (Guam outlying area)"
+        "`US-NY` (New York state), `US-DC` (District of Columbia), "
+        "`US-GU` (Guam outlying area)"
     ),
     "FR": (
-        "`49` (Maine-et-Loire département), `MQ` (Martinique overseas region), `V` "
-        "(Rhône-Alpes région)."
+        "`FR-49` (Maine-et-Loire département), `FR-MQ` (Martinique overseas region), "
+        "`FR-V` (Rhône-Alpes région)."
     ),
-    "IE": "`D` (Dublin county), `C` (Connacht province), `WD` (Waterford county)",
+    "IE": (
+        "`IE-D` (Dublin county), `IE-C` (Connacht province), `IE-WD` (Waterford county)"
+    ),
     "GB": (
-        "`WSX` (West Sussex two-tier county), `WSM` (Westminster borough), `WIL` "
-        "(Wiltshire unitary authority)"
+        "`GB-WSX` (West Sussex two-tier county), `GB-WSM` (Westminster borough), "
+        "`GB-WIL` (Wiltshire unitary authority)"
     ),
-    "IT": "`RM` (Rome province), `BZ` (Bolzano province), `82` (Sicily region)",
+    "IT": (
+        "`IT-RM` (Rome province), `IT-BZ` (Bolzano province), `IT-82` (Sicily region)"
+    ),
     "ES": (
-        "`GA` (Galicia autonomous community), `GR` (Granada province), `ML` (Melilla "
-        "autonomous city)"
+        "`ES-GA` (Galicia autonomous community), `ES-GR` (Granada province), "
+        "`ES-ML` (Melilla autonomous city)"
     ),
-    "DE": "`BY` (Bayern state), `BE` (Berlin state), `HH` (Hamburg state)",
-    "PT": "`11` (Lisbon district), `20` (Azores autonomous region)",
-    "CA": "`QC` (Quebec province), `NU` (Nunavut territory), `YT` (Yukon territory)",
+    "DE": "`DE-BY` (Bayern state), `DE-BE` (Berlin state), `DE-HH` (Hamburg state)",
+    "PT": "`PT-11` (Lisbon district), `PT-20` (Azores autonomous region)",
+    "CA": (
+        "`CA-QC` (Quebec province), `CA-NU` (Nunavut territory), "
+        "`CA-YT` (Yukon territory)"
+    ),
     "MX": (
-        "`JAL` (Jalisco state), `DIF` (Distrito Federal), `AGU` (Aguascalientes state)"
+        "`MX-JAL` (Jalisco state), `MX-DIF` (Distrito Federal), "
+        "`MX-AGU` (Aguascalientes state)"
     ),
     "BR": (
-        "`RJ` (Rio de Janeiro state), `DF` (Distrito Federal), `SP` (São Paulo state)"
+        "`BR-RJ` (Rio de Janeiro state), `BR-DF` (Distrito Federal), "
+        "`BR-SP` (São Paulo state)"
     ),
     "AU": (
-        "`NSW` (New South Wales state), `VIC` (Victoria state), `ACT` (Australian "
-        "Capital Territory)"
+        "`AU-NSW` (New South Wales state), `AU-VIC` (Victoria state), "
+        "`AU-ACT` (Australian Capital Territory)"
     ),
     "JP": (
-        "`13` (Tokyo metropolis), `27` (Osaka urban prefecture), `01` (Hokkaidō "
-        "territory)"
+        "`JP-13` (Tokyo metropolis), `JP-27` (Osaka urban prefecture), "
+        "`JP-01` (Hokkaidō territory)"
     ),
     "KR": (
-        "`11` (Seoul capital metropolitan city), `26` (Busan metropolitan city), `41` "
-        "(Gyeonggi-do province)"
+        "`KR-11` (Seoul capital metropolitan city), `KR-26` (Busan metropolitan city), "
+        "`KR-41` (Gyeonggi-do province)"
     ),
     "CN": (
-        "`11` (Beijing municipality), `44` (Guangdong province), `65` (Xinjiang "
-        "autonomous region)"
+        "`CN-11` (Beijing municipality), `CN-44` (Guangdong province), "
+        "`CN-65` (Xinjiang autonomous region)"
     ),
     "IN": (
-        "`MH` (Maharashtra state), `DL` (Delhi union territory), `JK` (Jammu and "
-        "Kashmir state)"
+        "`IN-MH` (Maharashtra state), `IN-DL` (Delhi union territory), "
+        "`IN-JK` (Jammu and Kashmir state)"
     ),
     "VN": (
-        "`HN` (Hanoi municipality), `SG` (Ho Chi Minh City municipality), `31` (Binh "
-        "Dinh province)"
+        "`VN-HN` (Hanoi municipality), `VN-SG` (Ho Chi Minh City municipality), "
+        "`VN-31` (Binh Dinh province)"
     ),
     "TH": (
-        "`10` (Krung Thep Maha Nakhon / Bangkok), `50` (Chiang Mai province), `82` "
-        "(Phang Nga province)"
+        "`TH-10` (Krung Thep Maha Nakhon / Bangkok), `TH-50` (Chiang Mai province), "
+        "`TH-82` (Phang Nga province)"
     ),
     "RU": (
-        "`SPE` (Saint Petersburg autonomous city), `MOS` (Moskovskaya oblast), `TA` "
-        "(Tatarstan republic)"
+        "`RU-SPE` (Saint Petersburg autonomous city), `RU-MOS` (Moskovskaya oblast), "
+        "`RU-TA` (Tatarstan republic)"
     ),
     "PL": (
-        "`MA` (Lesser Poland / Małopolskie voivodeship), `DS` (Lower Silesia / "
-        "Dolnośląskie voivodeship), `PM` (Pomeranian / Pomorskie voivodeship)"
+        "`PL-MA` (Lesser Poland / Małopolskie voivodeship), `PL-DS` (Lower Silesia / "
+        "Dolnośląskie voivodeship), `PL-PM` (Pomeranian / Pomorskie voivodeship)"
     ),
 }
 
@@ -123,7 +133,9 @@ with (
 
         COUNTRY_TO_REGIONS[region_code]["names"].append(row[1])
         COUNTRY_TO_REGIONS[region_code]["types"].append(row[2].lower())
-        COUNTRY_TO_REGIONS[region_code]["codes_alpha3"].append(row[3])
+        COUNTRY_TO_REGIONS[region_code]["codes_alpha3"].append(
+            f"{region_code}-{row[3].strip()}"
+        )
 
 
 # This class is intended to be subclassed by country-level classes handling its
@@ -132,13 +144,16 @@ class Region(SemanticType):
     """
     Uppercase subdivision code complying to ISO 3166-2:<COUNTRY>.
 
+    <COUNTRY> is the ISO 3166-1 alpha-2 code of the corresponding country.
+
     :examples:
     """
 
     json_schema_format = "region-code-ISO_3166-2:<COUNTRY>"
+    country_code: str
     iso_subset_type: Literal["names", "codes_alpha3"] = "codes_alpha3"
     # dictionaries to be used as ordered sets to build `country_data`
-    # Country code is 2-chars uppercase, region code is 2 or 3 chars uppercase
+    # Subdivision codes include the uppercase 2-character country code and hyphen.
     mapping: MappingInterface = None
     names: set[str] = ClassCachedProperty(
         "mapping",
@@ -181,13 +196,13 @@ class Region(SemanticType):
         """
         Try to fix a region name or code.
 
-        :param value: country name/code to fix.
+        :param value: subdivision name or code, with or without the country prefix.
         :param input_text: input text.
         :param error: error associated to the value to convert. This argument
             can help to convert the value by targeting to the appropriate methods
             (default: ``None``).
-        :return: a string corresponding to an ISO 3166-1 country name or code, if the
-            provided value can be converted, otherwise ``None``.
+        :return: an ISO 3166-2 subdivision name or prefixed code if the value can
+            be converted, otherwise ``None``.
         """
         _ = input_text
         if not isinstance(value, str):
@@ -195,7 +210,8 @@ class Region(SemanticType):
 
         # Correct case unsensitive errors
         if (
-            error.error_message
+            error is not None
+            and error.error_message
             == ERR_LABEL_REGION_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE
             and cls.iso_subset_type == "codes_alpha3"
         ):
@@ -203,6 +219,8 @@ class Region(SemanticType):
 
         # Try to correct based on groups
         group = cls.mapping.get_group(value.lower())
+        if group is None:
+            group = cls.mapping.get_group(f"{cls.country_code}-{value}".lower())
         if group is not None:
             idx_to_get = cls.mapping.group_names[cls.iso_subset_type]
             return group[idx_to_get]
@@ -212,11 +230,11 @@ class Region(SemanticType):
     @classmethod
     def validate(cls, value: str, _: str | None = None) -> str | None:
         """
-        Check that a string is not considered "null" (and thus should be ``None``).
+        Check a subdivision value against this country's ISO 3166-2 data.
 
         :param value: string value to assess.
         :param _: placeholder for input text.
-        :return: error message if the value should be ``None``, otherwise ``None``.
+        :return: error message for an invalid value or casing, otherwise ``None``.
         """
         valid_case_sensitive = value in cls._get_valid_set()
         if not valid_case_sensitive:
@@ -246,6 +264,7 @@ for country_code in SUPPORTED_COUNTRIES:
     regions_mapping = MappingInterface.from_data(**regions_info)
     attrs = {
         "mapping": regions_mapping,
+        "country_code": country_code,
         "__qualname__": (cls_name := f"Region{country_code}"),  # for repr/help()
     }
     # create the subclass:  type(name, bases, attrs)
@@ -262,11 +281,11 @@ for country_code in SUPPORTED_COUNTRIES:
     REGIONS_TYPES[f"region:{country_code}"] = region_cls
 
 COMMON_REGION_DOCS = (
-    'Uppercase 3-characters subdivision code complying to ISO 3166-2, where "XX" is an '
+    'Uppercase subdivision code complying to ISO 3166-2, where "XX" is an '
     "'uppercase 2-characters ISO 3166-1 country code among: "
-    f'{", ".join(SUPPORTED_COUNTRIES)}. For example for region:US: "NY" for the state '
-    f'of New York, "DC" for the District of Columbia district, or "GU" for the Guam '
-    f'outlying area. For example for region:FR: "49" for the "Maine-et-Loire" '
-    f'département, or "MQ" for the Martinique oversea region, or "V" for the '
-    f'"Rhône-Alpes" région.'
+    f'{", ".join(SUPPORTED_COUNTRIES)}. For example for region:US: "US-NY" for the '
+    f'state of New York, "US-DC" for the District of Columbia district, or "US-GU" '
+    f'for the Guam outlying area. For example for region:FR: "FR-49" for the '
+    f'"Maine-et-Loire" département, or "FR-MQ" for the Martinique oversea region, '
+    f'or "FR-V" for the "Rhône-Alpes" région.'
 )

@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from .base import SemanticType
+from .bbox import Bbox
 from .bic import BIC
 from .country import Country
 from .currency import Currency
@@ -36,6 +37,7 @@ NUEXTRACT_DEFAULT_TYPES = {
     "date-time": DateTime,
     "duration": Duration,
     "boolean": bool,
+    "bbox": Bbox,
     "country": Country,
     "currency": Currency,
     "language": Language,
@@ -93,21 +95,25 @@ def _parse_docstring(docstring: str) -> tuple[str, str]:
 
 
 def _process_docstring(docstring: str) -> str:
-    description, _ = _parse_docstring(docstring)
-    return description
+    description, examples = _parse_docstring(docstring)
+    if examples is None:
+        return description
+    return f"{description}\nExamples: {examples}"
 
 
 NUEXTRACT_DEFAULT_TYPES_DOCS = {
     type_name: _process_docstring(type_cls.__doc__)
     for type_name, type_cls in NUEXTRACT_DEFAULT_TYPES.items()
 }
-NUEXTRACT_DEFAULT_TYPES_DOCS["boolean"] = "A boolean being either `true` or `false`."
+NUEXTRACT_DEFAULT_TYPES_DOCS["boolean"] = (
+    "A JSON boolean, true (positive), false (negative), or null (unknown)."
+)
 
 NUEXTRACT_DEFAULT_TYPES_EXAMPLES: dict[str, str] = {
     type_name: _parse_docstring(type_cls.__doc__)[1]
     for type_name, type_cls in NUEXTRACT_DEFAULT_TYPES.items()
 }
-NUEXTRACT_DEFAULT_TYPES_EXAMPLES["boolean"] = "`true`, `false`"
+NUEXTRACT_DEFAULT_TYPES_EXAMPLES["boolean"] = "`true`, `false`, `null`"
 
 
 def export_types_csv(path: Path) -> None:
@@ -134,6 +140,7 @@ __all__ = [
     "IBAN",
     "NUEXTRACT_DEFAULT_TYPES",
     "URL",
+    "Bbox",
     "Country",
     "Currency",
     "Date",

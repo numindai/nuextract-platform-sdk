@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar, Union
+from typing import TYPE_CHECKING, ClassVar
 
 if TYPE_CHECKING:
     from numind.nuextract_utils.data_validation.models import ErrorJson
 
-PrimitiveType = Union[type, tuple[type, ...]]
+PrimitiveType = type | tuple[type, ...]
 
 
 class SemanticType:

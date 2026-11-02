@@ -65,18 +65,12 @@ with (
 
 class PhoneNumber(SemanticType):
     """
-    A phone number.
+    A phone number following E.164 when a full international number is possible.
 
-    If the region code (e.g. +1 for the United States and Canada) is present or can be
-    inferred, the string complies to the ITU E.164 standard, e.g. `+14155552671`.
-    Otherwise, the string only contains digits and is as close as present in the input
-    document, e.g. a phone number appearing as `650.555.0123` is extracted as
-    `6505550123`. If the value is E.164 compliant (with region code), it is also
-    necessarily diallable. For example, `+14155552671` is syntactically E.164 compliant
-    but is not diallable, so not valid.
+    Otherwise the local number as digits is retained.
+    Supports short service and emergency numbers.
 
-    :examples: `+33612345678` (French mobile), `6505550123` (US local without country
-    code)
+    :examples: `+33612345678`, `0612345678` (no country context), `112`, `911`
     """
 
     json_schema_format = ("phone-number-E.164", "phone-number")

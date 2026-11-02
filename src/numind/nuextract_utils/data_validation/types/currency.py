@@ -48,11 +48,10 @@ CURRENCIES_MAPPING = MappingInterface.from_data(
 
 class Currency(SemanticType):
     """
-    Uppercase 3-characters currency code following the ISO 4217 standard.
+    An uppercase three-letter ISO 4217 currency code.
 
-    It covers list 1 (currently used currencies) and list 3 (old unused currencies).
-
-    :examples: `EUR` (euro), `USD` (US dollar), `DEM` (Deutsche Mark)
+    Covers list 1 (currently used currencies) and list 3 (old ununsed currencies)
+    :examples: `EUR`, `USD`, `DEM` (historical Deutsche Mark)
     """
 
     json_schema_format = ("currency-code-ISO_4217_3chars", "currency-code")

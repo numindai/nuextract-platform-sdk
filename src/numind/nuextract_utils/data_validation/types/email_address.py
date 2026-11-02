@@ -201,6 +201,8 @@ class EmailAddress(SemanticType):
         """
         if not isinstance(value, str):
             return ERR_LABEL_EMAIL_ADDRESS_IS_MALFORMED  # Or handle as per your design
+        if cls.email_validator is None:
+            return None
 
         # RFC 5321 and 5322 state that the domain part is case-insensitive.
         # For validation, we should ensure it is indeed lowercase or consider it

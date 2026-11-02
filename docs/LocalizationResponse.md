@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **localization** | [**Dict[str, Optional[LocalizationValue]]**](LocalizationValue.md) | Localization groups. Each field contains a list of boxes with a one-based document page number and a bbox array of normalized [x1, y1, x2, y2] coordinates (0–1). | 
-**discarded_localization_count** | **int** | Number of localization validation errors. | 
-**discarded_localizations** | [**List[DiscardedLocalization]**](DiscardedLocalization.md) | Localization validation errors, including invalid boxes and missing or unexpected fields. | [optional] 
+**discarded_localization_items_count** | **int** | Number of localization validation errors. | 
+**discarded_localization_items** | [**List[DiscardedLocalizationItem]**](DiscardedLocalizationItem.md) | Localization validation errors, including invalid boxes and missing or unexpected fields. | [optional] 
 **diagnostics** | **List[str]** | Diagnostics explaining why results are partial. | [optional] 
 **input_tokens** | **int** | Input tokens used for localization inference, when available. | [optional] 
 **output_tokens** | **int** | Output tokens used for localization inference, when available. | [optional] 

@@ -382,7 +382,7 @@ Class | Method | HTTP request | Description
  - [CreateContentProjectRequest](docs/CreateContentProjectRequest.md)
  - [CreateOrUpdateStructuredExampleRequest](docs/CreateOrUpdateStructuredExampleRequest.md)
  - [CreateStructuredProjectRequest](docs/CreateStructuredProjectRequest.md)
- - [DiscardedLocalization](docs/DiscardedLocalization.md)
+ - [DiscardedLocalizationItem](docs/DiscardedLocalizationItem.md)
  - [DocumentInfo](docs/DocumentInfo.md)
  - [DocumentResponse](docs/DocumentResponse.md)
  - [Error](docs/Error.md)

@@ -38,9 +38,9 @@ class TestLocalizationResponse(unittest.TestCase):
                 localization = {
                     'key' : null
                     },
-                discarded_localization_count = 56,
-                discarded_localizations = [
-                    numind.models.discarded_localization.DiscardedLocalization(
+                discarded_localization_items_count = 56,
+                discarded_localization_items = [
+                    numind.models.discarded_localization_item.DiscardedLocalizationItem(
                         path = '', 
                         reason = '', 
                         value = '', )
@@ -57,7 +57,7 @@ class TestLocalizationResponse(unittest.TestCase):
                 localization = {
                     'key' : null
                     },
-                discarded_localization_count = 56,
+                discarded_localization_items_count = 56,
                 raw_model_output = '',
         )
         """

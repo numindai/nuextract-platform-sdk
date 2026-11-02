@@ -35,7 +35,7 @@ from numind.models.create_or_update_structured_example_request import (
 from numind.models.create_structured_project_request import (
     CreateStructuredProjectRequest,
 )
-from numind.models.discarded_localization import DiscardedLocalization
+from numind.models.discarded_localization_item import DiscardedLocalizationItem
 from numind.models.document_info import DocumentInfo
 from numind.models.document_response import DocumentResponse
 from numind.models.error import Error

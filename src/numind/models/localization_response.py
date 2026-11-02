@@ -20,7 +20,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from pydantic_core import to_jsonable_python
 from typing_extensions import Self
 
-from numind.models.discarded_localization import DiscardedLocalization
+from numind.models.discarded_localization_item import DiscardedLocalizationItem
 from numind.models.localization_value import LocalizationValue
 
 
@@ -32,14 +32,14 @@ class LocalizationResponse(BaseModel):
     localization: Dict[str, Optional[LocalizationValue]] = Field(
         description="Localization groups. Each field contains a list of boxes with a one-based document page number and a bbox array of normalized [x1, y1, x2, y2] coordinates (0–1)."
     )
-    discarded_localization_count: StrictInt = Field(
+    discarded_localization_items_count: StrictInt = Field(
         description="Number of localization validation errors.",
-        alias="discardedLocalizationCount",
+        alias="discardedLocalizationItemsCount",
     )
-    discarded_localizations: Optional[List[DiscardedLocalization]] = Field(
+    discarded_localization_items: Optional[List[DiscardedLocalizationItem]] = Field(
         default=None,
         description="Localization validation errors, including invalid boxes and missing or unexpected fields.",
-        alias="discardedLocalizations",
+        alias="discardedLocalizationItems",
     )
     diagnostics: Optional[List[StrictStr]] = Field(
         default=None, description="Diagnostics explaining why results are partial."
@@ -60,8 +60,8 @@ class LocalizationResponse(BaseModel):
     )
     __properties: ClassVar[List[str]] = [
         "localization",
-        "discardedLocalizationCount",
-        "discardedLocalizations",
+        "discardedLocalizationItemsCount",
+        "discardedLocalizationItems",
         "diagnostics",
         "inputTokens",
         "outputTokens",
@@ -116,16 +116,16 @@ class LocalizationResponse(BaseModel):
                     else None
                 )
             _dict["localization"] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of each item in discarded_localizations (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in discarded_localization_items (list)
         _items = []
-        if self.discarded_localizations:
-            for _item_discarded_localizations in self.discarded_localizations:
+        if self.discarded_localization_items:
+            for _item_discarded_localization_items in self.discarded_localization_items:
                 _items.append(
-                    _item_discarded_localizations.to_dict()
-                    if _item_discarded_localizations is not None
+                    _item_discarded_localization_items.to_dict()
+                    if _item_discarded_localization_items is not None
                     else None
                 )
-            _dict["discardedLocalizations"] = _items
+            _dict["discardedLocalizationItems"] = _items
         return _dict
 
     @classmethod
@@ -145,12 +145,14 @@ class LocalizationResponse(BaseModel):
                 )
                 if obj.get("localization") is not None
                 else None,
-                "discardedLocalizationCount": obj.get("discardedLocalizationCount"),
-                "discardedLocalizations": [
-                    DiscardedLocalization.from_dict(_item)
-                    for _item in obj["discardedLocalizations"]
+                "discardedLocalizationItemsCount": obj.get(
+                    "discardedLocalizationItemsCount"
+                ),
+                "discardedLocalizationItems": [
+                    DiscardedLocalizationItem.from_dict(_item)
+                    for _item in obj["discardedLocalizationItems"]
                 ]
-                if obj.get("discardedLocalizations") is not None
+                if obj.get("discardedLocalizationItems") is not None
                 else None,
                 "diagnostics": obj.get("diagnostics"),
                 "inputTokens": obj.get("inputTokens"),

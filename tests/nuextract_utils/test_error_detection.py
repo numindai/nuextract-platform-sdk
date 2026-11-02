@@ -20,9 +20,9 @@ from numind.nuextract_utils.data_validation.constants import (
 from numind.nuextract_utils.data_validation.models import ErrorJson
 from numind.nuextract_utils.data_validation.types import NUEXTRACT_DEFAULT_TYPES
 from numind.nuextract_utils.data_validation.types.country import (
-    Country,
     ERR_LABEL_COUNTRY_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE,
     ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT,
+    Country,
 )
 from numind.nuextract_utils.data_validation.types.currency import (
     ERR_LABEL_CURRENCY_CODE_NOT_ISO_4217_COMPLIANT,
@@ -45,9 +45,9 @@ from numind.nuextract_utils.data_validation.types.language_tag import (
 )
 from numind.nuextract_utils.data_validation.types.phone_number import (
     ERR_LABEL_PHONE_NUMBER_CANNOT_BE_PARSED,
+    ERR_LABEL_PHONE_NUMBER_IS_VALID_BUT_IN_MESSY_STRING,
     PhoneNumber,
     normalize_phone_number,
-    ERR_LABEL_PHONE_NUMBER_IS_VALID_BUT_IN_MESSY_STRING,
 )
 from numind.nuextract_utils.data_validation.types.region import (
     ERR_LABEL_REGION_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE,

@@ -226,7 +226,8 @@ def normalize_phone_number(phone_str: str) -> ParsedPhoneNumber | str | None:
     1. Auto infer region code + E.164 compliant + valid num values
     2. Provided region code + E.164 compliant + valid num values (order is important)
     3. NSN if string can be converted to int and has right number of digits
-    4. None (nothing worked)
+    4. Short service/emergency number, retained as local digits
+    5. None (nothing worked)
 
     This function uses the phonenumbers library's PhoneNumberMatcher to robustly
     find a phone number within a string, even if it's surrounded by other text
@@ -249,8 +250,15 @@ def normalize_phone_number(phone_str: str) -> ParsedPhoneNumber | str | None:
     if len(valid_phone_numbers) > 0:
         return _get_most_likely_phone_number(valid_phone_numbers)
 
-    # Nothing matched, so no way to have an E.164 compliant string or NSN that can be
-    # valid with any region, return `None`
+    # Keep short service/emergency numbers as digits, without guessing a country.
+    if re.fullmatch(r"[0-9]+", phone_str):
+        for region_code in phonenumbers.SUPPORTED_SHORT_REGIONS:
+            with contextlib.suppress(phonenumbers.NumberParseException):
+                number = phonenumbers.parse(phone_str, region_code)
+                if phonenumbers.is_valid_short_number_for_region(number, region_code):
+                    return phone_str
+
+    # Nothing matched a valid national, international or short number.
     return None
 
 

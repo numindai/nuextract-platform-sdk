@@ -32,6 +32,16 @@ with (
         COUNTRY_CODES2[row[1]] = None
         COUNTRY_CODES3[row[2]] = None
 
+HISTORICAL_COUNTRY_NAMES, COUNTRY_CODES4 = {}, {}
+with (
+    importlib.resources.files("numind.nuextract_utils._iso_data")
+    .joinpath("ISO 3166-3.csv")
+    .open(encoding="utf8") as _file
+):
+    for row in csv.DictReader(_file):
+        HISTORICAL_COUNTRY_NAMES[row["name"]] = None
+        COUNTRY_CODES4[row["alpha-4"]] = None
+
 
 class Country(SemanticType):
     """
@@ -43,12 +53,14 @@ class Country(SemanticType):
     :examples: `FR` (France), `SG` (Singapore), `CSHH` (Czechoslovakia)
     """
 
-    json_schema_format = ("country-code-ISO_3166-1_2chars", "country-code")
+    json_schema_format = ("country-code", "country-code-ISO_3166-1_2chars")
     iso_subset_type: Literal["names", "codes_alpha2", "codes_alpha3"] = "codes_alpha2"
     # dictionaries to be used as ordered sets to build `country_data`
     names: dict[str, None] = COUNTRY_NAMES  # Title case
     codes_alpha2: dict[str, None] = COUNTRY_CODES2  # uppercase
     codes_alpha3: dict[str, None] = COUNTRY_CODES3  # uppercase
+    historical_names: dict[str, None] = HISTORICAL_COUNTRY_NAMES
+    codes_alpha4: dict[str, None] = COUNTRY_CODES4  # uppercase
 
     # Class-level cached properties that auto-invalidate when source changes
     names_lower = ClassCachedProperty(
@@ -60,7 +72,11 @@ class Country(SemanticType):
     codes_alpha3_lower = ClassCachedProperty(
         "codes_alpha3", lambda s: {code.lower(): code for code in s}
     )
+    codes_alpha4_lower = ClassCachedProperty(
+        "codes_alpha4", lambda s: {code.lower(): code for code in s}
+    )
     country_data = AssociativeMapping("names", "codes_alpha2", "codes_alpha3")
+    historical_country_data = AssociativeMapping("historical_names", "codes_alpha4")
 
     @classmethod
     def coerce(
@@ -83,7 +99,8 @@ class Country(SemanticType):
 
         # Correct case unsensitive errors
         if (
-            error.error_message
+            error is not None
+            and error.error_message
             == ERR_LABEL_COUNTRY_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE
         ):
             return cls._get_valid_set_lowercase()[value.lower()]
@@ -93,6 +110,11 @@ class Country(SemanticType):
         if group is not None:
             idx_to_get = cls.country_data.group_names[cls.iso_subset_type]
             return group[idx_to_get]
+
+        if cls.iso_subset_type == "codes_alpha2":
+            group = cls.historical_country_data.get_group(value.lower())
+            if group is not None:
+                return group[cls.historical_country_data.group_names["codes_alpha4"]]
 
         return None
 
@@ -114,7 +136,7 @@ class Country(SemanticType):
     @classmethod
     def _get_valid_set(cls) -> dict[str, None]:
         if cls.iso_subset_type == "codes_alpha2":
-            return cls.codes_alpha2
+            return cls.codes_alpha2 | cls.codes_alpha4
         if cls.iso_subset_type == "codes_alpha3":
             return cls.codes_alpha3
         return cls.names
@@ -122,7 +144,7 @@ class Country(SemanticType):
     @classmethod
     def _get_valid_set_lowercase(cls) -> dict[str, str]:
         if cls.iso_subset_type == "codes_alpha2":
-            return cls.codes_alpha2_lower
+            return cls.codes_alpha2_lower | cls.codes_alpha4_lower
         if cls.iso_subset_type == "codes_alpha3":
             return cls.codes_alpha3_lower
         return cls.names_lower

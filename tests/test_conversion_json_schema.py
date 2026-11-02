@@ -92,7 +92,7 @@ TEST_CASES_NUEXTRACT_TO_JSON_SCHEMA = [
                     "type": "array",
                 },
                 "countries": {
-                    "format": "country-code-ISO_3166-1_2chars",
+                    "format": "country-code",
                     "type": ["string", "null"],
                 },
                 "regions": {

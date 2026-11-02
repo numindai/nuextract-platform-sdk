@@ -51,7 +51,7 @@ __all__ = [
     "CreateContentProjectRequest",
     "CreateOrUpdateStructuredExampleRequest",
     "CreateStructuredProjectRequest",
-    "DiscardedLocalization",
+    "DiscardedLocalizationItem",
     "DocumentInfo",
     "DocumentResponse",
     "Error",
@@ -165,8 +165,8 @@ from numind.models.create_or_update_structured_example_request import (
 from numind.models.create_structured_project_request import (
     CreateStructuredProjectRequest as CreateStructuredProjectRequest,
 )
-from numind.models.discarded_localization import (
-    DiscardedLocalization as DiscardedLocalization,
+from numind.models.discarded_localization_item import (
+    DiscardedLocalizationItem as DiscardedLocalizationItem,
 )
 from numind.models.document_info import DocumentInfo as DocumentInfo
 from numind.models.document_response import DocumentResponse as DocumentResponse

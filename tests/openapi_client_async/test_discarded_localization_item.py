@@ -11,11 +11,11 @@ Do not edit the class manually.
 
 import unittest
 
-from numind.models.discarded_localization import DiscardedLocalization
+from numind.models.discarded_localization_item import DiscardedLocalizationItem
 
 
-class TestDiscardedLocalization(unittest.TestCase):
-    """DiscardedLocalization unit test stubs"""
+class TestDiscardedLocalizationItem(unittest.TestCase):
+    """DiscardedLocalizationItem unit test stubs"""
 
     def setUp(self):
         pass
@@ -23,31 +23,31 @@ class TestDiscardedLocalization(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> DiscardedLocalization:
+    def make_instance(self, include_optional) -> DiscardedLocalizationItem:
         """
-        Test DiscardedLocalization
+        Test DiscardedLocalizationItem
         include_optional is a boolean, when False only required
         params are included, when True both required and
         optional params are included
         """
-        # uncomment below to create an instance of `DiscardedLocalization`
+        # uncomment below to create an instance of `DiscardedLocalizationItem`
         """
-        model = DiscardedLocalization()
+        model = DiscardedLocalizationItem()
         if include_optional:
-            return DiscardedLocalization(
+            return DiscardedLocalizationItem(
                 path = '',
                 reason = '',
                 value = ''
             )
         else:
-            return DiscardedLocalization(
+            return DiscardedLocalizationItem(
                 path = '',
                 reason = '',
         )
         """
 
-    def testDiscardedLocalization(self):
-        """Test DiscardedLocalization"""
+    def testDiscardedLocalizationItem(self):
+        """Test DiscardedLocalizationItem"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

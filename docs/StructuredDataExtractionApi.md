@@ -23,7 +23,7 @@ The result follows the extraction's structure, with lists of `{page, bbox}` obje
 `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).
 
 Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes,
-`discardedLocalizations` and `diagnostics` explaining any partial result.
+`discardedLocalizationItems` and `diagnostics` explaining any partial result.
 `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
     
 

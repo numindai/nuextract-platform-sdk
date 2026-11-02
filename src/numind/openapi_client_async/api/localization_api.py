@@ -58,7 +58,7 @@ class LocalizationApi:
         """
         get_api_localization_jobs_localizationjobid
 
-         Retrieve the result of a completed localization job.  The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves. `page` is a one-based document page number. `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).  Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes, `discardedLocalizations` and `diagnostics` explaining any partial result. `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
+         Retrieve the result of a completed localization job.  The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves. `page` is a one-based document page number. `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).  Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes, `discardedLocalizationItems` and `diagnostics` explaining any partial result. `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
 
         :param localization_job_id: (required)
         :type localization_job_id: str
@@ -139,7 +139,7 @@ class LocalizationApi:
         """
         get_api_localization_jobs_localizationjobid
 
-         Retrieve the result of a completed localization job.  The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves. `page` is a one-based document page number. `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).  Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes, `discardedLocalizations` and `diagnostics` explaining any partial result. `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
+         Retrieve the result of a completed localization job.  The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves. `page` is a one-based document page number. `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).  Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes, `discardedLocalizationItems` and `diagnostics` explaining any partial result. `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
 
         :param localization_job_id: (required)
         :type localization_job_id: str
@@ -220,7 +220,7 @@ class LocalizationApi:
         """
         get_api_localization_jobs_localizationjobid
 
-         Retrieve the result of a completed localization job.  The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves. `page` is a one-based document page number. `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).  Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes, `discardedLocalizations` and `diagnostics` explaining any partial result. `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
+         Retrieve the result of a completed localization job.  The result follows the extraction's structure, with lists of `{page, bbox}` objects at leaves. `page` is a one-based document page number. `bbox` contains normalized `[x1, y1, x2, y2]` coordinates (0–1).  Returns `200 OK` for a complete result or `206 Partial Content` with all available boxes, `discardedLocalizationItems` and `diagnostics` explaining any partial result. `400 JobNotCompleted` if pending or running; `403 QuotaExceeded` if the job failed its quota check.
 
         :param localization_job_id: (required)
         :type localization_job_id: str

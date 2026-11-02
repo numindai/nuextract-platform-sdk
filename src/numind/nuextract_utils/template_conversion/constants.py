@@ -12,7 +12,7 @@ NUEXTRACT_TYPE_TO_JSON_SCHEMA_FORMAT = {
     "date-time": "date-time",
     "duration": "duration",
     "boolean": "boolean",
-    "country": ("country-code-ISO_3166-1_2chars", "country-code"),
+    "country": ("country-code", "country-code-ISO_3166-1_2chars"),
     "currency": ("currency-code-ISO_4217_3chars", "currency-code"),
     "language": ("language-code-ISO_639-3_3chars", "language-code"),
     "language-tag": ("language-tag-IETF-BCP-47", "language-tag"),

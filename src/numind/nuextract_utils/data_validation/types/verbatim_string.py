@@ -231,14 +231,12 @@ class VerbatimString(SemanticType):
                 return value
             error.error_message = err_verbatim
 
-        # String contain invalid escape character(s) --> remove them
+        # Repair invalid escape characters using the shared text normalization.
         if (
             error.error_message
             == ERR_LABEL_VERBATIM_STRING_CONTAIN_INVALID_ESCAPE_CHARACTERS
         ):
-            for char in ESCAPE_CHARACTERS_NOT_IN_STRING:
-                value = value.replace(char, "")
-            return value
+            return _convert_string_to_comply_with_verbatim_string(value)
 
         # Prepare input_text
         if isinstance(input_text, str):
@@ -358,8 +356,8 @@ def is_verbatim_string_valid(verbatim_string: str, text_input: str) -> str | Non
     r"""
     Check that a string is valid to be in the benchmark data.
 
-    If any newline (``"\n"``) or return carriage (``"\r"``) is present in the string,
-    it is considered non-valid.
+    Spaces, line breaks and line-end hyphenation may be repaired. Other
+    punctuation, accents and letter case are preserved.
 
     This method uses stringzilla, when available, to make substring search faster.
 
@@ -376,6 +374,7 @@ def is_verbatim_string_valid(verbatim_string: str, text_input: str) -> str | Non
         for item in ESCAPE_CHARACTERS_NOT_IN_STRING
     ):
         return ERR_LABEL_VERBATIM_STRING_CONTAIN_INVALID_ESCAPE_CHARACTERS
+    verbatim_string = _convert_string_to_comply_with_verbatim_string(verbatim_string)
     if not (
         sz.contains(text_input, verbatim_string)
         if sz is not None
@@ -477,17 +476,23 @@ def _tokenize_segment(text: str, script: str | None = None) -> list[str]:
 
 def _convert_string_to_comply_with_verbatim_string(text_input: str) -> str:
     """Convert a text input to the verbatim string formatting."""
+    # Join words split by a hyphen at a physical line break.
+    text_input = re.sub(
+        r"(?<=[^\W\d_])[-\u00ad][ \t]*(?:\r\n|\r|\n)[ \t]*(?=[^\W\d_])",
+        "",
+        text_input,
+    )
+    text_input = re.sub(r"[\n\t]+", " ", text_input)
     for escape_char in ESCAPE_CHARACTERS_NOT_IN_STRING:
         text_input = text_input.replace(escape_char, " ")
-    # Convert all space-like Unicode characters (except newline) into ASCII space
+    # Convert space-like Unicode characters into ASCII space
     for space_char in UNICODE_SPACES:
         text_input = text_input.replace(space_char, " ")
-    # Collapse multiple ASCII spaces into one (without touching newlines)
+    # Collapse multiple ASCII spaces into one
     text_input = re.sub(r" {2,}", " ", text_input)
     # import string  # uncomment to measure against without punctuation
     # translator = str.maketrans('', '', string.punctuation)
     # text_input = text_input.translate(translator)
-    # Specifying " " so that it doesn't split on newline characters "\n"
     return text_input.strip()
 
 

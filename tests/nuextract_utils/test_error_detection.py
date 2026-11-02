@@ -20,6 +20,7 @@ from numind.nuextract_utils.data_validation.constants import (
 from numind.nuextract_utils.data_validation.models import ErrorJson
 from numind.nuextract_utils.data_validation.types import NUEXTRACT_DEFAULT_TYPES
 from numind.nuextract_utils.data_validation.types.country import (
+    Country,
     ERR_LABEL_COUNTRY_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE,
     ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT,
 )
@@ -43,6 +44,9 @@ from numind.nuextract_utils.data_validation.types.language_tag import (
     ERR_LABEL_LANGUAGE_TAG_NOT_RFC_5646_COMPLIANT,
 )
 from numind.nuextract_utils.data_validation.types.phone_number import (
+    ERR_LABEL_PHONE_NUMBER_CANNOT_BE_PARSED,
+    PhoneNumber,
+    normalize_phone_number,
     ERR_LABEL_PHONE_NUMBER_IS_VALID_BUT_IN_MESSY_STRING,
 )
 from numind.nuextract_utils.data_validation.types.region import (
@@ -56,6 +60,7 @@ from numind.nuextract_utils.data_validation.types.script import (
 from numind.nuextract_utils.data_validation.types.url import ERR_LABEL_URL_IS_MALFORMED
 from numind.nuextract_utils.data_validation.types.verbatim_string import (
     ERR_LABEL_VERBATIM_STRING_ABSENT_FROM_INPUT,
+    VerbatimString,
 )
 
 NUEXTRACT_DEFAULT_TYPES.update({"geolocation": Geolocation})
@@ -340,3 +345,149 @@ def test_error_correction_does_not_guess_between_equally_close_keys() -> None:
 
     assert corrected_template == {"bat": "string", "bag": "string"}
     assert corrected_output == {"bat": None, "bag": None}
+
+
+@pytest.mark.parametrize(
+    ("value", "expected_error", "expected_value"),
+    [
+        ("FR", None, "FR"),
+        ("CSHH", None, "CSHH"),
+        ("CSXX", None, "CSXX"),
+        ("cshh", ERR_LABEL_COUNTRY_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE, "CSHH"),
+        (
+            "Czechoslovakia, Czechoslovak Socialist Republic",
+            ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT,
+            "CSHH",
+        ),
+        ("Serbia and Montenegro", ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT, "CSXX"),
+        ("CS", ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT, None),
+        ("CSK", ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT, None),
+        ("ZZZZ", ERR_LABEL_COUNTRY_NOT_ISO_3166_COMPLIANT, None),
+    ],
+)
+def test_country_historical_validation_and_correction(
+    value: str, expected_error: str | None, expected_value: str | None
+) -> None:
+    assert Country.validate(value) == expected_error
+    error = ErrorJson([], expected_error) if expected_error else None
+    assert Country.coerce(value, error=error) == expected_value
+    assert Country.coerce(value) == expected_value
+    template = {"country": "country"}
+    corrected_template, corrected_output = correct_output_json_and_input_template(
+        template, {"country": value}, None
+    )[:2]
+    assert corrected_template == template
+    assert corrected_output == {"country": expected_value}
+
+
+@pytest.mark.parametrize("value", list(Country.codes_alpha4))
+def test_country_accepts_all_historical_codes(value: str) -> None:
+    assert Country.validate(value) is None
+    assert Country.coerce(value) == value
+    assert Country.validate(value.lower()) == (
+        ERR_LABEL_COUNTRY_ISO_3166_COMPLIANT_BUT_CASE_INSENSITIVE
+    )
+    assert Country.coerce(value.lower()) == value
+
+
+@pytest.mark.parametrize(
+    ("source", "value"),
+    [
+        ("Jean\nDupont", "Jean Dupont"),
+        ("Jean\r\nDupont", "Jean Dupont"),
+        ("Jean\rDupont", "Jean Dupont"),
+        ("Jean   \n  Dupont", "Jean Dupont"),
+        ("Jean\tDupont", "Jean Dupont"),
+        ("inter-\nnational", "international"),
+        ("inter-\r\n  national", "international"),
+        ("inter\u00ad\nnational", "international"),
+        ("déve-\nloppement", "développement"),
+        ("Bonjour,\nmonde!", "Bonjour, monde!"),
+        ("Jean-Pierre", "Jean-Pierre"),
+        (["other text", "inter-\nnational"], "international"),
+    ],
+)
+def test_verbatim_string_allows_layout_repairs(
+    source: str | list[str], value: str
+) -> None:
+    assert VerbatimString.validate(value, source) is None
+    template = {"text": "verbatim-string"}
+    assert detect_errors_in_output_json(template, {"text": value}, source) == []
+    _, output, _, _ = correct_output_json_and_input_template(
+        template, {"text": value}, source
+    )
+    assert output == {"text": value}
+
+
+@pytest.mark.parametrize(
+    ("source", "value"),
+    [
+        ("Jean Dupont", "jean Dupont"),
+        ("développement", "developpement"),
+        ("Bonjour, monde!", "Bonjour monde"),
+        ("Jean-Pierre", "JeanPierre"),
+        ("inter-national", "international"),
+        ("Jean Dupont", "John Smith"),
+        (["inter-", "national"], "international"),
+    ],
+)
+def test_verbatim_string_rejects_content_changes(
+    source: str | list[str], value: str
+) -> None:
+    assert VerbatimString.validate(value, source) is not None
+
+
+@pytest.mark.parametrize(
+    ("source", "value", "expected"),
+    [
+        ("inter-\nnational", "International", "international"),
+        ("Jean\nDupont", "Jean\r\nDupont", "Jean Dupont"),
+    ],
+)
+def test_verbatim_string_correction_uses_layout_repairs(
+    source: str, value: str, expected: str
+) -> None:
+    error_message = VerbatimString.validate(value, source)
+    assert error_message is not None
+    fixed = VerbatimString.coerce(value, source, ErrorJson([], error_message))
+    assert fixed == expected
+    assert VerbatimString.validate(fixed, source) is None
+
+
+@pytest.mark.parametrize(
+    "value", ["112", "911", "15", "17", "18", "114", "999", "000", "311", "116117"]
+)
+def test_phone_number_accepts_short_service_and_emergency_numbers(value: str) -> None:
+    assert PhoneNumber.validate(value) is None
+    assert normalize_phone_number(value) == value
+    template = {"phone": "phone-number"}
+    assert detect_errors_in_output_json(template, {"phone": value}, None) == []
+    _, output, _, _ = correct_output_json_and_input_template(
+        template, {"phone": value}, None
+    )
+    assert output == {"phone": value}
+
+
+@pytest.mark.parametrize("value", ["1", "42", "not a phone"])
+def test_phone_number_rejects_unrecognized_short_numbers(value: str) -> None:
+    assert PhoneNumber.validate(value) == ERR_LABEL_PHONE_NUMBER_CANNOT_BE_PARSED
+    assert normalize_phone_number(value) is None
+    error = ErrorJson([], ERR_LABEL_PHONE_NUMBER_CANNOT_BE_PARSED)
+    assert PhoneNumber.coerce(value, error=error) is None
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        ("+33612345678", "+33612345678"),
+        ("+33 6 12 34 56 78", "+33612345678"),
+        ("0612345678", "0612345678"),
+    ],
+)
+def test_phone_number_preserves_existing_normalization(
+    value: str, expected: str
+) -> None:
+    error_message = PhoneNumber.validate(value)
+    error = ErrorJson([], error_message) if error_message else None
+    assert PhoneNumber.coerce(value, error=error) == expected
+    assert PhoneNumber.validate(expected) is None

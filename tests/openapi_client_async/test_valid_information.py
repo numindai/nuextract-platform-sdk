@@ -35,12 +35,12 @@ class TestValidInformation(unittest.TestCase):
         model = ValidInformation()
         if include_optional:
             return ValidInformation(
-                information = numind.models.information.information(),
+                information = { },
                 type = 'information'
             )
         else:
             return ValidInformation(
-                information = numind.models.information.information(),
+                information = { },
                 type = 'information',
         )
         """

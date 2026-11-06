@@ -35,13 +35,13 @@ class TestInformationResponse(unittest.TestCase):
         model = InformationResponse()
         if include_optional:
             return InformationResponse(
-                information = numind.models.information.information(),
+                information = { },
                 error = '',
                 type = 'string'
             )
         else:
             return InformationResponse(
-                information = numind.models.information.information(),
+                information = { },
                 error = '',
                 type = 'string',
         )

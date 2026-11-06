@@ -38,12 +38,12 @@ class TestCreateOrUpdateStructuredExampleRequest(unittest.TestCase):
         if include_optional:
             return CreateOrUpdateStructuredExampleRequest(
                 document_id = '',
-                result = None
+                result = { }
             )
         else:
             return CreateOrUpdateStructuredExampleRequest(
                 document_id = '',
-                result = None,
+                result = { },
         )
         """
 

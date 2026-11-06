@@ -39,7 +39,7 @@ class TestUpdateStructuredProjectRequest(unittest.TestCase):
             return UpdateStructuredProjectRequest(
                 name = '',
                 description = '',
-                template = None,
+                template = { },
                 instructions = ''
             )
         else:

@@ -283,7 +283,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -296,12 +296,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -545,7 +547,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -556,12 +558,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -777,7 +781,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -791,7 +795,7 @@ class StructuredExtractionProjectManagementApi:
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -1057,7 +1061,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -1070,12 +1074,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -1347,7 +1353,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -1360,12 +1366,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/octet-stream", "application/json"]
             )
@@ -1647,7 +1655,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -1660,27 +1668,31 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
         if update_structured_project_request is not None:
             _body_params = update_structured_project_request
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json", "text/plain"]
             )
 
         # set the HTTP header `Content-Type`
         if _content_type:
-            _header_params["Content-Type"] = _content_type
+            self.api_client._set_header(_header_params, "Content-Type", _content_type)
         else:
             _default_content_type = self.api_client.select_header_content_type(
                 ["application/json"]
             )
             if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
+                self.api_client._set_header(
+                    _header_params, "Content-Type", _default_content_type
+                )
 
         # authentication setting
         _auth_settings: List[str] = ["oauth2Auth"]
@@ -1959,7 +1971,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -1972,27 +1984,31 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
         if structured_settings_patch is not None:
             _body_params = structured_settings_patch
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json", "text/plain"]
             )
 
         # set the HTTP header `Content-Type`
         if _content_type:
-            _header_params["Content-Type"] = _content_type
+            self.api_client._set_header(_header_params, "Content-Type", _content_type)
         else:
             _default_content_type = self.api_client.select_header_content_type(
                 ["application/json"]
             )
             if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
+                self.api_client._set_header(
+                    _header_params, "Content-Type", _default_content_type
+                )
 
         # authentication setting
         _auth_settings: List[str] = ["oauth2Auth"]
@@ -2249,7 +2265,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -2260,27 +2276,31 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
         if create_structured_project_request is not None:
             _body_params = create_structured_project_request
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json", "text/plain"]
             )
 
         # set the HTTP header `Content-Type`
         if _content_type:
-            _header_params["Content-Type"] = _content_type
+            self.api_client._set_header(_header_params, "Content-Type", _content_type)
         else:
             _default_content_type = self.api_client.select_header_content_type(
                 ["application/json"]
             )
             if _default_content_type is not None:
-                _header_params["Content-Type"] = _default_content_type
+                self.api_client._set_header(
+                    _header_params, "Content-Type", _default_content_type
+                )
 
         # authentication setting
         _auth_settings: List[str] = ["oauth2Auth"]
@@ -2571,7 +2591,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -2587,12 +2607,14 @@ class StructuredExtractionProjectManagementApi:
 
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -2864,7 +2886,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -2877,12 +2899,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -3148,7 +3172,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -3161,12 +3185,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -3438,7 +3464,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -3451,12 +3477,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -3728,7 +3756,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -3741,12 +3769,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )
@@ -4018,7 +4048,7 @@ class StructuredExtractionProjectManagementApi:
 
         _path_params: Dict[str, str] = {}
         _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _header_params: Dict[str, Any] = self.api_client._merge_headers(_headers)
         _form_params: List[Tuple[str, str]] = []
         _files: Dict[
             str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
@@ -4031,12 +4061,14 @@ class StructuredExtractionProjectManagementApi:
         # process the query parameters
         # process the header parameters
         if x_organization_id is not None:
-            _header_params["x-organization-id"] = x_organization_id
+            self.api_client._set_header(
+                _header_params, "x-organization-id", x_organization_id
+            )
         # process the form parameters
         # process the body parameter
 
         # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
+        if not any(key.lower() == "accept" for key in _header_params):
             _header_params["Accept"] = self.api_client.select_header_accept(
                 ["application/json"]
             )

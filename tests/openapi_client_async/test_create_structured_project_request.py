@@ -39,14 +39,14 @@ class TestCreateStructuredProjectRequest(unittest.TestCase):
             return CreateStructuredProjectRequest(
                 name = '',
                 description = '',
-                template = None,
+                template = { },
                 instructions = ''
             )
         else:
             return CreateStructuredProjectRequest(
                 name = '',
                 description = '',
-                template = None,
+                template = { },
                 instructions = '',
         )
         """

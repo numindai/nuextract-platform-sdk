@@ -35,7 +35,7 @@ class TestTemplateResponse(unittest.TestCase):
         model = TemplateResponse()
         if include_optional:
             return TemplateResponse(
-                result = None,
+                result = { },
                 raw_model_output = '',
                 error = numind.models.inference_validation_error.InferenceValidationError(
                     message = '', 
@@ -48,7 +48,7 @@ class TestTemplateResponse(unittest.TestCase):
             )
         else:
             return TemplateResponse(
-                result = None,
+                result = { },
                 raw_model_output = '',
                 output_tokens = 56,
                 input_tokens = 56,

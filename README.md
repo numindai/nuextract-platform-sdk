@@ -105,10 +105,11 @@ class HotelBooking(BaseModel):
     room_type: Literal["single", "double", "suite"]
 
 
-conversion, annotations = convert_json_schema_to_nuextract_template(
+conversion = convert_json_schema_to_nuextract_template(
     HotelBooking.model_json_schema(),
 )
 template = conversion["template"]
+annotations = conversion["annotations"]
 incompatibilities = conversion["incompatibilities"]
 
 # {'check_in_date': 'date', 'check_out_date': 'date', 'city': 'string', 'number_of_guests': 'integer', 'room_type': ['single', 'double', 'suite']}

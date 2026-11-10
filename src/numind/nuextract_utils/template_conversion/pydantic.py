@@ -155,7 +155,7 @@ def convert_pydantic_model_to_nuextract_template(
     :raises TypeError: If Pydantic produces an invalid JSON Schema node.
     :raises ValueError: If the model contains an unsupported JSON Schema construct.
     """
-    conversion, annotations = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         pydantic_model.model_json_schema()
     )
-    return conversion["template"], annotations
+    return conversion["template"], conversion["annotations"]

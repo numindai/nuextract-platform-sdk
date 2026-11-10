@@ -297,7 +297,7 @@ def convert_json_schema_to_nuextract_template(
     *,
     omit_unsupported_branches: bool = False,
     instance: Any = _INSTANCE_NOT_PROVIDED,  # noqa:ANN401
-) -> tuple[dict[str, Any], list[tuple[tuple[str | int, ...], dict[str, Any]]]]:
+) -> dict[str, Any]:
     """
     Convert a JSON Schema into a NuExtract template.
 
@@ -348,7 +348,7 @@ def convert_json_schema_to_nuextract_template(
                 "tags": {"type": "array", "items": {"type": "string"}},
             },
         }
-        conversion, annotations = convert_json_schema_to_nuextract_template(schema)
+        conversion = convert_json_schema_to_nuextract_template(schema)
         assert conversion["template"] == {
             "name": "string",
             "created_at": "date-time",
@@ -359,7 +359,7 @@ def convert_json_schema_to_nuextract_template(
         assert conversion["instance_status"] == "not_provided"
         assert conversion["adapted_instance"] is None
         assert conversion["incompatibilities"] == []
-        assert annotations == [
+        assert conversion["annotations"] == [
             (("name",), {"description": "Customer name"}),
             (("created_at",), {"format": "date-time"}),
         ]
@@ -383,7 +383,7 @@ def convert_json_schema_to_nuextract_template(
                 }
             },
         }
-        conversion, annotations = convert_json_schema_to_nuextract_template(schema)
+        conversion = convert_json_schema_to_nuextract_template(schema)
         assert conversion["template"] == {"address": {"city": "string"}}
 
     :param schema: A dictionary representing the JSON schema.
@@ -397,13 +397,13 @@ def convert_json_schema_to_nuextract_template(
         provided) When no instance value exists at a union path, the converter cannot
         assume which alternative a future instance will use, so the ambiguous path is
         rejected or omitted. The input object is never modified.
-    :return: A pair of the conversion result dictionary and annotations. Each
+    :return: A conversion result dictionary containing ``annotations``. Each
         annotation entry is ``(template_path, keyword_values)``; ``()`` denotes the
         root and ``0`` denotes an array item template. Values retain their JSON
         types. Structural keywords, including ``additionalProperties``, are excluded.
         Compositions can contribute multiple entries at the same path.
         The result contains ``template``, ``adapted_instance``, ``schema_status``,
-        ``instance_status``, and ``incompatibilities``.
+        ``instance_status``, ``incompatibilities``, and ``annotations``.
         ``schema_status`` is ``fully_converted``,
         ``partially_converted``, or ``not_convertible``. ``instance_status`` is one of:
 
@@ -541,7 +541,8 @@ def convert_json_schema_to_nuextract_template(
         "schema_status": schema_status,
         "instance_status": instance_status,
         "incompatibilities": incompatibilities,
-    }, annotations
+        "annotations": annotations,
+    }
 
 
 def _convert_json_schema_to_nuextract_compatible_json_schema(

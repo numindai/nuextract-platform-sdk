@@ -34,9 +34,7 @@ def _convert_json_schema_to_nuextract_template_values(
     schema: dict,
     **kwargs: object,
 ) -> tuple[object, list[dict], list[str]]:
-    conversion, annotations = convert_json_schema_to_nuextract_template(
-        schema, **kwargs
-    )
+    conversion = convert_json_schema_to_nuextract_template(schema, **kwargs)
     schema_incompatibilities = [
         {
             "path": incompatibility["schema_path"],
@@ -52,7 +50,7 @@ def _convert_json_schema_to_nuextract_template_values(
             "$"
             + "".join("[]" if isinstance(part, int) else f".{part}" for part in path)
             + f": {values['description']}"
-            for path, values in annotations
+            for path, values in conversion["annotations"]
             if isinstance(values.get("description"), str)
         ],
     )
@@ -1424,7 +1422,7 @@ def test_json_schema_to_template_reports_an_unconvertible_root() -> None:
         },
     }
 
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema,
         omit_unsupported_branches=True,
     )
@@ -1483,7 +1481,7 @@ def test_json_schema_to_template_keeps_anyof_structural_siblings() -> None:
         ],
     }
 
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema,
         omit_unsupported_branches=True,
         instance={"common": "value", "a": 1},
@@ -1508,7 +1506,7 @@ def test_json_schema_to_template_keeps_nullable_anyof_structural_siblings() -> N
         ],
     }
 
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema,
         instance={"common": "value", "optional": 1},
     )
@@ -1574,7 +1572,7 @@ def test_json_schema_to_template_reports_an_instance_valid_for_both() -> None:
     }
     instance = {"count": 3}
 
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema,
         instance=instance,
     )
@@ -1585,6 +1583,7 @@ def test_json_schema_to_template_reports_an_instance_valid_for_both() -> None:
         "schema_status": "fully_converted",
         "instance_status": "valid_for_both",
         "incompatibilities": [],
+        "annotations": [],
     }
     assert conversion["adapted_instance"] is not instance
 
@@ -1597,7 +1596,7 @@ def test_json_schema_to_template_adapts_an_instance_valid_for_both() -> None:
     }
     instance = {"count": 3, "extra": "remove"}
 
-    conversion, _ = convert_json_schema_to_nuextract_template(schema, instance=instance)
+    conversion = convert_json_schema_to_nuextract_template(schema, instance=instance)
 
     assert conversion["instance_status"] == "adapted_valid_for_both"
     assert conversion["adapted_instance"] == {"count": 3}
@@ -1606,7 +1605,7 @@ def test_json_schema_to_template_adapts_an_instance_valid_for_both() -> None:
 
 
 def test_json_schema_to_template_adapts_a_root_semantic_value() -> None:
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         {"type": "string", "format": "url"},
         instance="google.com",
     )
@@ -1646,7 +1645,7 @@ def test_json_schema_to_template_reports_an_instance_that_cannot_be_adapted() ->
         "required": ["kept", "fixed"],
     }
 
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema,
         omit_unsupported_branches=True,
         instance={"kept": "yes", "fixed": "only"},
@@ -1678,7 +1677,7 @@ def test_json_schema_to_template_reports_an_originally_invalid_instance() -> Non
         "required": ["items"],
     }
 
-    conversion, _ = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema,
         instance={"items": [{"count": "first"}, {"count": "second"}]},
     )
@@ -1735,10 +1734,10 @@ def test_json_schema_annotations_preserve_arbitrary_values_and_template_paths() 
             },
         },
     }
-    conversion, annotations = convert_json_schema_to_nuextract_template(schema)
+    conversion = convert_json_schema_to_nuextract_template(schema)
 
     assert conversion["template"] == {"items": [{"price.with.dots": "number"}]}
-    assert annotations == [
+    assert conversion["annotations"] == [
         ((), {"description": "An invoice", "custom_root": {"language": "fr"}}),
         (("items",), {"description": "Purchased products"}),
         (
@@ -1752,7 +1751,7 @@ def test_json_schema_annotations_preserve_arbitrary_values_and_template_paths() 
             },
         ),
     ]
-    annotations[0][1]["custom_root"]["language"] = "en"
+    conversion["annotations"][0][1]["custom_root"]["language"] = "en"
     assert schema["custom_root"] == {"language": "fr"}
 
 
@@ -1781,10 +1780,10 @@ def test_json_schema_annotations_keep_reference_and_composition_metadata() -> No
             },
         ],
     }
-    conversion, annotations = convert_json_schema_to_nuextract_template(schema)
+    conversion = convert_json_schema_to_nuextract_template(schema)
 
     assert conversion["template"] == {"date": "date", "count": "integer"}
-    assert annotations == [
+    assert conversion["annotations"] == [
         ((), {"format": "custom-object-format"}),
         ((), {"custom": "First branch"}),
         ((), {"custom": "Second branch"}),
@@ -1814,12 +1813,12 @@ def test_json_schema_annotations_follow_nullable_and_selected_union_branches() -
             },
         },
     }
-    conversion, annotations = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema, instance={"value": 2, "optional": "hello"}
     )
 
     assert conversion["template"] == {"value": "integer", "optional": "string"}
-    assert annotations == [
+    assert conversion["annotations"] == [
         (("value",), {"custom": "Union hint"}),
         (("value",), {"custom": "Integer hint"}),
         (("optional",), {"custom": "Nullable hint"}),
@@ -1837,16 +1836,16 @@ def test_json_schema_annotations_exclude_dropped_and_empty_nodes() -> None:
             "dropped": {"enum": ["constant"], "custom": "Dropped hint"},
         },
     }
-    conversion, annotations = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         schema, omit_unsupported_branches=True
     )
 
     assert conversion["template"] == {"name": "string"}
-    assert annotations == [(("name",), {"description": "Name"})]
+    assert conversion["annotations"] == [(("name",), {"description": "Name"})]
 
-    conversion, annotations = convert_json_schema_to_nuextract_template(
+    conversion = convert_json_schema_to_nuextract_template(
         {"type": "null", "description": "Unsupported root"},
         omit_unsupported_branches=True,
     )
     assert conversion["template"] is None
-    assert annotations == []
+    assert conversion["annotations"] == []

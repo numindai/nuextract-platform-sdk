@@ -140,21 +140,22 @@ def convert_nuextract_template_to_pydantic_model(
 
 def convert_pydantic_model_to_nuextract_template(
     pydantic_model: type[BaseModel],
-) -> dict[str, Any]:
+) -> tuple[dict[str, Any], list[tuple[tuple[str | int, ...], dict[str, Any]]]]:
     """
     Convert a Pydantic model class into a NuExtract template.
 
-    Pydantic field constraints that cannot be represented by a NuExtract template,
-    such as numeric bounds and required fields, are discarded by the JSON Schema
-    conversion.
+    Non-structural JSON Schema keywords, including descriptions, field constraints,
+    and custom metadata, are returned as annotations with their template paths.
 
     :param pydantic_model: Pydantic model class to convert.
-    :return: The corresponding NuExtract template.
+    :return: The template and ``(template_path, keyword_values)`` annotation entries.
+        The root path is ``()`` and array item paths use index zero. Annotation
+        values retain their original JSON types.
     :raises KeyError: If a local JSON Schema reference cannot be resolved.
     :raises TypeError: If Pydantic produces an invalid JSON Schema node.
     :raises ValueError: If the model contains an unsupported JSON Schema construct.
     """
-    conversion = convert_json_schema_to_nuextract_template(
+    conversion, annotations = convert_json_schema_to_nuextract_template(
         pydantic_model.model_json_schema()
     )
-    return conversion["template"]
+    return conversion["template"], annotations

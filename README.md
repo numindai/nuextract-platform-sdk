@@ -105,7 +105,7 @@ class HotelBooking(BaseModel):
     room_type: Literal["single", "double", "suite"]
 
 
-conversion = convert_json_schema_to_nuextract_template(
+conversion, annotations = convert_json_schema_to_nuextract_template(
     HotelBooking.model_json_schema(),
 )
 template = conversion["template"]

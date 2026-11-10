@@ -145,8 +145,15 @@ def test_nuextract_template_to_pydantic_rejects_invalid_nested_values(
 
 
 def test_pydantic_to_nuextract_template_supports_complete_nested_model() -> None:
-    template = convert_pydantic_model_to_nuextract_template(CompleteInvoice)
+    template, annotations = convert_pydantic_model_to_nuextract_template(
+        CompleteInvoice
+    )
 
+    assert (
+        ("document_id",),
+        {"title": "Document Id", "x-verbatim": True},
+    ) in annotations
+    assert (("due_date",), {"format": "date"}) in annotations
     assert template == {
         "document_id": "verbatim-string",
         "reference-id": "string",
@@ -191,3 +198,30 @@ def test_pydantic_to_nuextract_template_rejects_primitive_union() -> None:
 
     with pytest.raises(ValueError, match="ambiguous"):
         convert_pydantic_model_to_nuextract_template(ModelWithPrimitiveUnion)
+
+
+def test_pydantic_to_template_preserves_custom_field_annotations() -> None:
+    class AnnotatedModel(BaseModel):
+        amount: float = Field(
+            description="Price excluding tax",
+            ge=0,
+            examples=[12.5],
+            json_schema_extra={"custom_hint": {"currency": "EUR"}},
+        )
+
+    template, annotations = convert_pydantic_model_to_nuextract_template(AnnotatedModel)
+
+    assert template == {"amount": "number"}
+    assert annotations == [
+        ((), {"title": "AnnotatedModel"}),
+        (
+            ("amount",),
+            {
+                "title": "Amount",
+                "description": "Price excluding tax",
+                "minimum": 0,
+                "examples": [12.5],
+                "custom_hint": {"currency": "EUR"},
+            },
+        ),
+    ]

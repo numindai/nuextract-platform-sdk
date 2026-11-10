@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **project_id** | **str** | Unique project identifier. | 
 **owner_user** | **str** | Example owner. | 
 **document_info** | [**DocumentInfo**](DocumentInfo.md) | Basic information on the document used to create this example. | 
-**result** | [**InformationResponse**](InformationResponse.md) | Expected inference result. | 
+**result** | [**InformationResponse**](InformationResponse.md) |  | 
 **created_at** | **str** | Example creation date. | 
 **updated_at** | **str** | Example last update date. | 
 

@@ -35,7 +35,7 @@ class TestStructuredExtractionResponse(unittest.TestCase):
         model = StructuredExtractionResponse()
         if include_optional:
             return StructuredExtractionResponse(
-                result = None,
+                result = { },
                 thinking_trace = '',
                 raw_model_output = '',
                 error = numind.models.inference_validation_error.InferenceValidationError(
@@ -59,7 +59,7 @@ class TestStructuredExtractionResponse(unittest.TestCase):
             )
         else:
             return StructuredExtractionResponse(
-                result = None,
+                result = { },
                 raw_model_output = '',
                 output_tokens = 56,
                 input_tokens = 56,

@@ -43,10 +43,6 @@ TAGS_PATHS_TO_DELETE = {
     "Authentication",
     "Organization Management",
     "Billing",
-    "Project Management (Deprecated)",
-    "Examples (Deprecated)",
-    "Playground (Deprecated)",
-    "Inference (Deprecated)",
     "Usage",
 }
 API_BASE_URL = "https://nuextract.ai"

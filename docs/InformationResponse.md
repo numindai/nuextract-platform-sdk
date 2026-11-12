@@ -1,5 +1,6 @@
 # InformationResponse
 
+Expected inference result.
 
 ## Properties
 

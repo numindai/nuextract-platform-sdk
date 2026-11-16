@@ -279,6 +279,8 @@ Everything you can do on the web platform can be done via API -
 - Starting a structured extraction **Job** via `POST /api/structured-extraction/{structuredProjectId}/jobs`
 - Reading a structured extraction **Job** result via `GET /api/structured-extraction/jobs/{structuredExtractionJobId}`
 - Starting a localization **Job** from a completed structured extraction via `POST /api/localization/jobs/from-extraction/{sourceJobId}`
+- Starting a localization **Job** from a document and extraction JSON via `POST /api/localization/jobs/document/{documentId}`
+- Starting a localization **Job** from an uploaded file and extraction JSON via multipart `POST /api/localization/jobs`
 - Reading localization via `GET /api/localization/jobs/{localizationJobId}` (check progress with `GET /api/jobs/{localizationJobId}/status`)
 - Adding an **Example** to a **Structured Extraction Project** via `POST /api/structured-extraction/{structuredProjectId}/examples`
 
@@ -325,6 +327,8 @@ Class | Method | HTTP request | Description
 *FilesApi* | [**post_api_files**](docs/FilesApi.md#post_api_files) | **POST** /api/files | 
 *FilesApi* | [**post_api_files_fileid_convert_to_document**](docs/FilesApi.md#post_api_files_fileid_convert_to_document) | **POST** /api/files/{fileId}/convert-to-document | 
 *InferenceApi* | [**post_api_content_extraction_contentprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_content_extraction_contentprojectid_jobs_document_documentid) | **POST** /api/content-extraction/{contentProjectId}/jobs/document/{documentId} | 
+*InferenceApi* | [**post_api_localization_jobs_document_documentid**](docs/InferenceApi.md#post_api_localization_jobs_document_documentid) | **POST** /api/localization/jobs/document/{documentId} | 
+*InferenceApi* | [**post_api_localization_jobs_from_extraction_sourcejobid**](docs/InferenceApi.md#post_api_localization_jobs_from_extraction_sourcejobid) | **POST** /api/localization/jobs/from-extraction/{sourceJobId} | 
 *InferenceApi* | [**post_api_structured_extraction_structuredprojectid_jobs_document_documentid**](docs/InferenceApi.md#post_api_structured_extraction_structuredprojectid_jobs_document_documentid) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/document/{documentId} | 
 *InferenceApi* | [**post_api_template_generation_jobs_document_documentid**](docs/InferenceApi.md#post_api_template_generation_jobs_document_documentid) | **POST** /api/template-generation/jobs/document/{documentId} | 
 *JobsApi* | [**get_api_jobs**](docs/JobsApi.md#get_api_jobs) | **GET** /api/jobs | 
@@ -333,15 +337,13 @@ Class | Method | HTTP request | Description
 *JobsApi* | [**get_api_jobs_jobid_stream**](docs/JobsApi.md#get_api_jobs_jobid_stream) | **GET** /api/jobs/{jobId}/stream | 
 *JobsApi* | [**post_api_jobs_jobid_cancel**](docs/JobsApi.md#post_api_jobs_jobid_cancel) | **POST** /api/jobs/{jobId}/cancel | 
 *LocalizationApi* | [**get_api_localization_jobs_localizationjobid**](docs/LocalizationApi.md#get_api_localization_jobs_localizationjobid) | **GET** /api/localization/jobs/{localizationJobId} | 
-*LocalizationApi* | [**post_api_localization_jobs_from_extraction_sourcejobid**](docs/LocalizationApi.md#post_api_localization_jobs_from_extraction_sourcejobid) | **POST** /api/localization/jobs/from-extraction/{sourceJobId} | 
+*LocalizationApi* | [**post_api_localization_jobs**](docs/LocalizationApi.md#post_api_localization_jobs) | **POST** /api/localization/jobs | 
 *ProjectImportExportApi* | [**get_api_extraction_export_jobs_jobid_download**](docs/ProjectImportExportApi.md#get_api_extraction_export_jobs_jobid_download) | **GET** /api/extraction/export/jobs/{jobId}/download | 
 *ProjectImportExportApi* | [**get_api_extraction_projectkind_projectid_export**](docs/ProjectImportExportApi.md#get_api_extraction_projectkind_projectid_export) | **GET** /api/extraction/{projectKind}/{projectId}/export | 
 *ProjectImportExportApi* | [**post_api_extraction_import**](docs/ProjectImportExportApi.md#post_api_extraction_import) | **POST** /api/extraction/import | 
 *ProjectImportExportApi* | [**post_api_extraction_import_jobs**](docs/ProjectImportExportApi.md#post_api_extraction_import_jobs) | **POST** /api/extraction/import/jobs | 
 *ProjectImportExportApi* | [**post_api_extraction_projectkind_projectid_export_jobs**](docs/ProjectImportExportApi.md#post_api_extraction_projectkind_projectid_export_jobs) | **POST** /api/extraction/{projectKind}/{projectId}/export/jobs | 
-*StructuredDataExtractionApi* | [**get_api_localization_jobs_localizationjobid**](docs/StructuredDataExtractionApi.md#get_api_localization_jobs_localizationjobid) | **GET** /api/localization/jobs/{localizationJobId} | 
 *StructuredDataExtractionApi* | [**get_api_structured_extraction_jobs_structuredextractionjobid**](docs/StructuredDataExtractionApi.md#get_api_structured_extraction_jobs_structuredextractionjobid) | **GET** /api/structured-extraction/jobs/{structuredExtractionJobId} | 
-*StructuredDataExtractionApi* | [**post_api_localization_jobs_from_extraction_sourcejobid**](docs/StructuredDataExtractionApi.md#post_api_localization_jobs_from_extraction_sourcejobid) | **POST** /api/localization/jobs/from-extraction/{sourceJobId} | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_jobs) | **POST** /api/structured-extraction/jobs | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs) | **POST** /api/structured-extraction/{structuredProjectId}/jobs | 
 *StructuredDataExtractionApi* | [**post_api_structured_extraction_structuredprojectid_jobs_text**](docs/StructuredDataExtractionApi.md#post_api_structured_extraction_structuredprojectid_jobs_text) | **POST** /api/structured-extraction/{structuredProjectId}/jobs/text | 
@@ -398,7 +400,9 @@ Class | Method | HTTP request | Description
  - [JobIdResponse](docs/JobIdResponse.md)
  - [JobReportResponse](docs/JobReportResponse.md)
  - [JobStatusResponse](docs/JobStatusResponse.md)
+ - [LocalizationParameters](docs/LocalizationParameters.md)
  - [LocalizationResponse](docs/LocalizationResponse.md)
+ - [LocalizationSettings](docs/LocalizationSettings.md)
  - [LocalizationValue](docs/LocalizationValue.md)
  - [PaginatedResponseT](docs/PaginatedResponseT.md)
  - [PostProcessingErrorResponse](docs/PostProcessingErrorResponse.md)

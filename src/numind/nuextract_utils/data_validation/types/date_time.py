@@ -232,13 +232,13 @@ MAX_DAYS_IN_MONTH = {
 
 class DateTime(SemanticType):
     """
-    An ISO 8601 compliant date-time string ("YYYY-MM-DDThh:mm:ss.s+hh-mm").
+    An ISO 8601 compliant date-time string ("YYYY-MM-DDThh:mm:ss.s+hh:mm").
 
     It is composed of, either or both, a date and/or a time parts. It may feature
     "reduced accuracy", omitting certain components, on the date part if there is only
     a date part, or on the part if there is a time part.
 
-    :examples: `2024-03-14T14:45:00`, `1999-11-03T02:12:78.845+02-00`, `2023-05-15T14`
+    :examples: `2024-03-14T14:45:00`, `1999-11-03T02:12:78.845+02:00`, `2023-05-15T14`
     """
 
     ISO_NON_COMPLIANT_ERR = ERR_LABEL_DATETIME_VALUE_NOT_ISO_8601_COMPLIANT
@@ -358,7 +358,7 @@ class Time(DateTime):
 
     It may feature "reduced accuracy" and be of the
     form "hh:mm:ss.s", "hh:mm:ss", "hh:mm" or "hh". It may also include a timezone
-    component of the form "+hh-mm", "-hh-mm", "+hh", "-hh" or "Z" (UTC) appended to
+    component of the form "+hh:mm", "-hh:mm", "+hh", "-hh" or "Z" (UTC) appended to
     the former part.
 
     :examples: `14:30:57`, `18:01`, `14`, `14:30:45.123Z`, `14:00+05:30`

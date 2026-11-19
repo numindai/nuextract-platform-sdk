@@ -841,7 +841,7 @@ class StructuredDataExtractionApi:
         image_width: Annotated[
             Optional[StrictStr],
             Field(
-                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
             ),
         ] = None,
         timeout: Annotated[
@@ -899,7 +899,7 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
-        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1047,7 +1047,7 @@ class StructuredDataExtractionApi:
         image_width: Annotated[
             Optional[StrictStr],
             Field(
-                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
             ),
         ] = None,
         timeout: Annotated[
@@ -1105,7 +1105,7 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
-        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1253,7 +1253,7 @@ class StructuredDataExtractionApi:
         image_width: Annotated[
             Optional[StrictStr],
             Field(
-                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
             ),
         ] = None,
         timeout: Annotated[
@@ -1311,7 +1311,7 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
-        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1583,7 +1583,7 @@ class StructuredDataExtractionApi:
         image_width: Annotated[
             Optional[StrictStr],
             Field(
-                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
             ),
         ] = None,
         timeout: Annotated[
@@ -1639,7 +1639,7 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
-        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1778,7 +1778,7 @@ class StructuredDataExtractionApi:
         image_width: Annotated[
             Optional[StrictStr],
             Field(
-                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
             ),
         ] = None,
         timeout: Annotated[
@@ -1834,7 +1834,7 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
-        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str
@@ -1973,7 +1973,7 @@ class StructuredDataExtractionApi:
         image_width: Annotated[
             Optional[StrictStr],
             Field(
-                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
+                description="Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed."
             ),
         ] = None,
         timeout: Annotated[
@@ -2029,7 +2029,7 @@ class StructuredDataExtractionApi:
         :type loop_detection: bool
         :param random_seed: Inference seed setting. Use a string containing a 64-bit integer for a fixed seed, or `random` to generate one for each inference.
         :type random_seed: str
-        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+        :param image_width: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
         :type image_width: str
         :param timeout: Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h
         :type timeout: str

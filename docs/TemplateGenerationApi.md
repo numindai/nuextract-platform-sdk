@@ -158,7 +158,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     loop_detection = (
         True  # bool | Stop the generation when the model repeats itself. (optional)
     )
-    image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
+    image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
     low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
@@ -198,7 +198,7 @@ Name | Type | Description  | Notes
  **enable_thinking** | **bool**| Enable thinking/reasoning. | [optional] 
  **thinking_token_budget** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
- **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
+ **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
  **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 
@@ -284,7 +284,7 @@ with numind.openapi_client.ApiClient(configuration) as api_client:
     loop_detection = (
         True  # bool | Stop the generation when the model repeats itself. (optional)
     )
-    image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
+    image_width = "image_width_example"  # str | Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. (optional)
     timeout = "timeout_example"  # str | Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h (optional)
     low_priority = False  # bool | Submit this job with lower scheduling priority in the job queue and inference engine. (optional) (default to False)
 
@@ -322,7 +322,7 @@ Name | Type | Description  | Notes
  **enable_thinking** | **bool**| Enable thinking/reasoning. | [optional] 
  **thinking_token_budget** | **str**| Maximum number of tokens for the corresponding budget (output or thinking). Given as a string: a strictly positive integer string, or Unlimited for no limit; zero is invalid. The thinking budget is only used when thinking is enabled. | [optional] 
  **loop_detection** | **bool**| Stop the generation when the model repeats itself. | [optional] 
- **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
+ **image_width** | **str**| Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed. | [optional] 
  **timeout** | **str**| Execution timeout for the async inference job. If omitted, the server default of 60m is used.   If provided below the server-configured minimum (5m by default), the effective timeout is clamped to that minimum.   Format examples: 1000ms, 10s, 1m, 1h | [optional] 
  **low_priority** | **bool**| Submit this job with lower scheduling priority in the job queue and inference engine. | [optional] [default to False]
 

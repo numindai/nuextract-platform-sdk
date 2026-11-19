@@ -1,6 +1,6 @@
 # ContentProjectSettingsResponseImageWidth
 
-Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
 
 ## Properties
 

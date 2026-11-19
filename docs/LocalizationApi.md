@@ -119,7 +119,7 @@ This endpoint uses `multipart/form-data`. The multipart body must contain:
  - `parameters`: a JSON part containing the extraction and optional localization settings described below
 
 Optional multipart parts control the conversion: `rasterizationDPI` (default `automatic`) controls PDF/document rasterization: Resolution used to convert formatted documents (PDFs, etc.) to images, in dots per inch. Use 'automatic' or an integer between 1 and 600. Numeric strings are also accepted. Ignored for files that are already images or text.
-`imageWidth` (default `automatic`) controls standalone images: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1280 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
+`imageWidth` (default `automatic`) controls standalone images: Original standalone images only (not PDF/TIFF or converted pages). Use automatic for a 1920 px short side, original to preserve the upload, or a positive integer for the upright image width in pixels. Aspect ratio is preserved; upscaling is allowed.
 
 #### Request JSON:
 ```json

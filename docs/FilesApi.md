@@ -262,7 +262,7 @@ Name | Type | Description  | Notes
 
  - For ***text files***, the content is used as-is.
  - For ***original standalone raster images***, optional `imageWidth` controls resizing:
- `"automatic"` sets the short side to 1280 pixels, a positive integer sets horizontal width,
+ `"automatic"` sets the short side to 1920 pixels, a positive integer sets horizontal width,
  and `"original"` bypasses processing. Omission defaults to `"original"`.
  Aspect ratio is preserved and upscaling is allowed. Original upload bytes are retained.
  This setting never applies to images produced from PDF, TIFF, or other document conversions.
